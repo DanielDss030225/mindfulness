@@ -602,7 +602,7 @@ const sortedReplies = repliesArray.sort((a, b) => new Date(b.timestamp) - new Da
 
     updateShareLink() {
         
-        const shareLink = `${window.location.origin}/Quiz Mindfuness/MINDFULNESS/post.html?id=${this.postId}`;
+        const shareLink = `${window.location.origin}/mindfulness/post.html?id=${this.postId}`;
 
 
         document.getElementById('shareLink').value = shareLink;
