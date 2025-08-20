@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Publicação - Mindfulness</title>
+    <link rel="icon" href="https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/mindfulness_brain_transparent.png?alt=media&token=d1407573-6161-4b64-b6b2-e46206ba452f" type="image/png">
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/social-feed-styles.css">
+    <link rel="stylesheet" href="css/post-view.css">
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
+</head>
+<body>
+    <div class="post-view-container">
+        <!-- Header -->
+        <header class="post-view-header">
+            <div class="header-content">
+                <button onclick="window.location.href='index.html'" class="back-btn">
+Estude com milhares de questões gratuitas!        </button>
+              
+                <div class="header-logo">
+                    <img src="https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/mindfulness_brain_transparent.png?alt=media&token=d1407573-6161-4b64-b6b2-e46206ba452f" alt="Mindfulness Logo" class="logo">
+                    <h1 class="logoProvas" >Mindfulness</h1>
+                </div>
+               
+                  <div class="header-actions">
+                    <button id="sharePostBtn2" class="share-btn">
+                        <span class="icon">📤</span>
+                        Compartilhar
+                    </button>
+                </div>
+            </div>
+
+            
+        </header>
+
+        <!-- Main Content -->
+        <main class="post-view-main">
+            <div class="post-container">
+                <!-- Post Content -->
+               
+
+                <!-- Comments Section -->
+                <section class="comments-section-full" id="commentsSection">
+                    <!-- Barra de pesquisa -->
+
+                    <div class="comments-header">
+                        <h2>Banco de provas</h2>
+                        <span class="comments-count" id="commentsCount">Se isso te ajudar, compartilhe!</span>
+                    </div>
+<div style="margin-bottom: 15px;">
+    <input type="text" id="searchInput" placeholder="🔍 Buscar prova por nome, ano, concurso..." style="width: 100%; padding: 10px; font-size: 16px; border-radius: 5px; border: 1px solid #ccc;">
+</div>
+
+                    <!-- Add Comment -->
+           <div id="provasList" class="comment-form">
+  <a href="provas/CEGESP-2022-PMMG.pdf" download class="baixarProva">📄 Clique para baixar CEGESP - 2022 - PMMG</a>
+  <a href="provas/CFO-2022-PMMG.pdf" download class="baixarProva">📄 Clique para baixar CFO - 2022 - PMMG</a>
+  <a href="provas/CFO-2023-PMMG.pdf" download class="baixarProva">📄 Clique para baixar CFO - 2023 - PMMG</a>
+  <a href="provas/CFO-2025-PMMG.pdf" download class="baixarProva">📄 Clique para baixar CFO - 2025 - PMMG</a>
+  <a href="provas/CFS-2023-PMMG.pdf" download class="baixarProva">📄 Clique para baixar CFS - 2023 - PMMG</a>
+  <a href="provas/CFS-2024-PMMG.pdf" download class="baixarProva">📄 Clique para baixar CFS - 2024 - PMMG</a>
+  <a href="provas/CFSD-2022-PMMG.pdf" download class="baixarProva">📄 Clique para baixar CFSd-QPPM - 2022 - PMMG</a>
+  <a href="provas/CFSD-2023-PMMG.pdf" download class="baixarProva">📄 Clique para baixar CFSd-QPPM - 2023 - PMMG</a>
+  <a href="provas/CFSd-QPE-2022-Armeiro-PMMG.pdf" download class="baixarProva">📄 Clique para baixar CFSd-QPE - 2022 - Armeiro - PMMG</a>
+  <a href="provas/CFSd-QPE-2022-Auxiliar-de-Comunicacoes-PMMG.pdf" download class="baixarProva">📄 Clique para baixar CFSd-QPE - 2022 - Auxiliar de Comunicações - PMMG</a>
+  <a href="provas/CFSd-QPE-2022-Auxiliar-de-Motomecanizacao-PMMG.pdf" download class="baixarProva">📄 Clique para baixar CFSd-QPE - 2022 - Auxiliar de Motomecanização - PMMG</a>
+  <a href="provas/CFSd-QPE-2022-Tecnico-em-Analises-Clinicas-Patologia-Clinica-PMMG.pdf" download class="baixarProva">📄 Clique para baixar CFSd-QPE - 2022 - Técnico em Análises Clínicas - Patologia Clínica - PMMG</a>
+  <a href="provas/CFSd-QPE-2022-Tecnico-em-Enfermagem-PMMG.pdf" download class="baixarProva">📄 Clique para baixar CFSd-QPE - 2022 - Técnico em Enfermagem - PMMG</a>
+  <a href="provas/CFSd-QPE-2022-Tecnico-em-Farmacia-PMMG.pdf" download class="baixarProva">📄 Clique para baixar CFSd-QPE - 2022 - Técnico em Farmácia - PMMG</a>
+  <a href="provas/CFSd-QPE-2022-Tecnico-em-Saude-Bucal-PMMG.pdf" download class="baixarProva">📄 Clique para baixar CFSd-QPE - 2022 - Técnico em Saúde Bucal - PMMG</a>
+  <a href="provas/CFSd-QPE-2024-Auxiliar-de-Saude-Tecnico-em-Enfermagem-PMMG.pdf" download class="baixarProva">📄 Clique para baixar CFSd-QPE - 2024 - Auxiliar de Saúde - Técnico em Enfermagem - PMMG</a>
+  <a href="provas/CFSd-QPE-2024-Auxiliar-de-Saude-Tecnico-em-Farmacia-PMMG.pdf" download class="baixarProva">📄 Clique para baixar CFSd-QPE - 2024 - Auxiliar de Saúde - Técnico em Farmácia - PMMG</a>
+  <a href="provas/CFSd-QPE-2024-Auxiliar-de-Saude-Tecnico-em-Patologia-Clinica-PMMG.pdf" download class="baixarProva">📄 Clique para baixar CFSd-QPE - 2024 - Auxiliar de Saúde - Técnico em Patologia Clínica - PMMG</a>
+  <a href="provas/CFSd-QPE-2024-Auxiliar-de-Saude-Tecnico-em-Protese-Dentaria-PMMG.pdf" download class="baixarProva">📄 Clique para baixar CFSd-QPE - 2024 - Auxiliar de Saúde - Técnico em Prótese Dentária - PMMG</a>
+  <a href="provas/CFSd-QPE-2024-Auxiliar-de-Saude-Tecnico-em-Radiologia-PMMG.pdf" download class="baixarProva">📄 Clique para baixar CFSd-QPE - 2024 - Auxiliar de Saúde - Técnico em Radiologia - PMMG</a>
+  <a href="provas/CFSd-QPE-2024-Auxiliar-de-Saude-Tecnico-em-Saude-Bucal-PMMG.pdf" download class="baixarProva">📄 Clique para baixar CFSd-QPE - 2024 - Auxiliar de Saúde - Técnico em Saúde Bucal - PMMG</a>
+  <a href="provas/CFSd-QPE-2024-Comunicacoes-Tecnologia-da-Informacao-PMMG.pdf" download class="baixarProva">📄 Clique para baixar CFSd-QPE - 2024 - Comunicações - Tecnologia da Informação - PMMG</a>
+  <a href="provas/CFSd-QPE-2024-Comunicacoes-Telecomunicacoes-PMMG.pdf" download class="baixarProva">📄 Clique para baixar CFSd-QPE - 2024 - Comunicações - Telecomunicações - PMMG</a>
+  <a href="provas/CFSd-QPE-2024-Motomecanizacao-PMMG.pdf" download class="baixarProva">📄 Clique para baixar CFSd-QPE - 2024 - Motomecanização - PMMG</a>
+  <a href="provas/CHO-2025-PMMG.pdf" download class="baixarProva">📄 Clique para baixar CHO - 2025 - PMMG</a>
+  <a href="provas/CHO-CSTGSP-2022-PMMG.pdf" download class="baixarProva">📄 Clique para baixar CHO - CSTGSP - 2022 - PMMG</a>
+  <a href="provas/COA-2025-PMMG.pdf" download class="baixarProva">📄 Clique para baixar COA - 2025 - PMMG</a>
+  <a href="provas/COMAVE-2022-PPA-e-Piloto-Privado-de-Helicoptero-PMMG.pdf" download class="baixarProva">📄 Clique para baixar COMAVE - 2022 - PPA e Piloto Privado de Helicóptero - PMMG</a>
+  <a href="provas/COMAVE-2022-PMMG.pdf" download class="baixarProva">📄 Clique para baixar COMAVE - 2022 - PMMG</a>
+  <a href="provas/EAP-II-2024-1-Sargento-QP-PM-e-QPE-PM-PMMG.pdf" download class="baixarProva">📄 Clique para baixar EAP II - 2024 - 1º Sargento QP-PM e QPE-PM - PMMG</a>
+  <a href="provas/EAP-II-2024-1-Tenente-QOPM-QOC-QOE-QOS-PMMG.pdf" download class="baixarProva">📄 Clique para baixar EAP II - 2024 - 1º Tenente QOPM, QOC, QOE e QOS - PMMG</a>
+  <a href="provas/EAP-II-2024-3-Sargento-QP-PM-e-QPE-PM-PMMG.pdf" download class="baixarProva">📄 Clique para baixar EAP II - 2024 - 3º Sargento QP-PM e QPE-PM - PMMG</a>
+  <a href="provas/EAP-2022-1-Sargento-QP-PM-e-QPE-PMMG.pdf" download class="baixarProva">📄 Clique para baixar EAP - 2022 - 1º Sargento QP-PM e QPE-PM - PMMG</a>
+  <a href="provas/EAP-2022-1-Tenente-QOPM-QOC-QOE-QOS-PMMG.pdf" download class="baixarProva">📄 Clique para baixar EAP - 2022 - 1º Tenente QOPM, QOC, QOE e QOS - PMMG</a>
+  <a href="provas/EAP-2022-3-Sargento-QP-PM-e-QPE-PMMG.pdf" download class="baixarProva">📄 Clique para baixar EAP - 2022 - 3º Sargento QP-PM e QPE-PM - PMMG</a>
+  <a href="provas/EAP-2023-1-Sargento-QP-PM-e-QPE-PMMG.pdf" download class="baixarProva">📄 Clique para baixar EAP - 2023 - 1º Sargento QP-PM e QPE-PM - PMMG</a>
+  <a href="provas/EAP-2023-1-Tenente-QOPM-QOC-QOE-QOS-PMMG.pdf" download class="baixarProva">📄 Clique para baixar EAP - 2023 - 1º Tenente QOPM, QOC, QOE e QOS - PMMG</a>
+  <a href="provas/EAP-2023-3-Sargento-QP-PM-e-QPE-PMMG.pdf" download class="baixarProva">📄 Clique para baixar EAP - 2023 - 3º Sargento QP-PM e QPE-PM - PMMG</a>
+  <a href="provas/EAP-2025-1-Sargento-QP-PM-e-QPE-PMMG.pdf" download class="baixarProva">📄 Clique para baixar EAP - 2025 - 1º Sargento QP-PM e QPE-PM - PMMG</a>
+  <a href="provas/EAP-2025-1-Tenente-QOPM-QOC-QOE-QOS-PMMG.pdf" download class="baixarProva">📄 Clique para baixar EAP - 2025 - 1º Tenente QOPM, QOC, QOE e QOS - PMMG</a>
+  <a href="provas/EAP-2025-3-Sargento-QP-PM-e-QPE-PMMG.pdf" download class="baixarProva">📄 Clique para baixar EAP - 2025 - 3º Sargento QP-PM e QPE-PM - PMMG</a>
+  <a href="provas/PPA-PPH-2023-PMMG.pdf" download class="baixarProva">📄 Clique para baixar PPA - PPH - 2023 - PMMG</a>
+  <a href="provas/QOS-2022-Cirurgia-Plastica-PMMG.pdf" download class="baixarProva">📄 Clique para baixar QOS - 2022 - Cirurgia Plástica - PMMG</a>
+  <a href="provas/QOS-2022-Pediatria-PMMG.pdf" download class="baixarProva">📄 Clique para baixar QOS - 2022 - Pediatria - PMMG</a>
+  <a href="provas/QOS-2022-Psiquiatria-PMMG.pdf" download class="baixarProva">📄 Clique para baixar QOS - 2022 - Psiquiatria - PMMG</a>
+  <a href="provas/QOS-2024-Clinica-Medica-Medico-Clinico-PMMG.pdf" download class="baixarProva">📄 Clique para baixar QOS - 2024 - Clínica Médica - Médico Clínico - PMMG</a>
+  <a href="provas/QOS-2024-Dentista-Disfuncao-Temporomandibular-e-Dor-Orofacial-PMMG.pdf" download class="baixarProva">📄 Clique para baixar QOS - 2024 - Dentista - Disfunção Temporomandibular e Dor Orofacial - PMMG</a>
+  <a href="provas/QOS-2024-Dentista-Implantodontia-PMMG.pdf" download class="baixarProva">📄 Clique para baixar QOS - 2024 - Dentista - Implantodontia - PMMG</a>
+  <a href="provas/QOS-2024-Dentista-Odontopediatria-PMMG.pdf" download class="baixarProva">📄 Clique para baixar QOS - 2024 - Dentista - Odontopediatria - PMMG</a>
+  <a href="provas/QOS-2024-Farmaceutico-Bioquimico-PMMG.pdf" download class="baixarProva">📄 Clique para baixar QOS - 2024 - Farmacêutico - Bioquímico - PMMG</a>
+  <a href="provas/QOS-2024-Farmaceutico-Hospitalar-PMMG.pdf" download class="baixarProva">📄 Clique para baixar QOS - 2024 - Farmacêutico - Hospitalar - PMMG</a>
+  <a href="provas/QOS-2024-Medico-Medico-Radiologista-PMMG.pdf" download class="baixarProva">📄 Clique para baixar QOS - 2024 - Médico - Médico Radiologista - PMMG</a>
+  <a href="provas/QOS-2024-Pediatria-PMMG.pdf" download class="baixarProva">📄 Clique para baixar QOS - 2024 - Pediatria - PMMG</a>
+  <a href="provas/QOS-2024-Psicologo-PMMG.pdf" download class="baixarProva">📄 Clique para baixar QOS - 2024 - Psicólogo - PMMG</a>
+  <a href="provas/QOS-2024-Cirurgia-de-Mao-PMMG.pdf" download class="baixarProva">📄 Clique para baixar QOS - 2024 - Cirurgia de Mão - PMMG</a>
+  <a href="provas/QOS-2024-Dentista-Protese-Dentaria-PMMG.pdf" download class="baixarProva">📄 Clique para baixar QOS - 2024 - Dentista - Prótese Dentária - PMMG</a>
+  <a href="provas/QOS-2024-Medicina-do-Trabalho-PMMG.pdf" download class="baixarProva">📄 Clique para baixar QOS - 2024 - Medicina do Trabalho - PMMG</a>
+  <a href="provas/QOS-2024-Psiquiatria-PMMG.pdf" download class="baixarProva">📄 Clique para baixar QOS - 2024 - Psiquiatria - PMMG</a>
+</div>
+
+
+
+                  
+                </section>
+            </div>
+        </main>
+
+        <!-- Share Modal -->
+       
+
+        <!-- Loading Overlay -->
+        <div id="loadingOverlay" class="loading-overlay">
+            
+        </div>
+    </div>
+
+    <!-- JavaScript Files -->
+    <script src="js/firebase-config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/database.js"></script>
+    <script src="js/comments.js"></script>
+    <script src="js/post-view.js"></script>
+<script>
+  const shareBtn = document.getElementById('sharePostBtn2');
+
+  shareBtn.addEventListener('click', () => {
+    if (navigator.share) {
+      navigator.share({
+        title: 'Confira isso!',
+        text: 'Dá uma olhada neste conteúdo incrível:',
+        url: window.location.href
+      })
+      .then(() => console.log('Compartilhado com sucesso'))
+      .catch((error) => console.error('Erro ao compartilhar:', error));
+    } else {
+      alert('Compartilhamento não suportado neste navegador.');
+    }
+  });
+</script>
+
+    <script>
+function normalizarTexto(texto) {
+    return texto
+        .toLowerCase()
+        .normalize("NFD")               // remove acentos
+        .replace(/[\u0300-\u036f]/g, "") // remove diacríticos
+        .replace(/[^\w\s]/g, "")        // remove pontuação
+        .trim();
+}
+
+document.getElementById('searchInput').addEventListener('input', function () {
+    const filtro = normalizarTexto(this.value);
+    const palavras = filtro.split(/\s+/).filter(p => p.length > 0); // divide em palavras
+    const links = document.querySelectorAll('#provasList a');
+
+    links.forEach(link => {
+        const texto = normalizarTexto(link.textContent);
+
+        // Verifica se TODAS as palavras digitadas estão presentes no texto
+        const corresponde = palavras.every(palavra => texto.includes(palavra));
+
+        link.style.display = corresponde ? 'block' : 'none';
+    });
+});
+</script>
+
+
+</body>
+</html>
+

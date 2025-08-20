@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Publicação - Mindfulness</title>
+    <link rel="icon" href="https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/mindfulness_brain_transparent.png?alt=media&token=d1407573-6161-4b64-b6b2-e46206ba452f" type="image/png">
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/social-feed-styles.css">
+    <link rel="stylesheet" href="css/post-view.css">
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
+</head>
+<body>
+    <div class="post-view-container">
+        <!-- Header -->
+        <header class="post-view-header">
+            <div class="header-content">
+                <button id="backToFeedBtn" class="back-btn">
+                    <span class="icon">←</span>
+                    Voltar ao início
+                </button>
+                <div class="header-logo">
+                    <img src="https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/mindfulness_brain_transparent.png?alt=media&token=d1407573-6161-4b64-b6b2-e46206ba452f" alt="Mindfulness Logo" class="logo">
+                    <h1>Mindfulness</h1>
+                </div>
+                <div class="header-actions">
+                    <button id="sharePostBtn" class="share-btn">
+                        <span class="icon">📤</span>
+                        Compartilhar
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="post-view-main">
+            <div class="post-container">
+                <!-- Post Content -->
+                <article class="post-article" id="postArticle">
+                    <div class="post-loading">
+                        <div class="loading-spinner"></div>
+                        <p>Carregando publicação...</p>
+                    </div>
+                </article>
+
+                <!-- Comments Section -->
+                <section class="comments-section-full" id="commentsSection">
+                    <div class="comments-header">
+                        <h2>Comentários</h2>
+                        <span class="comments-count" id="commentsCount">0 comentários</span>
+                    </div>
+
+                    <!-- Add Comment -->
+                    <div class="add-comment-section">
+                        <div class="comment-form">
+                            <img id="currentUserAvatar" src="https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/default-avatar.png?alt=media&token=default" alt="Seu Avatar" class="comment-avatar">
+                            <div class="comment-input-container">
+                                <textarea id="commentInput" placeholder="Escreva um comentário..." rows="3"></textarea>
+                                <div class="comment-actions">
+                                    <button id="submitCommentBtn" class="submit-comment-btn">Comentar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Comments List -->
+                    <div class="comments-list" id="commentsList">
+                        <div class="comments-loading">
+                            <div class="loading-spinner"></div>
+                            <p>Carregando comentários...</p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+
+        <!-- Share Modal -->
+        <div id="shareModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Compartilhar Publicação</h3>
+                    <button class="modal-close">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="share-options">
+                        <div class="share-link-section">
+                            <label>Link da publicação:</label>
+                            <div class="link-container">
+                                <input type="text" id="shareLink" readonly>
+                                <button id="copyLinkBtn" class="copy-btn">Copiar</button>
+                            </div>
+                        </div>
+                        <div class="share-social">
+                            <h4>Compartilhar em:</h4>
+                            <div class="social-buttons">
+                                <button class="social-btn whatsapp" id="shareWhatsApp">
+                                    <span class="icon">📱</span>
+                                    WhatsApp
+                                </button>
+                                <button class="social-btn facebook" id="shareFacebook">
+                                    <span class="icon">📘</span>
+                                    Facebook
+                                </button>
+                                <button class="social-btn twitter" id="shareTwitter">
+                                    <span class="icon">🐦</span>
+                                    Twitter
+                                </button>
+                                <button class="social-btn email" id="shareEmail">
+                                    <span class="icon">📧</span>
+                                    Email
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading Overlay -->
+        <div id="loadingOverlay" class="loading-overlay">
+            <div class="loading-content">
+                <div class="loading-spinner"></div>
+                <p>Carregando...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Files -->
+    <script src="js/firebase-config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/database.js"></script>
+    <script src="js/comments.js"></script>
+    <script src="js/post-view.js"></script>
+</body>
+</html>
+

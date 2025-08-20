@@ -1,0 +1,758 @@
+
+    <!-- = python -m http.server   -resetUserStats() -
+
+
+ -->
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mindfulness - A Plataforma do concurseiro!</title>
+    <link rel="icon" href="https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/mindfulness_brain_transparent.png?alt=media&token=d1407573-6161-4b64-b6b2-e46206ba452f" type="image/png">
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/auth.css">
+    <link rel="stylesheet" href="css/game.css">
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="css/profile.css">
+    <link rel="stylesheet" href="css/social-feed-styles.css">
+    <link rel="stylesheet" href="css/rich-text-editor.css">
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
+    
+    <!-- Chart.js for graphics -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <header class="game-header"><a href="index.html">
+                <img src="https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/mindfulness_brain_transparent.png?alt=media&token=d1407573-6161-4b64-b6b2-e46206ba452f" alt="Mindfulness Logo" class="logo"> </a>
+                <h1>Mindfulness</h1>
+                   <p>A Plataforma do concurseiro!</p>
+                  <a onclick="goToProfile()" class="perfilButtom">
+    <div class="user-info">
+        <div class="user-profile">
+            <img id="userProfilePic" src="https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/default-avatar.png?alt=media&token=default" alt="Foto do usuário" class="user-avatar">
+            <span id="userName">Usuário</span>
+        </div>
+        <button id="logoutBtn" class="btn-secondary">Sair</button>
+    </div>
+</a>
+
+            </header>   
+ <div class="geral"> 
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="screen active">
+        <div class="loading-content">
+            <h1>Mindfulness</h1> <p>A Plataforma do concurseiro!</p>
+            <div class="loading-spinner"></div>
+            <p>Carregando...</p>
+        </div>
+    </div>
+
+    <!-- Login Screen -->
+    <div id="login-screen" class="screen">
+        
+        <div class="auth-container">
+            <div class="auth-header">
+
+                <img  src="https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/mindfulness_brain_transparent.png?alt=media&token=d1407573-6161-4b64-b6b2-e46206ba452f" alt="Mindfulness Logo" class="logo">
+          
+                <h1>Mindfulness</h1>
+                <p>A Plataforma do concurseiro!</p>
+            </div>
+            
+            <div class="auth-forms">
+                <!-- Login Form -->
+                <div id="login-form" class="auth-form active">
+                    <h2>Entrar</h2>
+                    <form id="loginForm">
+                        <div class="input-group">
+                            <input type="email" id="loginEmail" placeholder="Email" required>
+                        </div>
+                        <div class="input-group">
+                            <input type="password" id="loginPassword" placeholder="Senha" required>
+                        </div>
+                        <button type="submit" class="btn-primary">Entrar</button>
+                    </form>
+                    <p class="auth-switch">
+                        Não tem conta? <a href="#" id="showRegister">Cadastre-se</a>
+                    </p>
+                </div>
+
+                <!-- Register Form -->
+                <div id="register-form" class="auth-form">
+                    <h2>Cadastrar</h2>
+                    <form id="registerForm">
+                        <div class="input-group">
+                            <input type="text" id="registerName" placeholder="Nome completo" required>
+                        </div>
+                        <div class="input-group">
+                            <input type="email" id="registerEmail" placeholder="Email" required>
+                        </div>
+                        <div class="input-group">
+                            <input type="password" id="registerPassword" placeholder="Senha (mín. 6 caracteres)" required>
+                        </div>
+                        <button type="submit" class="btn-primary">Cadastrar</button>
+                    </form>
+                    <p class="auth-switch">
+                        Já tem conta? <a href="#" id="showLogin">Entrar</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+      </div>
+
+
+
+      
+       <!-- Main Menu Screen -->
+       <div id="main-menu-screen" class="screen">
+       
+        <div class="main-menu">
+            
+
+            <div class="menu-content">
+                <div class="professor-character">
+                    <div class="professor-avatar">
+                        <div class="professor-body">
+                            <p class="nomeProfessora">Professora Laura Cecília</p>
+                            <div class="professor-head"> 
+                                    <img src="https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/professora_transparente.png?alt=media&token=f67c24b2-39be-4edb-a20b-1839d599e9b0" alt="Professor" class="professor-img">
+
+                            </div>
+                        </div>
+                        <div class="speech-bubble">
+                            <p id="professorMessage">Olá! Pronto para aprender hoje?</p>
+                        </div>
+                    </div>
+                </div>
+
+           <div class="menu-options">
+                    <button id="startQuizBtn" class="menu-btn">
+                        <span class="btn-icon">🎯</span>
+                        Resolver quêstões
+                    </button>
+                    <button id="profileBtn" class="menu-btn">
+                        <span class="btn-icon">📊</span>
+                       Acompanhar desempenho
+                    </button>
+<button id="bancoBtn" class="menu-btn" onclick="window.location.href='provas.html'">
+                        <span class="btn-icon">📝</span>
+Banco de provas                    </button>
+
+
+
+
+                    <button id="adminBtn" class="menu-btn admin-only" style="display: none;">
+                        <span class="btn-icon">⚙️</span>
+                        Administração
+                    </button>
+                </div>
+  
+
+            </div>
+
+
+
+            
+            <!-- Social Feed Section -->
+             <div class="feedFixo"> 
+            <div class="social-feed-container">
+                <div class="create-post-section">
+                    <div class="post-header">
+                        <img id="currentUserProfilePicPost" src="https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/default-avatar.png?alt=media&token=default" alt="User Avatar" class="post-avatar">
+                        <div class="editor-container">
+                            <div class="toolbar">
+                                <button type="button" class="toolbar-btn toolbar-btn-bold" title="Negrito (Ctrl+B)">𝐁</button>
+                                <div class="dropdown">
+                                    <button type="button" class="toolbar-btn toolbar-btn-line-height" title="Espaçamento entre linhas">⫸</button>
+                                    <div class="dropdown-content">
+                                        <a href="#" data-value="1.0">Normal (1.0)</a>
+                                        <a href="#" data-value="1.5">Médio (1.5)</a>
+                                        <a href="#" data-value="2.0">Duplo (2.0)</a>
+                                    </div>
+                                </div>
+                                <button type="button" class="toolbar-btn toolbar-btn-link" title="Inserir Link">🔗</button>
+                            </div>
+                            <div id="post-caption-editor" class="rich-editor" contenteditable="true" placeholder="Você gostaria de dizer algo?"></div>
+                        </div>
+                    </div>
+                    <div class="post-actions">
+                        <input type="file" id="postImageInput" accept="image/*" style="display: none;">
+                        <button class="btn-icon-text" id="selectImageBtn"><span class="icon">📷</span>Adicionar Imagem</button>
+                        <button class="btn-primary" id="createPostBtn">Publicar</button>
+                    </div>
+                    <div id="imagePreviewContainer" class="image-preview-container" style="display: none;">
+                        <img id="imagePreview" src="" alt="Image Preview" class="image-preview">
+                        <button class="remove-image-btn" id="removeImageBtn">&times;</button>
+                    </div>
+
+                </div>
+
+                <div id="postsContainer" class="posts-container">
+                    <!-- Posts will be loaded here by JavaScript -->
+                    <div class="loading-posts">
+                        <div class="loading-spinner"></div>
+                        <p>Carregando publicações...</p>
+                    </div>
+                </div>
+            </div>
+              </div>
+
+
+
+        </div>
+    </div>
+
+    <!-- Quiz Setup Screen -->
+    <div id="quiz-setup-screen" class="screen">
+        
+        <div class="quiz-setup">
+           
+
+            <div class="setup-content">
+                 <div class="screen-header">
+                <button id="backToMenuBtn" class="btn-back">← Voltar</button>
+                <h2>Selecionar filtro</h2>
+            </div>
+                <div class="setup-section">
+                    <h3>Categoria</h3>
+                    <select id="categorySelect" class="select-input">
+                        <option value="">Carregando categorias...</option>
+                    </select>
+                </div>
+
+                <div class="setup-section" id="subcategorySection" style="display: none;">
+                    <h3>Subcategoria</h3>
+                    <select id="subcategorySelect" class="select-input">
+                        <option value="">Selecione uma subcategoria (opcional)</option>
+                    </select>
+                </div>
+
+                <div class="setup-section">
+                    <h3>Tipo de Questões</h3>
+                    <div class="radio-group">
+                        <label class="radio-option">
+                            <input type="radio" name="questionType" value="new" checked>
+                            <span>Questões Inéditas</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="questionType" value="previous">
+                            <span>Bancas Anteriores</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="setup-section2">
+                    <button id="startGameBtn" class="btn-primary large">Começar a responder</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Game Screen -->
+    <div id="game-screen" class="screen">
+        <div class="game-container">
+          
+
+            <div class="game-content">
+
+
+                <div class="fundoProfessora"> 
+                 <div class="professor-character">
+                    
+                    <div class="professor-avatar">
+                       
+                        <div class="professor-body">
+                            <p class="nomeProfessora">Professora Laura Cecília</p>
+                            <div class="professor-head"> 
+                          <img src="https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/professora_transparente.png?alt=media&token=f67c24b2-39be-4edb-a20b-1839d599e9b0" alt="Professor" class="professor-img">
+
+                            </div>
+                        </div>
+                        <div class="speech-bubble">
+                            <p id="professorMessage2">Olá! Pronto para aprender hoje?</p>
+                        </div>
+                    </div>
+                </div>
+                  </div>
+
+                  <div class="fundoQuestoes">
+                  <div class="question-container">
+                    <div class="container02">
+                    <div class="game-info">
+                    <span id="questionCounter">Questão 1 de 10</span>
+                    <span id="gameScore">Pontos: 0</span>
+               
+               
+                  </div>
+                    <div class="question-text" id="questionText">
+                        Carregando questão...
+                    </div>
+
+                    <div class="alternatives" id="alternatives">
+                        <!-- Alternatives will be populated by JavaScript -->
+                    </div>
+
+                    <div id="explanationContainer" class="explanation-container" style="display: none;">
+                        <h3>Explicação:</h3>
+                        <p id="questionExplanation"></p>
+                    </div>
+
+                    <div class="question-actions">
+                        <button id="confirmAnswerBtn" class="btn-primary2" disabled>Confirmar Resposta</button>
+                        <button id="nextQuestionBtn" class="btn-primary2" style="display: none;">Próxima Questão</button>
+                        <button id="exitGameBtn" class="btn-secondary">Sair agora</button>
+
+                    </div>
+                      </div>
+ 
+                    </div>
+
+
+
+                     </div>
+            </div>
+             </div>
+
+
+        </div>
+    </div>
+
+    <!-- Result Screen -->
+    <div id="result-screen" class="screen">
+        <div class="result-container">
+            <div class="result-header">
+                <h2>Finalizado!</h2>
+                <div class="result-stats">
+                    <div class="stat">
+                        <span class="stat-number" id="finalScore">0</span>
+                        <span class="stat-label">Pontos</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number" id="correctAnswers">0</span>
+                        <span class="stat-label">Acertos</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number" id="totalQuestions">0</span>
+                        <span class="stat-label">Total</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="result-actions">
+                <button id="reviewQuestionsBtn" class="btn-primary2">Revisar Questões</button>
+                <button id="newQuizBtn" class="btn-primary2">Iniciar novamente</button>
+                <button id="backToMenuFromResultBtn" class="btn-primary2">Menu Principal</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile Screen -->
+    <div id="profile-screen" class="screen">
+        <div class="profile-container">
+            
+
+            <div class="profile-content">
+                <header class="screen-header">
+                <button id="backToMenuFromProfileBtn" class="btn-back">← Voltar</button>
+                <h2 class="seuDesempenho">Seu desempenho</h2>
+            </header>
+                
+                <!-- Profile Picture Section -->
+                <div class="profile-picture-section">
+                    <div class="profile-picture-container">
+                        <img id="profilePictureDisplay" src="https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/default-avatar.png?alt=media&token=default" alt="Foto de perfil" class="profile-picture">
+                        <div class="profile-picture-overlay">
+                            <button id="changeProfilePictureBtn" class="change-picture-btn">
+                                <span>📷</span>
+                                Alterar foto
+                            </button>
+                        </div>
+                    </div>
+                    <input type="file" id="profilePictureInput" accept="image/*" style="display: none;">
+                </div>
+                
+                <div class="profile-stats">
+                    <div class="stats-chart">
+                        <canvas id="statsChart"></canvas>
+                    </div>
+                    <div class="stats-summary">
+                        <div class="summary-item">
+                            <span class="summary-label">Total de Questões Respondidas:</span>
+                            <span class="summary-value" id="totalQuestionsProfile">0</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-label">Questões corretas:</span>
+                            <span class="summary-value" id="correctAnswersProfile">0</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-label">Questões incorretas:</span>
+                            <span class="summary-value" id="wrongAnswersProfile">0</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-label">Seu percentual de acertos é:</span>
+                            <span class="summary-value" id="accuracyProfile">0%</span>
+                        </div>
+                        <button id="resetarEstatisticas" class="btn-primary2">Resetar estatísticas </button>
+                    </div>
+
+                </div>
+<fieldset> 
+  <legend> Revise questões que você respondeu:</legend>
+  <div class="descricao">
+ <p>Como funciona?</p>
+  <p> - As questões serão registradas com base na sua última resolução.</p>
+    <p> - Se você resolver a mesma questão mais de uma vez, será considerado o último resultado.</p>
+    <p> - Este campo não influencia no gráfico de acompanhamento de desempenho.</p>
+    <p> - Este campo tem caráter educativo: você poderá acompanhar as questões que errou ou acertou, ler uma breve explicação da professora e resolver um novo simulado exclusivo com essas questões já respondidas.</p>
+  </div>
+ 
+
+    <div class="profile-actions">
+                    <button id="reviewCorrectBtn" class="btn-primary">Revisar Acertos</button>
+                    <button id="reviewWrongBtn" class="btn-primary">Revisar Erros</button>
+                    <button id="newQuizFromProfileBtn" class="btn-secondary3">Novo Simulado</button>
+                </div>
+                </fieldset>
+                
+                                                       
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Screen -->
+    <div id="admin-screen" class="screen">
+        <div class="admin-container">
+            <header class="screen-header">
+                <button id="backToMenuFromAdminBtn" class="btn-back">← Voltar</button>
+                <h2>Painel Administrativo</h2>
+            </header>
+
+            <div class="admin-content">
+
+                <div class="admin-tabs">
+                    <button class="tab-btn active" data-tab="questions">Questões</button>
+                    <button class="tab-btn" data-tab="manage-questions">Gerenciar Questões</button>
+                    <button class="tab-btn" data-tab="categories">Categorias</button>
+                </div>
+
+                <!-- Questions Tab -->
+                <div id="questions-tab" class="tab-content active">          
+                    <div class="admin-section">
+                        <h3>Adicionar Nova Questão</h3>
+                        <form id="questionForm">
+                            <div class="form-group">
+                                <label>Categoria:</label>
+                                <select id="questionCategory" required>
+                                    <option value="">Selecione uma categoria</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group" id="questionSubcategoryGroup" style="display: none;">
+                                <label>Subcategoria:</label>
+                                <select id="questionSubcategory">
+                                    <option value="">Selecione uma subcategoria (opcional)</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Tipo:</label>
+                                <select id="questionType" required>
+                                    <option value="new">Questão Inédita</option>
+                                    <option value="previous">Banca Anterior</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Texto da Questão:</label>
+                                <div id="questionEditor" class="rich-editor" contenteditable="true" placeholder="Digite o texto da questão..."></div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Alternativas:</label>
+                                           <div class="alternatives-editor">
+                                    <div class="alternative-item">
+                                        <input type="radio" name="correctAnswer" value="0">
+                                        <input type="text" class="inputAdmR"  placeholder="Alternativa A" required>
+                                    </div>
+                                    <div class="alternative-item">
+                                        <input type="radio" name="correctAnswer" value="1">
+                                        <input type="text" class="inputAdmR" placeholder="Alternativa B" required>
+                                    </div>
+                                    <div class="alternative-item">
+                                        <input type="radio" name="correctAnswer" value="2">
+                                        <input type="text" class="inputAdmR"  placeholder="Alternativa C" required>
+                                    </div>
+                                    <div class="alternative-item">
+                                        <input type="radio" name="correctAnswer" value="3">
+                                        <input type="text" class="inputAdmR"  placeholder="Alternativa D" required>
+                                    </div>
+                                    <div class="alternative-item">
+                                        <input type="radio" name="correctAnswer" value="4">
+                                        <input type="text" class="inputAdmR"  placeholder="Alternativa E" required>
+                                    </div>
+                                </div>                   </div>
+
+
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Comentário/Resolução:</label>
+                                <textarea id="questionComment" placeholder="Explicação da resposta correta..." rows="4"></textarea>
+                            </div>
+                            <div class="divButtonSalvar">  
+                                <button type="submit" class="btn-primary">Salvar Questão</button>
+                                  </div>
+                        </form>
+                    </div>
+            
+
+                <!-- Manage Questions Tab -->
+                <div id="manage-questions-tab" class="tab-content">
+                    <div class="admin-section">
+                        <h3>Filtrar e Editar Questões</h3>
+                        
+                        <div class="filters-section">
+                            <div class="filter-group">
+                                <label>Categoria:</label>
+                                <select id="filterCategory" class="select-input">
+                                    <option value="">Todas as categorias</option>
+                                </select>
+                            </div>
+                            
+                            <div class="filter-group" id="filterSubcategoryGroup" style="display: none;">
+                                <label>Subcategoria:</label>
+                                <select id="filterSubcategory" class="select-input">
+                                    <option value="">Todas as subcategorias</option>
+                                </select>
+                            </div>
+                            
+                            <div class="filter-group">
+                                <label>Tipo:</label>
+                                <select id="filterType" class="select-input">
+                                    <option value="">Todos os tipos</option>
+                                    <option value="new">Questão Inédita</option>
+                                    <option value="previous">Banca Anterior</option>
+                                </select>
+                            </div>
+                            
+                            <div class="filter-group2">
+                                <button id="applyFiltersBtn" class="btn-primary">Aplicar Filtros</button>
+                                <button id="clearFiltersBtn" class="btn-secondary">Limpar Filtros</button>
+                            </div>
+
+
+                        </div>
+                        
+                        <div class="questions-list">
+                            <h4>Questões Encontradas:</h4>
+                            <div id="questionsListContainer">
+                                <p class="no-questions">Clique em "Aplicar Filtros" para carregar as questões</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Categories Tab -->
+                <div id="categories-tab" class="tab-content">
+                    <div class="admin-section">
+                        <h3>Gerenciar Categorias</h3>
+                        <form id="categoryForm">
+                            <div class="form-group">
+                                <label>Nome da Categoria:</label>
+                                <input type="text" id="categoryName" placeholder="Ex: Português, Matemática..." required>
+                            </div>
+                            <button type="submit" class="btn-primary">Adicionar Categoria</button>
+                        </form>
+                        
+                        <div class="categories-list">
+                            <h4>Categorias Existentes:</h4>
+                            <ul id="categoriesList">
+                                <!-- Categories will be populated by JavaScript -->
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="admin-section">
+                        <h3>Gerenciar Subcategorias</h3>
+                        <form id="subcategoryForm">
+                            <div class="form-group">
+                                <label>Categoria Principal:</label>
+                                <select id="subcategoryParentCategory" required>
+                                    <option value="">Selecione uma categoria</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Nome da Subcategoria:</label>
+                                <input type="text" id="subcategoryName" placeholder="Ex: Tipos de Sujeitos, Transitividade Verbal..." required>
+                            </div>
+                            <button type="submit" class="btn-primary">Adicionar Subcategoria</button>
+                        </form>
+                        
+                        <div class="subcategories-list">
+                            <h4>Subcategorias por Categoria:</h4>
+                            <div id="subcategoriesList">
+                                <!-- Subcategories will be populated by JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+         
+            </div>
+        </div>
+    </div>
+
+    <!-- Review Correct Answers Screen -->
+    <div id="review-correct-screen" class="screen">
+        <div class="review-container">
+            <header class="screen-header">
+                <button id="backToProfileFromCorrectBtn" class="btn-back">← Voltar</button>
+                <h2>Revisar seus acertos:</h2>
+            </header>
+
+            <div class="review-content">
+                <div class="review-summary">
+                    <p id="correctSummaryText">Carregando questões acertadas...</p>
+                </div>
+                
+                <div class="review-questions-list" id="correctQuestionsList">
+                    <!-- Questions will be populated by JavaScript -->
+                </div>
+                
+              
+            </div>
+              <div class="review-actions">
+                
+                    <button id="startCorrectReviewQuizBtn" class="btn-floating-right">Fazer Simulado com Essas Questões</button> 
+                </div>
+        </div>
+    </div>
+
+    <!-- Review Wrong Answers Screen -->
+    <div id="review-wrong-screen" class="screen">
+        <div class="review-container">
+            <header class="screen-header">
+                <button id="backToProfileFromWrongBtn" class="btn-back">← Voltar</button>
+                <h2>Revisar seus erros:</h2>
+            </header>
+
+            <div class="review-content">
+                <div class="review-summary">
+                    <p id="wrongSummaryText">Carregando questões erradas...</p>
+                </div>
+                
+                <div class="review-questions-list" id="wrongQuestionsList">
+                    <!-- Questions will be populated by JavaScript -->
+                </div>
+                
+              
+            </div>
+
+
+            <div class="review-actions">
+  <button id="startWrongReviewQuizBtn" class="btn-floating-right">
+    Fazer Simulado com Essas Questões
+  </button>
+</div>
+
+
+        </div>
+    </div>
+
+    <!-- Review Incorrect Questions Screen -->
+    <div id="review-incorrect-screen" class="screen">
+        <div class="review-container">
+            <header class="screen-header">
+                <button id="backToResultFromReviewBtn" class="btn-back">← Voltar</button>
+                <h2>Revisar Questões Incorretas</h2>
+            </header>
+
+            <div class="review-content">
+                <div class="review-summary">
+                    <p id="incorrectSummaryText">Questões que você errou no último simulado:</p>
+                </div>
+                
+                <div class="review-questions-container" id="incorrectQuestionsContainer">
+                    <!-- Questions will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <div class="review-actions">
+                <button id="startIncorrectReviewQuizBtn" class="btn-primary">
+                    Fazer Novo Simulado com Essas Questões
+                </button>
+                <button id="backToResultFromReviewActionsBtn" class="btn-secondary">
+                    Voltar aos Resultados
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for messages -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Título</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p id="modalMessage">Mensagem</p>
+            </div>
+            <div class="modal-footer">
+                <button id="modalConfirm" class="btn-primary">OK</button>
+                <button id="modalCancel" class="btn-secondary" style="display: none;">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Comments Modal -->
+    <div id="comments-modal" class="modal">
+        <div class="modal-content large">
+            <div class="modal-header">
+                <h3>Comentários da Questão</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="comments-section">
+                    <div id="commentsList" class="comments-list">
+                        <!-- Comments will be populated by JavaScript -->
+                    </div>
+                    <div class="add-comment">
+                        <textarea id="newComment" placeholder="Adicione seu comentário..." rows="3"></textarea>
+                        <button id="submitComment" class="btn-primary">Enviar Comentário</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    
+
+
+    <!-- JavaScript Files -->
+    <script src="js/firebase-config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/database.js"></script>
+    <script src="js/profile-picture.js"></script>
+    <script src="js/game-logic.js"></script>
+    <script src="js/ui-manager.js"></script>
+    <script src="js/admin.js"></script>
+    <script src="js/profile.js"></script>
+    <script src="js/comments.js"></script>
+    <script src="js/social-feed-fixed-v2.js"></script>
+    <script src="js/rich-text-editor.js"></script>
+    <script src="js/rich-text-editor-dropdown.js"></script>
+    <script src="js/social-feed-enhanced.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
+
