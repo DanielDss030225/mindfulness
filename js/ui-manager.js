@@ -160,7 +160,7 @@ class UIManager {
             if (onCancelCallback || (type === 'warning' && showConfirmButton)) {
                 const cancelButton = document.createElement('button');
                 cancelButton.id = 'modalCancel';
-                cancelButton.className = 'btn-secondary';
+                cancelButton.className = 'btn-secondary3';
                 cancelButton.textContent = 'Cancelar';
                 cancelButton.addEventListener('click', () => {
                     this.hideModal();

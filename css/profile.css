@@ -5,7 +5,8 @@
 #profile-screen {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 margin-bottom: 0px;
-    min-height: 100vh;
+    height: 100vh;
+overflow: auto;
 
 }
 
@@ -13,7 +14,8 @@ margin-bottom: 0px;
     max-width: 900px;
     margin: 0 auto;
     padding: 20px;
-    
+    height: auto;       /* limita a altura dentro da tela */
+
 }
 
 .profile-content {
@@ -22,8 +24,8 @@ margin-bottom: 0px;
     padding: 30px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.1);
     backdrop-filter: blur(10px);
-    
-    
+    margin-top: 10px;
+    margin-bottom: 100px;
 
 }
 

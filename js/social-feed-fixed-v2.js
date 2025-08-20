@@ -900,12 +900,14 @@ class SocialFeedManager {
     addPostToUI(post, addToBeginning = true) {
         const postsContainer = document.getElementById('postsContainer');
         if (!postsContainer) return;
-
-        // Remove loading message if it exists
-        const loadingPosts = postsContainer.querySelector('.loading-posts');
-        if (loadingPosts) {
-            loadingPosts.remove();
-        }
+        
+        // Check if post already exists in UI
+        const existingPost = document.querySelector(`[data-post-id="${post.id}"]`);
+        if (existingPost) {
+            // Update existing post
+            this.updatePostInUI(post);
+            return;
+       }
 
         // Remove no posts message if it exists
         const noPosts = postsContainer.querySelector('.no-posts');

@@ -200,11 +200,15 @@ margin-bottom: 10px;
 
 /* Quiz Setup Screen */
 #quiz-setup-screen {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #000000 0%, #764ba2 100%);
     justify-content: center;
     align-items: center;
     text-align: center;
         overflow-y: auto;
+                overflow-x: auto;
+                position: fixed;
+                height: 100vh;
+
 
 }
 
@@ -221,6 +225,10 @@ margin-bottom: 10px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.1);
     backdrop-filter: blur(10px);
     text-align: left;
+    margin-bottom: 100px;
+    margin-top: 50px;
+    transform: scale(0.9);
+
 }
 
 .setup-section {

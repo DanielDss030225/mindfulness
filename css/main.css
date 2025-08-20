@@ -16,6 +16,8 @@ body {
     background: linear-gradient(135deg, #667eea 0%, #8d61b9 100%);
     color: #333;
     overflow-x: hidden;
+        overflow-y: hidden;
+
     height: auto;
     margin-bottom: 0px;
 border-bottom: 0px;
@@ -185,17 +187,19 @@ border-bottom: 0px;
 
 
 .btn-secondary {
-    background: linear-gradient(135deg, #ff7043, #ff5722);
+    background: linear-gradient(135deg, #ffc0ad, #ff5722);
     color: white;
     border: none;
-    padding: 10px 20px;
+    padding: 10px 10px;
     border-radius: 20px;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 500;
     transition: all 0.3s ease;
     box-shadow: 0 3px 10px rgba(255, 112, 67, 0.3);
-    width: 40%;
+    width: 60px;
+    height: auto;
+    align-items: center;
 }
 
 .btn-secondary3 {
