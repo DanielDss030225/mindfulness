@@ -226,7 +226,7 @@ margin-bottom: 10px;
     backdrop-filter: blur(10px);
     text-align: left;
     margin-bottom: 100px;
-    margin-top: 50px;
+    margin-top: 100px;
     transform: scale(0.9);
 
 }
@@ -280,26 +280,28 @@ margin-bottom: 10px;
     color: #333;
     font-weight: 500;
 }
-
 /* Result Screen */
 #result-screen {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    min-height: 100vh;
+    height: 100vh;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
+    justify-content: top;   /* centraliza na horizontal */
+    overflow-y: auto;          /* ativa rolagem vertical */
+    align-items: center;   /* 🔥 começa de cima e deixa rolar */
+    
 }
 
 .result-container {
     background: rgba(255, 255, 255, 0.95);
     border-radius: 20px;
-    padding: 40px;
+    padding: 20px;
     max-width: 500px;
-    width: 100%;
     text-align: center;
     box-shadow: 0 10px 30px rgba(0,0,0,0.1);
     backdrop-filter: blur(10px);
+    min-height: 200px;         /* altura mínima, mas pode crescer */
+    margin-top: 80px;
+    width: 90%;
 }
 
 .result-header h2 {
@@ -366,7 +368,7 @@ margin-bottom: 10px;
 @media (max-width: 768px) {
     .game-content {
         flex-direction: column;
-        padding: 15px;
+        padding: 0px;
         gap: 20px;
     }
     
@@ -378,12 +380,14 @@ margin-bottom: 10px;
     .question-container {
         padding: 20px;
         gap: 20px;
+        width: 90%;
+        margin-bottom: 100px;
     }
-    
     .question-text {
         font-size: 16px;
         padding: 20px;
         min-height: 100px;
+        width: 100%;
     }
     
     .alternative {
@@ -423,6 +427,7 @@ margin-bottom: 10px;
         gap: 10px;
         text-align: center;
     }
+   
 }
 
 @media (max-width: 480px) {
@@ -528,6 +533,7 @@ margin-bottom: 10px;
 #review-incorrect-screen {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     min-height: 100vh;
+    height: auto;
 }
 
 .review-questions-container {
@@ -543,8 +549,19 @@ margin-bottom: 10px;
     margin-bottom: 25px;
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
     border-left: 5px solid #f44336;
+    width: 100%;
+}
+.h2incorretasq {
+    color: white;
+    background-color: white;
+    border-radius: 20px;
+    padding: 0px;
+    width: 100%;
 }
 
+.space50px {
+    height: 50px;
+}
 .review-question-header {
     display: flex;
     justify-content: between;
@@ -716,6 +733,10 @@ margin-bottom: 10px;
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
 }
+.review-content {
+    margin-bottom: 400px;
+}
+
 
 /* Responsive design for review screen */
 @media (max-width: 768px) {
@@ -761,6 +782,12 @@ margin-bottom: 10px;
         padding: 12px 20px;
         font-size: 14px;
     }
+
+    
+
+    #reviewQuestionsBtn {
+        display: none;
+    }
 }
 
 /* Animation for review items */
@@ -805,3 +832,46 @@ margin-bottom: 10px;
     display: block;
 }
 
+
+@media screen and (max-width: 768px) {
+  .game-header {
+    background: rgba(255, 255, 255, 0.95);
+    display: flex;
+    flex-direction: row;     /* garante em linha */
+    flex-wrap: nowrap;       /* não deixa quebrar */
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;               /* espaçamento entre itens */
+    box-shadow: 0 0px 10px rgba(0,0,0,0.1);
+    backdrop-filter: blur(10px);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    padding: 5px 15px;
+    height: auto;
+    overflow-x: hidden;        /* se apertar muito, adiciona scroll horizontal */
+  }
+
+  /* Força os filhos a não ocuparem 100% */
+   /* 🔥 aqui estava o problema */
+
+.quiz-setup {
+    margin-top: 0px;
+}
+.setup-content {
+        margin-top: 0px;
+
+}
+#quiz-setup-screen {
+    margin-top: 0px;
+}
+.fundoProfessora {
+    display: none;
+}
+.fundoQuestoes {
+    margin: 0px;
+    width: 100%;
+}
+
+
+}

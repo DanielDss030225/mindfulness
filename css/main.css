@@ -13,7 +13,6 @@ border-bottom: 0px;
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #8d61b9 100%);
     color: #333;
     overflow-x: hidden;
         overflow-y: hidden;
@@ -22,7 +21,6 @@ body {
     margin-bottom: 0px;
 border-bottom: 0px;
 
-    min-height: 50vh;
 
 }
 
@@ -46,7 +44,7 @@ border-bottom: 0px;
 #loading-screen {
     justify-content: center;
     align-items: center;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #000000 0%, #764ba2 100%);
 }
 
 .loading-content {
@@ -678,20 +676,24 @@ textarea:focus {
 }
 
 
-
-/* Review Screens Styles */
+/* Container rolável */
 .review-container {
-    max-width: 900px;
-    margin: 0 auto;
+    overflow-y: scroll;            /* ativa o scroll vertical */
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.95);
     padding: 20px;
-    background: #ffffff;
-    border-radius: 20px;
-    margin-top: 20px;
-    margin-bottom: 20px;
-        height: auto;         
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    backdrop-filter: blur(10px);
+    box-sizing: border-box;
+    width: 100%;
+    height: 100vh;
+    justify-content: start;
+        align-items: center; /* centraliza horizontalmente os itens */
+    background: linear-gradient(135deg, #000000 0%, #764ba2 100%);
 
-     min-height: 80vh;
-
+    
 }
 
 .review-content {
@@ -991,6 +993,7 @@ textarea:focus {
     padding: 15px;
     border-radius: 8px;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    
 }
 
 .create-post-section .post-header {
@@ -1181,6 +1184,7 @@ textarea:focus {
     border-top: 1px solid #f0f2f5;
     border-bottom: 1px solid #f0f2f5;
     margin-top: 10px;
+    
 }
 
 .post-item .action-btn {
@@ -1192,7 +1196,7 @@ textarea:focus {
     cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 10px;
     padding: 5px 10px;
     border-radius: 6px;
     transition: background-color 0.2s;
@@ -1443,16 +1447,19 @@ padding-bottom: 0px;
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
+   
     .social-feed-container {
         margin: 10px auto;
         padding: 10px;
     }
 
-    .create-post-section,
+    
     .post-item {
         padding: 10px;
     }
-
+.create-post-section {
+    margin-top: 110px;
+}
     .create-post-section textarea {
         font-size: 14px;
     }
@@ -1480,6 +1487,11 @@ padding-bottom: 0px;
     .sub-comments-list {
         margin-left: 30px;
     }
+
+    span {
+        font-size: 11px;
+    }
+
 }
 
 
@@ -1793,6 +1805,7 @@ padding-bottom: 0px;
     .action-btn:hover {
         background-color: #3a3b3c;
     }
+ 
 }
 
 
@@ -1984,3 +1997,143 @@ padding-bottom: 0px;
     }
 }
 
+@media screen and (max-width: 768px) {
+  .game-header {
+    background: rgba(255, 255, 255, 0.95);
+    display: flex;
+    flex-direction: row;     /* garante em linha */
+    flex-wrap: nowrap;       /* não deixa quebrar */
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;               /* espaçamento entre itens */
+    box-shadow: 0 0px 10px rgba(0,0,0,0.1);
+    backdrop-filter: blur(10px);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    padding: 5px 15px;
+    height: auto;
+    overflow-x: auto;        /* se apertar muito, adiciona scroll horizontal */
+  }
+
+  /* Força os filhos a não ocuparem 100% */
+   /* 🔥 aqui estava o problema */
+
+#main-menu-screen {
+  display: flex;
+  flex-direction: column; /* garante layout em coluna */
+  overflow: scroll;
+  height: 100vh;
+
+}
+
+.main-menu {
+    display: flex;
+    flex-direction: column; 
+  flex: 1;                /* ocupa todo o espaço vertical disponível */
+  display: flex;
+  flex-direction: column; /* conteúdo empilhado */
+  overflow-y: hidden;       /* 🔥 só ele rola */
+  height: 100vh;
+
+}
+
+  /* exemplo: user-info se adapta */
+  .user-info {
+    flex: 1 1 auto;
+    min-width: 0;   /* evita quebrar */
+  }
+  .game-header p { display: none; }
+  .logo { display: flex; }
+  h1{display: none;}
+
+.menu-content {
+  position: fixed;
+  top: 0;            /* fixa no topo */
+  left: 0;           /* gruda na esquerda */
+  right: 0;          /* gruda na direita */
+  z-index: 999;      /* fica acima dos outros */
+  
+  display: flex;
+  justify-content: center;  /* centraliza os itens */
+  align-items: center;
+  gap: 0px;
+
+  width: 100%;
+  height: 100px;
+  margin-top: 70px;
+  padding: 0px;
+  overflow: hidden;
+
+}
+
+
+
+  .feedFixo {
+    margin-left: 0px;
+    margin-right: 0px;
+        width: 100%;
+    height: auto;
+    overflow: hidden;
+    position: relative;
+    border: white;
+        background-color:white;
+
+  }
+
+
+
+  .social-feed-container {
+    overflow: hidden;
+    height: auto;
+  }
+
+.professor-character {
+    display: none;
+}
+.menu-options {
+  display: flex;
+  flex-direction: row;     /* lado a lado */
+  flex-wrap: wrap;         /* se não couber, quebra p/ próxima linha */
+  justify-content: center; /* centraliza horizontalmente */
+  padding: 0px;
+  height: auto;
+  gap: 30px;
+  margin-top: 55px;
+  width: 100%;
+  padding: 0px;
+border-bottom-left-radius: 30px;
+border-bottom-right-radius:30px;
+
+}
+
+.menu-btn {
+  display: block;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;                /* espaço entre ícone e texto */
+  padding: 10px 10px;
+  font-size: 12px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  height: auto;    /* opcional, para manter todos alinhados */
+text-align: center;
+width: 90px;
+border-radius: 10px;
+
+}
+
+.menu-btn p {
+    text-align: center;
+    font-size: 12px;
+}
+.btn-icon {
+  display: inline-block;
+  font-size: 12px;
+  width: 100%;         /* tamanho do emoji/ícone */
+}
+
+
+
+}

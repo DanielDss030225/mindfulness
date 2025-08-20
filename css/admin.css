@@ -2,8 +2,8 @@
 
 #admin-screen {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    min-height: 80vh;
-        min-height: 100vh;
+        height: 100vh;
+        overflow: auto;
 
 }
 
@@ -12,6 +12,7 @@
     margin: 0 auto;
     padding: 20px;
         width: 70vw;
+        margin-bottom: 100px;
 }
 
 .sub-category-item {

@@ -137,15 +137,22 @@
            <div class="menu-options">
                     <button id="startQuizBtn" class="menu-btn">
                         <span class="btn-icon">🎯</span>
-                        Resolver quêstões
+                        <p class="pmenu"> 
+                        Resolver quêstões 
+                    </p>
                     </button>
                     <button id="profileBtn" class="menu-btn">
                         <span class="btn-icon">📊</span>
+                                                <p class="pmenu"> 
+
                        Acompanhar desempenho
+                         </p>
                     </button>
 <button id="bancoBtn" class="menu-btn" onclick="window.location.href='provas.html'">
                         <span class="btn-icon">📝</span>
-Banco de provas                    </button>
+                                                <p class="pmenu"> 
+
+Banco de provas                   </p>   </button>
 
 
 
@@ -223,7 +230,10 @@ Banco de provas                    </button>
                 <h2>Selecionar filtro</h2>
             </div>
                 <div class="setup-section">
+                    <h4>Cada simulado é composto por 10 questões aleatórias selecionadas de um banco com milhares de questões.</h4>
+<br>
                     <h3>Categoria</h3>
+
                     <select id="categorySelect" class="select-input">
                         <option value="">Carregando categorias...</option>
                     </select>
@@ -406,7 +416,7 @@ Banco de provas                    </button>
 
                 </div>
 <fieldset> 
-  <legend> Revise questões que você respondeu:</legend>
+  <legend class="legendaRevise"> Revise questões:</legend>
   <div class="descricao">
  <p>Como funciona?</p>
   <p> - As questões serão registradas com base na sua última resolução.</p>
@@ -547,7 +557,7 @@ Banco de provas                    </button>
                             
                             <div class="filter-group2">
                                 <button id="applyFiltersBtn" class="btn-primary">Aplicar Filtros</button>
-                                <button id="clearFiltersBtn" class="btn-secondary">Limpar Filtros</button>
+                                <button id="clearFiltersBtn" class="btn-secondary3">Limpar Filtros</button>
                             </div>
 
 
@@ -614,12 +624,15 @@ Banco de provas                    </button>
     <!-- Review Correct Answers Screen -->
     <div id="review-correct-screen" class="screen">
         <div class="review-container">
+                               
+            <div class="review-content">
+                <div class="h2incorretasq">
+
             <header class="screen-header">
                 <button id="backToProfileFromCorrectBtn" class="btn-back">← Voltar</button>
                 <h2>Revisar seus acertos:</h2>
             </header>
-
-            <div class="review-content">
+                               </div>
                 <div class="review-summary">
                     <p id="correctSummaryText">Carregando questões acertadas...</p>
                 </div>
@@ -630,22 +643,27 @@ Banco de provas                    </button>
                 
               
             </div>
-              <div class="review-actions">
+             
+               
+        </div>
+         <div class="review-actions">
                 
                     <button id="startCorrectReviewQuizBtn" class="btn-floating-right">Fazer Simulado com Essas Questões</button> 
                 </div>
-        </div>
     </div>
 
     <!-- Review Wrong Answers Screen -->
     <div id="review-wrong-screen" class="screen">
         <div class="review-container">
+                         
+            <div class="review-content">
+                   <div class="h2incorretasq">
+
             <header class="screen-header">
                 <button id="backToProfileFromWrongBtn" class="btn-back">← Voltar</button>
                 <h2>Revisar seus erros:</h2>
             </header>
-
-            <div class="review-content">
+                            </div>
                 <div class="review-summary">
                     <p id="wrongSummaryText">Carregando questões erradas...</p>
                 </div>
@@ -658,25 +676,29 @@ Banco de provas                    </button>
             </div>
 
 
-            <div class="review-actions">
+          
+
+        </div>
+          <div class="review-actions">
   <button id="startWrongReviewQuizBtn" class="btn-floating-right">
     Fazer Simulado com Essas Questões
   </button>
 </div>
 
-
-        </div>
     </div>
 
     <!-- Review Incorrect Questions Screen -->
     <div id="review-incorrect-screen" class="screen">
+
         <div class="review-container">
+          
+            <div class="review-content">
+                   <div class="h2incorretasq">
             <header class="screen-header">
                 <button id="backToResultFromReviewBtn" class="btn-back">← Voltar</button>
                 <h2>Revisar Questões Incorretas</h2>
             </header>
-
-            <div class="review-content">
+</div>
                 <div class="review-summary">
                     <p id="incorrectSummaryText">Questões que você errou no último simulado:</p>
                 </div>
@@ -684,17 +706,23 @@ Banco de provas                    </button>
                 <div class="review-questions-container" id="incorrectQuestionsContainer">
                     <!-- Questions will be populated by JavaScript -->
                 </div>
+
+                <div class="space50px">  
+                    <h1> 
+                    </h1>
+                </div>
             </div>
 
-            <div class="review-actions">
+           
+        </div>
+         <div class="review-actions">
                 <button id="startIncorrectReviewQuizBtn" class="btn-primary">
                     Fazer Novo Simulado com Essas Questões
                 </button>
-                <button id="backToResultFromReviewActionsBtn" class="btn-secondary">
+                <button id="backToResultFromReviewActionsBtn" class="btn-secondary3">
                     Voltar aos Resultados
                 </button>
             </div>
-        </div>
     </div>
 
     <!-- Modal for messages -->

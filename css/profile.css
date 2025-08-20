@@ -435,6 +435,19 @@ font-size: 18px;
     .achievement-icon {
         font-size: 1.5rem;
     }
+    .descricao {
+        display: none;
+    }
+    #reviewCorrectBtn {
+        display: none;
+    }
+    #reviewWrongBtn {
+        display: none;
+    }
+
+    #userName {
+        width: 50px;
+    }
 }
 
 @media (max-width: 480px) {
