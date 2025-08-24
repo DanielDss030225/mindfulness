@@ -230,8 +230,10 @@ Banco de provas                   </p>   </button>
                 <h2>Selecionar filtro</h2>
             </div>
                 <div class="setup-section">
-                    <h4>Cada simulado é composto por 10 questões aleatórias selecionadas de um banco com milhares de questões.</h4>
-<br>
+                    <h4>Cada simulado é composto por até 15 questões aleatórias selecionadas de um banco com milhares de questões.</h4>
+   <br>
+                    <h3>Resolva quantos simulados quiser — sem limites!</h3>
+                    <br>
                     <h3>Categoria</h3>
 
                     <select id="categorySelect" class="select-input">
@@ -358,9 +360,9 @@ Banco de provas                   </p>   </button>
             </div>
 
             <div class="result-actions">
-                <button id="reviewQuestionsBtn" class="btn-primary2">Revisar Questões</button>
+                <button id="reviewQuestionsBtn" class="btn-primary2">Revisar questões que errei</button>
                 <button id="newQuizBtn" class="btn-primary2">Iniciar novamente</button>
-                <button id="backToMenuFromResultBtn" class="btn-primary2">Menu Principal</button>
+                <button id="backToMenuFromResultBtn" class="btn-primary2">Menu principal</button>
             </div>
         </div>
     </div>
@@ -377,12 +379,13 @@ Banco de provas                   </p>   </button>
             </header>
                 
                 <!-- Profile Picture Section -->
+                 <div class="fundoPerfil"> 
                 <div class="profile-picture-section">
                     <div class="profile-picture-container">
                         <img id="profilePictureDisplay" src="https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/default-avatar.png?alt=media&token=default" alt="Foto de perfil" class="profile-picture">
                         <div class="profile-picture-overlay">
                             <button id="changeProfilePictureBtn" class="change-picture-btn">
-                                <span>📷</span>
+                                <span class="alterarFotoPerfil">📷</span>
                                 Alterar foto
                             </button>
                         </div>
@@ -390,6 +393,9 @@ Banco de provas                   </p>   </button>
                     <input type="file" id="profilePictureInput" accept="image/*" style="display: none;">
                 </div>
                 
+</div>
+
+
                 <div class="profile-stats">
                     <div class="stats-chart">
                         <canvas id="statsChart"></canvas>

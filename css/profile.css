@@ -381,7 +381,10 @@ font-size: 18px;
     border-radius: 4px;
     transition: width 0.6s ease;
 }
-
+.alterarFotoPerfil {
+    width: auto;
+    background-color: #1976D2;
+}
 /* Responsive Design */
 @media (max-width: 768px) {
     .profile-container {

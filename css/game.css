@@ -69,14 +69,33 @@
     border-left: 5px solid #4CAF50;
     min-height: 100px;
     display: flex;
-    align-items: center;
+    flex-direction: column; /* <-- deixa os elementos em coluna */
+    align-items: flex-start; /* <-- alinha à esquerda (opcional) */
     height: auto;
     margin-bottom: 10px;
     margin-top: 10px;
-            width: 550px;
+        width: 100%;          /* ocupa 100% do espaço disponível */
+    max-width: 550px;     /* mas nunca passa de 550px */
+    box-sizing: border-box; /* garante que padding conte dentro da largura */
+    word-wrap: break-word; /* quebra palavras grandes */
 
 }
 
+div  {
+    width: 100%;
+    height: auto;
+}
+
+i {
+    width: 100%;
+}
+
+span {
+    width: auto;
+}
+br {
+    width: 100%;
+}
 .question-text strong {
     font-weight: 700;
     color: #2c3e50;
@@ -226,7 +245,7 @@ margin-bottom: 10px;
     backdrop-filter: blur(10px);
     text-align: left;
     margin-bottom: 100px;
-    margin-top: 100px;
+    margin-top: 200px;
     transform: scale(0.9);
 
 }

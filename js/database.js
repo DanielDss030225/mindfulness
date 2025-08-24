@@ -137,7 +137,7 @@ class DatabaseManager {
             
             // Shuffle and limit to 50 questions
             availableQuestions = this.shuffleArray(availableQuestions);
-            return availableQuestions.slice(0, 10);
+            return availableQuestions.slice(0, 15);
             
         } catch (error) {
             console.error("Error getting questions for user:", error);
