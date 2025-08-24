@@ -137,9 +137,12 @@ class PostView {
         const authorPhotoURL = await this.getUserPhotoURL(this.post.authorId);
         
         postArticle.innerHTML = `
+
             <div class="post-header">
+            
                 <img src="${authorPhotoURL}" 
                      alt="Avatar do autor" class="post-avatar">
+
                 <div class="post-author-info">
                     <div class="post-author">${this.post.authorName || 'Usuário'}</div>
                     <div class="post-time">${timeAgo}</div>
@@ -150,7 +153,7 @@ class PostView {
             
             ${this.post.imageUrl ? `
                 <div class="post-image-container">
-                    <img src="${this.post.imageUrl}" alt="Post Image" class="post-image">
+                    <img src="${this.post.imageUrl}" alt="Post Image" class="post-image" >
                 </div>
             ` : ''}
             
@@ -160,11 +163,13 @@ class PostView {
                     <span class="like-text">${isLiked ? 'Curtiu' : 'Curtir'}</span>
                     ${this.post.likesCount > 0 ? `<span class="like-count">(${this.post.likesCount})</span>` : ''}
                 </button>
+                
                 <button class="action-btn comment-btn-focus" onclick="document.getElementById('commentInput').focus()">
                     <span class="icon">💬</span>
                     <span>Comentar</span>
                     ${this.post.commentsCount > 0 ? `<span class="comment-count">(${this.post.commentsCount})</span>` : ''}
                 </button>
+
                 <button class="action-btn share-btn-post" onclick="postView.openShareModal()">
                     <span class="icon">📤</span>
                     <span>Compartilhar</span>

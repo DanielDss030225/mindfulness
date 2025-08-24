@@ -75,7 +75,7 @@
     margin-bottom: 10px;
     margin-top: 10px;
         width: 100%;          /* ocupa 100% do espaço disponível */
-    max-width: 550px;     /* mas nunca passa de 550px */
+         /* mas nunca passa de 550px */
     box-sizing: border-box; /* garante que padding conte dentro da largura */
     word-wrap: break-word; /* quebra palavras grandes */
 

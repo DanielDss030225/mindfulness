@@ -988,8 +988,8 @@ class SocialFeedManager {
             ${post.content ? `<div class="post-content">${post.content}</div>` : ''}
             
             ${post.imageUrl ? `
-                <div class="post-image-container">
-                    <img src="${post.imageUrl}" alt="Post Image" class="post-image">
+                <div class="post-image-container" >
+<img src="${post.imageUrl}" alt="Post Image" class="post-image" onclick="window.location.href='post.html?id=${post.id}'">
                 </div>
             ` : ''}
             

@@ -20,14 +20,19 @@
 }
 
 .header-content {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 2rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+   max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px; /* espaço entre elementos */
+  flex-wrap: nowrap; /* força ficar em linha */
 }
-
+   /* Força os filhos a não ocuparem 100% da largura */
+.header-content > * {
+  flex: 0 0 auto; /* não encolhe nem quebra */
+} 
 .back-btn {
     display: flex;
     align-items: center;
@@ -726,9 +731,7 @@ width: 90%;
 
 /* Responsive Design */
 @media (max-width: 768px) {
-    .header-content {
-        padding: 0 1rem;
-    }
+
     
     .header-logo h1 {
         font-size: 1.2rem;
@@ -763,9 +766,13 @@ width: 90%;
     }
 
     .post-view-header {
-display: flex;      
-
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between; /* joga um pra esquerda e outro pra direita */
+  gap: 10px;
 }
+
 .header-actions {
     display: none;
 }
@@ -779,30 +786,60 @@ display: flex;
 span {
     font-size: 10px;
 }
+.comment-input-container {
+    width: 100%;
 }
-@media (max-width: 480px) {
-    .header-content {
-        flex-direction: column;
-        gap: 1rem;
-        text-align: center;
-    }
-    
-    .back-btn,
-    .share-btn {
-        padding: 0.5rem 1rem;
-        font-size: 0.9rem;
-    }
-    
-    .post-header {
-        flex-direction: column;
-        text-align: center;
-        gap: 1rem;
-    }
-    
-    .comments-header {
-        flex-direction: column;
-        gap: 1rem;
-        text-align: center;
-    }
+#commentInput {
+    width: 100%;
 }
+
+
+.post-image {
+    width: 90%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 15px;
+    margin-bottom: 1rem;
+
+}
+
+/* Sub-comments */
+.sub-comments-list {
+    margin-top: 1rem;
+    padding-left: 2rem;
+    border-left: 3px solid #e0e0e0;
+width: 100%;
+   margin-left: 0px;
+}
+.comment-item.sub-comment {
+  /* estilos aqui */
+  width: 100%;
+  margin-left: 0px;
+}
+.header-content {
+    display: flex;               /* ativa flexbox */
+    justify-content: space-between; /* botão à esquerda, logo à direita */
+    align-items: center;         /* alinha verticalmente */
+    width: 100%;
+    padding: 0 10px;             /* opcional, para dar espaçamento nas bordas */
+    box-sizing: border-box;
+}
+
+.header-logo img {
+    height: 40px;  /* ajuste o tamanho conforme necessário */
+    width: auto;
+    margin-left: 5px;
+}
+
+.back-btn {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+
+}
+
+
+
 
