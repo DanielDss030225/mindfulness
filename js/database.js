@@ -9,6 +9,24 @@ class DatabaseManager {
         console.log("Database Manager initialized");
     }
 
+    // User Data Management - MÉTODO ADICIONADO PARA CORRIGIR O ERRO
+    async getUserData(userId) {
+        try {
+            const snapshot = await this.database.ref(`users/${userId}`).once("value");
+            const userData = snapshot.val();
+            
+            if (!userData) {
+                console.warn(`User data not found for userId: ${userId}`);
+                return null;
+            }
+            
+            return userData;
+        } catch (error) {
+            console.error("Error getting user data:", error);
+            throw error;
+        }
+    }
+
     // Categories Management
     async getCategories() {
         try {
@@ -424,6 +442,4 @@ document.addEventListener("DOMContentLoaded", () => {
         window.databaseManager.initializeDefaultData();
     }, 1000);
 });
-
-
 

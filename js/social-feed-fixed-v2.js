@@ -978,9 +978,13 @@ class SocialFeedManager {
 
         postDiv.innerHTML = `
             <div class="post-header">
-                <img src="${post.authorPhotoURL}" alt="User Avatar" class="post-avatar">
-                <div>
-                    <div class="post-author">${post.authorName}</div>
+<img src="${post.authorPhotoURL}" alt="User Avatar" class="post-avatar" 
+     onclick="window.location.href='user-profile.html?userId=${post.authorId}'" 
+     style="cursor: pointer;">                <div>
+<a href="user-profile.html?userId=${post.authorId}" class="author-link" 
+   style="text-decoration: none; color: inherit; font-weight: 600;">
+    ${post.authorName}
+</a>                    
                     <div class="post-time">${timeAgo}</div>
                 </div>
             </div>
@@ -989,7 +993,9 @@ class SocialFeedManager {
             
             ${post.imageUrl ? `
                 <div class="post-image-container" >
+
 <img src="${post.imageUrl}" alt="Post Image" class="post-image" onclick="window.location.href='post.html?id=${post.id}'">
+
                 </div>
             ` : ''}
             

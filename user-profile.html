@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil do Usuário - Mindfulness</title>
+    <link rel="icon" href="https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/mindfulness_brain_transparent.png?alt=media&token=d1407573-6161-4b64-b6b2-e46206ba452f" type="image/png">
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/auth.css">
+    <link rel="stylesheet" href="css/game.css">
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="css/profile.css">
+    <link rel="stylesheet" href="css/user-profile.css">
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
+    
+    <!-- Chart.js for graphics -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+  <header class="game-header"><a href="index.html">
+                <img src="https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/mindfulness_brain_transparent.png?alt=media&token=d1407573-6161-4b64-b6b2-e46206ba452f" alt="Mindfulness Logo" class="logo"> </a>
+                <h1>Mindfulness</h1>
+                   <p>A Plataforma do concurseiro!</p>
+                  <a onclick="goToProfile()" class="perfilButtom">
+    <div class="user-info">
+        <div class="user-profile">
+            <img id="userProfilePic" src="https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/default-avatar.png?alt=media&token=default" alt="Foto do usuário" class="user-avatar">
+            <span id="userName">Usuário</span>
+        </div>
+        <button id="logoutBtn" class="btn-secondary">Sair</button>
+    </div>
+</a>
+
+            </header>   
+<div class="profilefundo">  
+    <div class="user-profile-container">
+        <!-- Loading Screen -->
+        <div id="loading-screen" class="loading-overlay active">
+        <div class="loading-content">
+            <h1>Mindfulness</h1> <p>A Plataforma do concurseiro!</p>
+            <div class="loading-spinner"></div>
+            <p>Carregando...</p>
+        </div>
+        </div>
+
+        <!-- User Profile Content -->
+        <div id="profile-content" class="profile-content" style="display: none;">
+            
+            <!-- Profile Header -->
+            <div class="profile-header">
+                <div class="profile-banner">
+                    <div class="banner-gradient"></div>
+                </div>
+                
+                <div class="profile-info">
+                    <div class="profile-avatar-container">
+                        <img id="userAvatar" src="https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/default-avatar.png?alt=media&token=default" alt="Avatar do usuário" class="profile-avatar">
+                        <div class="avatar-status online"></div>
+                    </div>
+                    
+                    <div class="profile-details">
+                        <h1 id="userName2" class="user-name">Nome do Usuário</h1>
+                        <p id="userTitle" class="user-title">Concurseiro em Preparação</p>
+                        <div class="user-meta">
+                            <span id="memberSince" class="member-since">Membro desde Janeiro 2025</span>
+                            <span id="lastActive" class="last-active">Ativo há 2 horas</span>
+                        </div>
+                    </div>
+                    
+                    <div class="profile-actions">
+                        <button id="followBtn" class="btn-follow">
+                            <span class="follow-icon">👤</span>
+                            Seguir
+                        </button>
+                        <button id="messageBtn" class="btn-message">
+                            <span class="message-icon">💬</span>
+                            Mensagem
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Profile Stats Overview -->
+            <div class="stats-overview">
+                <div class="stat-card">
+                    <div class="stat-icon">🎯</div>
+                    <div class="stat-info">
+                        <span id="totalQuestions" class="stat-number">0</span>
+                        <span class="stat-label">Questões Resolvidas</span>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">✅</div>
+                    <div class="stat-info">
+                        <span id="correctAnswers" class="stat-number">0</span>
+                        <span class="stat-label">Acertos</span>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon">📊</div>
+                    <div class="stat-info">
+                        <span id="accuracy" class="stat-number">0%</span>
+                        <span class="stat-label">Taxa de Acerto</span>
+                    </div>
+                </div>
+                
+                <div class="stat-card" style="display: none;">
+                    <div class="stat-icon">🏆</div>
+                    <div class="stat-info">
+                        <span id="ranking" class="stat-number">#-</span>
+                        <span class="stat-label">Ranking</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content Area -->
+            <div class="main-content">
+                <!-- Performance Chart Section -->
+                <div class="content-section">
+                    <div class="section-header">
+                        <h2>Desempenho Geral</h2>
+                        <div class="section-actions">
+                            <button id="chartTypeBtn" class="btn-chart-type">📊 Gráfico Pizza</button>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-container">
+                        <canvas id="performanceChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Recent Activity Section -->
+                <div class="content-section" style="display: none;">
+                    <div class="section-header">
+                        <h2>Atividade Recente</h2>
+                        <span class="activity-count">Últimas 10 atividades</span>
+                    </div>
+                    
+                    <div id="recentActivity" class="activity-list">
+                        <!-- Activities will be loaded here -->
+                    </div>
+                </div>
+
+                <!-- Achievements Section -->
+                <div class="content-section">
+                    <div class="section-header">
+                        <h2>Conquistas</h2>
+                        <span id="achievementCount" class="achievement-count">0 de 12 desbloqueadas</span>
+                    </div>
+                    
+                    <div id="achievementsList" class="achievements-grid">
+                        <!-- Achievements will be loaded here -->
+                    </div>
+                </div>
+
+                <!-- Category Performance Section -->
+                <div class="content-section" style="display: none;">
+                    <div class="section-header">
+                        <h2>Desempenho por Categoria</h2>
+                        <span class="category-info">Estatísticas detalhadas</span>
+                    </div>
+                    
+                    <div id="categoryPerformance" class="category-stats">
+                        <!-- Category stats will be loaded here -->
+                    </div>
+                </div>
+
+                <!-- Study Streak Section -->
+                <div class="content-section">
+                    <div class="section-header">
+                        <h2>Sequência de Estudos</h2>
+                        <span id="currentStreak" class="streak-info">Sequência atual: 0 dias</span>
+                    </div>
+                    
+                    <div class="streak-calendar">
+                        <div id="streakCalendar" class="calendar-grid">
+                            <!-- Calendar will be generated here -->
+                        </div>
+                        
+                        <div class="streak-stats">
+                            <div class="streak-stat">
+                                <span id="longestStreak" class="streak-number">0</span>
+                                <span class="streak-label">Maior Sequência</span>
+                            </div>
+                            <div class="streak-stat">
+                                <span id="totalStudyDays" class="streak-number">0</span>
+                                <span class="streak-label">Dias de Estudo</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <!-- Quick Stats -->
+                <div class="sidebar-section">
+                    <h3>Estatísticas Rápidas</h3>
+                    <div class="quick-stats">
+                        <div class="quick-stat"  style="display: none;">
+                            <span class="quick-stat-label" style="display: none;">Questões Hoje</span>
+                            <span id="questionsToday" class="quick-stat-value">0</span>
+                        </div>
+                        <div class="quick-stat">
+                            <span class="quick-stat-label">Tempo Estudado</span>
+                            <span id="studyTime" class="quick-stat-value">0h</span>
+                        </div>
+                        <div class="quick-stat">
+                            <span class="quick-stat-label">Nível</span>
+                            <span id="userLevel" class="quick-stat-value">1</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Favorite Categories -->
+                <div class="sidebar-section" style="display: none;">
+                    <h3>Categorias Favoritas</h3>
+                    <div id="favoriteCategories" class="favorite-categories">
+                        <!-- Favorite categories will be loaded here -->
+                    </div>
+                </div>
+
+                <!-- Recent Badges -->
+                <div class="sidebar-section">
+                    <h3>Badges Recentes</h3>
+                    <div id="recentBadges" class="recent-badges">
+                        <!-- Recent badges will be loaded here -->
+                    </div>
+                </div>
+
+                <!-- Social Stats -->
+                <div class="sidebar-section" style="display: none;">
+                    <h3>Social</h3>
+                    <div class="social-stats">
+                        <div class="social-stat">
+                            <span class="social-stat-label">Seguidores</span>
+                            <span id="followersCount" class="social-stat-value">0</span>
+                        </div>
+                        <div class="social-stat">
+                            <span class="social-stat-label">Seguindo</span>
+                            <span id="followingCount" class="social-stat-value">0</span>
+                        </div>
+                        <div class="social-stat">
+                            <span class="social-stat-label">Posts</span>
+                            <span id="postsCount" class="social-stat-value">0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Error State -->
+        <div id="error-state" class="error-state" style="display: none;">
+            <div class="error-content">
+                <div class="error-icon">😞</div>
+                <h2>Usuário não encontrado</h2>
+                <p>O perfil que você está procurando não existe ou foi removido.</p>
+                <button id="backToMainFromError" class="btn-primary">Voltar ao Menu Principal</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+    <!-- JavaScript Files - Seguindo a mesma ordem do index.html -->
+    <script src="js/firebase-config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/database.js"></script>
+    <script src="js/profile-picture.js"></script>
+    <script src="js/game-logic.js"></script>
+    <script src="js/ui-manager.js"></script>
+    <script src="js/admin.js"></script>
+    <script src="js/profile.js"></script>
+    <script src="js/comments.js"></script>
+    <script src="js/social-feed-fixed-v2.js"></script>
+    <script src="js/rich-text-editor.js"></script>
+    <script src="js/rich-text-editor-dropdown.js"></script>
+    <script src="js/social-feed-enhanced.js"></script>
+    <script src="js/main.js"></script>
+    <!-- User Profile Script - Carregado por último para garantir que todos os managers estejam disponíveis -->
+    <script src="js/user-profile.js"></script>
+</body>
+</html>
+
