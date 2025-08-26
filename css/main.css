@@ -269,13 +269,14 @@ border-bottom: 0px;
     font-size: 1.8rem;
     margin-left: 15px;
 }
-
 .user-info {
     display: flex;
-    align-items: center;
+    justify-content: flex-end; /* joga os filhos para a direita */
+    align-items: center;       /* centraliza verticalmente */
     gap: 15px;
-    
+    width: auto;
 }
+
 
 .user-info span {
     font-weight: 600;
