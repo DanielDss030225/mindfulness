@@ -154,8 +154,14 @@ class AuthManager {
         console.log('User logged in:', user.email);
 
         const userName = document.getElementById('userName');
+                const userName2 = document.getElementById('userName2');
+
         if (userName) {
             userName.textContent = user.displayName || 'Usuário';
+        }
+        
+  if (userName2) {
+            userName2.textContent = user.displayName || 'Usuário';
         }
 
         if (window.profilePictureManager) {

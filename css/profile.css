@@ -27,7 +27,7 @@ overflow: auto;
     margin-top: 10px;
     margin-bottom: 100px;
     width: 100%;
-
+    gap: 0px;
 }
 
 fieldset {
@@ -182,8 +182,8 @@ font-size: 18px;
     border: 2px solid #e1e5e9;
     border-radius: 12px;
     padding: 20px;
-    transition: border-color 0.3s ease;
     width: 100%;
+    cursor: pointer;
 }
 
 .review-question:hover {
@@ -323,7 +323,16 @@ font-size: 18px;
     transform: translateY(-2px);
     box-shadow: 0 4px 15px rgba(76, 175, 80, 0.2);
 }
-
+.profile-header {
+  grid-column: 1 / -1;
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    margin-bottom: 00px;
+    width: 100%;
+    margin-bottom: 20px;
+}
 .achievement-badge.earned {
     border-color: #4CAF50;
     background: linear-gradient(135deg, #e8f5e8, #f1f8e9);
@@ -386,6 +395,94 @@ font-size: 18px;
     width: auto;
     background-color: #1976D2;
 }
+
+.profile-banner {
+    height: 10px;
+    position: relative;
+    background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+    width: 100%;
+}
+
+
+.profile-info {
+    padding: 0 40px 40px;
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    gap: 30px;
+}
+
+.profile-avatar-container {
+    position: relative;
+    margin-top: 0px;
+    width: auto;
+}
+
+
+.profile-avatar-container {
+    position: relative;
+    margin-top: 0px;
+    width: auto;
+}
+
+.profile-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 5px solid white;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+    object-fit: cover;
+}
+
+.avatar-status {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 3px solid white;
+}
+
+.avatar-status.online {
+    background: #4CAF50;
+}
+
+.avatar-status.offline {
+    background: #ccc;
+}
+
+.profile-details {
+    flex: 1;
+    padding-top: 20px;
+    width: 100%;
+    text-align: left;
+}
+
+.user-name {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.user-title {
+    font-size: 1.1rem;
+    color: #666;
+    margin-bottom: 15px;
+}
+
+.user-meta {
+    display: flex;
+    gap: 20px;
+    font-size: 0.9rem;
+    color: #888;
+}
+
+
+
+
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .profile-container {
@@ -432,6 +529,16 @@ font-size: 18px;
         gap: 10px;
     }
     
+
+    .profile-info {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 0 20px 30px;
+        gap: 0px;
+    }
+    
+
     .achievement-badge {
         padding: 12px;
     }
@@ -453,61 +560,31 @@ font-size: 18px;
         width: 50px;
         font-size: 18px;
     }
+
+    
+.profile-details {
+    flex: 1;
+    padding-top: 20px;
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+}
+.user-meta {
+    display: flex;
+    gap: 20px;
+    font-size: 0.9rem;
+    color: #888;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
 }
 
-@media (max-width: 480px) {
-    .profile-content {
-        padding: 15px;
-    }
-    
-    .stats-chart {
-        min-height: 200px;
-        padding: 10px;
-    }
-    
-    .summary-item {
-        padding: 12px;
-    }
-    
-    .summary-label {
-        font-size: 14px;
-    }
-    
-    .summary-value {
-        font-size: 16px;
-    }
-    
-    .review-question {
-        padding: 15px;
-    }
-    
-    .review-question-text {
-        font-size: 15px;
-        padding: 12px;
-    }
-    
-    .review-comment {
-        padding: 12px;
-        font-size: 13px;
-    }
-    
-    .achievement-grid {
-        grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-    }
-    
-    .achievement-badge {
-        padding: 8px;
-    }
-    
-    .achievement-icon {
-        font-size: 1.2rem;
-        margin-bottom: 4px;
-    }
-    
-    .achievement-name {
-        font-size: 10px;
-    }
+
 }
+
+
+
 
 /* Loading States */
 .profile-content.loading {

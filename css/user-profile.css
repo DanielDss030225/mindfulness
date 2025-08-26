@@ -116,7 +116,6 @@ body {
 .profile-content {
     display: grid;
     grid-template-columns: 1fr 300px;
-    gap: 30px;
     margin-top: 20px;
 
     
@@ -131,6 +130,7 @@ body {
     box-shadow: 0 10px 30px rgba(0,0,0,0.1);
     margin-bottom: 00px;
     width: 100%;
+    margin-bottom: 20px;
 }
 
 .profile-banner {
@@ -195,6 +195,7 @@ body {
     flex: 1;
     padding-top: 20px;
     width: 100%;
+    text-align: left;
 }
 
 .user-name {
@@ -932,6 +933,11 @@ body {
 }
 h1 {
     display: block;
+}
+
+#userTitle {
+    width: 100%;
+    text-align: center;
 }
 }
 

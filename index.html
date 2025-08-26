@@ -20,7 +20,7 @@
     <link rel="stylesheet" href="css/profile.css">
     <link rel="stylesheet" href="css/social-feed-styles.css">
     <link rel="stylesheet" href="css/rich-text-editor.css">
-    
+
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
@@ -223,6 +223,10 @@ Banco de provas                   </p>   </button>
         
         <div class="quiz-setup">
            
+ <div class="space100px"> <h1>
+
+ </h1></div>
+
 
             <div class="setup-content">
                  <div class="screen-header">
@@ -380,7 +384,14 @@ Banco de provas                   </p>   </button>
                 
                 <!-- Profile Picture Section -->
                  <div class="fundoPerfil"> 
-                <div class="profile-picture-section">
+                      <!-- Profile Header -->
+            <div class="profile-header">
+                <div class="profile-banner">
+                    <div class="banner-gradient"></div>
+                </div>
+                
+                <div class="profile-info">
+                    <div class="profile-avatar-container">
                     <div class="profile-picture-container">
                         <img id="profilePictureDisplay" src="https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/default-avatar.png?alt=media&token=default" alt="Foto de perfil" class="profile-picture">
                         <div class="profile-picture-overlay">
@@ -391,7 +402,22 @@ Banco de provas                   </p>   </button>
                         </div>
                     </div>
                     <input type="file" id="profilePictureInput" accept="image/*" style="display: none;">
+                                    <div class="avatar-status online"></div>
+                    </div>
+                    
+                    <div class="profile-details">
+                        <h4 id="userName2" class="user-name">Nome do Usuário</h4>
+                        <p id="userTitle" class="user-title">Concurseiro em Preparação</p>
+                        <div class="user-meta">
+                            <span id="memberSince" class="member-since">Membro desde Janeiro 2025</span>
+                            <span id="lastActive" class="last-active">Ativo</span>
+                        </div>
+                    </div>
+                    
+                   
                 </div>
+            </div>
+              
                 
 </div>
 

@@ -488,7 +488,11 @@ textarea:focus {
     border-color: #4CAF50;
     box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
 }
-
+/* Aumenta o espaçamento interno das opções */
+.select-input option {
+  padding: 10px 10px;    /* vertical | horizontal */
+  margin-right: 10px;
+} 
 /* Modal Styles */
 .modal {
     display: none;
@@ -844,10 +848,10 @@ textarea:focus {
 .profile-picture-section {
     display: flex;
     justify-content: center;
-    margin-bottom: 30px;
+    margin-bottom: 0px;
     padding: 0px;
-    width: 110px;
-    height: 110px;
+    width: 120;
+    height: 120px;
     text-align: center;
     border-radius: 30px;
 
@@ -864,7 +868,7 @@ textarea:focus {
     height: 110px;
     border-radius: 50%;
     object-fit: cover;
-    border: 4px solid #fff;
+    border: 1px solid #fff;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     transition: transform 0.3s ease;
     align-items: center;
@@ -900,6 +904,7 @@ textarea:focus {
     justify-content: center;
     text-align: center;
     padding-top: 0px;  
+    margin: 0px;
 }
 
 
