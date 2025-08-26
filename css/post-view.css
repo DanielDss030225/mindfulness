@@ -759,9 +759,6 @@ width: 90%;
 @media (max-width: 768px) {
 
  
-    .header-logo h1 {
-        font-size: 1.2rem;
-    }
     
     .post-view-main {
         padding: 1rem;

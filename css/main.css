@@ -2023,8 +2023,7 @@ padding-bottom: 0px;
     min-width: 0;   /* evita quebrar */
   }
   .game-header p { display: none; }
-  .logo { display: flex; }
-  h1{display: none;}
+
 .menu-content {
   position: fixed;
   bottom: 0;         /* fixa no rodapé */
