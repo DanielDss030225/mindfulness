@@ -216,7 +216,9 @@ margin-bottom: 10px;
     font-size: 16px;
     font-weight: 600;
 }
-
+.startIncorrectReviewQuizBtn {
+    width: 30%;
+}
 /* Quiz Setup Screen */
 #quiz-setup-screen {
     background: linear-gradient(135deg, #000000 0%, #764ba2 100%);
@@ -736,6 +738,7 @@ margin-bottom: 10px;
     display: flex;
     gap: 15px;
     z-index: 1000;
+    width: 30%;
 }
 
 .review-actions .btn-primary,
@@ -807,6 +810,7 @@ margin-bottom: 10px;
     #reviewQuestionsBtn {
         display: none;
     }
+       
 }
 
 /* Animation for review items */

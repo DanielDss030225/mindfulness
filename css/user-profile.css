@@ -134,7 +134,7 @@ body {
 }
 
 .profile-banner {
-    height: 50px;
+    height: 10px;
     position: relative;
     background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
     width: 100%;

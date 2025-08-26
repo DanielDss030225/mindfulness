@@ -541,6 +541,30 @@ font-size: 18px;
 .stats-chart.loading::before {
     content: 'Carregando estatísticas...';
 }
+/* Adicione este estilo ao seu arquivo css/post-view.css */
+
+.delete-post-btn {
+    margin-left: auto; /* Alinha o botão à direita */
+    background-color: #f44336; /* Cor vermelha para indicar perigo */
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: background-color 0.3s;
+}
+
+.delete-post-btn:hover {
+    background-color: #d32f2f; /* Cor mais escura no hover */
+}
+
+.delete-post-btn .icon {
+    font-size: 16px;
+}
 
 /* Print Styles */
 @media print {

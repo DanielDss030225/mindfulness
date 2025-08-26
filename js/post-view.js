@@ -126,61 +126,109 @@ class PostView {
         }
     }
 
-    async renderPost() {
-        const postArticle = document.getElementById('postArticle');
-        
-        // Format timestamp
-        const timeAgo = this.getTimeAgo(this.post.timestamp);
-        const isLiked = this.post.likes && this.post.likes[this.currentUser.uid];
-        
-        // Buscar foto de perfil do autor do post
-        const authorPhotoURL = await this.getUserPhotoURL(this.post.authorId);
-        
-        postArticle.innerHTML = `
 
-            <div class="post-header">
-            
-                <img src="${authorPhotoURL}" 
-                     alt="Avatar do autor" class="post-avatar" >
 
-                <div class="post-author-info">
-                    <div class="post-author">${this.post.authorName || 'Usuário'}</div>
-                    <div class="post-time">${timeAgo}</div>
-                </div>
+// Em js/post-view.js, dentro da classe PostView
+
+async renderPost() {
+    const postArticle = document.getElementById('postArticle');
+    
+    // Format timestamp
+    const timeAgo = this.getTimeAgo(this.post.timestamp);
+    const isLiked = this.post.likes && this.currentUser.uid && this.post.likes[this.currentUser.uid];
+    
+    // *** NOVO: Verificar se o usuário atual é o autor do post ***
+    const isAuthor = this.currentUser && this.post.authorId === this.currentUser.uid;
+
+    // Buscar foto de perfil do autor do post
+    const authorPhotoURL = await this.getUserPhotoURL(this.post.authorId);
+    
+    postArticle.innerHTML = `
+        <div class="post-header">
+            <img src="${authorPhotoURL}" 
+                 alt="Avatar do autor" class="post-avatar">
+            <div class="post-author-info">
+                <div class="post-author">${this.post.authorName || 'Usuário'}</div>
+                <div class="post-time">${timeAgo}</div>
             </div>
             
-            ${this.post.content ? `<div class="post-content">${this.formatPostText(this.post.content)}</div>` : ''}
-            
-            ${this.post.imageUrl ? `
-                <div class="post-image-container">
-                    <img src="${this.post.imageUrl}" alt="Post Image" class="post-image" >
-                </div>
+            <!-- *** NOVO: Botão de exclusão que só aparece para o autor *** -->
+            ${isAuthor ? `
+                <button id="deletePostBtn" class="delete-post-btn" title="Excluir publicação">
+                    <span class="icon">🗑️</span> Excluir
+                </button>
             ` : ''}
-            
-            <div class="post-actions-bar">
-                <button class="action-btn like-btn ${isLiked ? 'liked' : ''}" data-post-id="${this.postId}">
-                    <span class="icon">${isLiked ? '❤️' : '🤍'}</span>
-                    <span class="like-text">${isLiked ? 'Curtiu' : 'Curtir'}</span>
-                    ${this.post.likesCount > 0 ? `<span class="like-count">(${this.post.likesCount})</span>` : ''}
-                </button>
-                
-                <button class="action-btn comment-btn-focus" onclick="document.getElementById('commentInput').focus()">
-                    <span class="icon">💬</span>
-                    <span>Comentar</span>
-                    ${this.post.commentsCount > 0 ? `<span class="comment-count">(${this.post.commentsCount})</span>` : ''}
-                </button>
-
-                <button class="action-btn share-btn-post" onclick="postView.openShareModal()">
-                    <span class="icon">📤</span>
-                    <span>Compartilhar</span>
-                </button>
+        </div>
+        
+        ${this.post.content ? `<div class="post-content">${this.formatPostText(this.post.content)}</div>` : ''}
+        
+        ${this.post.imageUrl ? `
+            <div class="post-image-container">
+                <img src="${this.post.imageUrl}" alt="Post Image" class="post-image">
             </div>
-        `;
+        ` : ''}
+        
+        <div class="post-actions-bar">
+            <button class="action-btn like-btn ${isLiked ? 'liked' : ''}" data-post-id="${this.postId}">
+                <span class="icon">${isLiked ? '❤️' : '🤍'}</span>
+                <span class="like-text">${isLiked ? 'Curtiu' : 'Curtir'}</span>
+                ${this.post.likesCount > 0 ? `<span class="like-count">(${this.post.likesCount})</span>` : ''}
+            </button>
+            
+            <button class="action-btn comment-btn-focus" onclick="document.getElementById('commentInput').focus()">
+                <span class="icon">💬</span>
+                <span>Comentar</span>
+                ${this.post.commentsCount > 0 ? `<span class="comment-count">(${this.post.commentsCount})</span>` : ''}
+            </button>
 
-        // Setup like button functionality
-        const likeBtn = postArticle.querySelector('.like-btn');
-        likeBtn.addEventListener('click', () => this.toggleLike());
+            <button class="action-btn share-btn-post" onclick="postView.openShareModal()">
+                <span class="icon">📤</span>
+                <span>Compartilhar</span>
+            </button>
+        </div>
+    `;
+
+    // Setup like button functionality
+    const likeBtn = postArticle.querySelector('.like-btn');
+    likeBtn.addEventListener('click', () => this.toggleLike());
+
+    // *** NOVO: Adicionar event listener para o botão de exclusão, se ele existir ***
+    const deleteBtn = document.getElementById('deletePostBtn');
+    if (deleteBtn) {
+        deleteBtn.addEventListener('click', () => this.confirmDeletePost());
     }
+}
+
+// *** NOVO: Método para confirmar e deletar a publicação ***
+async confirmDeletePost() {
+    // Exibe um modal de confirmação
+    const confirmation = window.confirm('Tem certeza que deseja excluir esta publicação? Esta ação não pode ser desfeita.');
+
+    if (confirmation) {
+        try {
+            // Deleta o post do Firebase
+            await firebase.database().ref(`socialPosts/${this.postId}`).remove();
+            
+            // Informa o usuário e redireciona
+            alert('Publicação excluída com sucesso!');
+            window.location.href = 'index.html'; // Redireciona para o feed
+        } catch (error) {
+            console.error('Erro ao excluir a publicação:', error);
+            alert('Ocorreu um erro ao excluir a publicação. Tente novamente.');
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+    
 
     formatPostText(text) {
         if (!text) return '';
