@@ -54,7 +54,7 @@
    
     gap: 25px;
         width: 600px;
-        margin-bottom: 40px;
+        margin-bottom: 100px;
 
 
 }
@@ -872,8 +872,7 @@ margin-bottom: 10px;
     display: none;
 }
 .fundoQuestoes {
-    margin: 0px;
-    width: 100%;
+margin-left: 0px;    width: 100%;
 }
 
 
