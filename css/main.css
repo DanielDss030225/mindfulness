@@ -249,7 +249,7 @@ border-bottom: 0px;
 #music-player-container {
     display: flex;
     align-items: center;
-    margin-left: 20px; /* Espaçamento ao lado do título */
+    margin-left: 0px; /* Espaçamento ao lado do título */
 }
 
 #playPauseBtn {
@@ -277,14 +277,34 @@ border-bottom: 0px;
     display: none; /* Esconde ambos os ícones por padrão */
 
     font-size: 25px;
-    margin-right: 20px; 
+    margin-right: 0px; 
 }
 header p {
     width: 100%;
-    margin-left: 20px;
+    margin-left: 10px;
 }
 
+#skipBtn {
+ background: none;
+    border: 2px solid #fff;
+    color: #fff;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
 
+    font-size: 25px;
+    margin-right: 20px; 
+}
+#skipBtn:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
+}
 
 
 /* Headers */
@@ -313,7 +333,7 @@ header p {
     display: flex;
     justify-content: flex-end; /* joga os filhos para a direita */
     align-items: center;       /* centraliza verticalmente */
-    gap: 15px;
+    gap: 10px;
     width: auto;
 }
 
@@ -324,6 +344,8 @@ header p {
 }
 .perfilButtom {
     cursor: pointer;
+    width: 150px;
+    border-radius: 10px;
 }
 .screen-header {
     padding: 20px 20px;

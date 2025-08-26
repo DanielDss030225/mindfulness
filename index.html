@@ -31,45 +31,51 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-  <header class="game-header"><a href="index.html">
-                <img src="https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/mindfulness_brain_transparent.png?alt=media&token=d1407573-6161-4b64-b6b2-e46206ba452f" alt="Mindfulness Logo" class="logo"> </a>
-                <h1 class="logoCabecalho">Mindfulness</h1>
-                   <p>A Plataforma do concurseiro!</p>
 
+<header class="game-header">
+    <a href="index.html">
+        <img src="https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/mindfulness_brain_transparent.png?alt=media&token=d1407573-6161-4b64-b6b2-e46206ba452f" alt="Mindfulness Logo" class="logo">
+    </a>
+    <h1 class="logoCabecalho">Mindfulness</h1>
+    <p>A Plataforma do concurseiro!</p>
 
-                    <div id="music-player-container">
+    <div id="music-player-container">
         <button id="playPauseBtn" title="Tocar/Pausar Música">
-            <span class="icon-play" >▶️</span>
+            <span class="icon-play">▶️</span>
             <span class="icon-pause">⏸️</span>
         </button>
+        <button id="skipBtn" title="Pular-Música">⏩</button>
+        <p class="ouvirMusica">Ouça música enquanto estuda</p>
     </div>
 
-    <audio id="background-audio" loop> </audio>
+    <audio id="background-audio" loop></audio>
 
-                  <a onclick="goToProfile()" class="perfilButtom">
-    <div class="user-info">
-        <div class="user-profile">
-            <img id="userProfilePic" src="https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/default-avatar.png?alt=media&token=default" alt="Foto do usuário" class="user-avatar">
-            <span id="userName">Usuário</span>
-        </div></a>
+    <a onclick="goToProfile()" class="perfilButtom">
+        <div class="user-info">
+            <div class="user-profile">
+                <img id="userProfilePic" src="https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/default-avatar.png?alt=media&token=default" alt="Foto do usuário" class="user-avatar">
+                <span id="userName">Usuário</span>
+            </div>
+        </a>
         <button id="logoutBtn" class="btn-secondary">Sair</button>
     </div>
+</header>
 
-
-            </header>   
 
 
 <script>
+    
 document.addEventListener('DOMContentLoaded', function() {
     const audioPlayer = document.getElementById('background-audio');
     const playPauseBtn = document.getElementById('playPauseBtn');
     const playIcon = playPauseBtn.querySelector('.icon-play');
     const pauseIcon = playPauseBtn.querySelector('.icon-pause');
+    const skipBtn = document.getElementById('skipBtn');
 
     // Lista de músicas
     const musicPlaylist = [
         'trem-bala.mp3',
-                'mercy-me.mp3'
+                'mercy-me.mp3',
 
         // Adicione mais músicas aqui
     ];
@@ -87,7 +93,13 @@ document.addEventListener('DOMContentLoaded', function() {
         audioPlayer.play().catch(error => console.error("Erro ao tocar música:", error));
         lastTrack = musicFile;
     }
-
+// Função para pular para a próxima música
+    function skipToNextMusic() {
+        const currentIndex = musicPlaylist.indexOf(lastTrack);
+        const nextIndex = (currentIndex + 1) % musicPlaylist.length; // Vai para a próxima, e volta para o começo se for o final
+        lastTrack = musicPlaylist[nextIndex];
+        playRandomMusic(); // Toca a nova música
+    }
     // Atualiza UI do botão
     function updateButtonUI() {
         if (isPlaying) {
@@ -141,8 +153,13 @@ document.addEventListener('DOMContentLoaded', function() {
     
     initializePlayer();
 
+    // Evento de pular música
+    skipBtn.addEventListener('click', function() {
+        skipToNextMusic();
+    });
+    
     // Volume inicial
-    audioPlayer.volume = 0.1;
+    audioPlayer.volume = 0.01;
 });
 </script>
 
