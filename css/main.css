@@ -1944,7 +1944,9 @@ padding-bottom: 0px;
 
 
 @media screen and (max-width: 768px) {
-
+.logoCabecalho {
+    display: none;
+}
         .game-header {
         padding: 10px 15px;
         flex-direction: column;
