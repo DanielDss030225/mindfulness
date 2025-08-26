@@ -310,7 +310,7 @@ class UIManager {
         } catch (error) {
             this.hideLoading();
             console.error('Error starting quiz:', error);
-            this.showModal('Erro', 'Erro ao iniciar o simulado. Tente novamente.');
+            this.showModal('Ops', 'Aqui ainda não tem questões cadastradas, selecione outro filtro!');
         }
     }
 
@@ -318,7 +318,7 @@ class UIManager {
         this.showModal(
             'Sair do simulado',
             'Tem certeza que deseja sair? Seu progresso será perdido.',
-            'warning',
+            'Problema',
             true,
             () => {
                 this.showScreen('main-menu-screen');
