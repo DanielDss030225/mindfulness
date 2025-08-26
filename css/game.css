@@ -462,35 +462,6 @@ margin-bottom: 10px;
    
 }
 
-@media (max-width: 480px) {
-    .question-text {
-        font-size: 15px;
-        padding: 15px;
-    }
-    
-    .alternative {
-        padding: 12px;
-    }
-    
-    .alternative-letter {
-        width: 30px;
-        height: 30px;
-        font-size: 14px;
-        margin-right: 12px;
-    }
-    
-    .alternative-text {
-        font-size: 14px;
-    }
-    
-    .result-header h2 {
-        font-size: 1.5rem;
-    }
-    
-    .stat-number {
-        font-size: 1.8rem;
-    }
-}
 
 /* Loading states */
 .question-container.loading {

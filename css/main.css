@@ -1690,71 +1690,6 @@ padding-bottom: 0px;
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
   }
 
-/* Mobile-specific improvements */
-@media (max-width: 480px) {
-    .social-feed-container {
-        margin: 0px;
-        padding: 5px;
-    }
-
-    .create-post-section,
-    .post-item {
-        padding: 8px;
-        margin-bottom: 8px;
-    }
-
-    .post-actions-bar {
-        flex-wrap: wrap;
-        gap: 5px;
-    }
-
-    .action-btn {
-        flex: 1;
-        min-width: 80px;
-        justify-content: center;
-        font-size: 12px;
-        padding: 6px 4px;
-
-    }
-
-    .comment-actions {
-        margin-left: 32px;
-        gap: 8px;
-        flex-wrap: wrap;
-    }
-
-    .sub-comments-list {
-        margin-left: 25px;
-        padding-left: 8px;
-    }
-
-    .sub-comment .comment-actions {
-        margin-left: 28px;
-        gap: 6px;
-    }
-
-    .reply-input-container .add-comment-input {
-        margin-left: 25px;
-    }
-
-    .comment-item .comment-avatar {
-        width: 28px;
-        height: 28px;
-    }
-
-    .sub-comment .comment-avatar {
-        width: 24px;
-        height: 24px;
-    }
-
-    .comment-content-container {
-        max-width: calc(100% - 32px);
-    }
-
-    .sub-comment .comment-content-container {
-        max-width: calc(100% - 28px);
-    }
-}
 
 
 
@@ -1901,35 +1836,6 @@ padding-bottom: 0px;
 
 
 
-/* Responsive adjustments for share modal */
-@media (max-width: 480px) {
-    .share-modal-content {
-        width: 95%;
-        margin: 10px;
-    }
-
-    .share-modal-header,
-    .share-modal-body {
-        padding: 15px;
-    }
-
-    .share-url-container {
-        flex-direction: column;
-        gap: 8px;
-    }
-
-    .share-options {
-        flex-direction: column;
-            width: 100%;
-
-    }
-
-    .share-option-btn {
-        min-width: auto;
-        width: 100%;
-    }
-}
-
 /* Highlighted post styles */
 .post-item.highlighted {
     border: 3px solid #1877f2 !important;
@@ -2044,7 +1950,7 @@ padding-bottom: 0px;
   gap: 0px;
 
   width: 100%;
-  height: 100px;     /* altura da barra inferior */
+  height: 80px;     /* altura da barra inferior */
   padding: 0px;
   overflow: hidden;
 
