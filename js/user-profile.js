@@ -186,7 +186,7 @@ class UserProfileManager {
             // Set last active (mock data for now)
             const lastActiveElement = document.getElementById('lastActive');
             if (lastActiveElement) {
-                lastActiveElement.textContent = 'Ativo há 2 horas';
+                lastActiveElement.textContent = 'Ativo';
             }
 
             console.log('User data loaded successfully');
@@ -306,6 +306,13 @@ class UserProfileManager {
         }
     }
 
+
+
+
+
+
+
+
     async loadRecentActivity() {
         // Mock recent activity data
         const activities = [
@@ -363,39 +370,94 @@ class UserProfileManager {
         }
     }
 
-    async loadAchievements() {
-        // Mock achievements data
-        const achievements = [
-            { id: 1, name: 'Primeira Questão', icon: '🎯', earned: true },
-            { id: 2, name: 'Primeira Centena', icon: '💯', earned: true },
-            { id: 3, name: 'Acerto Perfeito', icon: '🎪', earned: true },
-            { id: 4, name: 'Sequência de 7 dias', icon: '🔥', earned: true },
-            { id: 5, name: 'Especialista em Português', icon: '📚', earned: false },
-            { id: 6, name: 'Mestre do Direito', icon: '⚖️', earned: false },
-            { id: 7, name: 'Milhar de Questões', icon: '🚀', earned: false },
-            { id: 8, name: 'Sequência de 30 dias', icon: '🏆', earned: false },
-            { id: 9, name: 'Mentor da Comunidade', icon: '👨‍🏫', earned: false },
-            { id: 10, name: 'Lenda dos Concursos', icon: '👑', earned: false },
-            { id: 11, name: 'Velocista', icon: '⚡', earned: false },
-            { id: 12, name: 'Perfeccionista', icon: '💎', earned: false }
-        ];
 
-        const earnedCount = achievements.filter(a => a.earned).length;
-        const achievementCountElement = document.getElementById('achievementCount');
-        if (achievementCountElement) {
-            achievementCountElement.textContent = `${earnedCount} de ${achievements.length} desbloqueadas`;
+
+// Substitua esta função inteira no seu arquivo js/user-profile.js
+// Em js/user-profile.js, substitua a função loadAchievements() inteira
+// Em js/user-profile.js, substitua a função loadAchievements() inteira
+
+async loadAchievements() {
+    const achievementsContainer = document.getElementById('achievementsList');
+    const achievementCountElement = document.getElementById('achievementCount');
+
+    if (!achievementsContainer || !achievementCountElement) return;
+
+    const totalQuestions = this.userStats.totalQuestions || 0;
+
+    if (totalQuestions === 0) {
+        achievementCountElement.textContent = '';
+        achievementsContainer.innerHTML = `          
+            <div class="no-achievements-message">
+                <p>🌱 Este usuário está começando sua jornada.</p>
+            </div>
+        `;
+        return;
+    }
+
+    // --- LÓGICA PARA CONQUISTAS ESPECÍFICAS ---
+
+    // 1. Buscar detalhes das questões respondidas para analisar por categoria
+    const answeredQuestions = await window.databaseManager.getAnsweredQuestionsDetails(this.currentUserId);
+
+    // 2. Buscar os IDs das categorias "Português" e "Direito"
+    const allCategories = await window.databaseManager.getCategories();
+    let portuguesCategoryId = null;
+    let direitoCategoryId = null; // <-- Variável para o ID de Direito
+
+    for (const id in allCategories) {
+        const categoryName = allCategories[id].name.toLowerCase();
+        if (categoryName === 'português') {
+            portuguesCategoryId = id;
         }
-
-        const achievementsContainer = document.getElementById('achievementsList');
-        if (achievementsContainer) {
-            achievementsContainer.innerHTML = achievements.map(achievement => `
-                <div class="achievement-badge ${achievement.earned ? 'earned' : ''}">
-                    <span class="achievement-icon">${achievement.icon}</span>
-                    <div class="achievement-name">${achievement.name}</div>
-                </div>
-            `).join('');
+        if (categoryName === 'direito') { // <-- Encontra o ID para Direito
+            direitoCategoryId = id;
         }
     }
+
+    // 3. Contar quantas questões de cada categoria foram respondidas
+    let portuguesQuestionsCount = 0;
+    if (portuguesCategoryId) {
+        portuguesQuestionsCount = answeredQuestions.filter(q => q.category === portuguesCategoryId).length;
+    }
+
+    let direitoQuestionsCount = 0; // <-- Variável para a contagem de Direito
+    if (direitoCategoryId) {
+        direitoQuestionsCount = answeredQuestions.filter(q => q.category === direitoCategoryId).length;
+    }
+
+    // 4. Usar os dados da sequência calculados anteriormente (se existirem)
+    const currentStreak = this.streaksData ? this.streaksData.currentStreak : 0;
+
+    // 5. Definir a lista de conquistas com a nova lógica para Direito
+    const achievements = [
+        { id: 1, name: 'Primeira Questão', icon: '🎯', earned: totalQuestions >= 1 },
+        { id: 2, name: '100 Questões', icon: '💯', earned: totalQuestions >= 20 },
+        { id: 3, name: 'Acerto Perfeito', icon: '🎪', earned: totalQuestions >= 50 },
+        { id: 4, name: 'Concurseiro Pro', icon: '🔥', earned: totalQuestions >= 100 },
+          { id: 5, name: 'Especialista em Português', icon: '📚', earned: portuguesQuestionsCount >= 10 },
+        { id: 6, name: 'Mestre do Direito', icon: '⚖️', earned: direitoQuestionsCount >= 10 }, // <-- LÓGICA ADICIONADA AQUI
+        { id: 7, name: 'Milhar de Questões', icon: '🚀', earned: totalQuestions >= 150 },
+        { id: 8, name: '200 Questões', icon: '🏆',earned: totalQuestions >= 200 },
+        { id: 9, name: 'Mentor da Comunidade', icon: '👨‍🏫', earned: totalQuestions >= 250 },
+        { id: 10, name: 'Lenda dos Concursos', icon: '👑', earned: totalQuestions >= 500 },
+        { id: 11, name: '1000 Questões', icon: '⚡',  earned: totalQuestions >= 1000 },
+        { id: 12, name: '5000 Questões', icon: '💎', earned: totalQuestions >= 5000 },
+       
+    ];
+
+    // 6. Renderizar as conquistas na UI
+    const earnedCount = achievements.filter(a => a.earned).length;
+    achievementCountElement.textContent = `${earnedCount} de ${achievements.length} desbloqueadas`;
+
+    achievementsContainer.innerHTML = achievements.map(achievement => `
+        <div class="achievement-badge ${achievement.earned ? 'earned' : ''}" title="${achievement.name}">
+            <span class="achievement-icon">${achievement.icon}</span>
+            <div class="achievement-name">${achievement.name}</div>
+        </div>
+    `).join('');
+}
+
+
 
     async loadCategoryPerformance() {
         // Mock category performance data
@@ -424,60 +486,150 @@ class UserProfileManager {
         }
     }
 
-    async loadStudyStreak() {
-        // Mock study streak data
-        const currentStreak = 7;
-        const longestStreak = 15;
-        const totalStudyDays = 45;
 
-        const currentStreakElement = document.getElementById('currentStreak');
-        if (currentStreakElement) {
-            currentStreakElement.textContent = `Sequência atual: ${currentStreak} dias`;
+
+// Em js/user-profile.js, substitua a função loadStudyStreak() inteira
+// Em js/user-profile.js, substitua a função loadStudyStreak() inteira
+
+async loadStudyStreak() {
+    const calendarContainer = document.getElementById('streakCalendar');
+    const currentStreakElement = document.getElementById('currentStreak');
+    const longestStreakElement = document.getElementById('longestStreak');
+    const totalStudyDaysElement = document.getElementById('totalStudyDays');
+
+    if (!calendarContainer || !currentStreakElement || !longestStreakElement || !totalStudyDaysElement) return;
+
+    try {
+        const dailyActivity = await window.databaseManager.getDailyActivity(this.currentUserId);
+        
+        // CORREÇÃO: Converte as chaves de data (string) para objetos de Data em UTC.
+        // Isso padroniza o tratamento de datas, eliminando problemas de fuso horário.
+        const activeDates = Object.keys(dailyActivity).map(dateStr => {
+            const [year, month, day] = dateStr.split('-').map(Number);
+            return new Date(Date.UTC(year, month - 1, day));
+        });
+
+        if (activeDates.length === 0) {
+            currentStreakElement.textContent = 'Sequência atual: 0 dias';
+            longestStreakElement.textContent = '0';
+            totalStudyDaysElement.textContent = '0';
+            this.generateStreakCalendar([]);
+            this.streaksData = { currentStreak: 0, longestStreak: 0 };
+            return;
         }
 
-        const longestStreakElement = document.getElementById('longestStreak');
-        if (longestStreakElement) {
-            longestStreakElement.textContent = longestStreak;
-        }
+        // A função de cálculo agora recebe as datas padronizadas em UTC.
+        const streaks = this.calculateStreaks(activeDates);
+        
+        currentStreakElement.textContent = `Sequência atual: ${streaks.currentStreak} dias`;
+        longestStreakElement.textContent = streaks.longestStreak;
+        totalStudyDaysElement.textContent = streaks.totalStudyDays;
 
-        const totalStudyDaysElement = document.getElementById('totalStudyDays');
-        if (totalStudyDaysElement) {
-            totalStudyDaysElement.textContent = totalStudyDays;
-        }
+        this.generateStreakCalendar(activeDates);
+        this.streaksData = streaks;
 
-        // Generate calendar for last 30 days
-        this.generateStreakCalendar();
+    } catch (error) {
+        console.error('Erro ao carregar sequência de estudos:', error);
+        currentStreakElement.textContent = 'Erro ao carregar';
+    }
+}
+
+// Em js/user-profile.js, substitua também a função calculateStreaks()
+
+calculateStreaks(dates) {
+    if (dates.length === 0) {
+        return { currentStreak: 0, longestStreak: 0, totalStudyDays: 0 };
     }
 
-    generateStreakCalendar() {
-        const calendarContainer = document.getElementById('streakCalendar');
-        if (!calendarContainer) return;
+    // Ordena as datas para garantir que a lógica funcione corretamente.
+    dates.sort((a, b) => a.getTime() - b.getTime());
 
-        const today = new Date();
-        const thirtyDaysAgo = new Date(today.getTime() - (30 * 24 * 60 * 60 * 1000));
-        
-        // Mock active days (random for demonstration)
-        const activeDays = new Set();
-        for (let i = 0; i < 20; i++) {
-            const randomDay = Math.floor(Math.random() * 30);
-            activeDays.add(randomDay);
-        }
+    let currentStreak = 0;
+    let longestStreak = 1;
+    let tempLongest = 1;
 
-        let calendarHTML = '';
-        for (let i = 0; i < 30; i++) {
-            const date = new Date(thirtyDaysAgo.getTime() + (i * 24 * 60 * 60 * 1000));
-            const isToday = date.toDateString() === today.toDateString();
-            const isActive = activeDays.has(i);
-            
-            calendarHTML += `
-                <div class="calendar-day ${isActive ? 'active' : ''} ${isToday ? 'today' : ''}">
-                    ${date.getDate()}
-                </div>
-            `;
+    // CORREÇÃO: Usa UTC para obter a data de "hoje" e "ontem" de forma consistente.
+    const today = new Date();
+    const todayUTC = new Date(Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate()));
+    const yesterdayUTC = new Date(todayUTC);
+    yesterdayUTC.setUTCDate(todayUTC.getUTCDate() - 1);
+
+    const lastActiveDate = dates[dates.length - 1];
+
+    // Verifica se a sequência atual está ativa (última atividade foi hoje ou ontem).
+    if (lastActiveDate.getTime() === todayUTC.getTime() || lastActiveDate.getTime() === yesterdayUTC.getTime()) {
+        currentStreak = 1;
+        // Itera de trás para frente para calcular a sequência atual.
+        for (let i = dates.length - 1; i > 0; i--) {
+            const diff = (dates[i].getTime() - dates[i - 1].getTime()) / (1000 * 60 * 60 * 24);
+            if (diff === 1) {
+                currentStreak++;
+            } else {
+                break; // A sequência foi quebrada.
+            }
         }
-        
-        calendarContainer.innerHTML = calendarHTML;
     }
+
+    // Itera do início ao fim para encontrar a maior sequência de todos os tempos.
+    for (let i = 1; i < dates.length; i++) {
+        const diff = (dates[i].getTime() - dates[i - 1].getTime()) / (1000 * 60 * 60 * 24);
+        if (diff === 1) {
+            tempLongest++;
+        } else {
+            tempLongest = 1; // Reseta a contagem se houver uma falha.
+        }
+        if (tempLongest > longestStreak) {
+            longestStreak = tempLongest;
+        }
+    }
+
+    return {
+        currentStreak,
+        longestStreak,
+        totalStudyDays: dates.length
+    };
+}
+
+
+
+
+
+// Em js/user-profile.js, substitua sua função por esta:
+
+generateStreakCalendar(activeDates) {
+    const calendarContainer = document.getElementById('streakCalendar');
+    if (!calendarContainer) return;
+
+    const activeDateStrings = new Set(activeDates.map(d => d.toISOString().split('T')[0]));
+    const today = new Date();
+    let calendarHTML = '';
+
+    for (let i = 29; i >= -12; i--) {
+        const date = new Date();
+        date.setDate(today.getDate() - i);
+        const dateString = date.toISOString().split('T')[0];
+        const isToday = i === 0;
+        const isActive = activeDateStrings.has(dateString);
+        
+        // ==========================================================
+        // ▼▼▼ A MÁGICA ACONTECE AQUI ▼▼▼
+        // Usamos date.getDate() para pegar o número do dia e o inserimos no HTML.
+        // ==========================================================
+        calendarHTML += `
+            <div class="calendar-day ${isActive ? 'active' : ''} ${isToday ? 'today' : ''}" title="${date.toLocaleDateString('pt-BR')}">
+                ${date.getDate()}
+            </div>
+        `;
+        // ==========================================================
+    }
+    
+    calendarContainer.innerHTML = calendarHTML;
+}
+
+
+
+
+    
 
     async loadSidebarData() {
         // Quick stats

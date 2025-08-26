@@ -30,7 +30,7 @@
                 <h1>Mindfulness</h1>
                    <p>A Plataforma do concurseiro!</p>
                   <a onclick="goToProfile()" class="perfilButtom">
-    <div class="user-info">
+    <div class="user-info" style="display: none;">
         <div class="user-profile">
             <img id="userProfilePic" src="https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/default-avatar.png?alt=media&token=default" alt="Foto do usuário" class="user-avatar">
             <span id="userName">Usuário</span>
@@ -71,7 +71,7 @@
                         <p id="userTitle" class="user-title">Concurseiro em Preparação</p>
                         <div class="user-meta">
                             <span id="memberSince" class="member-since">Membro desde Janeiro 2025</span>
-                            <span id="lastActive" class="last-active">Ativo há 2 horas</span>
+                            <span id="lastActive" class="last-active">Ativo</span>
                         </div>
                     </div>
                     
@@ -87,6 +87,9 @@
                     </div>
                 </div>
             </div>
+
+
+
 
             <!-- Profile Stats Overview -->
             <div class="stats-overview">
@@ -204,7 +207,7 @@
             <!-- Sidebar -->
             <div class="sidebar">
                 <!-- Quick Stats -->
-                <div class="sidebar-section">
+                <div class="sidebar-section" style="display: none;">
                     <h3>Estatísticas Rápidas</h3>
                     <div class="quick-stats">
                         <div class="quick-stat"  style="display: none;">
@@ -231,7 +234,7 @@
                 </div>
 
                 <!-- Recent Badges -->
-                <div class="sidebar-section">
+                <div class="sidebar-section" style="display: none;">
                     <h3>Badges Recentes</h3>
                     <div id="recentBadges" class="recent-badges">
                         <!-- Recent badges will be loaded here -->

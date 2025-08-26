@@ -584,7 +584,7 @@
 .social-feed-container {
     max-height: 100vh;
     overflow-y: auto;
-    padding-right: 10px;
+    padding-right: 0px;
 }
 
 /* Estilizar a scrollbar */

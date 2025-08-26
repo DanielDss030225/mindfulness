@@ -431,6 +431,58 @@ class DatabaseManager {
 
         return true;
     }
+
+// Em js/database.js, dentro da classe DatabaseManager
+
+// NOVO MÉTODO para buscar os detalhes das questões respondidas por um usuário
+async getAnsweredQuestionsDetails(userId) {
+    try {
+        const userAnswersSnapshot = await this.database.ref(`userAnswers/${userId}`).once("value");
+        const userAnswers = userAnswersSnapshot.val();
+
+        if (!userAnswers) {
+            return []; // Retorna um array vazio se não houver respostas
+        }
+
+        const questionIds = Object.keys(userAnswers);
+        const questionPromises = questionIds.map(id => this.database.ref(`questions/${id}`).once("value"));
+        const questionSnapshots = await Promise.all(questionPromises);
+
+        const questionsDetails = questionSnapshots.map(snap => snap.val()).filter(q => q !== null);
+        
+        return questionsDetails;
+
+    } catch (error) {
+        console.error("Erro ao buscar detalhes das questões respondidas:", error);
+        throw error;
+    }
+}
+
+// Em js/database.js, dentro da classe DatabaseManager
+
+// NOVO MÉTODO para registrar a atividade diária
+async logDailyActivity(userId) {
+    try {
+        const today = new Date().toISOString().split('T')[0]; // Formato AAAA-MM-DD
+        const activityRef = this.database.ref(`userActivity/${userId}/daily/${today}`);
+        await activityRef.set(true); // Simplesmente marca o dia como ativo
+        console.log(`Atividade registrada para o usuário ${userId} no dia ${today}`);
+    } catch (error) {
+        console.error("Erro ao registrar atividade diária:", error);
+    }
+}
+
+// NOVO MÉTODO para buscar o histórico de atividades
+async getDailyActivity(userId) {
+    try {
+        const snapshot = await this.database.ref(`userActivity/${userId}/daily`).once("value");
+        return snapshot.val() || {}; // Retorna um objeto com as datas ativas
+    } catch (error) {
+        console.error("Erro ao buscar histórico de atividades:", error);
+        throw error;
+    }
+}
+
 }
 
 // Initialize Database Manager

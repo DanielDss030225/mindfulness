@@ -1433,7 +1433,7 @@ padding-bottom: 0px;
 @media (max-width: 768px) {
    
     .social-feed-container {
-        margin: 10px auto;
+        margin: 0px auto;
         padding: 10px;
     }
 
@@ -1686,7 +1686,7 @@ padding-bottom: 0px;
 /* Mobile-specific improvements */
 @media (max-width: 480px) {
     .social-feed-container {
-        margin: 5px;
+        margin: 0px;
         padding: 5px;
     }
 

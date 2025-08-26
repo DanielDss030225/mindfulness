@@ -141,7 +141,7 @@ class PostView {
             <div class="post-header">
             
                 <img src="${authorPhotoURL}" 
-                     alt="Avatar do autor" class="post-avatar">
+                     alt="Avatar do autor" class="post-avatar" >
 
                 <div class="post-author-info">
                     <div class="post-author">${this.post.authorName || 'Usuário'}</div>

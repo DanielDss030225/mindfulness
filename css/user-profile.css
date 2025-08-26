@@ -130,12 +130,14 @@ body {
     overflow: hidden;
     box-shadow: 0 10px 30px rgba(0,0,0,0.1);
     margin-bottom: 00px;
+    width: 100%;
 }
 
 .profile-banner {
     height: 50px;
     position: relative;
     background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+    width: 100%;
 }
 
 .banner-gradient {
@@ -145,6 +147,7 @@ body {
     right: 0;
     bottom: 0;
     background: linear-gradient(135deg, rgba(76, 175, 80, 0.8), rgba(69, 160, 73, 0.9));
+    width: 100%;
 }
 
 .profile-info {
@@ -537,7 +540,7 @@ body {
 /* Streak Calendar */
 .streak-calendar {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     gap: 20px;
 }
 
@@ -572,12 +575,25 @@ body {
 }
 
 .streak-stats {
-    display: flex;
-    gap: 30px;
+    display: flex;              /* ativa o flexbox */
+    flex-direction: column;     /* deixa os itens empilhados na vertical */
+    gap: 30px;                  /* espaçamento entre os itens */
+    background-color: #f4f2f2;
+    align-items: center;        /* centraliza na horizontal */
+    justify-content: center;    /* centraliza na vertical */
+    height: 100%;               /* precisa altura definida */
+    border-radius: 20px;
+    padding: 50px;
 }
 
+.no-achievements-message {
+    background-color: #b7ddfd;
+    border-radius: 20px;
+    padding: 20px;
+}
 .streak-stat {
     text-align: center;
+    margin-bottom: 20px;
 }
 
 .streak-number {
@@ -834,7 +850,7 @@ body {
     }
     
     .calendar-grid {
-        max-width: 280px;
+        max-width: 100%;
     }
     
     .calendar-day {
@@ -907,7 +923,16 @@ body {
    .profile-avatar{
     margin-top: 10px;
    }
-
+/* Streak Calendar */
+.streak-calendar {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+}
+h1 {
+    display: block;
+}
 }
 
 

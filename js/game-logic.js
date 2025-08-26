@@ -316,64 +316,80 @@ updateProfessorMessage2() {
         }
     }
 
-    async endQuiz() {
-        const user = window.authManager.getCurrentUser();
-        if (!user) return;
+// Em js/game-logic.js, substitua sua função endQuiz por esta:
 
-        // Calculate final stats
-        const totalQuestions = this.questions.length;
-        const correctAnswers = this.userAnswers.filter(answer => answer.isCorrect).length;
-        const wrongAnswers = totalQuestions - correctAnswers;
-        const finalScore = this.score;
-        const quizDuration = Date.now() - this.quizStartTime;
+async endQuiz() {
+    const user = window.authManager.getCurrentUser();
+    if (!user) return;
 
-        // Update user statistics
-        await window.databaseManager.incrementUserStats(user.uid, {
-            totalQuestions,
-            correctAnswers,
-            wrongAnswers,
-            totalScore: finalScore
-        });
+    // Calculate final stats
+    const totalQuestions = this.questions.length;
+    const correctAnswers = this.userAnswers.filter(answer => answer.isCorrect).length;
+    const wrongAnswers = totalQuestions - correctAnswers;
+    const finalScore = this.score;
+    const quizDuration = Date.now() - this.quizStartTime;
 
-        // Save quiz session
-        const sessionData = {
-            category: this.currentQuiz.category,
-            type: this.currentQuiz.type,
-            totalQuestions,
-            correctAnswers,
-            wrongAnswers,
-            finalScore,
-            duration: quizDuration,
-            questions: this.questions.map(q => q.id),
-            answers: this.userAnswers
-        };
+    // Update user statistics
+    await window.databaseManager.incrementUserStats(user.uid, {
+        totalQuestions,
+        correctAnswers,
+        wrongAnswers,
+        totalScore: finalScore
+    });
 
-        await window.databaseManager.saveQuizSession(user.uid, sessionData);
+    // Save quiz session
+    const sessionData = {
+        category: this.currentQuiz.category,
+        type: this.currentQuiz.type,
+        totalQuestions,
+        correctAnswers,
+        wrongAnswers,
+        finalScore,
+        duration: quizDuration,
+        questions: this.questions.map(q => q.id),
+        answers: this.userAnswers
+    };
 
-        // Update result screen
-        this.updateResultScreen(totalQuestions, correctAnswers, finalScore);
-        
-        // Show result screen
-        window.uiManager.showScreen("result-screen");
-        
-        // Show completion message
-        const accuracy = Math.round((correctAnswers / totalQuestions) * 100);
-        let message = "";
-        
-        if (accuracy >= 80) {
-            message = `Excelente! ${accuracy}% de acertos! Você está dominando o assunto! 🏆`;
-        } else if (accuracy >= 60) {
-            message = `Muito bom! ${accuracy}% de acertos! Continue estudando! 📚`;
-        } else if (accuracy >= 40) {
-            message = `Bom trabalho! ${accuracy}% de acertos! Há espaço para melhorar! 💪`;
-        } else {
-            message = `${accuracy}% de acertos. Não desista! A prática leva à perfeição! 🌟`;
-        }
-        
-        setTimeout(() => {
-            window.uiManager.showModal("Simulado Finalizado!", message, "success");
-        }, 500);
+    await window.databaseManager.saveQuizSession(user.uid, sessionData);
+
+    // =================================================================
+    // ▼▼▼ LINHA ADICIONADA PARA REGISTRAR A ATIVIDADE DIÁRIA ▼▼▼
+    // =================================================================
+    await window.databaseManager.logDailyActivity(user.uid);
+    // =================================================================
+
+    // Update result screen
+    this.updateResultScreen(totalQuestions, correctAnswers, finalScore);
+    
+    // Show result screen
+    window.uiManager.showScreen("result-screen");
+    
+    // Show completion message
+    const accuracy = Math.round((correctAnswers / totalQuestions) * 100);
+    let message = "";
+    
+    if (accuracy >= 80) {
+        message = `Excelente! ${accuracy}% de acertos! Você está dominando o assunto! 🏆`;
+    } else if (accuracy >= 60) {
+        message = `Muito bom! ${accuracy}% de acertos! Continue estudando! 📚`;
+    } else if (accuracy >= 40) {
+        message = `Bom trabalho! ${accuracy}% de acertos! Há espaço para melhorar! 💪`;
+    } else {
+        message = `${accuracy}% de acertos. Não desista! A prática leva à perfeição! 🌟`;
     }
+    
+    setTimeout(() => {
+        window.uiManager.showModal("Simulado Finalizado!", message, "success");
+    }, 500);
+}
+
+
+
+
+
+
+
+
 
     updateResultScreen(totalQuestions, correctAnswers, finalScore) {
         const finalScoreElement = document.getElementById("finalScore");

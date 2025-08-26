@@ -129,7 +129,6 @@ background: rgb(240, 240, 240);
     background-color: #ffffff;
     border-radius: 30px;
 }
-
 .post-header {
     display: flex;
     align-items: center;
@@ -137,12 +136,13 @@ background: rgb(240, 240, 240);
     margin-bottom: 1.5rem;
 }
 
+
 .post-avatar {
     width: 60px;
     height: 60px;
     border-radius: 50%;
     object-fit: cover;
-    border: 3px solid #667eea;
+    border: 3px solid #ffffff;
 }
 
 .post-author-info h3 {
@@ -265,7 +265,7 @@ background: rgb(240, 240, 240);
     height: 50px;
     border-radius: 50%;
     object-fit: cover;
-    border: 2px solid #667eea;
+    border: 2px solid #ffffff;
     flex-shrink: 0;
 }
 
@@ -729,10 +729,36 @@ width: 90%;
     transform: scale(0.97);
 }
 
+
+/* Adicione este estilo ao seu arquivo css/post-view.css */
+
+.delete-post-btn {
+    margin-left: auto; /* Alinha o botão à direita */
+    background-color: #f44336; /* Cor vermelha para indicar perigo */
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: background-color 0.3s;
+}
+
+.delete-post-btn:hover {
+    background-color: #d32f2f; /* Cor mais escura no hover */
+}
+
+.delete-post-btn .icon {
+    font-size: 16px;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
 
-    
+ 
     .header-logo h1 {
         font-size: 1.2rem;
     }

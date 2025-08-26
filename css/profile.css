@@ -26,6 +26,7 @@ overflow: auto;
     backdrop-filter: blur(10px);
     margin-top: 10px;
     margin-bottom: 100px;
+    width: 100%;
 
 }
 
