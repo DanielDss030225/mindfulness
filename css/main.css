@@ -1751,50 +1751,6 @@ padding-bottom: 0px;
     }
 }
 
-/* Dark mode support (optional) */
-@media (prefers-color-scheme: dark) {
-    .social-feed-container {
-        background-color: #18191a;
-    }
-
-    .create-post-section,
-    .post-item {
-        background-color: #242526;
-        color: #e4e6ea;
-    }
-
-    .create-post-section textarea,
-    .comment-input,
-    .reply-input {
-        background-color: #3a3b3c;
-        color: #e4e6ea;
-    }
-
-    .comment-content-container {
-        background-color: #3a3b3c;
-        color: #e4e6ea;
-    }
-
-    .post-author,
-    .comment-author {
-        color: #e4e6ea;
-    }
-
-    .post-time,
-    .comment-time,
-    .comment-actions {
-        color: #b0b3b8;
-    }
-
-    .action-btn {
-        color: #b0b3b8;
-    }
-
-    .action-btn:hover {
-        background-color: #3a3b3c;
-    }
- 
-}
 
 
 /* Share Modal Styles */
