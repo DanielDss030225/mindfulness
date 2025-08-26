@@ -35,6 +35,17 @@
                 <img src="https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/mindfulness_brain_transparent.png?alt=media&token=d1407573-6161-4b64-b6b2-e46206ba452f" alt="Mindfulness Logo" class="logo"> </a>
                 <h1 class="logoCabecalho">Mindfulness</h1>
                    <p>A Plataforma do concurseiro!</p>
+
+
+                    <div id="music-player-container">
+        <button id="playPauseBtn" title="Tocar/Pausar Música">
+            <span class="icon-play" >▶️</span>
+            <span class="icon-pause">⏸️</span>
+        </button>
+    </div>
+
+    <audio id="background-audio" loop> </audio>
+
                   <a onclick="goToProfile()" class="perfilButtom">
     <div class="user-info">
         <div class="user-profile">
@@ -46,6 +57,96 @@
 
 
             </header>   
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const audioPlayer = document.getElementById('background-audio');
+    const playPauseBtn = document.getElementById('playPauseBtn');
+    const playIcon = playPauseBtn.querySelector('.icon-play');
+    const pauseIcon = playPauseBtn.querySelector('.icon-pause');
+
+    // Lista de músicas
+    const musicPlaylist = [
+        'trem-bala.mp3',
+                'mercy-me.mp3'
+
+        // Adicione mais músicas aqui
+    ];
+
+    // Recupera estado salvo
+    let isPlaying = localStorage.getItem('musicIsPlaying') === 'true';
+    let lastTrack = localStorage.getItem('musicCurrentTrack');
+    let lastTime = parseFloat(localStorage.getItem('musicCurrentTime')) || 0;
+
+    // Função para tocar música (se nada salvo, pega aleatória)
+    function playRandomMusic() {
+        let musicFile = lastTrack || musicPlaylist[Math.floor(Math.random() * musicPlaylist.length)];
+        audioPlayer.src = 'music/' + musicFile;
+        audioPlayer.currentTime = lastTime || 0; // volta no ponto salvo
+        audioPlayer.play().catch(error => console.error("Erro ao tocar música:", error));
+        lastTrack = musicFile;
+    }
+
+    // Atualiza UI do botão
+    function updateButtonUI() {
+        if (isPlaying) {
+            playIcon.style.display = 'none';
+            pauseIcon.style.display = 'inline';
+        } else {
+            playIcon.style.display = 'inline';
+            pauseIcon.style.display = 'none';
+        }
+    }
+
+    // Botão play/pause
+    playPauseBtn.addEventListener('click', function() {
+        isPlaying = !isPlaying;
+        if (isPlaying) {
+            if (!audioPlayer.src) {
+                playRandomMusic();
+            } else {
+                audioPlayer.play().catch(error => console.error("Erro ao continuar música:", error));
+            }
+        } else {
+            audioPlayer.pause();
+        }
+        localStorage.setItem('musicIsPlaying', isPlaying);
+        updateButtonUI();
+    });
+
+    // Quando terminar a música, toca outra aleatória
+    audioPlayer.addEventListener('ended', function() {
+        lastTime = 0;
+        lastTrack = null;
+        playRandomMusic();
+    });
+
+    // Salva progresso a cada 2s
+    setInterval(() => {
+        if (audioPlayer.src) {
+            localStorage.setItem('musicCurrentTime', audioPlayer.currentTime);
+            localStorage.setItem('musicCurrentTrack', lastTrack);
+        }
+    }, 2000);
+
+    // Inicializa player ao carregar
+    function initializePlayer() {
+        if (isPlaying) {
+            playRandomMusic();
+        }
+        updateButtonUI();
+    }
+
+    
+    initializePlayer();
+
+    // Volume inicial
+    audioPlayer.volume = 0.02;
+});
+</script>
+
+
  <div class="geral"> 
     <!-- Loading Screen -->
     <div id="loading-screen" class="screen active">
