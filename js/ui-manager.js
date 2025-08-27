@@ -61,6 +61,9 @@ class UIManager {
         if (newQuizFromProfileBtn) newQuizFromProfileBtn.addEventListener('click', () => this.showScreen('quiz-setup-screen'));
         if (reviewQuestionsBtn) reviewQuestionsBtn.addEventListener('click', () => this.reviewQuestions());
         if (startIncorrectReviewQuizBtn) startIncorrectReviewQuizBtn.addEventListener('click', () => this.startIncorrectReviewQuiz());
+   
+   
+   
     }
 
     setupModalHandlers() {
@@ -574,7 +577,31 @@ class UIManager {
     isScreenActive(screenId) {
         return this.currentScreen === screenId;
     }
+
+
+
+
 }
+document.addEventListener('DOMContentLoaded', function() {
+    // Encontra o elemento pelo ID
+    const backToHomeButton = document.getElementById('backinicio');
+
+    // Verifica se o botão existe na página
+    if (backToHomeButton) {
+        // Adiciona um evento de clique
+        backToHomeButton.addEventListener('click', function(event) {
+            // Previne o comportamento padrão do link <a>
+            event.preventDefault(); 
+            
+            // Verifica se o uiManager está disponível e chama a função para mostrar a tela principal
+            if (window.uiManager) {
+                window.uiManager.showScreen('main-menu-screen');
+            } else {
+                console.error('UIManager não encontrado. Não foi possível voltar para a tela inicial.');
+            }
+        });
+    }
+});
 
 // Inicializa o UI Manager globalmente
 window.uiManager = new UIManager();

@@ -102,6 +102,16 @@ class UserProfileManager {
                 this.toggleChartType();
             });
         }
+
+
+            const backToHomeButton = document.getElementById('backinicio');
+    if (backToHomeButton) {
+        backToHomeButton.addEventListener('click', (event) => {
+            event.preventDefault();
+            this.showScreen('main-menu-screen');
+        });
+    }
+
     }
 
     async loadUserProfile() {

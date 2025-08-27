@@ -42,16 +42,18 @@ class UIManager {
             });
         }
 
-        // Back buttons
+        // Back buttons 
+
         const backToMenuBtn = document.getElementById('backToMenuBtn');
         const backToMenuFromProfileBtn = document.getElementById('backToMenuFromProfileBtn');
         const backToMenuFromAdminBtn = document.getElementById('backToMenuFromAdminBtn');
         const backToMenuFromResultBtn = document.getElementById('backToMenuFromResultBtn');
 
-        if (backToMenuBtn) {
+        
+
+    if (backToMenuBtn) {
             backToMenuBtn.addEventListener('click', () => this.showScreen('main-menu-screen'));
         }
-
         if (backToMenuFromProfileBtn) {
             backToMenuFromProfileBtn.addEventListener('click', () => this.showScreen('main-menu-screen'));
         }

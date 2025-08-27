@@ -1,5 +1,3 @@
-
-
 document.addEventListener('DOMContentLoaded', function() {
     const audioPlayer = document.getElementById('background-audio');
     const playPauseBtn = document.getElementById('playPauseBtn');
@@ -7,94 +5,117 @@ document.addEventListener('DOMContentLoaded', function() {
     const pauseIcon = playPauseBtn.querySelector('.icon-pause');
     const skipBtn = document.getElementById('skipBtn');
 
-    // Lista de músicas
     const musicPlaylist = [
         'trem-bala.mp3',
         'mercy-me.mp3'
         // Adicione mais músicas aqui
     ];
 
-    // Recupera estado salvo
-    let isPlaying = localStorage.getItem('musicIsPlaying') === 'true';
     let lastTrack = localStorage.getItem('musicCurrentTrack');
     let lastTime = parseFloat(localStorage.getItem('musicCurrentTime')) || 0;
+    // A variável 'isPlaying' será controlada pelos eventos 'play' e 'pause' do áudio,
+    // tornando o controle mais confiável.
 
-    // Função para tocar música (se nada salvo, pega aleatória)
-    function playRandomMusic() {
-        let musicFile = lastTrack || musicPlaylist[Math.floor(Math.random() * musicPlaylist.length)];
-        audioPlayer.src = 'music/' + musicFile;
-        audioPlayer.currentTime = lastTime || 0; // volta no ponto salvo
-        audioPlayer.play().catch(error => console.error("Erro ao tocar música:", error));
-        lastTrack = musicFile;
+    // --- FUNÇÃO CORRIGIDA ---
+    // Adicionamos um parâmetro para saber se a música deve começar do início.
+    function playMusic(startFromBeginning = false) {
+        // Se não houver uma faixa anterior, escolhe uma aleatória.
+        if (!lastTrack) {
+            lastTrack = musicPlaylist[Math.floor(Math.random() * musicPlaylist.length)];
+        }
+        
+        audioPlayer.src = 'music/' + lastTrack;
+        
+        // Se for para começar do início (após pular ou terminar), reseta o tempo.
+        if (startFromBeginning) {
+            audioPlayer.currentTime = 0;
+        } else {
+            // Senão, usa o tempo salvo (útil ao recarregar a página).
+            audioPlayer.currentTime = lastTime || 0;
+        }
+        
+        audioPlayer.play().catch(error => {
+            console.error("Erro ao tocar música (o navegador pode ter bloqueado o autoplay):", error);
+            updateButtonUI(); // Garante que a UI mostre o ícone de play se falhar.
+        });
     }
 
-    // Função para pular para a próxima música
+    // --- FUNÇÃO CORRIGIDA ---
     function skipToNextMusic() {
         const currentIndex = musicPlaylist.indexOf(lastTrack);
-        const nextIndex = (currentIndex + 1) % musicPlaylist.length; // Vai para a próxima, e volta para o começo se for o final
+        // Garante que o índice seja válido mesmo que a música não esteja na lista.
+        const nextIndex = (currentIndex + 1) % musicPlaylist.length;
         lastTrack = musicPlaylist[nextIndex];
-        playRandomMusic(); // Toca a nova música
+        
+        // Chama a função para tocar, forçando o início em 0.
+        playMusic(true); 
     }
 
-    // Atualiza UI do botão
     function updateButtonUI() {
-        if (isPlaying) {
-            playIcon.style.display = 'none';
-            pauseIcon.style.display = 'inline';
-        } else {
+        // A verificação agora é mais simples: o player está pausado?
+        if (audioPlayer.paused) {
             playIcon.style.display = 'inline';
             pauseIcon.style.display = 'none';
+        } else {
+            playIcon.style.display = 'none';
+            pauseIcon.style.display = 'inline';
         }
     }
 
-    // Botão play/pause
+    // Evento de Play/Pause
     playPauseBtn.addEventListener('click', function() {
-        isPlaying = !isPlaying;
-        if (isPlaying) {
+        if (audioPlayer.paused) {
+            // Se não tiver uma música carregada, inicia uma nova.
             if (!audioPlayer.src) {
-                playRandomMusic();
+                playMusic();
             } else {
-                audioPlayer.play().catch(error => console.error("Erro ao continuar música:", error));
+                audioPlayer.play();
             }
         } else {
             audioPlayer.pause();
         }
-        localStorage.setItem('musicIsPlaying', isPlaying);
+    });
+
+    // --- EVENTO 'ended' CORRIGIDO ---
+    audioPlayer.addEventListener('ended', function() {
+        // Simplesmente chama a função de pular, que já lida com a lógica.
+        skipToNextMusic();
+    });
+
+    // Listeners para 'play' e 'pause' para manter a UI e o localStorage sincronizados.
+    audioPlayer.addEventListener('pause', function() {
+        localStorage.setItem('musicIsPlaying', 'false');
         updateButtonUI();
     });
 
-    // Quando terminar a música, toca a próxima
-    audioPlayer.addEventListener('ended', function() {
-        // Depois que a música terminar, chama a função de pular para a próxima
-        skipToNextMusic(); // Isso vai mudar a música e tocar a próxima
+    audioPlayer.addEventListener('play', function() {
+        localStorage.setItem('musicIsPlaying', 'true');
+        updateButtonUI();
     });
 
-    // Salva progresso a cada 2s
+    // Salva o progresso da música em intervalos.
     setInterval(() => {
-        if (audioPlayer.src) {
+        if (audioPlayer.src && !audioPlayer.paused) {
             localStorage.setItem('musicCurrentTime', audioPlayer.currentTime);
             localStorage.setItem('musicCurrentTrack', lastTrack);
         }
     }, 2000);
 
-    // Inicializa player ao carregar
     function initializePlayer() {
-        if (isPlaying) {
-            playRandomMusic();
+        // Se o localStorage indicar que estava tocando, carrega a música.
+        if (localStorage.getItem('musicIsPlaying') === 'true' && lastTrack) {
+            audioPlayer.src = 'music/' + lastTrack;
+            audioPlayer.currentTime = lastTime || 0;
         }
+        // A UI é atualizada para o estado correto (pausado por padrão).
         updateButtonUI();
     }
 
-    // Inicializa o player ao carregar
     initializePlayer();
 
-    // Evento de pular música
     skipBtn.addEventListener('click', function() {
         skipToNextMusic();
     });
 
-    // Volume inicial
     audioPlayer.volume = 0.01;
 });
-
-

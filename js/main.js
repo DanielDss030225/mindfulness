@@ -1,5 +1,6 @@
 // Main Application Controller
 class MindfulnessApp {
+
     constructor() {
         this.isInitialized = false;
         this.init();
@@ -348,6 +349,10 @@ class MindfulnessApp {
         this.isInitialized = false;
         console.log('Mindfulness App destroyed');
     }
+
+
+
+    
 }
 
 // Initialize the application
@@ -407,3 +412,33 @@ screens.forEach(screen => {
 // Também pode chamar no carregamento inicial
 window.addEventListener('DOMContentLoaded', atualizarHeaderVisibilidade);
 
+document.addEventListener('DOMContentLoaded', function() {
+    const openPlayerBtn = document.getElementById('openPlayerBtn');
+    let playerWindow = null;
+
+    if (openPlayerBtn) {
+        openPlayerBtn.addEventListener('click', () => {
+            // Verifica se a janela já está aberta ou foi fechada
+            if (playerWindow === null || playerWindow.closed) {
+                
+                // --- INÍCIO DA MÁGICA DO AUTOPLAY ---
+                // 1. Cria um áudio "fantasma" para obter a permissão do navegador.
+                const ghostAudio = new Audio();
+                ghostAudio.muted = true; // Toca silenciosamente para não incomodar.
+                ghostAudio.play().catch(e => console.warn("Autoplay pre-flight failed, but we proceed."));
+                // --- FIM DA MÁGICA DO AUTOPLAY ---
+
+                // 2. Abre a janela pop-up, adicionando um parâmetro na URL.
+                playerWindow = window.open(
+                    'player.html?autoplay=true', // Adicionamos ?autoplay=true
+                    'MusicPlayer', 
+                    'width=350,height=200,scrollbars=no,resizable=no'
+                );
+
+            } else {
+                // Se a janela já estiver aberta, apenas a foca.
+                playerWindow.focus();
+            }
+        });
+    }
+});

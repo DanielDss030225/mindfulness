@@ -33,22 +33,24 @@
 <body>
 
 <header class="game-header">
-    <a href="index.html">
+    <a id="backinicio">
         <img src="https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/mindfulness_brain_transparent.png?alt=media&token=d1407573-6161-4b64-b6b2-e46206ba452f" alt="Mindfulness Logo" class="logo">
     </a>
     <h1 class="logoCabecalho">Mindfulness</h1>
     <p>A Plataforma do concurseiro!</p>
 
-    <div id="music-player-container">
+    <!--<div id="music-player-container">
         <button id="playPauseBtn" title="Tocar/Pausar Música">
             <span class="icon-play">▶️</span>
             <span class="icon-pause">⏸️</span>
         </button>
         <button id="skipBtn" title="Pular-Música">⏩</button>
         <p class="ouvirMusica">Ouça música enquanto estuda</p>
-    </div>
-
-    <audio id="background-audio" ></audio>
+</div> <audio id="background-audio" ></audio>-->
+<div id="music-player-launcher">
+    <a id="openPlayerBtn" title="Abrir Player de Música">🎵 Tocar
+    <p class="ouvirMusica">Ouça música enquanto estuda</p> </a>
+</div>
 
     <a onclick="goToProfile()" class="perfilButtom">
         <div class="user-info">
@@ -835,7 +837,7 @@ Banco de provas                   </p>   </button>
     <script src="js/social-feed-enhanced.js"></script>
     <script src="js/main.js"></script>
 
-    <script src="js/music-player.js"></script>
+  <!--  <script src="js/music-player.js"></script> -->  
 
 </body>
 </html>
