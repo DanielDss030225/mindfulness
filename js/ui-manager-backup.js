@@ -108,6 +108,7 @@ class UIManager {
     showScreen(screenId) {
         document.querySelectorAll('.screen').forEach(screen => {
             screen.classList.remove('active');
+
         });
 
         const targetScreen = document.getElementById(screenId);

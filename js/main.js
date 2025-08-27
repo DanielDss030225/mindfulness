@@ -406,3 +406,4 @@ screens.forEach(screen => {
 
 // Também pode chamar no carregamento inicial
 window.addEventListener('DOMContentLoaded', atualizarHeaderVisibilidade);
+
