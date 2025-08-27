@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Mindfulness Player</title>
     <style>
+        /* --- ESTILOS GERAIS (Seu código) --- */
         body { 
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
             background: #f0f2f5; 
@@ -15,7 +16,7 @@
             justify-content: center;
             height: 100vh;
             box-sizing: border-box;
-            overflow: hidden; /* Evita barras de rolagem desnecessárias */
+            overflow: hidden;
         }
         p { 
             color: #333; 
@@ -46,15 +47,62 @@
             border-radius: 5px;
             display: inline-block;
         }
-        /* --- NOVO: Estilo para o nome da música --- */
         #songTitle {
             font-size: 14px;
             color: #444;
             margin-top: 12px;
-            white-space: nowrap; /* Evita que o texto quebre */
-            overflow: hidden; /* Esconde o texto que transborda */
-            text-overflow: ellipsis; /* Adiciona "..." ao final */
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
             max-width: 100%;
+        }
+
+        /* --- NOVO: CSS APRIMORADO PARA O CONTROLE DE VOLUME --- */
+        .volume-control {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 15px;
+            gap: 10px;
+        }
+
+        #volumeIcon {
+            font-size: 20px;
+            cursor: pointer;
+            user-select: none; /* Impede que o ícone seja selecionado como texto */
+        }
+
+        #volumeSlider {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 120px;
+            height: 6px;
+            background: #d3d3d3; /* Cor da trilha de fundo */
+            border-radius: 5px;
+            outline: none;
+            cursor: pointer;
+            transition: background 0.2s ease-in-out;
+        }
+
+        #volumeSlider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            background: #6a11cb; /* Cor roxa mais forte para a bolinha */
+            border-radius: 50%;
+            border: 2px solid white;
+            box-shadow: 0 0 4px rgba(0,0,0,0.2);
+            margin-top: -5px; /* Centraliza a bolinha verticalmente na trilha */
+        }
+
+        #volumeSlider::-moz-range-thumb {
+            width: 16px;
+            height: 16px;
+            background: #6a11cb;
+            border-radius: 50%;
+            border: 2px solid white;
+            box-shadow: 0 0 4px rgba(0,0,0,0.2);
         }
     </style>
 </head>
@@ -70,131 +118,157 @@
         <span id="currentTime">00:00</span> / <span id="totalDuration">00:00</span>
     </div>
 
-    <!-- --- NOVO: Elemento para mostrar o nome da música --- -->
     <div id="songTitle">Selecione uma música</div>
 
-  <script>
-    const audioPlayer = document.getElementById('background-audio');
-    const playPauseBtn = document.getElementById('playPauseBtn');
-    const skipBtn = document.getElementById('skipBtn');
-    const currentTimeEl = document.getElementById('currentTime');
-    const totalDurationEl = document.getElementById('totalDuration');
-    const songTitleEl = document.getElementById('songTitle');
+    <!-- --- NOVO: HTML para o Controle de Volume --- -->
+    <div class="volume-control">
+        <span id="volumeIcon">🔊</span>
+        <input type="range" id="volumeSlider" min="0" max="1" step="0.01">
+    </div>
 
-    const musicPlaylist = [
-        { src: 'music/trem-bala.mp3', title: 'Trem-Bala - Ana Vilela' },
-        { src: 'music/mercy-me.mp3', title: 'I Can Only Imagine - MercyMe' }
-        // Adicione mais músicas aqui
-    ];
-    
-    // Usamos -1 como valor inicial para indicar que nenhuma faixa foi definida ainda.
-    let currentTrackIndex = -1; 
-    const LAST_TRACK_KEY = 'mindfulness_last_track_index'; // Chave para o localStorage
+    <script>
+        // --- SEU CÓDIGO JAVASCRIPT EXISTENTE ---
+        const audioPlayer = document.getElementById('background-audio');
+        const playPauseBtn = document.getElementById('playPauseBtn');
+        const skipBtn = document.getElementById('skipBtn');
+        const currentTimeEl = document.getElementById('currentTime');
+        const totalDurationEl = document.getElementById('totalDuration');
+        const songTitleEl = document.getElementById('songTitle');
+        
+        // --- NOVO: Referências para os elementos de volume ---
+        const volumeSlider = document.getElementById('volumeSlider');
+        const volumeIcon = document.getElementById('volumeIcon');
 
-    function getRandomTrackIndex(excludeIndex = -1) {
-        let newIndex;
-        // Se houver mais de uma música, garante que a próxima seja diferente.
-        if (musicPlaylist.length > 1) {
-            do {
-                newIndex = Math.floor(Math.random() * musicPlaylist.length);
-            } while (newIndex === excludeIndex);
-        } else {
-            newIndex = 0; // Se só tiver uma música, toca ela mesma.
-        }
-        return newIndex;
-    }
+        const musicPlaylist = [
+            { src: 'music/trem-bala.mp3', title: 'Trem-Bala - Ana Vilela' },
+            { src: 'music/mercy-me.mp3', title: 'I Can Only Imagine - MercyMe' }
+        ];
+        
+        let currentTrackIndex = -1;
+        const LAST_TRACK_KEY = 'mindfulness_last_track_index';
+        // --- NOVO: Chave para salvar o volume no localStorage ---
+        const LAST_VOLUME_KEY = 'mindfulness_last_volume';
 
-    function formatTime(seconds) {
-        const minutes = Math.floor(seconds / 60);
-        const remainingSeconds = Math.floor(seconds % 60);
-        const formattedMinutes = String(minutes).padStart(2, '0');
-        const formattedSeconds = String(remainingSeconds).padStart(2, '0');
-        return `${formattedMinutes}:${formattedSeconds}`;
-    }
-
-    function playMusic() {
-        // Verifica se o índice é válido.
-        if (currentTrackIndex < 0 || currentTrackIndex >= musicPlaylist.length) {
-            console.error("Índice de faixa inválido.");
-            return;
+        function getRandomTrackIndex(excludeIndex = -1) {
+            let newIndex;
+            if (musicPlaylist.length > 1) {
+                do {
+                    newIndex = Math.floor(Math.random() * musicPlaylist.length);
+                } while (newIndex === excludeIndex);
+            } else {
+                newIndex = 0;
+            }
+            return newIndex;
         }
 
-        const track = musicPlaylist[currentTrackIndex];
-        audioPlayer.src = track.src;
-        songTitleEl.textContent = track.title;
-        songTitleEl.title = track.title;
-        
-        // --- NOVO: Salva o índice da música atual no localStorage ---
-        localStorage.setItem(LAST_TRACK_KEY, currentTrackIndex);
-        
-        audioPlayer.play()
-            .then(() => {
-                playPauseBtn.textContent = '⏸️';
-            })
-            .catch(error => {
-                console.error("Autoplay no pop-up falhou:", error);
-                playPauseBtn.textContent = '▶️';
-            });
-    }
+        function formatTime(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = Math.floor(seconds % 60);
+            return `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
+        }
 
-    function skipMusic() {
-        // Pega um novo índice aleatório, garantindo que não seja o mesmo da música atual.
-        currentTrackIndex = getRandomTrackIndex(currentTrackIndex);
-        playMusic();
-    }
+        function playMusic() {
+            if (currentTrackIndex < 0 || currentTrackIndex >= musicPlaylist.length) return;
+            const track = musicPlaylist[currentTrackIndex];
+            audioPlayer.src = track.src;
+            songTitleEl.textContent = track.title;
+            songTitleEl.title = track.title;
+            localStorage.setItem(LAST_TRACK_KEY, currentTrackIndex);
+            audioPlayer.play().catch(error => console.error("Autoplay no pop-up falhou:", error));
+        }
 
-    playPauseBtn.addEventListener('click', () => {
-        if (audioPlayer.paused) {
-            // Se nenhuma música estiver carregada, inicia uma aleatória.
-            if (!audioPlayer.src) {
-                // --- LÓGICA DE INICIALIZAÇÃO APRIMORADA ---
+        function skipMusic() {
+            currentTrackIndex = getRandomTrackIndex(currentTrackIndex);
+            playMusic();
+        }
+
+        // --- NOVA FUNÇÃO: Atualiza o ícone de volume (Mudo, Baixo, Alto) ---
+        function updateVolumeIcon() {
+            if (audioPlayer.volume === 0) {
+                volumeIcon.textContent = '🔇';
+            } else if (audioPlayer.volume < 0.5) {
+                volumeIcon.textContent = '🔉';
+            } else {
+                volumeIcon.textContent = '🔊';
+            }
+        }
+
+        // --- NOVA FUNÇÃO: Atualiza o fundo do slider para mostrar o progresso ---
+        function updateSliderBackground() {
+            const progress = (volumeSlider.value / volumeSlider.max) * 100;
+            volumeSlider.style.background = `linear-gradient(to right, #8e2de2 ${progress}%, #d3d3d3 ${progress}%)`;
+        }
+
+        playPauseBtn.addEventListener('click', () => {
+            if (audioPlayer.paused) {
+                if (!audioPlayer.src) {
+                    const lastPlayedIndex = parseInt(localStorage.getItem(LAST_TRACK_KEY), 10);
+                    currentTrackIndex = getRandomTrackIndex(lastPlayedIndex);
+                    playMusic();
+                } else {
+                    audioPlayer.play();
+                }
+            } else {
+                audioPlayer.pause();
+            }
+        });
+        
+        audioPlayer.addEventListener('play', () => { playPauseBtn.textContent = '⏸️'; });
+        audioPlayer.addEventListener('pause', () => { playPauseBtn.textContent = '▶️'; });
+
+        skipBtn.addEventListener('click', skipMusic);
+        audioPlayer.addEventListener('ended', skipMusic);
+
+        audioPlayer.addEventListener('timeupdate', () => {
+            currentTimeEl.textContent = formatTime(audioPlayer.currentTime);
+        });
+
+        audioPlayer.addEventListener('loadedmetadata', () => {
+            totalDurationEl.textContent = formatTime(audioPlayer.duration);
+        });
+
+        // --- NOVO: Event listener para o slider de volume ---
+        volumeSlider.addEventListener('input', (e) => {
+            const newVolume = e.target.value;
+            audioPlayer.volume = newVolume;
+            localStorage.setItem(LAST_VOLUME_KEY, newVolume);
+            updateVolumeIcon();
+            updateSliderBackground();
+        });
+
+        // --- NOVO: Event listener para o ícone de volume (mutar/desmutar) ---
+        volumeIcon.addEventListener('click', () => {
+            if (audioPlayer.volume > 0) {
+                volumeSlider.setAttribute('data-last-volume', audioPlayer.volume);
+                audioPlayer.volume = 0;
+                volumeSlider.value = 0;
+            } else {
+                const lastVolume = volumeSlider.getAttribute('data-last-volume') || 0.5;
+                audioPlayer.volume = lastVolume;
+                volumeSlider.value = lastVolume;
+            }
+            updateVolumeIcon();
+            updateSliderBackground();
+        });
+
+        // Lógica de inicialização do player
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- NOVO: Carrega o último volume salvo ou define um padrão ---
+            const savedVolume = localStorage.getItem(LAST_VOLUME_KEY) || 0.5;
+            audioPlayer.volume = savedVolume;
+            volumeSlider.value = savedVolume;
+            updateVolumeIcon();
+            updateSliderBackground();
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const shouldAutoplay = urlParams.get('autoplay') === 'true';
+
+            if (shouldAutoplay) {
                 const lastPlayedIndex = parseInt(localStorage.getItem(LAST_TRACK_KEY), 10);
                 currentTrackIndex = getRandomTrackIndex(lastPlayedIndex);
                 playMusic();
-            } else {
-                audioPlayer.play();
             }
-        } else {
-            audioPlayer.pause();
-        }
-    });
-    
-    audioPlayer.addEventListener('play', () => { playPauseBtn.textContent = '⏸️'; });
-    audioPlayer.addEventListener('pause', () => { playPauseBtn.textContent = '▶️'; });
-
-    skipBtn.addEventListener('click', skipMusic);
-    audioPlayer.addEventListener('ended', skipMusic);
-
-    audioPlayer.addEventListener('timeupdate', () => {
-        currentTimeEl.textContent = formatTime(audioPlayer.currentTime);
-    });
-
-    audioPlayer.addEventListener('loadedmetadata', () => {
-        totalDurationEl.textContent = formatTime(audioPlayer.duration);
-    });
-    
-    audioPlayer.volume = 0.05;
-
-    // Lógica para iniciar a música automaticamente ao abrir o pop-up.
-    document.addEventListener('DOMContentLoaded', () => {
-        const urlParams = new URLSearchParams(window.location.search);
-        const shouldAutoplay = urlParams.get('autoplay') === 'true';
-
-        if (shouldAutoplay) {
-            console.log("Autoplay solicitado. Iniciando música...");
-            // --- LÓGICA DE INICIALIZAÇÃO APRIMORADA ---
-            // 1. Lê o índice da última música tocada.
-            const lastPlayedIndex = parseInt(localStorage.getItem(LAST_TRACK_KEY), 10);
-            
-            // 2. Pega um novo índice aleatório, excluindo o último.
-            currentTrackIndex = getRandomTrackIndex(lastPlayedIndex);
-            
-            // 3. Toca a nova música.
-            playMusic();
-        }
-    });
-</script>
-
-
+        });
+    </script>
 </body>
 </html>

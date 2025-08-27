@@ -432,7 +432,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 playerWindow = window.open(
                     'player.html?autoplay=true', // Adicionamos ?autoplay=true
                     'MusicPlayer', 
-                    'width=350,height=200,scrollbars=no,resizable=no'
+                    'width=300,height=400,scrollbars=no,resizable=no'
                 );
 
             } else {
