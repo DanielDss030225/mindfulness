@@ -155,10 +155,16 @@ class AuthManager {
 
         const userName = document.getElementById('userName');
                 const userName2 = document.getElementById('userName2');
+if (userName) {
+    let name = user.displayName || 'Usuário';
+    if (name.length > 12) {
+        name = name.substring(0, 12) + '...';
+    }
+    userName.textContent = name;
+}
 
-        if (userName) {
-            userName.textContent = user.displayName || 'Usuário';
-        }
+                 
+       
         
   if (userName2) {
             userName2.textContent = user.displayName || 'Usuário';

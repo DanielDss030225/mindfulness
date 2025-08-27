@@ -479,6 +479,10 @@ font-size: 18px;
     color: #888;
 }
 
+ #userName {
+        width: 100px;
+        font-size: 18px;
+    }
 
 
 
