@@ -411,34 +411,44 @@ screens.forEach(screen => {
 
 // Também pode chamar no carregamento inicial
 window.addEventListener('DOMContentLoaded', atualizarHeaderVisibilidade);
+// Em js/main.js ou um arquivo de script principal
 
 document.addEventListener('DOMContentLoaded', function() {
     const openPlayerBtn = document.getElementById('openPlayerBtn');
     let playerWindow = null;
 
     if (openPlayerBtn) {
-        openPlayerBtn.addEventListener('click', () => {
-            // Verifica se a janela já está aberta ou foi fechada
+        openPlayerBtn.addEventListener('click', (event) => {
+            event.preventDefault(); // Previne qualquer comportamento padrão do link <a>
+
+            // Verifica se a janela do player já está aberta ou foi fechada pelo usuário
             if (playerWindow === null || playerWindow.closed) {
                 
-                // --- INÍCIO DA MÁGICA DO AUTOPLAY ---
-                // 1. Cria um áudio "fantasma" para obter a permissão do navegador.
-                const ghostAudio = new Audio();
-                ghostAudio.muted = true; // Toca silenciosamente para não incomodar.
-                ghostAudio.play().catch(e => console.warn("Autoplay pre-flight failed, but we proceed."));
-                // --- FIM DA MÁGICA DO AUTOPLAY ---
+                // --- A MÁGICA ACONTECE AQUI ---
 
-                // 2. Abre a janela pop-up, adicionando um parâmetro na URL.
+                // 1. Abre a nova janela/aba. O navegador móvel a trará para o primeiro plano.
                 playerWindow = window.open(
-                    'player.html?autoplay=true', // Adicionamos ?autoplay=true
+                    'player.html?autoplay=true',
                     'MusicPlayer', 
-                    'width=300,height=400,scrollbars=no,resizable=no'
+                    'width=350,height=400,scrollbars=no,resizable=no'
                 );
 
+                // 2. Imediatamente, traz o foco de volta para a janela principal.
+                // Isso faz com que a aba do player vá para segundo plano no celular.
+                if (playerWindow) {
+                    window.focus();
+                }
+                
+                // O "truque" do áudio fantasma para ajudar no autoplay ainda é uma boa prática.
+                const ghostAudio = new Audio();
+                ghostAudio.muted = true;
+                ghostAudio.play().catch(e => console.warn("Autoplay pre-flight check."));
+
             } else {
-                // Se a janela já estiver aberta, apenas a foca.
+                // Se a janela já estiver aberta, apenas a foca (útil no desktop).
                 playerWindow.focus();
             }
         });
     }
 });
+
