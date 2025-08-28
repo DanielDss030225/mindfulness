@@ -436,11 +436,7 @@ margin-bottom: 10px;
     .alternative-text {
         font-size: 15px;
     }
-    
-    .setup-content {
-        padding: 25px;
-    }
-    
+ 
     .result-container {
         padding: 25px;
     }
@@ -865,9 +861,12 @@ margin-bottom: 10px;
 }
 .setup-content {
         margin-top: 30px;
-
+        margin-right: 0px;
+        width: 90%;
+        margin-bottom: 200px;
 }
-
+#quiz-setup-screen {
+padding: 0px;}
 .fundoProfessora {
     display: none;
 }
