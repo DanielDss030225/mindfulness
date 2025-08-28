@@ -104,6 +104,9 @@
             border: 2px solid white;
             box-shadow: 0 0 4px rgba(0,0,0,0.2);
         }
+        .share-btn {
+            margin-top: 30px;
+        }
     </style>
 </head>
 <body>
@@ -126,7 +129,7 @@
         <input type="range" id="volumeSlider" min="0" max="1" step="0.01">
     </div>
                 <div class="header-actions">
-                    <button id="resolverQuestoes" class="share-btn">
+                    <button id="resolverQuestoes" class="share-btn" onclick="window.open('https://www.google.com', '_blank')">
                         <span class="icon">🌐</span>
                         Continuar navegando
                     </button>

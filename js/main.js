@@ -438,9 +438,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (playerWindow) {
                     // Um pequeno atraso pode aumentar a confiabilidade em alguns navegadores
                     setTimeout(() => {
-                        alert("index.html obteve foco");
                         window.focus();
-                    }, 500); 
+                    }, 100); 
                 }
                 
             } else {
