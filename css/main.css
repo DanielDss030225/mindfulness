@@ -1931,7 +1931,9 @@ padding-bottom: 0px;
     box-shadow: 0 0 20px rgba(24, 119, 242, 0.3) !important;
     animation: highlightPulse 2s ease-in-out;
 }
-
+.mini{
+    font-size: 10px;
+}
 @keyframes highlightPulse {
     0%, 100% { 
         box-shadow: 0 0 20px rgba(24, 119, 242, 0.3);
@@ -1965,11 +1967,6 @@ padding-bottom: 0px;
         margin-left: 0;
     }
  
-    
-    .menu-btn {
-        padding: 15px;
-        font-size: 16px;
-    }
     
     .modal-content {
         width: 95%;
@@ -2033,31 +2030,85 @@ padding-bottom: 0px;
   }
   .game-header p { display: none; }
 
+
 .menu-content {
   position: fixed;
-  bottom: 0;         /* fixa no rodapé */
-  left: 0;           /* gruda na esquerda */
-  right: 0;          /* gruda na direita */
-  z-index: 999;      /* fica acima dos outros */
-  
-  display: flex;
-  justify-content: center;  /* centraliza os itens */
-  align-items: center;
-  gap: 0px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
 
   width: 100%;
-  height: 80px;     /* altura da barra inferior */
+  height: 100px;
   padding: 0px;
-  overflow: hidden;
 
-  background: linear-gradient(135deg, #000000 0%, #8d61b9 100%); /* opcional */
-  border-top-left-radius: 20px;   /* arredonda cantos superiores */
-  border-top-right-radius: 20px;
-  box-shadow: 0 -2px 8px rgba(0,0,0,0.2); /* sombra pra destacar */
+  display: flex;
+  align-items: start;
+  justify-content: flex-start;   /* 🔥 força início à esquerda */
+
+  overflow-x: auto;              
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+
+  background: linear-gradient(135deg, #000000 0%, #8d61b9 100%);
+  box-shadow: 0 -2px 8px rgba(0,0,0,0.2);
+    margin: 0px;
+
+}
+
+#adminBtn {
+  flex: 0 0 auto;   /* 🔥 largura fixa */
+  width: 100px;
+  text-align: center;
+  padding: 10px;
+  font-size: 12px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  margin: 0px;
+  display: block;
+  height: 90px;
+  margin-right: 0px;
+}
+
+#adminBtn p {
+  margin: 0;
+  font-size: 12px;
+  text-align: center;
 }
 
 
+.menu-options {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;      /* 🔥 não quebra */
+  justify-content: flex-start;  /* 🔥 alinhados à esquerda */
 
+  padding: 5px;
+}
+
+
+.menu-btn {
+  flex: 0 0 auto;   /* 🔥 largura fixa */
+  width: 100px;
+  text-align: center;
+  padding: 10px;
+  font-size: 12px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  margin: 0px;
+  display: block;
+  height: 90px;
+
+}
+
+.menu-btn p {
+    text-align: center;
+    font-size: 12px;
+      margin: 0px;
+
+}
 
   .feedFixo {
     margin-left: 0px;
@@ -2083,47 +2134,13 @@ padding-bottom: 0px;
 .professor-character {
     display: none;
 }
-.menu-options {
-  display: flex;
-  flex-direction: row;     /* lado a lado */
-  flex-wrap: wrap;         /* se não couber, quebra p/ próxima linha */
-  justify-content: center; /* centraliza horizontalmente */
-  padding: 0px;
-  height: auto;
-  gap: 30px;
-  margin-top: 55px;
-  width: 100%;
-  padding: 0px;
-border-bottom-left-radius: 30px;
-border-bottom-right-radius:30px;
 
-}
 
-.menu-btn {
-  display: block;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;                /* espaço entre ícone e texto */
-  padding: 10px 10px;
-  font-size: 12px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  height: auto;    /* opcional, para manter todos alinhados */
-text-align: center;
-width: 90px;
-border-radius: 10px;
-
-}
-
-.menu-btn p {
-    text-align: center;
-    font-size: 12px;
-}
 .btn-icon {
   display: inline-block;
   font-size: 12px;
   width: 100%;         /* tamanho do emoji/ícone */
+  margin-bottom: 5px;
 }
 
  .tocarbtn{

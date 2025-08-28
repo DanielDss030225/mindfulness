@@ -176,7 +176,7 @@ if (userName) {
 
         const adminBtn = document.getElementById('adminBtn');
         if (adminBtn) {
-            adminBtn.style.display = this.isAdmin ? 'flex' : 'none';
+            adminBtn.style.display = this.isAdmin ? 'block' : 'none';
         }
 
         window.uiManager.showScreen('main-menu-screen');
