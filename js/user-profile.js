@@ -42,15 +42,25 @@ class UserProfileManager {
         throw new Error('Global managers not available');
     }
 
+
+
+
+
+    
     getUserIdFromURL() {
+
         const urlParams = new URLSearchParams(window.location.search);
         this.currentUserId = urlParams.get('userId');
         
         console.log('URL userId:', this.currentUserId);
         
         if (!this.currentUserId) {
+            const currentUser = localStorage.getItem('mindfulnessUserId');
+
             // Se não há userId na URL, usar o usuário atual logado
-            const currentUser = window.authManager.getCurrentUser();
+                   
+alert('URL userId: ' + currentUser); 
+
             if (currentUser) {
                 this.currentUserId = currentUser.uid;
                 console.log('Using current user ID:', this.currentUserId);
@@ -60,7 +70,7 @@ class UserProfileManager {
                 return;
             }
         }
-    }
+        }
 
     setupEventListeners() {
         // Back button
@@ -441,16 +451,19 @@ async loadAchievements() {
     // 5. Definir a lista de conquistas com a nova lógica para Direito
     const achievements = [
         { id: 1, name: 'Primeira Questão', icon: '🎯', earned: totalQuestions >= 1 },
-        { id: 2, name: '100 Questões', icon: '💯', earned: totalQuestions >= 20 },
+                { id: 4, name: 'Concurseiro Pro', icon: '🔥', earned: totalQuestions >= 20 },
+
         { id: 3, name: 'Acerto Perfeito', icon: '🎪', earned: totalQuestions >= 50 },
-        { id: 4, name: 'Concurseiro Pro', icon: '🔥', earned: totalQuestions >= 100 },
+                { id: 2, name: '100 Questões', icon: '💯', earned: totalQuestions >= 100 },
+
           { id: 5, name: 'Especialista em Português', icon: '📚', earned: portuguesQuestionsCount >= 10 },
         { id: 6, name: 'Mestre do Direito', icon: '⚖️', earned: direitoQuestionsCount >= 10 }, // <-- LÓGICA ADICIONADA AQUI
-        { id: 7, name: 'Milhar de Questões', icon: '🚀', earned: totalQuestions >= 150 },
-        { id: 8, name: '200 Questões', icon: '🏆',earned: totalQuestions >= 200 },
+                { id: 8, name: '200 Questões', icon: '🏆',earned: totalQuestions >= 200 },
         { id: 9, name: 'Mentor da Comunidade', icon: '👨‍🏫', earned: totalQuestions >= 250 },
         { id: 10, name: 'Lenda dos Concursos', icon: '👑', earned: totalQuestions >= 500 },
-        { id: 11, name: '1000 Questões', icon: '⚡',  earned: totalQuestions >= 1000 },
+
+        { id: 7, name: 'Milhar de Questões', icon: '🚀', earned: totalQuestions >= 1000 },
+        { id: 11, name: '2000 Questões', icon: '⚡',  earned: totalQuestions >= 2000 },
         { id: 12, name: '5000 Questões', icon: '💎', earned: totalQuestions >= 5000 },
        
     ];

@@ -11,6 +11,7 @@ class DatabaseManager {
 
     // User Data Management - MÉTODO ADICIONADO PARA CORRIGIR O ERRO
     async getUserData(userId) {
+
         try {
             const snapshot = await this.database.ref(`users/${userId}`).once("value");
             const userData = snapshot.val();
@@ -481,6 +482,7 @@ async getDailyActivity(userId) {
         console.error("Erro ao buscar histórico de atividades:", error);
         throw error;
     }
+    
 }
 
 }

@@ -1407,7 +1407,7 @@ textarea:focus {
 
 .menu-content {
   position: fixed;
-  background: linear-gradient(135deg, #000000 0%, #8d61b9 100%);
+  background: linear-gradient(90deg, #000000 00%, #8d61b9 100%);
   height: 100vh;
   width: 30%;
   overflow-y: auto;
@@ -1945,7 +1945,7 @@ padding-bottom: 0px;
 
 
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1000px) {
     #music-player-launcher {
         width: 50px;
         padding: 5px;
@@ -2081,10 +2081,12 @@ padding-bottom: 0px;
 .menu-options {
   display: flex;
   flex-direction: row;
-  flex-wrap: nowrap;      /* 🔥 não quebra */
-  justify-content: flex-start;  /* 🔥 alinhados à esquerda */
-
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: start;
   padding: 5px;
+  max-width: none; /* remove qualquer restrição máxima */
+  width: auto;
 }
 
 

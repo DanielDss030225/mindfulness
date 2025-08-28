@@ -28,14 +28,45 @@ class UIManager {
             startQuizBtn.addEventListener('click', () => this.showScreen('quiz-setup-screen'));
         }
 
-        if (profileBtn) {
-            profileBtn.addEventListener('click', () => {
-                this.showScreen('profile-screen');
-                if (window.profileManager) {
-                    window.profileManager.loadUserStats();
-                }
-            });
+       
+       // Em main.js (ou ui-manager.js), dentro da classe UIManager no método setupEventListeners
+
+// ... outros listeners ...
+
+if (profileBtn) {
+    profileBtn.addEventListener('click', () => {
+        const currentUser = window.authManager.getCurrentUser();
+        if (currentUser) {
+            // 1. Mostra a tela de perfil
+            this.showScreen('profile-screen');
+
+            // 2. Chama o profile.js para carregar as estatísticas e o gráfico
+            if (window.profileManager) {
+                window.profileManager.loadUserStats();
+            }
+
+            // 3. Chama o user-profile.js para carregar conquistas e sequência
+            // Verifica se o perfil local já foi inicializado para não recarregar
+            if (!window.localProfileManager) {
+                console.log("Initializing local user profile modules (achievements, streak).");
+                
+                // Cria uma instância do manager com o prefixo 'local-'
+                window.localProfileManager = new UserProfileManager('local-');
+                
+                // Inicia o carregamento passando o ID do usuário logado
+                window.localProfileManager.init(currentUser.uid);
+            }
+        } else {
+            console.error("No user logged in to show profile.");
+            this.showModal("Erro", "Você precisa estar logado para ver seu perfil.");
         }
+    });
+}
+
+// ... outros listeners ...
+
+
+
 
         if (adminBtn) {
             adminBtn.addEventListener('click', () => {

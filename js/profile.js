@@ -681,6 +681,88 @@ class ProfileManager {
             }
         );
     }
+
+
+    // Adicione este novo método dentro da classe ProfileManager em js/profile.js
+
+async loadAndDisplayAchievements(userId, containerId) {
+    const achievementsContainer = document.getElementById(containerId);
+    if (!achievementsContainer) {
+        console.error(`Container de conquistas com ID '${containerId}' não encontrado.`);
+        return;
+    }
+
+    try {
+        // 1. Buscar as estatísticas do usuário (total de questões)
+        const userStats = await window.databaseManager.getUserStats(userId);
+        const totalQuestions = userStats.totalQuestions || 0;
+
+        // Se o usuário não respondeu nenhuma questão, exibe uma mensagem padrão
+        if (totalQuestions === 0) {
+            achievementsContainer.innerHTML = `
+                <div class="no-achievements-message">
+                    <p>🌱 Comece a responder questões para desbloquear suas primeiras conquistas!</p>
+                </div>`;
+            // Garante que o cabeçalho também seja atualizado
+            const achievementCountElement = document.getElementById('achievementCount2');
+            if(achievementCountElement) achievementCountElement.textContent = 'Nenhuma conquista ainda';
+            return;
+        }
+
+        // 2. Buscar detalhes para conquistas específicas (Português, Direito, etc.)
+        const answeredQuestions = await window.databaseManager.getAnsweredQuestionsDetails(userId);
+        const allCategories = await window.databaseManager.getCategories();
+        
+        let portuguesCategoryId = null;
+        let direitoCategoryId = null;
+
+        for (const id in allCategories) {
+            const categoryName = allCategories[id].name.toLowerCase();
+            if (categoryName === 'português') portuguesCategoryId = id;
+            if (categoryName === 'direito') direitoCategoryId = id;
+        }
+
+        const portuguesQuestionsCount = portuguesCategoryId ? answeredQuestions.filter(q => q.category === portuguesCategoryId).length : 0;
+        const direitoQuestionsCount = direitoCategoryId ? answeredQuestions.filter(q => q.category === direitoCategoryId).length : 0;
+
+        // 3. Definir a lista de todas as conquistas e verificar quais foram ganhas
+        const achievements = [
+            { id: 1, name: 'Primeira Questão', icon: '🎯', earned: totalQuestions >= 1 },
+            { id: 4, name: 'Concurseiro Pro', icon: '🔥', earned: totalQuestions >= 20 },
+            { id: 3, name: 'Acerto Perfeito', icon: '🎪', earned: totalQuestions >= 50 },
+            { id: 2, name: '100 Questões', icon: '💯', earned: totalQuestions >= 100 },
+            { id: 5, name: 'Especialista em Português', icon: '📚', earned: portuguesQuestionsCount >= 10 },
+            { id: 6, name: 'Mestre do Direito', icon: '⚖️', earned: direitoQuestionsCount >= 10 },
+            { id: 8, name: '200 Questões', icon: '🏆', earned: totalQuestions >= 200 },
+            { id: 9, name: 'Mentor da Comunidade', icon: '👨‍🏫', earned: totalQuestions >= 250 },
+            { id: 10, name: 'Lenda dos Concursos', icon: '👑', earned: totalQuestions >= 500 },
+            { id: 7, name: 'Milhar de Questões', icon: '🚀', earned: totalQuestions >= 1000 },
+            { id: 11, name: '2000 Questões', icon: '⚡', earned: totalQuestions >= 2000 },
+            { id: 12, name: '5000 Questões', icon: '💎', earned: totalQuestions >= 5000 },
+        ];
+
+        // 4. Renderizar as conquistas no container especificado
+        const earnedCount = achievements.filter(a => a.earned).length;
+        
+        // Atualiza o contador de conquistas (se existir na página)
+        const achievementCountElement = document.getElementById('achievementCount2');
+        if(achievementCountElement) {
+            achievementCountElement.textContent = `${earnedCount} de ${achievements.length} desbloqueadas`;
+        }
+
+        achievementsContainer.innerHTML = achievements.map(achievement => `
+            <div class="achievement-badge ${achievement.earned ? 'earned' : ''}" title="${achievement.name}">
+                <span class="achievement-icon">${achievement.icon}</span>
+                <div class="achievement-name">${achievement.name}</div>
+            </div>
+        `).join('');
+
+    } catch (error) {
+        console.error("Erro ao carregar e exibir conquistas:", error);
+        achievementsContainer.innerHTML = `<p style="color: red; text-align: center;">Erro ao carregar conquistas.</p>`;
+    }
+}
+
 }
 
 // Initialize Profile Manager

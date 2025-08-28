@@ -107,9 +107,7 @@ class AuthManager {
 
             const userCredential = await window.firebaseServices.auth.createUserWithEmailAndPassword(email, password);
             const user = userCredential.user;
-
             await user.updateProfile({ displayName: name });
-
             await this.createUserProfile(user.uid, {
                 name,
                 email,
@@ -152,23 +150,27 @@ class AuthManager {
 
     onUserLoggedIn(user) {
         console.log('User logged in:', user.email);
+ 
+    // Se você precisasse do ID aqui, você o obteria com:
+           
+
 
         const userName = document.getElementById('userName');
-                const userName2 = document.getElementById('userName2');
+        const userName3 = document.getElementById('userName3');
+
+
 if (userName) {
-    let name = user.displayName || 'Usuário';
+    let name = user.displayName || 'Usuáriosss';
     if (name.length > 12) {
         name = name.substring(0, 12) + '...';
     }
+   userName3.textContent = user.displayName || 'Usuário';
     userName.textContent = name;
 }
 
                  
        
-        
-  if (userName2) {
-            userName2.textContent = user.displayName || 'Usuário';
-        }
+
 
         if (window.profilePictureManager) {
             window.profilePictureManager.loadUserProfilePicture();
@@ -296,6 +298,62 @@ if (userName) {
             console.error('Error updating user stats:', error);
         }
     }
+
+// Em js/auth.js, dentro da classe AuthManager
+
+onUserLoggedIn(user) {
+    console.log('User logged in:', user.email);
+
+    const userId = user.uid;
+    localStorage.removeItem('mindfulnessUserId');
+    localStorage.setItem('mindfulnessUserId', userId);
+    console.log('New userId saved to localStorage:', userId);
+
+    const userName = document.getElementById('userName');
+
+        const userName3 = document.getElementById('userName3');
+
+    if (userName) {
+        let name = user.displayName || 'Usuário';
+        if (name.length > 12) {
+            name = name.substring(0, 12) + '...';
+        }
+        userName.textContent = name;
+           userName3.textContent = user.displayName || 'Usuário';
+
+    }
+
+    if (window.profilePictureManager) {
+        window.profilePictureManager.loadUserProfilePicture();
+    }
+
+    const adminBtn = document.getElementById('adminBtn');
+    if (adminBtn) {
+        adminBtn.style.display = this.isAdmin ? 'block' : 'none';
+    }
+
+    window.uiManager.showScreen('main-menu-screen');
+    this.updateProfessorMessage();
+
+    // ==================================================================
+    // ▼▼▼ ADIÇÃO PRINCIPAL AQUI ▼▼▼
+    // Carrega as conquistas na página principal.
+    // ==================================================================
+    if (window.profileManager && userId) {
+        // O 'achievementsListMainMenu' é o ID do container que adicionamos no index.html
+        window.profileManager.loadAndDisplayAchievements(userId, 'achievementsListMainMenu');
+    }
+    // ==================================================================
+
+    if (this.justLoggedIn) {
+        this.justLoggedIn = false;
+        // A linha abaixo recarrega a página, o que também funcionará,
+        // mas a chamada acima garante que as conquistas carreguem sem precisar recarregar.
+        this.reloadApp(); 
+    }
+}
+
+    
 }
 
 // Initialize authentication manager
