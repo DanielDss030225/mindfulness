@@ -250,13 +250,28 @@ justify-content: center;
 text-align: center;
 background-color: #e4e4e4;
 border-radius: 10px;
-padding: 5px;
+padding: 0px;
 cursor: pointer;
 width: 100%;
 }
-.ouvirMusica {
-    font-size: 10px;
+
+#openPlayerBtn {
+    height: 100%;
 }
+.tocarbtn {
+    width: 100%;
+    margin: 0px;
+padding-top: 3px;
+}
+.ouvirMusica {
+
+    font-size: 10px;
+    width: 100%;
+    margin: 0px;
+    background-color: none;
+padding-bottom: 3px;
+}
+
 /* Estilos para o Player de Música */
 #music-player-container {
     display: flex;
@@ -1931,8 +1946,11 @@ padding-bottom: 0px;
 @media screen and (max-width: 768px) {
     #music-player-launcher {
         width: 50px;
-        
+        padding: 5px;
     }
+
+   
+
 .logoCabecalho {
     display: none;
 }
@@ -2108,6 +2126,8 @@ border-radius: 10px;
   width: 100%;         /* tamanho do emoji/ícone */
 }
 
-
+ .tocarbtn{
+        display: flex;
+    }
 
 }

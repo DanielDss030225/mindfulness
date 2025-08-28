@@ -412,43 +412,74 @@ screens.forEach(screen => {
 // Também pode chamar no carregamento inicial
 window.addEventListener('DOMContentLoaded', atualizarHeaderVisibilidade);
 // Em js/main.js ou um arquivo de script principal
-
 document.addEventListener('DOMContentLoaded', function() {
     const openPlayerBtn = document.getElementById('openPlayerBtn');
-    let playerWindow = null;
+    let playerWindow = null; // Variável para guardar a referência da janela do player
 
     if (openPlayerBtn) {
         openPlayerBtn.addEventListener('click', (event) => {
-            event.preventDefault(); // Previne qualquer comportamento padrão do link <a>
+            event.preventDefault(); // Impede que o link <a> navegue
 
-            // Verifica se a janela do player já está aberta ou foi fechada pelo usuário
+            // Verifica se a janela do player não existe ou se foi fechada pelo usuário
             if (playerWindow === null || playerWindow.closed) {
                 
-                // --- A MÁGICA ACONTECE AQUI ---
+                // --- A LÓGICA PRINCIPAL ACONTECE AQUI ---
 
-                // 1. Abre a nova janela/aba. O navegador móvel a trará para o primeiro plano.
+                // 1. Abre a nova janela (pop-up). Em um celular, ela aparecerá na frente.
+                // Passamos 'autoplay=true' para que o player saiba que deve tocar imediatamente.
                 playerWindow = window.open(
-                    'player.html?autoplay=true',
-                    'MusicPlayer', 
-                    'width=350,height=400,scrollbars=no,resizable=no'
+                    'player.html?autoplay=true', // A URL do seu player com o parâmetro
+                    'MusicPlayer',               // Um nome para a janela
+                    'width=350,height=450,scrollbars=no,resizable=no' // Opções da janela
                 );
 
-                // 2. Imediatamente, traz o foco de volta para a janela principal.
-                // Isso faz com que a aba do player vá para segundo plano no celular.
+                // 2. Imediatamente após abrir, traz o foco de volta para a janela principal.
+                // Este é o passo crucial que faz a janela do player ir para segundo plano no celular.
                 if (playerWindow) {
-                    window.focus();
+                    // Um pequeno atraso pode aumentar a confiabilidade em alguns navegadores
+                    setTimeout(() => {
+                        alert("index.html obteve foco");
+                        window.focus();
+                    }, 500); 
                 }
                 
-                // O "truque" do áudio fantasma para ajudar no autoplay ainda é uma boa prática.
-                const ghostAudio = new Audio();
-                ghostAudio.muted = true;
-                ghostAudio.play().catch(e => console.warn("Autoplay pre-flight check."));
-
             } else {
-                // Se a janela já estiver aberta, apenas a foca (útil no desktop).
+                // Se a janela já estiver aberta, apenas a foca (mais útil em desktops).
                 playerWindow.focus();
             }
         });
     }
+});
+
+/**
+ * Função para atualizar a visibilidade do header com base na tela ativa.
+ * O header não deve aparecer na tela de login.
+ */
+function atualizarHeaderVisibilidade() {
+    const header = document.querySelector('.game-header');
+    const loginScreen = document.getElementById('login-screen');
+
+    if (header && loginScreen) {
+        if (loginScreen.classList.contains('active')) {
+            header.style.display = 'none'; // Esconde o header na tela de login
+        } else {
+            header.style.display = ''; // Mostra o header em todas as outras telas
+        }
+    }
+}
+
+// Monitora mudanças nas classes das telas para atualizar o header
+document.addEventListener('DOMContentLoaded', () => {
+    const screens = document.querySelectorAll('.screen');
+    const observer = new MutationObserver(() => {
+        atualizarHeaderVisibilidade();
+    });
+
+    screens.forEach(screen => {
+        observer.observe(screen, { attributes: true, attributeFilter: ['class'] });
+    });
+
+    // Garante que o estado inicial está correto
+    atualizarHeaderVisibilidade();
 });
 

@@ -125,6 +125,12 @@
         <span id="volumeIcon">🔊</span>
         <input type="range" id="volumeSlider" min="0" max="1" step="0.01">
     </div>
+                <div class="header-actions">
+                    <button id="resolverQuestoes" class="share-btn">
+                        <span class="icon">🌐</span>
+                        Continuar navegando
+                    </button>
+                </div>
 
     <script>
         // --- SEU CÓDIGO JAVASCRIPT EXISTENTE ---
@@ -251,24 +257,32 @@
             updateSliderBackground();
         });
 
-        // Lógica de inicialização do player
-        document.addEventListener('DOMContentLoaded', () => {
-            // --- NOVO: Carrega o último volume salvo ou define um padrão ---
-            const savedVolume = localStorage.getItem(LAST_VOLUME_KEY) || 0.5;
-            audioPlayer.volume = savedVolume;
-            volumeSlider.value = savedVolume;
-            updateVolumeIcon();
-            updateSliderBackground();
+      // Dentro da tag <script> de player.html
 
-            const urlParams = new URLSearchParams(window.location.search);
-            const shouldAutoplay = urlParams.get('autoplay') === 'true';
+// Lógica de inicialização do player
+document.addEventListener('DOMContentLoaded', () => {
+    // Carrega o último volume salvo ou define um padrão
+    const savedVolume = localStorage.getItem('mindfulness_last_volume') || 0.5;
+    audioPlayer.volume = savedVolume;
+    volumeSlider.value = savedVolume;
+    updateVolumeIcon();
+    updateSliderBackground();
 
-            if (shouldAutoplay) {
-                const lastPlayedIndex = parseInt(localStorage.getItem(LAST_TRACK_KEY), 10);
-                currentTrackIndex = getRandomTrackIndex(lastPlayedIndex);
-                playMusic();
-            }
-        });
+    // --- ESTA PARTE É ESSENCIAL ---
+    // Pega os parâmetros da URL para decidir se deve tocar automaticamente
+    const urlParams = new URLSearchParams(window.location.search);
+    const shouldAutoplay = urlParams.get('autoplay') === 'true';
+
+    if (shouldAutoplay) {
+        // Se o autoplay for solicitado, inicia a música
+        const lastPlayedIndex = parseInt(localStorage.getItem('mindfulness_last_track_index'), 10);
+        currentTrackIndex = isNaN(lastPlayedIndex) ? getRandomTrackIndex() : getRandomTrackIndex(lastPlayedIndex);
+        playMusic();
+    }
+});
+
+
+
     </script>
 </body>
 </html>
