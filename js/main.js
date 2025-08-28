@@ -449,20 +449,27 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
-
 /**
  * Função para atualizar a visibilidade do header com base na tela ativa.
  * O header não deve aparecer na tela de login.
+ * Também salva no localStorage se o usuário está em desktop ("sim") ou não ("não").
  */
 function atualizarHeaderVisibilidade() {
     const header = document.querySelector('.game-header');
     const loginScreen = document.getElementById('login-screen');
 
+    // Detecta se é desktop (largura mínima de 1024px, pode ajustar)
+    const isDesktop = window.innerWidth >= 1024;
+
+    // Salva no localStorage (substitui valor anterior)
+    localStorage.setItem('ehDesktop', isDesktop ? 'sim' : 'não');
+
+    // Atualiza visibilidade do header
     if (header && loginScreen) {
         if (loginScreen.classList.contains('active')) {
             header.style.display = 'none'; // Esconde o header na tela de login
         } else {
-            header.style.display = ''; // Mostra o header em todas as outras telas
+            header.style.display = ''; // Mostra o header em outras telas
         }
     }
 }
@@ -481,4 +488,3 @@ document.addEventListener('DOMContentLoaded', () => {
     // Garante que o estado inicial está correto
     atualizarHeaderVisibilidade();
 });
-

@@ -107,6 +107,12 @@
         .share-btn {
             margin-top: 30px;
         }
+.header-actions {
+    align-items: center;
+    justify-content: center;
+                display: none;
+
+}
     </style>
 </head>
 <body>
@@ -124,12 +130,12 @@
     <div id="songTitle">Selecione uma música</div>
 
     <!-- --- NOVO: HTML para o Controle de Volume --- -->
-    <div class="volume-control">
+    <div class="volume-control">Volúme.
         <span id="volumeIcon">🔊</span>
         <input type="range" id="volumeSlider" min="0" max="1" step="0.01">
     </div>
-                <div class="header-actions">
-                    <button id="resolverQuestoes" class="share-btn" onclick="window.open('https://www.google.com', '_blank')">
+                <div id="fundobutton" class="header-actions">
+                    <button id="resolverQuestoes" class="share-btn" onclick="window.open('https://danieldss030225.github.io/mindfulness/', '_blank')">
                         <span class="icon">🌐</span>
                         Continuar navegando
                     </button>
@@ -283,6 +289,24 @@ document.addEventListener('DOMContentLoaded', () => {
         playMusic();
     }
 });
+
+// Recupera o valor salvo no localStorage
+const ehDesktop = localStorage.getItem('ehDesktop');
+
+// Verifica// Seleciona o botão
+
+const fundobutton = document.getElementById('fundobutton');
+
+// Verifica se o botão existe antes de tentar modificar
+if (fundobutton) {
+    if (ehDesktop === 'não') {
+        // Mostrar o botão em dispositivos que não são desktop
+        fundobutton.style.display = 'flex';
+    } else {
+        // Esconder o botão em desktop ou se valor for "sim"
+        fundobutton.style.display = 'none';
+    }
+}
 
 
 
