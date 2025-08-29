@@ -171,7 +171,7 @@ class NotificationManager {
             if (notification.parentNode) {
                 this.hideVisualNotification(notification);
             }
-        }, 5000);
+        }, 1000);
     }
 
     hideVisualNotification(notification) {
@@ -180,7 +180,7 @@ class NotificationManager {
             if (notification.parentNode) {
                 notification.parentNode.removeChild(notification);
             }
-        }, 300);
+        }, 500);
     }
 
     showBrowserNotification(type, message, conversationId) {
@@ -263,7 +263,7 @@ class NotificationManager {
         }
     }
 
-    showWelcomeNotification() {
+   // showWelcomeNotification() {
         if (!this.isEnabled) return;
 
         const notification = document.createElement('div');
@@ -305,7 +305,7 @@ class NotificationManager {
             if (notification.parentNode) {
                 this.hideVisualNotification(notification);
             }
-        }, 4000);
+        }, 1000);
     }
 
     handleOnlineUsersUpdate(users) {

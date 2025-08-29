@@ -109,7 +109,7 @@
 
 /* Header do chat */
 .chat-header {
-    background: linear-gradient(135deg, var(--chat-primary) 0%, var(--chat-secondary) 100%);
+    background: linear-gradient(135deg, #2f2f2f 0%, #764ba2 100%);
     color: white;
     padding: 15px 20px;
     display: flex;
@@ -248,7 +248,7 @@
 
 /* Lista de usuários online */
 .chat-users-list {
-    height: 80px;
+    height: 70px;
     overflow-y: auto;
     border-bottom: 1px solid var(--chat-border);
 }
@@ -307,6 +307,7 @@ margin-right: 6px;
     align-items: center;    /* alinha no eixo vertical */
     gap: 6px;               /* espaço entre avatar, nome e status */
     border-radius: 8px;     /* opcional, deixa arredondado */
+    
 }
 
 .chat-user-last-seen {
@@ -346,6 +347,67 @@ margin-right: 6px;
     
 }
 
+
+    
+.chat-content {
+    height: 100vh;
+}
+.chat-panel {
+    width: 100%;
+}
+.chat-search {
+    height: 70px;
+}
+
+
+.fundoMensagens {
+  flex: 1 1 auto; /* <- ocupa todo o espaço entre header e input */
+  overflow: hidden; /* não precisa de rolagem aqui */
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-messages {
+  flex: 1 1 auto;
+  overflow-y: auto; /* <- rolagem funciona */
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.chat-input-area {
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #f8f8f8;
+  border-top: 1px solid #ccc;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  box-sizing: border-box;
+  z-index: 100;
+}
+
+
+
+.fundoMensagens2 {
+  flex: 1 1 auto; /* <- ocupa todo o espaço entre header e input */
+  overflow: hidden; /* não precisa de rolagem aqui */
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-messages2 {
+  flex: 1 1 auto;
+  overflow-y: auto; /* <- rolagem funciona */
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  box-sizing: border-box;
+}
 
 
 
@@ -978,6 +1040,16 @@ width: 200px;
     margin: 0;
     line-height: 1.4;
 }
+.chat-window {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 30%;
+    height: 100vh;
+    border-radius: 0;
+    z-index: 9900;
+}
 
 /* Responsividade */
 @media (max-width: 1000px) {
@@ -1013,38 +1085,71 @@ width: 200px;
     }
 
     
+.chat-content {
+    height: 100vh;
+}
+.chat-panel {
+    width: 100%;
+}
+.chat-search {
+    height: 70px;
+}
+
+
 .fundoMensagens {
-  height: 520px;
-  overflow-y: auto;
+  flex: 1 1 auto; /* <- ocupa todo o espaço entre header e input */
+  overflow: hidden; /* não precisa de rolagem aqui */
   padding: 10px;
   display: flex;
-  flex-direction: column; /* normal */
+  flex-direction: column;
 }
 
-
-/* Área de mensagens */
 .chat-messages {
-  display: inline-block;
-    min-height: 500px; 
-    
+  flex: 1 1 auto;
+  overflow-y: auto; /* <- rolagem funciona */
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  box-sizing: border-box;
 }
+
+.chat-input-area {
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #f8f8f8;
+  border-top: 1px solid #ccc;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  box-sizing: border-box;
+  z-index: 100;
+}
+
+
 
 .fundoMensagens2 {
-  height: 659px;            /* Altura fixa para ativar a rolagem */
-  overflow-y: auto;         /* Rolagem vertical */
-  padding: 10px;            /* Opcional: espaço interno */
+  flex: 1 1 auto; /* <- ocupa todo o espaço entre header e input */
+  overflow: hidden; /* não precisa de rolagem aqui */
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
 }
 
-/* Área de mensagens */
 .chat-messages2 {
-  display: inline-block;
-     height: 600px;
-
-    
+  flex: 1 1 auto;
+  overflow-y: auto; /* <- rolagem funciona */
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  box-sizing: border-box;
 }
+
+
 .chat-users-list {
     height: 150px;
 }
+
 
 }
 

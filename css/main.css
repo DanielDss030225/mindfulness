@@ -2150,3 +2150,13 @@ padding-bottom: 0px;
     }
 
 }
+
+.author-link,
+.author-link:visited,
+.author-link:hover,
+.author-link:focus,
+.author-link:active {
+  text-decoration: none;
+  color: inherit;
+  font-weight: 600;
+}

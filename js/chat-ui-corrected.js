@@ -334,7 +334,15 @@ toggleChat() {
             if (fundoMensagens2) {
                 fundoMensagens2.scrollTop = fundoMensagens2.scrollHeight;
             }
-        }, 200);
+              const chatmessages = document.querySelector(".chat-messages");
+            if (chatmessages) {
+                chatmessages.scrollTop = chatmessages.scrollHeight;
+            }
+              const chatmessages2 = document.querySelector(".chat-messages2");
+            if (chatmessages2) {
+                chatmessages2.scrollTop = chatmessages2.scrollHeight;
+            }
+        }, 500);
     }
 }
 
@@ -376,7 +384,7 @@ setTimeout(() => {
     fundoMensagens.scrollTop = fundoMensagens.scrollHeight;
         fundoMensagens2.scrollTop = fundoMensagens2.scrollHeight;
 
-}, 200);
+}, 500);
 
     }
 
@@ -707,10 +715,15 @@ fundoMensagens2.scrollTop = fundoMensagens2.scrollHeight;
             console.error('Error sending global message:', error);
             alert('Erro ao enviar mensagem global: ' + error.message);
         }
-          const fundoMensagens = document.querySelector(".fundoMensagens");
+const fundoMensagens = document.querySelector(".fundoMensagens");
 fundoMensagens.scrollTop = fundoMensagens.scrollHeight;
 const fundoMensagens2 = document.querySelector(".fundoMensagens2");
 fundoMensagens2.scrollTop = fundoMensagens2.scrollHeight;
+
+const chatmessages = document.querySelector(".chat-messages");
+chatmessages.scrollTop = chatmessages.scrollHeight;
+const chatmessages2 = document.querySelector(".chat-messages2");
+chatmessages2.scrollTop = chatmessages2.scrollHeight;
 
 document.getElementById("globalMessageInput").focus();
 
@@ -798,7 +811,7 @@ document.getElementById("privateMessageInput").focus();
                 console.error('Error searching users:', error);
                 this.elements.onlineUsersList.innerHTML = '<div class="chat-empty-state">Erro ao pesquisar usuários.</div>';
             }
-        }, 300);
+        }, 500);
     }
 
    // Dentro da classe ChatUI

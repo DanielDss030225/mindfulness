@@ -587,6 +587,9 @@
 padding: 15px;
 }
 
+
+
+
 /* Estilizar a scrollbar */
 .social-feed-container::-webkit-scrollbar {
     width: 8px;
@@ -605,4 +608,3 @@ padding: 15px;
 .social-feed-container::-webkit-scrollbar-thumb:hover {
     background: #a8a8a8;
 }
-
