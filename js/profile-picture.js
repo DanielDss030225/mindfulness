@@ -199,7 +199,7 @@ class ProfilePictureManager {
             await this.database.ref(`users/${user.uid}/profile/photoURL`).remove();
             await user.updateProfile({ photoURL: null });
 
-            const defaultURL = "https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/default-avatar.png?alt=media&token=default";
+            const defaultURL = "https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/ICONE%20PERFIL.png?alt=media&token=d092ec7f-77b9-404d-82d0-b6ed3ce6810e";
             this.updateProfilePictureDisplay(defaultURL);
 
             window.uiManager.showModal("Sucesso", "Foto de perfil removida com sucesso!", "success");

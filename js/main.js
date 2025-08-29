@@ -478,7 +478,9 @@ function atualizarHeaderVisibilidade() {
 document.addEventListener('DOMContentLoaded', () => {
     const screens = document.querySelectorAll('.screen');
     const observer = new MutationObserver(() => {
+
         atualizarHeaderVisibilidade();
+
     });
 
     screens.forEach(screen => {
@@ -487,4 +489,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Garante que o estado inicial está correto
     atualizarHeaderVisibilidade();
+    // Instancia o ChatManager e o ChatUI para que fiquem disponíveis globalmente
+    window.chatManager = new ChatManager();
+    window.chatUI = new ChatUI();
+
 });

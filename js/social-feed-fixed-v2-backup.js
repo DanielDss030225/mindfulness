@@ -154,7 +154,7 @@ class SocialFeedManager {
         
         if (currentUserProfilePic && this.currentUser) {
             // Usa a URL atualizada se disponível, senão usa a do currentUser
-            const photoURL = this.currentUserPhotoURL || this.currentUser.photoURL || 'https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/default-avatar.png?alt=media&token=default';
+            const photoURL = this.currentUserPhotoURL || this.currentUser.photoURL || 'https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/ICONE%20PERFIL.png?alt=media&token=d092ec7f-77b9-404d-82d0-b6ed3ce6810e';
             currentUserProfilePic.src = photoURL;
         }
         
@@ -620,7 +620,7 @@ class SocialFeedManager {
             }
 
             // Buscar a photoURL mais recente do banco de dados
-            let currentPhotoURL = this.currentUser.photoURL || 'https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/default-avatar.png?alt=media&token=default';
+            let currentPhotoURL = this.currentUser.photoURL || 'https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/ICONE%20PERFIL.png?alt=media&token=d092ec7f-77b9-404d-82d0-b6ed3ce6810e';
             try {
                 const userProfileSnapshot = await firebase.database().ref(`users/${this.currentUser.uid}/profile/photoURL`).once('value');
                 const dbPhotoURL = userProfileSnapshot.val();
@@ -754,7 +754,7 @@ class SocialFeedManager {
                 </div>
 
                 <div class="add-comment-input">
-                    <img src="${this.currentUser?.photoURL || 'https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/default-avatar.png?alt=media&token=default'}" alt="Your Avatar" class="comment-avatar">
+                    <img src="${this.currentUser?.photoURL || 'https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/ICONE%20PERFIL.png?alt=media&token=d092ec7f-77b9-404d-82d0-b6ed3ce6810e'}" alt="Your Avatar" class="comment-avatar">
                     <textarea placeholder="Escreva um comentário..." rows="1" class="comment-input" data-post-id="${post.id}"></textarea>
                     <button class="comment-submit-btn" data-post-id="${post.id}">Enviar</button>
                 </div>
@@ -931,7 +931,7 @@ class SocialFeedManager {
 
         try {
             // Buscar a photoURL mais recente do banco de dados
-            let currentPhotoURL = this.currentUser.photoURL || 'https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/default-avatar.png?alt=media&token=default';
+            let currentPhotoURL = this.currentUser.photoURL || 'https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/ICONE%20PERFIL.png?alt=media&token=d092ec7f-77b9-404d-82d0-b6ed3ce6810e';
             try {
                 const userProfileSnapshot = await firebase.database().ref(`users/${this.currentUser.uid}/profile/photoURL`).once('value');
                 const dbPhotoURL = userProfileSnapshot.val();
@@ -976,7 +976,7 @@ class SocialFeedManager {
 
         try {
             // Buscar a photoURL mais recente do banco de dados
-            let currentPhotoURL = this.currentUser.photoURL || 'https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/default-avatar.png?alt=media&token=default';
+            let currentPhotoURL = this.currentUser.photoURL || 'https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/ICONE%20PERFIL.png?alt=media&token=d092ec7f-77b9-404d-82d0-b6ed3ce6810e';
             try {
                 const userProfileSnapshot = await firebase.database().ref(`users/${this.currentUser.uid}/profile/photoURL`).once('value');
                 const dbPhotoURL = userProfileSnapshot.val();
@@ -1017,7 +1017,7 @@ class SocialFeedManager {
         replyInputContainer.className = 'reply-input-container';
         replyInputContainer.innerHTML = `
             <div class="add-comment-input" style="margin-left: 40px; margin-top: 5px;">
-                <img src="${this.currentUser?.photoURL || 'https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/default-avatar.png?alt=media&token=default'}" alt="Your Avatar" class="comment-avatar">
+                <img src="${this.currentUser?.photoURL || 'https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/ICONE%20PERFIL.png?alt=media&token=d092ec7f-77b9-404d-82d0-b6ed3ce6810e'}" alt="Your Avatar" class="comment-avatar">
                 <textarea placeholder="Escreva uma resposta..." rows="1" class="reply-input"></textarea>
                 <button class="reply-submit-btn">Enviar</button>
                 <button class="reply-cancel-btn">Cancelar</button>

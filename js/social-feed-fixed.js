@@ -31,7 +31,7 @@ class SocialFeedManager {
         const postContentInput = document.getElementById('postContentInput');
         
         if (currentUserProfilePic && this.currentUser) {
-            currentUserProfilePic.src = this.currentUser.photoURL || 'https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/default-avatar.png?alt=media&token=default';
+            currentUserProfilePic.src = this.currentUser.photoURL || 'https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/ICONE%20PERFIL.png?alt=media&token=d092ec7f-77b9-404d-82d0-b6ed3ce6810e';
         }
         
         if (postContentInput && this.currentUser) {
@@ -516,7 +516,7 @@ class SocialFeedManager {
                 imageUrl: imageUrl,
                 authorId: this.currentUser.uid,
                 authorName: this.currentUser.displayName || 'Usuário',
-                authorPhotoURL: this.currentUser.photoURL || 'https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/default-avatar.png?alt=media&token=default',
+                authorPhotoURL: this.currentUser.photoURL || 'https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/ICONE%20PERFIL.png?alt=media&token=d092ec7f-77b9-404d-82d0-b6ed3ce6810e',
                 timestamp: firebase.database.ServerValue.TIMESTAMP,
                 likes: {},
                 likesCount: 0,
@@ -633,7 +633,7 @@ class SocialFeedManager {
                 </div>
 
                 <div class="add-comment-input">
-                    <img src="${this.currentUser?.photoURL || 'https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/default-avatar.png?alt=media&token=default'}" alt="Your Avatar" class="comment-avatar">
+                    <img src="${this.currentUser?.photoURL || 'https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/ICONE%20PERFIL.png?alt=media&token=d092ec7f-77b9-404d-82d0-b6ed3ce6810e'}" alt="Your Avatar" class="comment-avatar">
                     <textarea placeholder="Escreva um comentário..." rows="1" class="comment-input" data-post-id="${post.id}"></textarea>
                     <button class="comment-submit-btn" data-post-id="${post.id}">Enviar</button>
                 </div>
@@ -800,7 +800,7 @@ class SocialFeedManager {
                 text: commentText,
                 authorId: this.currentUser.uid,
                 authorName: this.currentUser.displayName || 'Usuário',
-                authorPhotoURL: this.currentUser.photoURL || 'https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/default-avatar.png?alt=media&token=default',
+                authorPhotoURL: this.currentUser.photoURL || 'https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/ICONE%20PERFIL.png?alt=media&token=d092ec7f-77b9-404d-82d0-b6ed3ce6810e',
                 timestamp: firebase.database.ServerValue.TIMESTAMP,
                 likes: {},
                 likesCount: 0
@@ -833,7 +833,7 @@ class SocialFeedManager {
                 text: replyText.trim(),
                 authorId: this.currentUser.uid,
                 authorName: this.currentUser.displayName || 'Usuário',
-                authorPhotoURL: this.currentUser.photoURL || 'https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/default-avatar.png?alt=media&token=default',
+                authorPhotoURL: this.currentUser.photoURL || 'https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/ICONE%20PERFIL.png?alt=media&token=d092ec7f-77b9-404d-82d0-b6ed3ce6810e',
                 timestamp: firebase.database.ServerValue.TIMESTAMP,
                 likes: {},
                 likesCount: 0
@@ -859,7 +859,7 @@ class SocialFeedManager {
         replyInputContainer.className = 'reply-input-container';
         replyInputContainer.innerHTML = `
             <div class="add-comment-input" style="margin-left: 40px; margin-top: 5px;">
-                <img src="${this.currentUser?.photoURL || 'https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/default-avatar.png?alt=media&token=default'}" alt="Your Avatar" class="comment-avatar">
+                <img src="${this.currentUser?.photoURL || 'https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/ICONE%20PERFIL.png?alt=media&token=d092ec7f-77b9-404d-82d0-b6ed3ce6810e'}" alt="Your Avatar" class="comment-avatar">
                 <textarea placeholder="Escreva uma resposta..." rows="1" class="reply-input"></textarea>
                 <button class="reply-submit-btn">Enviar</button>
                 <button class="reply-cancel-btn">Cancelar</button>

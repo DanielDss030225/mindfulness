@@ -23,7 +23,7 @@
 /* Botão flutuante do chat */
 .chat-toggle-btn {
     position: fixed;
-    bottom: 30px;
+    bottom: 20px;
     right: 30px;
     width: 60px;
     height: 60px;
@@ -77,7 +77,7 @@
 /* Janela principal do chat */
 .chat-window {
     position: fixed;
-    bottom: 100px;
+    bottom: 50px;
     right: 30px;
     width: 380px;
     height: 500px;
@@ -126,6 +126,9 @@
 .chat-header-actions {
     display: flex;
     gap: 10px;
+    justify-content: end;
+    width: 100%;
+    
 }
 
 .chat-header-btn {
@@ -151,6 +154,7 @@
     display: flex;
     background: var(--chat-surface);
     border-bottom: 1px solid var(--chat-border);
+    margin-right: 20px;
 }
 
 .chat-tab {
@@ -181,6 +185,7 @@
     bottom: 0;
     left: 0;
     right: 0;
+    
     height: 2px;
     background: var(--chat-primary);
 }
@@ -199,6 +204,7 @@
     display: none;
     align-items: center;
     justify-content: center;
+    margin-right: 20px;
 }
 
 /* Conteúdo do chat */
@@ -242,7 +248,7 @@
 
 /* Lista de usuários online */
 .chat-users-list {
-    max-height: 150px;
+    height: 80px;
     overflow-y: auto;
     border-bottom: 1px solid var(--chat-border);
 }
@@ -268,13 +274,12 @@
 }
 
 .chat-user-status {
-    position: absolute;
-    bottom: 0;
+    position: flex;
     right: 0;
     width: 10px;
     height: 10px;
     border-radius: 50%;
-    border: 2px solid white;
+
 }
 
 .chat-user-status.online {
@@ -294,6 +299,14 @@
     font-size: 14px;
     color: var(--chat-text);
     margin: 0;
+    
+margin-right: 6px;
+}
+.fundoUserOnline {
+    display: flex;          /* 🔑 ativa flexbox */
+    align-items: center;    /* alinha no eixo vertical */
+    gap: 6px;               /* espaço entre avatar, nome e status */
+    border-radius: 8px;     /* opcional, deixa arredondado */
 }
 
 .chat-user-last-seen {
@@ -301,16 +314,40 @@
     color: var(--chat-text-muted);
     margin: 0;
 }
+.fundoMensagens {
+  height: 176px;            /* Altura fixa para ativar a rolagem */
+  overflow-y: auto;         /* Rolagem vertical */
+  padding: 10px;     
+    display: flex;
+  flex-direction: column;       /* Opcional: espaço interno */
+}
 
 /* Área de mensagens */
 .chat-messages {
-    flex: 1;
-    overflow-y: auto;
-    padding: 15px;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+  display: inline-block;
+    min-height: 176px; 
+    
 }
+
+.fundoMensagens2 {
+  height: 245px;            /* Altura fixa para ativar a rolagem */
+  overflow-y: auto;         /* Rolagem vertical */
+  padding: 10px;            /* Opcional: espaço interno */
+}
+
+/* Área de mensagens */
+.chat-messages2 {
+  display: inline-block;
+     height: 245px;
+
+    
+}
+
+
+
+
+
+
 
 .chat-messages::-webkit-scrollbar {
     width: 6px;
@@ -560,17 +597,28 @@
 
 /* Lista de conversas */
 .chat-conversations {
-    flex: 1;
-    overflow-y: auto;
+    display: flex;
+    overflow-x: auto; /* scroll horizontal */
+    overflow-y: hidden;
+    white-space: nowrap;
+    height: 80px;
+    align-items: center;
 }
 
 .chat-conversation-item {
+        flex: 0 0 auto; /* <- ESSENCIAL para respeitar o width fixo */
+
     display: flex;
-    align-items: center;
+    align-items: start;
     padding: 12px 15px;
     cursor: pointer;
     transition: var(--chat-transition);
     border-bottom: 1px solid var(--chat-border);
+    height: 80%;
+margin-right: 15px;
+width: 200px;
+border-radius: 15px;
+align-items: center;
 }
 
 .chat-conversation-item:hover {
@@ -580,6 +628,8 @@
 .chat-conversation-item.active {
     background: rgba(102, 126, 234, 0.1);
     border-left: 3px solid var(--chat-primary);
+    width: 300px;
+
 }
 
 .chat-conversation-avatar {
@@ -600,9 +650,9 @@
     font-size: 14px;
     color: var(--chat-text);
     margin: 0 0 2px 0;
-    white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    color: #4CAF50;
 }
 
 .chat-conversation-last-message {
@@ -612,6 +662,7 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    
 }
 
 .chat-conversation-meta {
@@ -656,7 +707,9 @@
     justify-content: center;
     z-index: 1001;
 }
-
+.chat-conversation-badge {
+    color: #f44336;
+}
 .chat-profile-modal.active {
     display: flex;
     animation: fadeIn 0.3s ease;

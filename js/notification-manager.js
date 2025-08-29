@@ -123,33 +123,33 @@ class NotificationManager {
         const senderName = message.senderName || 'Usuário';
         const messagePreview = this.truncateMessage(message.message);
         
-        notification.innerHTML = `
-            <div class="chat-notification-header">
-                <img src="${message.senderProfilePic}" alt="${senderName}" class="chat-notification-avatar">
-                <div class="chat-notification-info">
-                    <div class="chat-notification-sender">${senderName}</div>
-                    <div class="chat-notification-type">${typeText}</div>
-                </div>
-                <button class="chat-notification-close">&times;</button>
-            </div>
-            <div class="chat-notification-message">${messagePreview}</div>
-        `;
+        //notification.innerHTML = `
+           // <div class="chat-notification-header">
+                //<img src="${message.senderProfilePic}" alt="${senderName}" class="chat-notification-avatar">
+               // <div class="chat-notification-info">
+                  //  <div class="chat-notification-sender">${senderName}</div>
+                  //  <div class="chat-notification-type">${typeText}</div>
+               // </div>
+               // <button class="chat-notification-close">&times;</button>
+           // </div>
+           // <div class="chat-notification-message">${messagePreview}</div>
+     //   `;
 
         // Adiciona estilos inline para garantir que funcione
-        notification.style.cssText = `
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: white;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            padding: 15px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-            z-index: 10000;
-            max-width: 300px;
-            animation: slideInRight 0.3s ease;
-            cursor: pointer;
-        `;
+       // notification.style.cssText = `
+        //    position: fixed;
+       //     top: 20px;
+       //     right: 20px;
+         //   background: white;
+        //    border: 1px solid #ddd;
+        //    border-radius: 10px;
+      //      padding: 15px;
+          ///  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+          //  z-index: 10000;
+          //  max-width: 300px;
+         //   animation: slideInRight 0.3s ease;
+          //  cursor: pointer;
+        //`;
 
         // Adiciona event listeners
         const closeBtn = notification.querySelector('.chat-notification-close');
@@ -187,7 +187,7 @@ class NotificationManager {
         if (!('Notification' in window) || Notification.permission !== 'granted') return;
 
         const typeText = this.getTypeDisplayName(type, conversationId);
-        const senderName = message.senderName || 'Usuário';
+        const senderName = message.senderName || 'Novato';
         const messagePreview = this.truncateMessage(message.message);
 
         const notification = new Notification(`${senderName} - ${typeText}`, {
@@ -296,6 +296,7 @@ class NotificationManager {
         const closeBtn = notification.querySelector('.chat-welcome-close');
         closeBtn.addEventListener('click', () => {
             this.hideVisualNotification(notification);
+            
         });
 
         document.body.appendChild(notification);
@@ -384,7 +385,7 @@ class NotificationManager {
     testNotification() {
         const testMessage = {
             senderName: 'Sistema',
-            senderProfilePic: 'https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/default-avatar.png?alt=media&token=default',
+            senderProfilePic: 'https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/ICONE%20PERFIL.png?alt=media&token=d092ec7f-77b9-404d-82d0-b6ed3ce6810e',
             message: 'Esta é uma notificação de teste!'
         };
 

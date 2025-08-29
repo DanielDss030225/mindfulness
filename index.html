@@ -49,7 +49,7 @@
     <a onclick="goToProfile()" class="perfilButtom">
         <div class="user-info">
             <div class="user-profile">
-                <img id="userProfilePic" src="https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/default-avatar.png?alt=media&token=default" alt="Foto do usuário" class="user-avatar">
+                <img id="userProfilePic" src="https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/ICONE%20PERFIL.png?alt=media&token=d092ec7f-77b9-404d-82d0-b6ed3ce6810e" alt="Foto do usuário" class="user-avatar">
                 <span id="userName">Usuário</span>
             </div>
         </a>
@@ -206,7 +206,7 @@ Editais abertos           </p>  <p class="mini">pciconcursos</p> </button>
             <div class="social-feed-container">
                 <div class="create-post-section">
                     <div class="post-header">
-                        <img id="currentUserProfilePicPost" src="https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/default-avatar.png?alt=media&token=default" alt="User Avatar" class="post-avatar">
+                        <img id="currentUserProfilePicPost" src="https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/ICONE%20PERFIL.png?alt=media&token=d092ec7f-77b9-404d-82d0-b6ed3ce6810e" alt="User Avatar" class="post-avatar">
                         <div class="editor-container">
                             <div class="toolbar">
                                 <button type="button" class="toolbar-btn toolbar-btn-bold" title="Negrito (Ctrl+B)">𝐁</button>
@@ -424,7 +424,7 @@ Editais abertos           </p>  <p class="mini">pciconcursos</p> </button>
                 <div class="profile-info">
                     <div class="profile-avatar-container">
                     <div class="profile-picture-container">
-                        <img id="profilePictureDisplay" src="https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/default-avatar.png?alt=media&token=default" alt="Foto de perfil" class="profile-picture">
+                        <img id="profilePictureDisplay" src="https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/ICONE%20PERFIL.png?alt=media&token=d092ec7f-77b9-404d-82d0-b6ed3ce6810e" alt="Foto de perfil" class="profile-picture">
                         <div class="profile-picture-overlay">
                             <button id="changeProfilePictureBtn" class="change-picture-btn">
                                 <span class="alterarFotoPerfil">📷</span>
@@ -855,6 +855,8 @@ Editais abertos           </p>  <p class="mini">pciconcursos</p> </button>
     
 
 
+    <div id="chat-container"></div>
+
     <!-- JavaScript Files -->
     <script src="js/firebase-config.js"></script>
     <script src="js/auth.js"></script>
@@ -869,14 +871,17 @@ Editais abertos           </p>  <p class="mini">pciconcursos</p> </button>
     <script src="js/rich-text-editor.js"></script>
     <script src="js/rich-text-editor-dropdown.js"></script>
     <script src="js/social-feed-enhanced.js"></script>
-    <script src="js/main.js"></script>
     <!-- Chat System Scripts -->
     <script src="js/link-preview.js"></script>
     <script src="js/notification-manager.js"></script>
-    <script src="js/chat-manager.js"></script>
-    <script src="js/chat-ui.js"></script>
+ 
+<!-- Depois, a lógica principal do chat -->
+<script src="js/chat-manager-corrected.js"></script>
 
-  <!--  <script src="js/music-player.js"></script> -->  
+<!-- Por último, a interface do usuário do chat -->
+<script src="js/chat-ui-corrected.js"></script>
+
+    <script src="js/main.js"></script>
 
 </body>
 </html>

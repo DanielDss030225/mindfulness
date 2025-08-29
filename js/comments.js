@@ -45,6 +45,7 @@ class CommentsManager {
             commentsModal.addEventListener('click', (e) => {
                 if (e.target === commentsModal) {
                     this.closeCommentsModal();
+
                 }
             });
         }
