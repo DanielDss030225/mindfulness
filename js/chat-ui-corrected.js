@@ -277,6 +277,23 @@ class ChatUI {
                 }
             }
         });
+
+// DENTRO DA CLASSE ChatUI, na função setupEventListeners
+
+// Adiciona listener para cliques nos avatares/nomes dentro das mensagens globais
+this.elements.globalMessages.addEventListener('click', (e) => {
+    // Procura pelo elemento clicado ou um "pai" que tenha o link
+    const userLink = e.target.closest('.chat-message-avatar-link, .chat-message-sender-link, chat-message-avatar');
+    
+    if (userLink) {
+        const userId = userLink.dataset.userId;
+        if (userId) {
+            this.openProfileModal(userId);
+        }
+    }
+});
+
+
     }
 
     setupChatEventListeners() {
@@ -294,18 +311,34 @@ class ChatUI {
         });
     }
 
-    toggleChat() {
-        const botao = document.querySelector('.chat-toggle-btn');
+toggleChat() {
+    const botao = document.querySelector('.chat-toggle-btn');
+    const fundoMensagens = document.querySelector(".fundoMensagens");
+    const fundoMensagens2 = document.querySelector(".fundoMensagens2");
 
-        if (this.isOpen) {
-            this.closeChat();
-            botao.style.display = 'block';
+    if (this.isOpen) {
+        this.closeChat();
+        botao.style.display = 'block';
+    } else {
+        this.openChat();
+        botao.style.display = 'none';
 
-        } else {
-            this.openChat();
-botao.style.display = 'none';
-        }
+        // espera 500ms e então rola para o fim
+        setTimeout(() => {
+            const fundoMensagens = document.querySelector(".fundoMensagens");
+            if (fundoMensagens) {
+                fundoMensagens.scrollTop = fundoMensagens.scrollHeight;
+            }
+
+            const fundoMensagens2 = document.querySelector(".fundoMensagens2");
+            if (fundoMensagens2) {
+                fundoMensagens2.scrollTop = fundoMensagens2.scrollHeight;
+            }
+        }, 200);
     }
+}
+
+
 
     openChat() {
         this.isOpen = true;
@@ -335,6 +368,16 @@ botao.style.display = 'block';
         this.loadTabData(tabName);
         this.focusCurrentInput();
         this.markCurrentMessagesAsRead();
+
+const fundoMensagens = document.querySelector(".fundoMensagens");
+const fundoMensagens2 = document.querySelector(".fundoMensagens2");
+
+setTimeout(() => {
+    fundoMensagens.scrollTop = fundoMensagens.scrollHeight;
+        fundoMensagens2.scrollTop = fundoMensagens2.scrollHeight;
+
+}, 200);
+
     }
 
     async loadInitialData() {
@@ -401,38 +444,63 @@ botao.style.display = 'block';
     renderMessages(container, messages) {
         container.innerHTML = '';
         if (messages.length === 0) {
-            container.innerHTML = '<div class="chat-empty-state">Nenhuma mensagem ainda.</div>';
+            container.innerHTML = '<div class="chat-empty-state" style="display:none;">Nenhuma mensagem ainda.</div>';
             return;
         }
+        messages.sort((a, b) => a.timestamp - b.timestamp);
         messages.forEach(message => {
             container.appendChild(this.createMessageElement(message));
         });
         container.scrollTop = container.scrollHeight;
     }
 
-    createMessageElement(message) {
-        const messageElement = document.createElement('div');
-        messageElement.className = `chat-message ${message.senderId === window.chatManager.currentUser.uid ? 'mine' : 'other'}`;
+ // DENTRO DA CLASSE ChatUI
 
-        const senderName = message.senderName || 'Desconhecido';
-        const senderProfilePicture = message.senderProfilePicture || 'https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/ICONE%20PERFIL.png?alt=media&token=d092ec7f-77b9-404d-82d0-b6ed3ce6810e';
-        const timestamp = message.timestamp ? new Date(message.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
+createMessageElement(message) {
+    const messageElement = document.createElement('div');
+    const isMyMessage = message.senderId === window.chatManager.currentUser.uid;
+    messageElement.className = `chat-message ${isMyMessage ? 'mine' : 'other'}`;
+    messageElement.dataset.messageData = JSON.stringify(message);
 
-        let messageContent = message.message;
-        if (message.type === 'link' && message.linkPreview) {
-            const preview = message.linkPreview;
-            messageContent += `
-                <div class="chat-link-preview">
-                    ${preview.image ? `<img src="${preview.image}" alt="Preview Image">` : ''}
-                    <div class="chat-link-details">
-                        <div class="chat-link-title">${preview.title || ''}</div>
-                        <div class="chat-link-description">${preview.description || ''}</div>
-                        <a href="${preview.url}" target="_blank" class="chat-link-url">${preview.url}</a>
-                    </div>
+    const senderName = message.senderName || 'Desconhecido';
+    const senderProfilePicture = message.senderProfilePicture || 'https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/ICONE%20PERFIL.png?alt=media&token=d092ec7f-77b9-404d-82d0-b6ed3ce6810e';
+    const timestamp = message.timestamp ? new Date(message.timestamp ).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
+
+    let messageContent = message.message;
+    if (message.type === 'link' && message.linkPreview) {
+        const preview = message.linkPreview;
+        messageContent += `
+            <div class="chat-link-preview">
+                ${preview.image ? `<img src="${preview.image}" alt="Preview Image">` : ''}
+                <div class="chat-link-details">
+                    <div class="chat-link-title">${preview.title || ''}</div>
+                    <div class="chat-link-description">${preview.description || ''}</div>
+                    <a href="${preview.url}" target="_blank" class="chat-link-url">${preview.url}</a>
                 </div>
-            `;
-        }
+            </div>
+        `;
+    }
 
+    // --- INÍCIO DA MODIFICAÇÃO ---
+
+    // Se a mensagem não for minha, torna o avatar e o nome clicáveis.
+    if (!isMyMessage) {
+        messageElement.innerHTML = `
+            <a class="chat-message-avatar-link" data-user-id="${message.senderId}" title="Ver perfil de ${senderName}">
+                <img class="chat-message-avatar" src="${senderProfilePicture}" alt="${senderName}">
+            </a>
+            <div class="chat-message-content">
+                <div class="chat-message-info">
+                    <a class="chat-message-sender-link" data-user-id="${message.senderId}" title="Ver perfil de ${senderName}">
+                        <span class="chat-message-sender">${senderName}</span>
+                    </a>
+                    <span class="chat-message-time">${timestamp}</span>
+                </div>
+                <div class="chat-message-text">${messageContent}</div>
+            </div>
+        `;
+    } else {
+        // Se a mensagem for minha, renderiza o HTML original sem links.
         messageElement.innerHTML = `
             <img class="chat-message-avatar" src="${senderProfilePicture}" alt="${senderName}">
             <div class="chat-message-content">
@@ -443,8 +511,12 @@ botao.style.display = 'block';
                 <div class="chat-message-text">${messageContent}</div>
             </div>
         `;
-        return messageElement;
     }
+    
+    // --- FIM DA MODIFICAÇÃO ---
+
+    return messageElement;
+}
 
     handleNewMessage(detail) {
         const { type, message, conversationId, unreadCount } = detail;
@@ -459,8 +531,12 @@ botao.style.display = 'block';
         }
 
         if (targetContainer) {
-            targetContainer.appendChild(this.createMessageElement(message));
-            targetContainer.scrollTop = targetContainer.scrollHeight;
+            // Re-renderiza todas as mensagens para garantir a ordenação correta
+            // Isso é menos eficiente para muitas mensagens, mas garante a ordem
+            // Uma alternativa seria inserir a mensagem na posição correta, mas requer lógica mais complexa
+            const currentMessages = Array.from(targetContainer.children).map(el => JSON.parse(el.dataset.messageData));
+            currentMessages.push(message);
+            this.renderMessages(targetContainer, currentMessages);
         }
 
         // Atualiza badge de notificação e contadores de não lidas
@@ -576,6 +652,13 @@ if (targetContainer) {
 
 
     openConversation(type, conversationId) {
+
+const fundoMensagens = document.querySelector(".fundoMensagens");
+fundoMensagens.scrollTop = fundoMensagens.scrollHeight;
+const fundoMensagens2 = document.querySelector(".fundoMensagens2");
+fundoMensagens2.scrollTop = fundoMensagens2.scrollHeight;
+
+
         this.currentConversation = conversationId;
         this.switchTab(type);
 
@@ -594,6 +677,8 @@ if (targetContainer) {
     }
 
     async sendGlobalMessage() {
+     
+
         const messageInput = this.elements.globalMessageInput;
         const messageText = messageInput.value.trim();
         if (messageText === '') return;
@@ -622,6 +707,13 @@ if (targetContainer) {
             console.error('Error sending global message:', error);
             alert('Erro ao enviar mensagem global: ' + error.message);
         }
+          const fundoMensagens = document.querySelector(".fundoMensagens");
+fundoMensagens.scrollTop = fundoMensagens.scrollHeight;
+const fundoMensagens2 = document.querySelector(".fundoMensagens2");
+fundoMensagens2.scrollTop = fundoMensagens2.scrollHeight;
+
+document.getElementById("globalMessageInput").focus();
+
     }
 
     async sendPrivateMessage() {
@@ -653,6 +745,10 @@ if (targetContainer) {
             console.error('Error sending private message:', error);
             alert('Erro ao enviar mensagem privada: ' + error.message);
         }
+          const fundoMensagens2 = document.querySelector(".fundoMensagens2");
+fundoMensagens2.scrollTop = fundoMensagens2.scrollHeight;
+document.getElementById("privateMessageInput").focus();
+
     }
 
     async sendGroupMessage() {
@@ -782,8 +878,11 @@ async openProfileModal(userId) { // 1. Adicione 'async' aqui
         let tabBadge;
         if (type === 'global') {
             tabBadge = this.elements.tabs[0].querySelector('.chat-tab-badge');
+            
         } else if (type === 'private') {
             tabBadge = this.elements.tabs[1].querySelector('.chat-tab-badge');
+            
+
         } else if (type === 'group') {
             tabBadge = this.elements.tabs[2].querySelector('.chat-tab-badge');
         }
@@ -798,6 +897,7 @@ async openProfileModal(userId) { // 1. Adicione 'async' aqui
             }
         }
     }
+    
 }
 
 

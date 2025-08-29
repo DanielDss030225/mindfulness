@@ -314,13 +314,16 @@ margin-right: 6px;
     color: var(--chat-text-muted);
     margin: 0;
 }
+
+
 .fundoMensagens {
-  height: 176px;            /* Altura fixa para ativar a rolagem */
-  overflow-y: auto;         /* Rolagem vertical */
-  padding: 10px;     
-    display: flex;
-  flex-direction: column;       /* Opcional: espaço interno */
+  height: 176px;
+  overflow-y: auto;
+  padding: 10px;
+  display: flex;
+  flex-direction: column; /* normal */
 }
+
 
 /* Área de mensagens */
 .chat-messages {
@@ -338,7 +341,7 @@ margin-right: 6px;
 /* Área de mensagens */
 .chat-messages2 {
   display: inline-block;
-     height: 245px;
+     height: 235px;
 
     
 }
@@ -603,32 +606,51 @@ margin-right: 6px;
     white-space: nowrap;
     height: 80px;
     align-items: center;
+    background-color: #eceaea   ;
 }
-
 .chat-conversation-item {
-        flex: 0 0 auto; /* <- ESSENCIAL para respeitar o width fixo */
-
+    flex: 0 0 auto; /* Mantém o item com largura fixa no flex container */
     display: flex;
-    align-items: start;
+    align-items: center; /* Centraliza os itens verticalmente */
     padding: 12px 15px;
     cursor: pointer;
-    transition: var(--chat-transition);
-    border-bottom: 1px solid var(--chat-border);
-    height: 80%;
-margin-right: 15px;
-width: 200px;
-border-radius: 15px;
-align-items: center;
+    
+    /* Transição suave para todas as propriedades */
+    transition: all 0.3s ease; 
+
+    border: none; /* Remove a borda antiga para um visual mais limpo */
+    height: 50px; /* Ajustei a altura para um valor fixo, fica melhor com o padding */
+    margin-right: 15px;
+    width: 200px;
+    border-radius: 12px; /* Um raio um pouco menor costuma ser mais elegante */
+    background-color: #f0f2f5; /* Um fundo mais neutro, como o do Facebook */
+
+    /* A MÁGICA ACONTECE AQUI: Sombra suave em camadas */
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1), 
+                0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 .chat-conversation-item:hover {
-    background: var(--chat-surface);
+    background-color: #e4e6eb; /* Um cinza um pouco mais escuro para o hover */
+    
+    /* Aumenta a sombra no hover para dar um efeito de "elevação" */
+    transform: translateY(-2px); /* Move o card um pouco para cima */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 
+                0 2px 6px rgba(0, 0, 0, 0.08);
 }
+
+/* Opcional: Adiciona um estado "ativo" para a conversa selecionada */
+.chat-conversation-item.active {
+    background-color: #e7f3ff; /* Azul claro para indicar seleção */
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    transform: translateY(0);
+}
+
 
 .chat-conversation-item.active {
     background: rgba(102, 126, 234, 0.1);
     border-left: 3px solid var(--chat-primary);
-    width: 300px;
+width: 200px;
 
 }
 
@@ -652,7 +674,7 @@ align-items: center;
     margin: 0 0 2px 0;
     overflow: hidden;
     text-overflow: ellipsis;
-    color: #4CAF50;
+    color: #232323;
 }
 
 .chat-conversation-last-message {
@@ -753,6 +775,8 @@ align-items: center;
     border-radius: 50%;
     margin: 0 auto 15px;
     display: block;
+        cursor: pointer;
+
 }
 
 .chat-profile-name {
@@ -760,12 +784,15 @@ align-items: center;
     font-weight: 600;
     color: var(--chat-text);
     margin: 0 0 5px 0;
+    cursor: pointer;
 }
 
 .chat-profile-email {
     font-size: 14px;
     color: var(--chat-text-secondary);
     margin: 0;
+        cursor: pointer;
+
 }
 
 .chat-profile-actions {
@@ -773,6 +800,8 @@ align-items: center;
     gap: 10px;
     justify-content: center;
     margin-top: 20px;
+        cursor: pointer;
+
 }
 
 .chat-profile-btn {
@@ -951,7 +980,7 @@ align-items: center;
 }
 
 /* Responsividade */
-@media (max-width: 768px) {
+@media (max-width: 1000px) {
     .chat-window {
         position: fixed;
         top: 0;
@@ -959,12 +988,14 @@ align-items: center;
         right: 0;
         bottom: 0;
         width: 100%;
-        height: 100%;
+        height: 100vh;
         border-radius: 0;
+    z-index: 9999; /* garante que fica acima de tudo */
+
     }
     
     .chat-toggle-btn {
-        bottom: 20px;
+        bottom: 120px;
         right: 20px;
         width: 56px;
         height: 56px;
@@ -980,6 +1011,41 @@ align-items: center;
         right: 10px;
         max-width: none;
     }
+
+    
+.fundoMensagens {
+  height: 520px;
+  overflow-y: auto;
+  padding: 10px;
+  display: flex;
+  flex-direction: column; /* normal */
+}
+
+
+/* Área de mensagens */
+.chat-messages {
+  display: inline-block;
+    min-height: 500px; 
+    
+}
+
+.fundoMensagens2 {
+  height: 659px;            /* Altura fixa para ativar a rolagem */
+  overflow-y: auto;         /* Rolagem vertical */
+  padding: 10px;            /* Opcional: espaço interno */
+}
+
+/* Área de mensagens */
+.chat-messages2 {
+  display: inline-block;
+     height: 600px;
+
+    
+}
+.chat-users-list {
+    height: 150px;
+}
+
 }
 
 /* Animações adicionais */

@@ -88,7 +88,7 @@ class ChatManager {
     }
 
     setupGlobalMessageListener() {
-        const globalRef = this.database.ref("globalMessages").limitToLast(this.maxMessagesPerLoad);
+        const globalRef = this.database.ref("globalMessages").orderByChild("timestamp").limitToLast(this.maxMessagesPerLoad);
         
         globalRef.on("child_added", (snapshot) => {
             const message = { id: snapshot.key, ...snapshot.val() };
@@ -107,7 +107,7 @@ class ChatManager {
             const [user1, user2] = conversationId.split("_");
             
             if (user1 === userId || user2 === userId) {
-                const messagesRef = this.database.ref(`privateMessages/${conversationId}`).limitToLast(this.maxMessagesPerLoad);
+                const messagesRef = this.database.ref(`privateMessages/${conversationId}`).orderByChild("timestamp").limitToLast(this.maxMessagesPerLoad);
                 
                 messagesRef.on("child_added", async (messageSnapshot) => {
                     const message = { id: messageSnapshot.key, ...messageSnapshot.val() };
@@ -131,7 +131,7 @@ class ChatManager {
         
         userGroupsRef.on("child_added", (snapshot) => {
             const groupId = snapshot.key;
-            const groupMessagesRef = this.database.ref(`groups/${groupId}/messages`).limitToLast(this.maxMessagesPerLoad);
+            const groupMessagesRef = this.database.ref(`groups/${groupId}/messages`).orderByChild("timestamp").limitToLast(this.maxMessagesPerLoad);
             
             groupMessagesRef.on("child_added", (messageSnapshot) => {
                 const message = { id: messageSnapshot.key, ...messageSnapshot.val() };
