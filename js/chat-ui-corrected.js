@@ -313,8 +313,7 @@ this.elements.globalMessages.addEventListener('click', (e) => {
 
 toggleChat() {
     const botao = document.querySelector('.chat-toggle-btn');
-    const fundoMensagens = document.querySelector(".fundoMensagens");
-    const fundoMensagens2 = document.querySelector(".fundoMensagens2");
+    
 
     if (this.isOpen) {
         this.closeChat();
@@ -383,6 +382,10 @@ const fundoMensagens2 = document.querySelector(".fundoMensagens2");
 setTimeout(() => {
     fundoMensagens.scrollTop = fundoMensagens.scrollHeight;
         fundoMensagens2.scrollTop = fundoMensagens2.scrollHeight;
+        const chatmessages = document.querySelector(".chat-messages");
+chatmessages.scrollTop = chatmessages.scrollHeight;
+const chatmessages2 = document.querySelector(".chat-messages2");
+chatmessages2.scrollTop = chatmessages2.scrollHeight;
 
 }, 500);
 
