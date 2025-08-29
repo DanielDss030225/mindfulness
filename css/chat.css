@@ -60,7 +60,7 @@
     border-radius: 50%;
     min-width: 20px;
     height: 20px;
-    font-size: 12px;
+    font-size: 15px;
     font-weight: bold;
     display: none;
     align-items: center;
@@ -727,7 +727,7 @@ width: 200px;
     display: none;
     align-items: center;
     justify-content: center;
-    z-index: 1001;
+    z-index: 9999;
 }
 .chat-conversation-badge {
     color: #f44336;
@@ -990,7 +990,7 @@ width: 200px;
         width: 100%;
         height: 100vh;
         border-radius: 0;
-    z-index: 9999; /* garante que fica acima de tudo */
+    z-index: 9900; /* garante que fica acima de tudo */
 
     }
     
