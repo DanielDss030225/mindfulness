@@ -1,4 +1,7 @@
 class ChatManager {
+
+
+    
     constructor() {
         this.database = window.firebaseServices.database;
         this.auth = window.firebaseServices.auth;
@@ -446,6 +449,54 @@ class ChatManager {
         this.dispatchEvent("unreadCountUpdated");
     }
 
+
+async  markPrivateConversationAsRead(conversationId) {
+    if (window.chatManager && window.chatManager.currentUser) {
+        const userId = window.chatManager.currentUser.uid;
+        const fullConversationId = window.chatManager.getConversationId(userId, conversationId);
+        const messagesRef = window.chatManager.database.ref(`privateMessages/${fullConversationId}`);
+
+        try {
+            // Marcar todas as mensagens não lidas como lidas
+            const snapshot = await messagesRef.orderByChild("read").equalTo(false).once("value");
+            const updates = {};
+            snapshot.forEach(child => {
+                updates[child.key + "/read"] = true;
+            });
+
+            if (Object.keys(updates).length > 0) {
+                await messagesRef.update(updates);
+                console.log(`Mensagens na conversa ${fullConversationId} marcadas como lidas.`);
+            }
+
+            // Resetar o contador de mensagens não lidas para esta conversa no userConversations
+            await window.chatManager.database.ref(`userConversations/${userId}/private/${conversationId}`).update({
+                unreadCount: 0
+            });
+            console.log(`Contador de não lidas para ${conversationId} zerado.`);
+
+            // Atualizar o contador de não lidas no ChatManager (se existir)
+            if (window.chatManager.unreadCounts) {
+                window.chatManager.unreadCounts.set(`private_${conversationId}`, 0);
+            }
+
+            // Disparar um evento para que a UI possa atualizar os badges
+            document.dispatchEvent(new CustomEvent('chat:unreadCountUpdated', {
+                detail: {
+                    type: 'private',
+                    conversationId: conversationId,
+                    newCount: 0
+                }
+            }));
+
+        } catch (error) {
+            console.error("Erro ao marcar mensagens como lidas:", error);
+        }
+    }
+}
+
+
+
     getUnreadCount(type, conversationId = null) {
         const key = conversationId ? `${type}_${conversationId}` : type;
         return this.unreadCounts.get(key) || 0;
@@ -519,6 +570,8 @@ class ChatManager {
         this.currentUser = null;
         console.log("ChatManager cleaned up.");
     }
+
+    
 }
 
 window.ChatManager = ChatManager;

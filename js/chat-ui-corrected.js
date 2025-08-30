@@ -114,32 +114,40 @@ class ChatUI {
                 
                 <!-- Painel Privadas -->
                 <div class="chat-panel" data-panel="private">
+
                     <div class="chat-conversations" id="privateConversations">
+
                         <div class="chat-empty-state">
+
                             <div class="chat-empty-icon">💬</div>
                             <div class="chat-empty-title">Nenhuma conversa</div>
                             <div class="chat-empty-description">Clique em um usuário online para iniciar uma conversa</div>
+                            
                         </div>
-                    </div>
-<div class="fundoMensagens2">
 
-                    <div class="chat-messages2" id="privateMessages" style="display: none;">
+                       </div>
+                                          <div id="fundoUSER" class="fundoUser">              <img id="userIMG" src="https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/ICONE%20PERFIL.png?alt=media&token=d092ec7f-77b9-404d-82d0-b6ed3ce6810e" alt="Foto do usuário" class="user-avatar">
+ <h2 id="userNOME">030225</h2> </div>     
+
+                       <div class="fundoMensagens2">
+
+                       <div class="chat-messages2" id="privateMessages" style="display: none;">
                         <!-- Mensagens da conversa privada selecionada -->
 
-                    </div>
-                    </div>
-
-                    <div class="chat-input-area" id="privateInputArea" style="display: flex;">
+                      </div>
+                      </div>
+ 
+                      <div class="chat-input-area" id="privateInputArea" style="display: flex;">
                         <div class="chat-input-container">
                             <textarea class="chat-input" placeholder="Digite sua mensagem..." id="privateMessageInput" rows="1"></textarea>
                             <button class="chat-send-btn" id="privateSendBtn">
                                 ➤
                             </button>
                         </div>
-                    </div>
-                </div>
+                       </div>
+                      </div>
                 
-                <!-- Painel Grupos -->
+                       <!-- Painel Grupos -->
                 <div class="chat-panel" data-panel="groups">
                     <div class="chat-conversations" id="groupConversations">
                         <div class="chat-empty-state">
@@ -312,6 +320,8 @@ this.elements.globalMessages.addEventListener('click', (e) => {
     }
 
 toggleChat() {
+
+
     const botao = document.querySelector('.chat-toggle-btn');
     
 
@@ -341,8 +351,23 @@ toggleChat() {
             if (chatmessages2) {
                 chatmessages2.scrollTop = chatmessages2.scrollHeight;
             }
+           
+           
+            let userNOME = document.getElementById("userNOME").textContent
+    let fundoUSER = document.getElementById("fundoUSER");
+
+  if (userNOME == "030225") {
+
+fundoUSER.style.display = "none";
+
+  } else {
+fundoUSER.style.display = "flex";
+
+
+  }
         }, 500);
     }
+
 }
 
 
@@ -382,10 +407,6 @@ const fundoMensagens2 = document.querySelector(".fundoMensagens2");
 setTimeout(() => {
     fundoMensagens.scrollTop = fundoMensagens.scrollHeight;
         fundoMensagens2.scrollTop = fundoMensagens2.scrollHeight;
-        const chatmessages = document.querySelector(".chat-messages");
-chatmessages.scrollTop = chatmessages.scrollHeight;
-const chatmessages2 = document.querySelector(".chat-messages2");
-chatmessages2.scrollTop = chatmessages2.scrollHeight;
 
 }, 500);
 
@@ -596,6 +617,7 @@ async updateConversations(conversations) {
     for (const [convId, convData] of conversations) {
         const conversationItem = document.createElement('div');
         conversationItem.className = 'chat-conversation-item';
+
         conversationItem.dataset.conversationId = convData.id;
 
         let targetContainer;
@@ -660,15 +682,11 @@ if (targetContainer) {
 
     }
 }
-
-
-    openConversation(type, conversationId) {
-
-const fundoMensagens = document.querySelector(".fundoMensagens");
-fundoMensagens.scrollTop = fundoMensagens.scrollHeight;
-const fundoMensagens2 = document.querySelector(".fundoMensagens2");
-fundoMensagens2.scrollTop = fundoMensagens2.scrollHeight;
-
+    async openConversation(type, conversationId) {
+        const fundoMensagens = document.querySelector(".fundoMensagens");
+        fundoMensagens.scrollTop = fundoMensagens.scrollHeight;
+        const fundoMensagens2 = document.querySelector(".fundoMensagens2");
+        fundoMensagens2.scrollTop = fundoMensagens2.scrollHeight;
 
         this.currentConversation = conversationId;
         this.switchTab(type);
@@ -679,13 +697,50 @@ fundoMensagens2.scrollTop = fundoMensagens2.scrollHeight;
             this.elements.privateConversations.style.display = 'flex';
             this.loadPrivateMessages(conversationId);
 
-        } else if (type === 'group') {
+            // NOVO: Obter dados do usuário para conversas privadas
+            const userIdToDisplay = conversationId; // Em conversas privadas, conversationId é o ID do outro usuário
+            const userData = await window.chatManager.getUserData(userIdToDisplay);
+
+
+            
+            if (userData) {
+                // Atualiza os elementos HTML com o nome e a imagem do perfil
+                document.getElementById("userNOME").textContent = userData.name || "Novato";
+                document.getElementById("userIMG").src = userData.profilePicture || "https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/ICONE%20PERFIL.png?alt=media&token=d092ec7f-77b9-404d-82d0-b6ed3ce6810e";
+            }
+
+
+        } else if (type === 'group' ) {
             this.elements.groupMessages.style.display = 'block';
             this.elements.groupInputArea.style.display = 'flex';
             this.elements.groupConversations.style.display = 'flex';
             this.loadGroupMessages(conversationId);
+
+            // NOVO: Obter dados do grupo para conversas em grupo (se necessário)
+            // Para grupos, você precisaria de uma função similar no ChatManager para obter dados do grupo
+            // Exemplo (assumindo que você tenha um getGroupData no ChatManager):
+            // const groupData = await window.chatManager.getGroupData(conversationId);
+            // if (groupData) {
+            //     document.getElementById("groupNOME").textContent = groupData.name || "Grupo";
+            //     document.getElementById("groupIMG").src = groupData.profilePicture || "caminho/para/imagem/padrao/grupo.png";
+            // }
         }
+        
+   let userNOME = document.getElementById("userNOME").textContent
+    let fundoUSER = document.getElementById("fundoUSER");
+
+  if (userNOME == "030225") {
+
+fundoUSER.style.display = "none";
+
+  } else {
+fundoUSER.style.display = "flex";
+
+
+  }
+  
     }
+
 
     async sendGlobalMessage() {
      

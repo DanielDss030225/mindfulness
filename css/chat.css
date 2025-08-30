@@ -670,6 +670,16 @@ margin-right: 6px;
     align-items: center;
     background-color: #eceaea   ;
 }
+.fundoUser {
+    flex: 0 0 auto; /* Mantém o item com largura fixa no flex container */
+    display: flex;
+    align-items: center; /* Centraliza os itens verticalmente */
+    padding: 12px 15px;
+    cursor: pointer;    
+    gap: 10px;
+    width: 100%;
+}
+
 .chat-conversation-item {
     flex: 0 0 auto; /* Mantém o item com largura fixa no flex container */
     display: flex;
