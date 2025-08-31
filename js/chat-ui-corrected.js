@@ -430,6 +430,7 @@ setTimeout(() => {
         switch (tabName) {
             case 'global':
                 await this.loadGlobalMessages();
+
                 break;
             case 'private':
                 this.loadPrivateConversations();
@@ -440,16 +441,26 @@ setTimeout(() => {
         }
     }
 
+
+    
     async loadGlobalMessages() {
+
         this.elements.globalMessages.innerHTML = '<div class="chat-loading"><div class="chat-loading-spinner"></div></div>';
         try {
             const messages = await window.chatManager.getGlobalMessages();
             this.renderMessages(this.elements.globalMessages, messages);
+            
         } catch (error) {
             console.error('Error loading global messages:', error);
             this.elements.globalMessages.innerHTML = '<div class="chat-empty-state">Erro ao carregar mensagens globais.</div>';
         }
+   
+   
     }
+
+
+
+
 
     async loadPrivateMessages(conversationId) {
         this.elements.privateMessages.innerHTML = '<div class="chat-loading"><div class="chat-loading-spinner"></div></div>';
@@ -487,9 +498,21 @@ setTimeout(() => {
     }
 
  // DENTRO DA CLASSE ChatUI
-
 createMessageElement(message) {
     const messageElement = document.createElement('div');
+
+    // --- AJUSTE PRINCIPAL (PASSO 1) ---
+    // Adiciona um ID único ao elemento PAI da mensagem.
+    // É crucial que o objeto 'message' tenha uma propriedade 'id' única.
+    // Se o nome da propriedade for outro (ex: messageId, _id), ajuste aqui.
+    if (message.id) {
+        messageElement.id = `message-${message.id}`;
+    } else {
+        // Fallback para evitar erros, embora não previna duplicação se o ID estiver ausente.
+        console.warn('Objeto de mensagem recebido sem um "id". A prevenção de duplicação pode falhar.', message);
+    }
+    // --- FIM DO AJUSTE ---
+
     const isMyMessage = message.senderId === window.chatManager.currentUser.uid;
     messageElement.className = `chat-message ${isMyMessage ? 'mine' : 'other'}`;
     messageElement.dataset.messageData = JSON.stringify(message);
@@ -513,9 +536,7 @@ createMessageElement(message) {
         `;
     }
 
-    // --- INÍCIO DA MODIFICAÇÃO ---
-
-    // Se a mensagem não for minha, torna o avatar e o nome clicáveis.
+    // O restante da sua lógica para construir o innerHTML permanece exatamente o mesmo.
     if (!isMyMessage) {
         messageElement.innerHTML = `
             <a class="chat-message-avatar-link" data-user-id="${message.senderId}" title="Ver perfil de ${senderName}">
@@ -532,7 +553,6 @@ createMessageElement(message) {
             </div>
         `;
     } else {
-        // Se a mensagem for minha, renderiza o HTML original sem links.
         messageElement.innerHTML = `
             <img class="chat-message-avatar" src="${senderProfilePicture}" alt="${senderName}">
             <div class="chat-message-content">
@@ -545,36 +565,57 @@ createMessageElement(message) {
         `;
     }
     
-    // --- FIM DA MODIFICAÇÃO ---
-
     return messageElement;
 }
 
-    handleNewMessage(detail) {
-        const { type, message, conversationId, unreadCount } = detail;
-        let targetContainer;
 
-        if (type === 'global' && this.currentTab === 'global') {
-            targetContainer = this.elements.globalMessages;
-        } else if (type === 'private' && conversationId === this.currentConversation && this.currentTab === 'private') {
-            targetContainer = this.elements.privateMessages;
-        } else if (type === 'group' && conversationId === this.currentConversation && this.currentTab === 'groups') {
-            targetContainer = this.elements.groupMessages;
-        }
 
-        if (targetContainer) {
-            // Re-renderiza todas as mensagens para garantir a ordenação correta
-            // Isso é menos eficiente para muitas mensagens, mas garante a ordem
-            // Uma alternativa seria inserir a mensagem na posição correta, mas requer lógica mais complexa
-            const currentMessages = Array.from(targetContainer.children).map(el => JSON.parse(el.dataset.messageData));
-            currentMessages.push(message);
-            this.renderMessages(targetContainer, currentMessages);
-        }
 
-        // Atualiza badge de notificação e contadores de não lidas
-        this.updateNotificationBadges(type, conversationId, unreadCount);
+handleNewMessage(detail) {
+    const { type, message, conversationId, unreadCount } = detail;
+
+     // --- INÍCIO DA CORREÇÃO ---
+    // Verificação Adicional: Se a mensagem recebida é do usuário atual,
+    // não faça nada, pois ela já foi adicionada à tela no momento do envio.
+    if (message.senderId === window.chatManager.currentUser.uid) {
+        return;
+    }
+    // --- FIM DA CORREÇÃO ---
+
+    let targetContainer;
+
+    // ... (sua lógica para encontrar o targetContainer não muda) ...
+    if (type === 'global' && this.currentTab === 'global') {
+        targetContainer = this.elements.globalMessages;
+    } else if (type === 'private' && conversationId === this.currentConversation && this.currentTab === 'private') {
+        targetContainer = this.elements.privateMessages;
+    } else if (type === 'group' && conversationId === this.currentConversation && this.currentTab === 'groups') {
+        targetContainer = this.elements.groupMessages;
     }
 
+
+
+     if (targetContainer) {
+        const messageId = `message-${message.id}`;
+
+        // Esta verificação já previne que a mensagem (que acabou de voltar do Firebase)
+        // seja adicionada novamente, pois ela já foi inserida localmente por sendGlobalMessage.
+        if (document.getElementById(messageId)) {
+            return; 
+        }
+
+        // Este código agora só será executado para mensagens de OUTROS usuários.
+        const messageElement = this.createMessageElement(message); // Corrigido para usar this.
+        targetContainer.appendChild(messageElement);
+        targetContainer.scrollTop = targetContainer.scrollHeight;
+    }
+    // Atualiza badge de notificação e contadores de não lidas
+    this.updateNotificationBadges(type, conversationId, unreadCount);
+}
+
+
+
+    
     updateOnlineUsers(users) {
         this.elements.onlineUsersList.innerHTML = '';
         if (users.length === 0) {
@@ -683,6 +724,7 @@ if (targetContainer) {
     }
 }
     async openConversation(type, conversationId) {
+
         const fundoMensagens = document.querySelector(".fundoMensagens");
         fundoMensagens.scrollTop = fundoMensagens.scrollHeight;
         const fundoMensagens2 = document.querySelector(".fundoMensagens2");
@@ -949,7 +991,6 @@ async openProfileModal(userId) { // 1. Adicione 'async' aqui
         let tabBadge;
         if (type === 'global') {
             tabBadge = this.elements.tabs[0].querySelector('.chat-tab-badge');
-            
         } else if (type === 'private') {
             tabBadge = this.elements.tabs[1].querySelector('.chat-tab-badge');
             

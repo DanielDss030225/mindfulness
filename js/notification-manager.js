@@ -254,7 +254,7 @@ class NotificationManager {
     }
 
     updatePageTitle(unreadCount) {
-        const originalTitle = 'Mindfulness - A Plataforma do concurseiro!';
+        const originalTitle = 'FocoNaAprovação - A Plataforma do concurseiro!';
         
         if (unreadCount > 0) {
             document.title = `(${unreadCount}) ${originalTitle}`;

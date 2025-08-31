@@ -107,9 +107,10 @@
     }
 }
 
-/* Header do chat */
+/* Header do chat   background: linear-gradient(135deg, #2f2f2f 0%, #764ba2 100%);*/
+
 .chat-header {
-    background: linear-gradient(135deg, #2f2f2f 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #764ba2 0%, #2f2f2f 100%);
     color: white;
     padding: 15px 20px;
     display: flex;

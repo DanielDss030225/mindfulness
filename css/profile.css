@@ -492,6 +492,7 @@ font-size: 18px;
 @media (max-width: 768px) {
     .profile-container {
         padding: 15px;
+        margin-bottom: 100px;
     }
     
     .profile-content {

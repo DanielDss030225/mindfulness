@@ -8,7 +8,7 @@ class MindfulnessApp {
 
     async init() {
         try {
-            console.log('Initializing Mindfulness App...');
+            console.log('Initializing FocoNaAprovação App...');
             
             // Wait for DOM to be ready
             if (document.readyState === 'loading') {

@@ -14,7 +14,7 @@ class ChatManager {
                 this.userCache = new Map(); // NOVO: Adiciona um cache para os dados dos usuários
 
         this.maxMessagesPerLoad = 50;
-        this.messageRateLimit = 10;
+        this.messageRateLimit = 20;
         this.userMessageCount = 0;
         this.lastMessageTime = 0;
         
@@ -87,7 +87,7 @@ class ChatManager {
     setupMessageListeners() {
         this.setupGlobalMessageListener();
         this.setupPrivateMessageListener();
-        this.setupGroupMessageListener();
+       // this.setupGroupMessageListener();
     }
 
     setupGlobalMessageListener() {
@@ -100,32 +100,43 @@ class ChatManager {
         this.messageListeners.set("global", globalRef);
     }
 
-    setupPrivateMessageListener() {
-        const userId = this.currentUser.uid;
-        
-        const privateRef = this.database.ref("privateMessages");
-        
-        privateRef.on("child_added", (conversationSnapshot) => {
-            const conversationId = conversationSnapshot.key;
-            const [user1, user2] = conversationId.split("_");
-            
-            if (user1 === userId || user2 === userId) {
-                const messagesRef = this.database.ref(`privateMessages/${conversationId}`).orderByChild("timestamp").limitToLast(this.maxMessagesPerLoad);
-                
-                messagesRef.on("child_added", async (messageSnapshot) => {
-                    const message = { id: messageSnapshot.key, ...messageSnapshot.val() };
-                    const senderData = await this.getUserData(message.senderId);
-                    const fullMessage = {
-                        ...message,
-                        senderName: senderData.name || "Desconhecido",
-                        senderProfilePicture: senderData.profilePicture || "https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/ICONE%20PERFIL.png?alt=media&token=d092ec7f-77b9-404d-82d0-b6ed3ce6810e"
-                    };
-                    this.handleNewMessage("private", fullMessage, conversationId);
-                });
-                this.messageListeners.set(`private_${conversationId}`, messagesRef);
-            }
-        });
-    }
+ // DENTRO DA CLASSE ChatManager
+
+setupPrivateMessageListener() {
+    const userId = this.currentUser.uid;
+    const privateRef = this.database.ref("privateMessages");
+
+    privateRef.on("child_added", (conversationSnapshot) => {
+        const combinedConversationId = conversationSnapshot.key; // Ex: 'userA_userB'
+        const [user1, user2] = combinedConversationId.split("_");
+
+        if (user1 === userId || user2 === userId) {
+            // --- INÍCIO DA CORREÇÃO ---
+            // Determine o ID do OUTRO usuário na conversa.
+            const otherUserId = user1 === userId ? user2 : user1;
+            // --- FIM DA CORREÇÃO ---
+
+            const messagesRef = this.database.ref(`privateMessages/${combinedConversationId}`).orderByChild("timestamp").limitToLast(this.maxMessagesPerLoad);
+
+            messagesRef.on("child_added", async (messageSnapshot) => {
+                const message = { id: messageSnapshot.key, ...messageSnapshot.val() };
+                const senderData = await this.getUserData(message.senderId);
+                const fullMessage = {
+                    ...message,
+                    senderName: senderData.name || "Desconhecido",
+                    senderProfilePicture: senderData.profilePicture || "https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/ICONE%20PERFIL.png?alt=media&token=d092ec7f-77b9-404d-82d0-b6ed3ce6810e"
+                };
+
+                // --- MUDANÇA PRINCIPAL ---
+                // Passe o 'otherUserId' como o ID da conversa para a UI.
+                this.handleNewMessage("private", fullMessage, otherUserId );
+                // --- FIM DA MUDANÇA ---
+            });
+            this.messageListeners.set(`private_${combinedConversationId}`, messagesRef);
+        }
+    });
+}
+
 
     setupGroupMessageListener() {
         const userId = this.currentUser.uid;
@@ -147,7 +158,7 @@ class ChatManager {
    // MODIFICADO: Garante que os dados do usuário sejam incluídos na mensagem
     async handleNewMessage(type, message, conversationId = null) {
         // Não processa as próprias mensagens como "novas"
-        if (message.senderId === this.currentUser.uid) return;
+       // if (message.senderId === this.currentUser.uid) return;
 
         // Garante que os dados do remetente existam antes de prosseguir
         const senderData = await this.getUserData(message.senderId);
@@ -167,7 +178,13 @@ class ChatManager {
             conversationId,
             unreadCount: currentCount + 1
         });
+        
+      // Apenas atualiza a lista de conversas se a mensagem for de outro usuário
+    if (message.senderId !== this.currentUser.uid) {
         this.updateConversationsList(type, message, conversationId);
+    }
+
+
     }
 
     async updateConversationsList(type, message, conversationId) {

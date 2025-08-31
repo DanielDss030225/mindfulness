@@ -814,6 +814,7 @@ body {
 @media (max-width: 768px) {
     .user-profile-container {
         padding: 15px;
+        margin-bottom: 100px;
     }
     
     .profile-info {
