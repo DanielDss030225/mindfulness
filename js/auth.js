@@ -266,7 +266,7 @@ if (userName) {
                 message = error.message || 'Erro desconhecido. Tente novamente.';
         }
 
-        window.uiManager.showModal('Erro de Autenticação', message);
+        window.uiManager.showModal('Ops!', "E-mail ou senha inválidos.");
     }
 
     getCurrentUser() {

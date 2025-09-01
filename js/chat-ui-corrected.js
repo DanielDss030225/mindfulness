@@ -981,6 +981,7 @@ async openProfileModal(userId) { // 1. Adicione 'async' aqui
 
     updateNotificationBadges(type, conversationId, unreadCount) {
         const totalUnread = window.chatManager.getTotalUnreadCount();
+        
         if (totalUnread > 0) {
             this.elements.notificationBadge.textContent = totalUnread;
             this.elements.notificationBadge.style.display = 'block';
@@ -993,7 +994,6 @@ async openProfileModal(userId) { // 1. Adicione 'async' aqui
             tabBadge = this.elements.tabs[0].querySelector('.chat-tab-badge');
         } else if (type === 'private') {
             tabBadge = this.elements.tabs[1].querySelector('.chat-tab-badge');
-            
 
         } else if (type === 'group') {
             tabBadge = this.elements.tabs[2].querySelector('.chat-tab-badge');

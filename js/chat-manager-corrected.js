@@ -93,10 +93,11 @@ class ChatManager {
     setupGlobalMessageListener() {
         const globalRef = this.database.ref("globalMessages").orderByChild("timestamp").limitToLast(this.maxMessagesPerLoad);
         
-        globalRef.on("child_added", (snapshot) => {
-            const message = { id: snapshot.key, ...snapshot.val() };
-            this.handleNewMessage("global", message);
-        });
+        // Removido o listener de mensagens globais para evitar puxar dados para notificações
+        // globalRef.on("child_added", (snapshot) => {
+        //     const message = { id: snapshot.key, ...snapshot.val() };
+        //     this.handleNewMessage("global", message);
+        // });
         this.messageListeners.set("global", globalRef);
     }
 
@@ -420,51 +421,63 @@ setupPrivateMessageListener() {
 
 
     
-    async markMessagesAsRead(type, conversationId) {
-        const userId = this.currentUser.uid;
-        
-        if (type === "private") {
-            const fullConversationId = this.getConversationId(userId, conversationId);
-            const messagesRef = this.database.ref(`privateMessages/${fullConversationId}`);
-            
-            const snapshot = await messagesRef.orderByChild("read").equalTo(false).once("value");
-            const updates = {};
-            snapshot.forEach(child => {
-                updates[child.key + "/read"] = true;
-            });
-            if (Object.keys(updates).length > 0) {
-                await messagesRef.update(updates);
-            }
-            
-            // Zera o contador de não lidas na conversa do usuário
-            await this.database.ref(`userConversations/${userId}/private/${conversationId}`).update({
-                unreadCount: 0
-            });
-            this.unreadCounts.set(`private_${conversationId}`, 0);
+   // DENTRO DA CLASSE ChatManager
 
-        } else if (type === "global") {
-            // Para mensagens globais, não há um mecanismo de "lido" individual
-            // Apenas zera o contador de não lidas para o usuário atual
-            this.unreadCounts.set("global", 0);
-        } else if (type === "group") {
-            const groupMessagesRef = this.database.ref(`groups/${conversationId}/messages`);
-            const snapshot = await groupMessagesRef.orderByChild("readBy/${userId}").equalTo(null).once("value");
-            const updates = {};
-            snapshot.forEach(child => {
-                updates[child.key + `/readBy/${userId}`] = true;
-            });
-            if (Object.keys(updates).length > 0) {
-                await groupMessagesRef.update(updates);
+async markMessagesAsRead(type, conversationId) {
+    const userId = this.currentUser.uid;
+    
+    if (type === "private") {
+        const fullConversationId = this.getConversationId(userId, conversationId);
+        const messagesRef = this.database.ref(`privateMessages/${fullConversationId}`);
+        
+        const snapshot = await messagesRef.orderByChild("read").equalTo(false).once("value");
+        const updates = {};
+        snapshot.forEach(child => {
+            // Garante que estamos marcando como lidas apenas as mensagens recebidas
+            if (child.val().senderId !== userId) {
+                updates[child.key + "/read"] = true;
             }
-            
-            await this.database.ref(`userConversations/${userId}/groups/${conversationId}`).update({
-                unreadCount: 0
-            });
-            this.unreadCounts.set(`group_${conversationId}`, 0);
+        });
+        if (Object.keys(updates).length > 0) {
+            await messagesRef.update(updates);
         }
-        this.dispatchEvent("conversationsUpdated", Array.from(this.conversations.entries()));
-        this.dispatchEvent("unreadCountUpdated");
+        
+        // Zera o contador de não lidas na conversa do usuário
+        await this.database.ref(`userConversations/${userId}/private/${conversationId}`).update({
+            unreadCount: 0
+        });
+        this.unreadCounts.set(`private_${conversationId}`, 0);
+
+    } else if (type === "global") {
+        this.unreadCounts.set("global", 0);
+
+    } else if (type === "group") {
+        const groupMessagesRef = this.database.ref(`groups/${conversationId}/messages`);
+        const snapshot = await groupMessagesRef.orderByChild(`readBy/${userId}`).equalTo(null).once("value");
+        const updates = {};
+        snapshot.forEach(child => {
+            updates[child.key + `/readBy/${userId}`] = true;
+        });
+        if (Object.keys(updates).length > 0) {
+            await groupMessagesRef.update(updates);
+        }
+        
+        await this.database.ref(`userConversations/${userId}/groups/${conversationId}`).update({
+            unreadCount: 0
+        });
+        this.unreadCounts.set(`group_${conversationId}`, 0);
     }
+
+    // --- INÍCIO DA CORREÇÃO ---
+    // Dispara um evento para forçar a UI a reavaliar os contadores de não lidas.
+    // A função `updateNotificationBadges` na ChatUI será chamada em resposta a este evento.
+    this.dispatchEvent("unreadCountUpdated");
+    // --- FIM DA CORREÇÃO ---
+
+    // Esta linha também ajuda a atualizar a lista de conversas, removendo o badge da conversa específica.
+    this.dispatchEvent("conversationsUpdated", Array.from(this.conversations.entries()));
+}
+
 
 
 async  markPrivateConversationAsRead(conversationId) {
