@@ -94,10 +94,10 @@ class ChatManager {
         const globalRef = this.database.ref("globalMessages").orderByChild("timestamp").limitToLast(this.maxMessagesPerLoad);
         
         // Removido o listener de mensagens globais para evitar puxar dados para notificações
-        // globalRef.on("child_added", (snapshot) => {
-        //     const message = { id: snapshot.key, ...snapshot.val() };
-        //     this.handleNewMessage("global", message);
-        // });
+         globalRef.on("child_added", (snapshot) => {
+             const message = { id: snapshot.key, ...snapshot.val() };
+             this.handleNewMessage("global", message);
+         });
         this.messageListeners.set("global", globalRef);
     }
 
