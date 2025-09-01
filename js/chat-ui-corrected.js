@@ -723,7 +723,9 @@ if (targetContainer) {
 
     }
 }
-    async openConversation(type, conversationId) {
+  
+
+async openConversation(type, conversationId) {
 
         const fundoMensagens = document.querySelector(".fundoMensagens");
         fundoMensagens.scrollTop = fundoMensagens.scrollHeight;
@@ -758,14 +760,6 @@ if (targetContainer) {
             this.elements.groupConversations.style.display = 'flex';
             this.loadGroupMessages(conversationId);
 
-            // NOVO: Obter dados do grupo para conversas em grupo (se necessário)
-            // Para grupos, você precisaria de uma função similar no ChatManager para obter dados do grupo
-            // Exemplo (assumindo que você tenha um getGroupData no ChatManager):
-            // const groupData = await window.chatManager.getGroupData(conversationId);
-            // if (groupData) {
-            //     document.getElementById("groupNOME").textContent = groupData.name || "Grupo";
-            //     document.getElementById("groupIMG").src = groupData.profilePicture || "caminho/para/imagem/padrao/grupo.png";
-            // }
         }
         
    let userNOME = document.getElementById("userNOME").textContent
@@ -781,7 +775,7 @@ fundoUSER.style.display = "flex";
 
   }
   
-    }
+  }
 
 
     async sendGlobalMessage() {
@@ -864,7 +858,7 @@ document.getElementById("privateMessageInput").focus();
 
     }
 
-    async sendGroupMessage() {
+    /*async sendGroupMessage() {
         const messageInput = this.elements.groupMessageInput;
         const messageText = messageInput.value.trim();
         if (messageText === '' || !this.currentConversation) return;
@@ -893,7 +887,7 @@ document.getElementById("privateMessageInput").focus();
             console.error('Error sending group message:', error);
             alert('Erro ao enviar mensagem de grupo: ' + error.message);
         }
-    }
+    }*/
 
     handleUserSearch(query) {
         clearTimeout(this.searchTimeout);
@@ -955,6 +949,7 @@ async openProfileModal(userId) { // 1. Adicione 'async' aqui
         textarea.style.height = (textarea.scrollHeight) + 'px';
     }
 
+    //CLIQUE NAS JANELAS
     focusCurrentInput() {
         let inputElement;
         if (this.currentTab === 'global') {
@@ -969,19 +964,25 @@ async openProfileModal(userId) { // 1. Adicione 'async' aqui
         }
     }
 
+    //CLIQUE NAS CONVERSAS
     markCurrentMessagesAsRead() {
         if (this.currentTab === 'global') {
+
             window.chatManager.markMessagesAsRead('global');
         } else if (this.currentTab === 'private' && this.currentConversation) {
+    
             window.chatManager.markMessagesAsRead('private', this.currentConversation);
+
         } else if (this.currentTab === 'groups' && this.currentConversation) {
+
             window.chatManager.markMessagesAsRead('group', this.currentConversation);
         }
     }
 
+    
     updateNotificationBadges(type, conversationId, unreadCount) {
         const totalUnread = window.chatManager.getTotalUnreadCount();
-        
+
         if (totalUnread > 0) {
             this.elements.notificationBadge.textContent = totalUnread;
             this.elements.notificationBadge.style.display = 'block';
@@ -1009,6 +1010,8 @@ async openProfileModal(userId) { // 1. Adicione 'async' aqui
             }
         }
     }
+
+    
     
 }
 

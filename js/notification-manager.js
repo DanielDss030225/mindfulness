@@ -98,7 +98,7 @@ class NotificationManager {
         if (this.isChatWindowFocused(type, conversationId)) return;
 
         // Cria notificação visual
-        this.showVisualNotification(type, message, conversationId);
+       // this.showVisualNotification(type, message, conversationId);
 
         // Toca som se habilitado
         if (this.soundEnabled) {
@@ -114,7 +114,7 @@ class NotificationManager {
         this.updateNotificationBadge();
     }
 
-    showVisualNotification(type, message, conversationId) {
+   /* showVisualNotification(type, message, conversationId) {
         // Cria elemento de notificação visual
         const notification = document.createElement('div');
         notification.className = 'chat-notification';
@@ -123,33 +123,33 @@ class NotificationManager {
         const senderName = message.senderName || 'Usuário';
         const messagePreview = this.truncateMessage(message.message);
         
-        //notification.innerHTML = `
-           // <div class="chat-notification-header">
-                //<img src="${message.senderProfilePic}" alt="${senderName}" class="chat-notification-avatar">
-               // <div class="chat-notification-info">
-                  //  <div class="chat-notification-sender">${senderName}</div>
-                  //  <div class="chat-notification-type">${typeText}</div>
-               // </div>
-               // <button class="chat-notification-close">&times;</button>
-           // </div>
-           // <div class="chat-notification-message">${messagePreview}</div>
-     //   `;
+        notification.innerHTML = `
+         <div class="chat-notification-header">
+                <img src="${message.senderProfilePic}" alt="${senderName}" class="chat-notification-avatar">
+                <div class="chat-notification-info">
+                    <div class="chat-notification-sender">${senderName}</div>
+                    <div class="chat-notification-type">${typeText}</div>
+                </div>
+                <button class="chat-notification-close">&times;</button>
+            </div>
+            <div class="chat-notification-message">${messagePreview}</div>
+        `;
 
-        // Adiciona estilos inline para garantir que funcione
-       // notification.style.cssText = `
-        //    position: fixed;
-       //     top: 20px;
-       //     right: 20px;
-         //   background: white;
-        //    border: 1px solid #ddd;
-        //    border-radius: 10px;
-      //      padding: 15px;
-          ///  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-          //  z-index: 10000;
-          //  max-width: 300px;
-         //   animation: slideInRight 0.3s ease;
-          //  cursor: pointer;
-        //`;
+         //Adiciona estilos inline para garantir que funcione
+        notification.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            z-index: 10000;
+            max-width: 300px;
+            animation: slideInRight 0.3s ease;
+            cursor: pointer;
+        `; 
 
         // Adiciona event listeners
         const closeBtn = notification.querySelector('.chat-notification-close');
@@ -172,7 +172,7 @@ class NotificationManager {
                 this.hideVisualNotification(notification);
             }
         }, 1000);
-    }
+    }*/
 
     hideVisualNotification(notification) {
         notification.style.animation = 'slideOutRight 0.3s ease';
@@ -263,7 +263,8 @@ class NotificationManager {
         }
     }
 
-   // showWelcomeNotification() {
+
+   /*  showWelcomeNotification() {
         if (!this.isEnabled) return;
 
         const notification = document.createElement('div');
@@ -306,7 +307,7 @@ class NotificationManager {
                 this.hideVisualNotification(notification);
             }
         }, 1000);
-    }
+    }*/
 
     handleOnlineUsersUpdate(users) {
         // Pode implementar notificações quando amigos ficam online

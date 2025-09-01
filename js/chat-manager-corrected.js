@@ -440,6 +440,7 @@ async markMessagesAsRead(type, conversationId) {
         });
         if (Object.keys(updates).length > 0) {
             await messagesRef.update(updates);
+            
         }
         
         // Zera o contador de não lidas na conversa do usuário
@@ -479,8 +480,7 @@ async markMessagesAsRead(type, conversationId) {
 }
 
 
-
-async  markPrivateConversationAsRead(conversationId) {
+async markPrivateConversationAsRead(conversationId) {
     if (window.chatManager && window.chatManager.currentUser) {
         const userId = window.chatManager.currentUser.uid;
         const fullConversationId = window.chatManager.getConversationId(userId, conversationId);
@@ -494,9 +494,12 @@ async  markPrivateConversationAsRead(conversationId) {
                 updates[child.key + "/read"] = true;
             });
 
-            if (Object.keys(updates).length > 0) {
+            // Exibe alerta com quantidade de mensagens não lidas que serão marcadas
+            const unreadCount = Object.keys(updates).length;
+            if (unreadCount > 0) {
+                alert(`Você está prestes a marcar ${unreadCount} mensagem(ns) como lida(s).`);
                 await messagesRef.update(updates);
-                console.log(`Mensagens na conversa ${fullConversationId} marcadas como lidas.`);
+                alert(`Mensagens na conversa ${fullConversationId} marcadas como lidas.`);
             }
 
             // Resetar o contador de mensagens não lidas para esta conversa no userConversations
@@ -524,6 +527,7 @@ async  markPrivateConversationAsRead(conversationId) {
         }
     }
 }
+
 
 
 
@@ -557,6 +561,8 @@ async  markPrivateConversationAsRead(conversationId) {
         return messages;
     }
 
+
+
     async getPrivateMessages(conversationId) {
         const userId = this.currentUser.uid;
         const fullConversationId = this.getConversationId(userId, conversationId);
@@ -568,6 +574,8 @@ async  markPrivateConversationAsRead(conversationId) {
         return messages;
     }
 
+
+    
     async getGroupMessages(groupId) {
         const snapshot = await this.database.ref(`groups/${groupId}/messages`).limitToLast(this.maxMessagesPerLoad).once("value");
         const messages = [];
