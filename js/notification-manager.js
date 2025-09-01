@@ -352,6 +352,7 @@ class NotificationManager {
             detail: { type, conversationId }
         });
         document.dispatchEvent(event);
+
     }
 
     // Métodos públicos para configurações

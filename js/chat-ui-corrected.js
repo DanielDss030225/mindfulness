@@ -74,7 +74,7 @@ class ChatUI {
             <div class="chat-tabs">
                 <button class="chat-tab active" data-tab="global">
                     Global
-                    <span class="chat-tab-badge"></span>
+                    <span class="chat-tab-badge2"></span>
                 </button>
                 <button class="chat-tab" data-tab="private">
                     Privadas
@@ -588,6 +588,8 @@ handleNewMessage(detail) {
     if (type === 'global' && this.currentTab === 'global') {
         targetContainer = this.elements.globalMessages;
     } else if (type === 'private' && conversationId === this.currentConversation && this.currentTab === 'private') {
+               this.markCurrentMessagesAsRead();
+
         targetContainer = this.elements.privateMessages;
     } else if (type === 'group' && conversationId === this.currentConversation && this.currentTab === 'groups') {
         targetContainer = this.elements.groupMessages;
@@ -677,6 +679,9 @@ async updateConversations(conversations) {
                 // Busca os dados do usuário em tempo real
                 const otherUserData = await window.chatManager.getUserData(convData.id);
                 if (otherUserData) {
+
+                            
+
                     name = otherUserData.name || 'Novato';
                     avatar = otherUserData.profilePicture || 'https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/ICONE%20PERFIL.png?alt=media&token=d092ec7f-77b9-404d-82d0-b6ed3ce6810e';
                 } else {
@@ -685,12 +690,16 @@ async updateConversations(conversations) {
                 }
             }
 
+
+
             if (convData.unreadCount > 0 ) {
-                unreadBadge = `<span class="chat-conversation-badge">${convData.unreadCount}</span>`;
+                unreadBadge = `<span class="chat-conversation-badge">🔴</span>`;
             }
+
+
             conversationItem.addEventListener('click', () => this.openConversation('private', convData.id));
 
-        } else if (convData.type === 'group') {
+        } /*else if (convData.type === 'group') {
             // Lógica para grupos (permanece a mesma)
             targetContainer = this.elements.groupConversations;
             name = convData.groupName || 'Grupo Desconhecido';
@@ -699,7 +708,7 @@ async updateConversations(conversations) {
                 unreadBadge = `<span class="chat-conversation-badge">${convData.unreadCount}</span>`;
             }
             conversationItem.addEventListener('click', () => this.openConversation('group', convData.id));
-        }
+        } */
 if (targetContainer) {
     // Limita o nome a 10 caracteres e adiciona "..." se for maior
     const displayName = name.length > 10 ? name.slice(0, 10) + '...' : name;
@@ -725,57 +734,95 @@ if (targetContainer) {
 }
   
 
+// DENTRO DA CLASSE ChatUI
+
 async openConversation(type, conversationId) {
 
-        const fundoMensagens = document.querySelector(".fundoMensagens");
-        fundoMensagens.scrollTop = fundoMensagens.scrollHeight;
-        const fundoMensagens2 = document.querySelector(".fundoMensagens2");
-        fundoMensagens2.scrollTop = fundoMensagens2.scrollHeight;
+    // 1. Obter a contagem de mensagens não lidas para esta conversa.
+    const unreadCount = window.chatManager.getUnreadCount(type, conversationId);
 
-        this.currentConversation = conversationId;
-        this.switchTab(type);
+    // 2. Se houver mensagens não lidas, mostre o alerta e ATUALIZE AMBOS os badges.
+    if (unreadCount > 0) {
 
-        if (type === 'private') {
-            this.elements.privateMessages.style.display = 'block';
-            this.elements.privateInputArea.style.display = 'flex';
-            this.elements.privateConversations.style.display = 'flex';
-            this.loadPrivateMessages(conversationId);
+        // --- INÍCIO DA LÓGICA DE SUBTRAÇÃO ---
 
-            // NOVO: Obter dados do usuário para conversas privadas
-            const userIdToDisplay = conversationId; // Em conversas privadas, conversationId é o ID do outro usuário
-            const userData = await window.chatManager.getUserData(userIdToDisplay);
+        // Subtração do Badge de Notificação GERAL (`chat-notification-badge`)
+        const mainNotificationBadge = this.elements.notificationBadge;
+        if (mainNotificationBadge && mainNotificationBadge.style.display !== 'none') {
+            const currentTotal = parseInt(mainNotificationBadge.textContent, 10);
+            const newTotal = currentTotal - unreadCount;
 
-
-            
-            if (userData) {
-                // Atualiza os elementos HTML com o nome e a imagem do perfil
-                document.getElementById("userNOME").textContent = userData.name || "Novato";
-                document.getElementById("userIMG").src = userData.profilePicture || "https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/ICONE%20PERFIL.png?alt=media&token=d092ec7f-77b9-404d-82d0-b6ed3ce6810e";
+            if (newTotal > 0) {
+                mainNotificationBadge.textContent = newTotal;
+            } else {
+                mainNotificationBadge.style.display = 'none';
+                mainNotificationBadge.textContent = '0';
             }
-
-
-        } else if (type === 'group' ) {
-            this.elements.groupMessages.style.display = 'block';
-            this.elements.groupInputArea.style.display = 'flex';
-            this.elements.groupConversations.style.display = 'flex';
-            this.loadGroupMessages(conversationId);
-
         }
+
+        // Subtração do Badge da ABA ESPECÍFICA (`chat-tab-badge`)
+        // Primeiro, encontramos a aba correta com base no 'type' da conversa.
+        const tabElement = document.querySelector(`.chat-tab[data-tab="${type}"]`);
+        if (tabElement) {
+            const tabBadge = tabElement.querySelector('.chat-tab-badge');
+            if (tabBadge && tabBadge.style.display !== 'none') {
+                const currentTabTotal = parseInt(tabBadge.textContent, 10);
+                const newTabTotal = currentTabTotal - unreadCount;
+                
+                if (newTabTotal > 0) {
+                    tabBadge.textContent = newTabTotal;
+                } else {
+                    tabBadge.style.display = 'none';
+                    tabBadge.textContent = '0';
+                }
+            }
+        }
+        // --- FIM DA LÓGICA DE SUBTRAÇÃO ---
+    }
+
+    // 3. Agora, podemos prosseguir com a lógica original da função.
+    const fundoMensagens = document.querySelector(".fundoMensagens");
+    fundoMensagens.scrollTop = fundoMensagens.scrollHeight;
+    const fundoMensagens2 = document.querySelector(".fundoMensagens2");
+    fundoMensagens2.scrollTop = fundoMensagens2.scrollHeight;
+
+    this.currentConversation = conversationId;
+    
+    // switchTab chama markCurrentMessagesAsRead, que fará a marcação oficial no backend.
+    this.switchTab(type); 
+
+    if (type === 'private') {
+        this.elements.privateMessages.style.display = 'block';
+        this.elements.privateInputArea.style.display = 'flex';
+        this.elements.privateConversations.style.display = 'flex';
+        this.loadPrivateMessages(conversationId);
+
+        const userIdToDisplay = conversationId;
+        const userData = await window.chatManager.getUserData(userIdToDisplay);
         
-   let userNOME = document.getElementById("userNOME").textContent
+        if (userData) {
+            document.getElementById("userNOME").textContent = userData.name || "Novato";
+            document.getElementById("userIMG").src = userData.profilePicture || "https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/ICONE%20PERFIL.png?alt=media&token=d092ec7f-77b9-404d-82d0-b6ed3ce6810e";
+        }
+
+    } else if (type === 'group' ) {
+        this.elements.groupMessages.style.display = 'block';
+        this.elements.groupInputArea.style.display = 'flex';
+        this.elements.groupConversations.style.display = 'flex';
+        this.loadGroupMessages(conversationId);
+    }
+    
+    let userNOME = document.getElementById("userNOME").textContent;
     let fundoUSER = document.getElementById("fundoUSER");
 
-  if (userNOME == "030225") {
+    if (userNOME == "030225") {
+        fundoUSER.style.display = "none";
+    } else {
+        fundoUSER.style.display = "flex";
+    }
 
-fundoUSER.style.display = "none";
 
-  } else {
-fundoUSER.style.display = "flex";
-
-
-  }
-  
-  }
+}
 
 
     async sendGlobalMessage() {
@@ -937,6 +984,7 @@ async openProfileModal(userId) { // 1. Adicione 'async' aqui
     }
 
     startPrivateChat() {
+        
         const targetUserId = this.elements.startPrivateChatBtn.dataset.targetUserId;
         if (targetUserId) {
             this.closeProfileModal();
@@ -951,10 +999,12 @@ async openProfileModal(userId) { // 1. Adicione 'async' aqui
 
     //CLIQUE NAS JANELAS
     focusCurrentInput() {
+        
         let inputElement;
         if (this.currentTab === 'global') {
             inputElement = this.elements.globalMessageInput;
         } else if (this.currentTab === 'private') {
+
             inputElement = this.elements.privateMessageInput;
         } else if (this.currentTab === 'groups') {
             inputElement = this.elements.groupMessageInput;
@@ -994,6 +1044,7 @@ async openProfileModal(userId) { // 1. Adicione 'async' aqui
         if (type === 'global') {
             tabBadge = this.elements.tabs[0].querySelector('.chat-tab-badge');
         } else if (type === 'private') {
+            
             tabBadge = this.elements.tabs[1].querySelector('.chat-tab-badge');
 
         } else if (type === 'group') {
@@ -1001,9 +1052,11 @@ async openProfileModal(userId) { // 1. Adicione 'async' aqui
         }
 
         if (tabBadge) {
+            const mainBadge = document.querySelector('.chat-notification-badge').textContent;
+ 
             const tabUnread = window.chatManager.getUnreadCount(type, conversationId);
-            if (tabUnread > 0) {
-                tabBadge.textContent = tabUnread;
+            if (mainBadge > 0) {
+                tabBadge.textContent = mainBadge;
                 tabBadge.style.display = 'block';
             } else {
                 tabBadge.style.display = 'none';

@@ -132,7 +132,22 @@ setupPrivateMessageListener() {
                 // Passe o 'otherUserId' como o ID da conversa para a UI.
                 this.handleNewMessage("private", fullMessage, otherUserId );
                 // --- FIM DA MUDANÇA ---
+
+
+        
+        
+                // Se a conversa estiver aberta e a mensagem é do outro usuário, marca como lida
+ if (otherUserId === window.currentOpenConversationId && message.senderId !== userId && message.read === false) {
+    await this.database.ref(`privateMessages/${combinedConversationId}/${message.id}`).update({ read: true });
+    this.unreadCounts.set(`private_${otherUserId}`, 0);
+    this.dispatchEvent("unreadCountUpdated");
+    this.dispatchEvent("conversationsUpdated", Array.from(this.conversations.entries()));
+}
+
             });
+
+
+
             this.messageListeners.set(`private_${combinedConversationId}`, messagesRef);
         }
     });
@@ -156,73 +171,118 @@ setupPrivateMessageListener() {
         });
     }
 
-   // MODIFICADO: Garante que os dados do usuário sejam incluídos na mensagem
-    async handleNewMessage(type, message, conversationId = null) {
-        // Não processa as próprias mensagens como "novas"
-       // if (message.senderId === this.currentUser.uid) return;
+async markOpenConversationAsRead(otherUserId) {
+    const userId = this.currentUser.uid;
+    const fullConversationId = this.getConversationId(userId, otherUserId);
+    const messagesRef = this.database.ref(`privateMessages/${fullConversationId}`);
 
-        // Garante que os dados do remetente existam antes de prosseguir
-        const senderData = await this.getUserData(message.senderId);
-        
-        // Adiciona os dados do remetente à mensagem
-        message.senderName = senderData?.name || "Novato";
-        message.senderProfilePicture = senderData?.profilePicture || "https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/ICONE%20PERFIL.png?alt=media&token=d092ec7f-77b9-404d-82d0-b6ed3ce6810e";
-        
-        const key = conversationId ? `${type}_${conversationId}` : type;
-        const currentCount = this.unreadCounts.get(key ) || 0;
+    const snapshot = await messagesRef.orderByChild("read").equalTo(false).once("value");
+    const updates = {};
+    snapshot.forEach(child => {
+        if (child.val().senderId !== userId) {
+            updates[child.key + "/read"] = true;
+        }
+    });
+
+    if (Object.keys(updates).length > 0) {
+        await messagesRef.update(updates);
+        // Atualiza contador local
+        this.unreadCounts.set(`private_${otherUserId}`, 0);
+        this.dispatchEvent("unreadCountUpdated");
+        this.dispatchEvent("conversationsUpdated", Array.from(this.conversations.entries()));
+    }
+}
+
+
+   // MODIFICADO: Garante que os dados do usuário sejam incluídos na mensagem
+// DENTRO DA CLASSE ChatManager
+async handleNewMessage(type, message, conversationId = null) {
+    // Garante os dados do remetente
+    const senderData = await this.getUserData(message.senderId);
+    message.senderName = senderData?.name || "Novato";
+    message.senderProfilePicture = senderData?.profilePicture || "https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/ICONE%20PERFIL.png?alt=media&token=d092ec7f-77b9-404d-82d0-b6ed3ce6810e";
+
+    const key = conversationId ? `${type}_${conversationId}` : type;
+
+    // Regras para contagem:
+    const isOwnMessage = message.senderId === this.currentUser.uid;
+    const isReadPrivate = message.read === true; // privadas
+    const isReadGroup = type === "group" && message.readBy && message.readBy[this.currentUser.uid] === true; // grupos
+    const isRead = isReadPrivate || isReadGroup;
+
+const shouldCount = !isOwnMessage && !isRead && type !== "global"; // ❌ adicionei a condição para ignorar global
+
+    if (shouldCount) {
+        const currentCount = this.unreadCounts.get(key) || 0;
         this.unreadCounts.set(key, currentCount + 1);
-        
-        // Agora, o evento é disparado com os dados completos
-        this.dispatchEvent("newMessage", {
-            type,
-            message, // A mensagem agora está completa
-            conversationId,
-            unreadCount: currentCount + 1
-        });
-        
-      // Apenas atualiza a lista de conversas se a mensagem for de outro usuário
-    if (message.senderId !== this.currentUser.uid) {
+    }
+
+    // Dispara o evento sempre (para renderizar a mensagem),
+    // mas com o unreadCount atual (sem inflar quando read=true)
+  this.dispatchEvent("newMessage", {
+    type,
+    message,
+    conversationId,
+    unreadCount: type !== "global" ? (this.unreadCounts.get(key) || 0) : undefined
+});
+
+
+    // Atualiza lista de conversas só se não for sua própria mensagem
+    if (!isOwnMessage) {
         this.updateConversationsList(type, message, conversationId);
     }
+}
 
 
-    }
+// DENTRO DA CLASSE ChatManager
+async updateConversationsList(type, message, conversationId) {
+    const userId = this.currentUser.uid;
 
-    async updateConversationsList(type, message, conversationId) {
-        const userId = this.currentUser.uid;
-        
-        if (type === "private" && conversationId) {
-            const [user1, user2] = conversationId.split("_");
-            const otherUserId = user1 === userId ? user2 : user1;
-            
-            const otherUserSnapshot = await this.database.ref(`users/${otherUserId}`).once("value");
-            const otherUserData = otherUserSnapshot.val();
-            
-            if (otherUserData) {
-                await this.database.ref(`userConversations/${userId}/private/${otherUserId}`).update({
-                    lastMessage: message.message,
-                    lastMessageTime: message.timestamp,
-                    unreadCount: firebase.database.ServerValue.increment(1),
-                    otherUserName: otherUserData.name,
-                    otherUserProfilePic: otherUserData.profilePicture
-                });
-            }
-        } else if (type === "group" && conversationId) {
-            const groupSnapshot = await this.database.ref(`groups/${conversationId}`).once("value");
-            const groupData = groupSnapshot.val();
-            
-            if (groupData) {
-                await this.database.ref(`userConversations/${userId}/groups/${conversationId}`).update({
-                    groupName: groupData.name,
-                    lastMessage: message.message,
-                    lastMessageTime: message.timestamp,
-                    unreadCount: firebase.database.ServerValue.increment(1)
-                });
-            }
+    if (type === "private" && conversationId) {
+        const otherUserId = conversationId; // <- aqui é o ID do outro usuário
+        const otherUserSnapshot = await this.database.ref(`users/${otherUserId}`).once("value");
+        const otherUserData = otherUserSnapshot.val();
+
+        // Só incrementa se a msg for do outro e não estiver lida
+        const shouldIncrement = message.senderId !== userId && message.read !== true;
+
+        if (otherUserData) {
+            await this.database.ref(`userConversations/${userId}/private/${otherUserId}`).update({
+                lastMessage: message.message,
+                lastMessageTime: message.timestamp,
+                unreadCount: shouldIncrement 
+                    ? firebase.database.ServerValue.increment(1) 
+                    : firebase.database.ServerValue.increment(0),
+                otherUserName: otherUserData.name,
+                otherUserProfilePic: otherUserData.profilePicture
+            });
+        }
+
+    } else if (type === "group" && conversationId) {
+        const groupSnapshot = await this.database.ref(`groups/${conversationId}`).once("value");
+        const groupData = groupSnapshot.val();
+
+        const readByCurrent = message.readBy && message.readBy[userId] === true;
+        const shouldIncrement = message.senderId !== userId && !readByCurrent;
+
+        if (groupData) {
+            await this.database.ref(`userConversations/${userId}/groups/${conversationId}`).update({
+                groupName: groupData.name,
+                lastMessage: message.message,
+                lastMessageTime: message.timestamp,
+                unreadCount: shouldIncrement 
+                    ? firebase.database.ServerValue.increment(1) 
+                    : firebase.database.ServerValue.increment(0)
+            });
         }
     }
+}
+
 
     async sendMessage(type, content, targetId = null) {
+        if (type === "private" && window.currentOpenConversationId === targetId) {
+        await this.markOpenConversationAsRead(targetId);
+    }
         if (!this.canSendMessage()) {
             throw new Error("Rate limit exceeded. Aguarde um momento antes de enviar outra mensagem.");
         }
@@ -481,6 +541,7 @@ async markMessagesAsRead(type, conversationId) {
 
 
 async markPrivateConversationAsRead(conversationId) {
+
     if (window.chatManager && window.chatManager.currentUser) {
         const userId = window.chatManager.currentUser.uid;
         const fullConversationId = window.chatManager.getConversationId(userId, conversationId);
