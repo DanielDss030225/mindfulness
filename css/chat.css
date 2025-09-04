@@ -1065,13 +1065,12 @@ width: 200px;
 /* Responsividade */
 @media (max-width: 1000px) {
     .chat-window {
-        position: fixed;
         top: 0;
         left: 0;
         right: 0;
         bottom: 0;
         width: 100%;
-        height: 100vh;
+        height:100%;
         border-radius: 0;
     z-index: 9900; /* garante que fica acima de tudo */
 
@@ -1097,13 +1096,14 @@ width: 200px;
 
     
 .chat-content {
-    height: 100vh;
+    height: 100%;
 }
 .chat-panel {
     width: 100%;
 }
 .chat-search {
     height: 70px;
+    display: none;
 }
 
 

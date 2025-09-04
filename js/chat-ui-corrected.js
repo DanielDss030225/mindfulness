@@ -233,10 +233,34 @@ class ChatUI {
         this.elements.userSearchInput.addEventListener('input', (e) => {
             this.handleUserSearch(e.target.value);
         });
-        this.elements.globalSendBtn.addEventListener('click', () => this.sendGlobalMessage());
-        this.elements.privateSendBtn.addEventListener('click', () => this.sendPrivateMessage());
-        this.elements.groupSendBtn.addEventListener('click', () => this.sendGroupMessage());
-        
+       // this.elements.globalSendBtn.addEventListener('click', () => this.sendGlobalMessage());
+       // this.elements.privateSendBtn.addEventListener('click', () => this.sendPrivateMessage());
+       // this.elements.groupSendBtn.addEventListener('click', () => this.sendGroupMessage());
+        // DENTRO de setupEventListeners na classe ChatUI
+
+// ADICIONE estas linhas:
+
+// Para o chat Global
+this.elements.globalSendBtn.addEventListener('mousedown', (event) => {
+    // Previne que o botão receba o foco, mantendo o teclado aberto.
+    event.preventDefault(); 
+    this.sendGlobalMessage();
+});
+
+// Para o chat Privado
+this.elements.privateSendBtn.addEventListener('mousedown', (event) => {
+    event.preventDefault();
+    this.sendPrivateMessage();
+});
+
+// Para o chat em Grupo (se estiver usando)
+/*
+this.elements.groupSendBtn.addEventListener('mousedown', (event) => {
+    event.preventDefault();
+    this.sendGroupMessage();
+});
+*/
+
         this.elements.globalMessageInput.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
@@ -866,8 +890,8 @@ chatmessages.scrollTop = chatmessages.scrollHeight;
 const chatmessages2 = document.querySelector(".chat-messages2");
 chatmessages2.scrollTop = chatmessages2.scrollHeight;
 
-document.getElementById("globalMessageInput").focus();
-
+//document.getElementById("globalMessageInput").focus();
+    // Adicione esta linha no final da função
     }
 
     async sendPrivateMessage() {
@@ -901,7 +925,7 @@ document.getElementById("globalMessageInput").focus();
         }
           const fundoMensagens2 = document.querySelector(".fundoMensagens2");
 fundoMensagens2.scrollTop = fundoMensagens2.scrollHeight;
-document.getElementById("privateMessageInput").focus();
+//document.getElementById("privateMessageInput").focus();
 
     }
 
@@ -997,22 +1021,37 @@ async openProfileModal(userId) { // 1. Adicione 'async' aqui
         textarea.style.height = (textarea.scrollHeight) + 'px';
     }
 
-    //CLIQUE NAS JANELAS
-    focusCurrentInput() {
-        
-        let inputElement;
-        if (this.currentTab === 'global') {
-            inputElement = this.elements.globalMessageInput;
-        } else if (this.currentTab === 'private') {
+// DENTRO DA CLASSE ChatUI
 
-            inputElement = this.elements.privateMessageInput;
-        } else if (this.currentTab === 'groups') {
-            inputElement = this.elements.groupMessageInput;
-        }
-        if (inputElement) {
-            inputElement.focus();
-        }
+// DENTRO DA CLASSE ChatUI
+
+focusCurrentInput() {
+    // Verifica se o dispositivo atual é propenso a ter um teclado virtual.
+    // A propriedade 'ontouchstart' em 'window' é um bom indicador de um dispositivo de toque.
+    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
+    // Se for um dispositivo de toque, NÃO focamos no input para evitar abrir o teclado.
+    if (isTouchDevice) {
+        return;
     }
+
+    // Se for um desktop, o comportamento de focar no input é mantido.
+    let inputElement;
+    if (this.currentTab === 'global') {
+        inputElement = this.elements.globalMessageInput;
+    } else if (this.currentTab === 'private') {
+        inputElement = this.elements.privateMessageInput;
+    } else if (this.currentTab === 'groups') {
+        inputElement = this.elements.groupMessageInput;
+    }
+    
+    if (inputElement) {
+        // Atrasar um pouco o foco pode ajudar a garantir que o elemento esteja visível.
+        setTimeout(() => inputElement.focus(), 100);
+    }
+}
+
+
 
     //CLIQUE NAS CONVERSAS
     markCurrentMessagesAsRead() {

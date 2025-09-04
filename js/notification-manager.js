@@ -2,7 +2,7 @@
 class NotificationManager {
     constructor() {
         this.isEnabled = true;
-        this.soundEnabled = true;
+        this.soundEnabled = false;
         this.browserNotificationsEnabled = false;
         this.audioContext = null;
         this.notificationSound = null;
