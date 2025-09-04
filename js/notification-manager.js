@@ -2,7 +2,7 @@
 class NotificationManager {
     constructor() {
         this.isEnabled = true;
-        this.soundEnabled = false;
+       // this.soundEnabled = false;
         this.browserNotificationsEnabled = false;
         this.audioContext = null;
         this.notificationSound = null;
@@ -101,9 +101,9 @@ class NotificationManager {
        // this.showVisualNotification(type, message, conversationId);
 
         // Toca som se habilitado
-        if (this.soundEnabled) {
-            this.playNotificationSound();
-        }
+      //  if (this.soundEnabled) {
+    //        this.playNotificationSound();
+      //  }
 
         // Mostra notificação do navegador se habilitado
         if (this.browserNotificationsEnabled) {
@@ -207,7 +207,7 @@ class NotificationManager {
         setTimeout(() => notification.close(), 5000);
     }
 
-    playNotificationSound() {
+   /* playNotificationSound() {
         if (!this.audioContext || !this.soundEnabled) return;
 
         try {
@@ -229,7 +229,7 @@ class NotificationManager {
         } catch (error) {
             console.warn('Error playing notification sound:', error);
         }
-    }
+    } */
 
     updateNotificationBadge() {
         if (!window.chatManager) return;
@@ -254,7 +254,7 @@ class NotificationManager {
     }
 
     updatePageTitle(unreadCount) {
-        const originalTitle = 'FocoNaAprovação - A Plataforma do concurseiro!';
+        const originalTitle = 'PlataformaBizurada - A Plataforma do concurseiro!';
         
         if (unreadCount > 0) {
             document.title = `(${unreadCount}) ${originalTitle}`;

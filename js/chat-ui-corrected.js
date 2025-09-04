@@ -62,7 +62,7 @@ class ChatUI {
             <div class="chat-header">
                 <h3>Chat</h3>
                 <div class="chat-header-actions">
-                    <!--<button class="chat-header-btn" id="chatSettingsBtn" title="Configurações">
+                   <!-- <button class="chat-header-btn" id="chatSettingsBtn" title="Configurações">
                         ⚙️
                     </button>-->
                     <button class="chat-header-btn" id="chatCloseBtn" title="Fechar">
