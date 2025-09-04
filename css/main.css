@@ -428,12 +428,13 @@ header p {
 }
 
 .professor-head {
-    width: 120px;
-    height: 120px;
+    width: 130px;
+    height: 130px;
     background: linear-gradient(135deg, #caddd4 0%, #89c2d8 100%);
     border-radius: 50%;
     position: relative;
     box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    
 
 }
 
