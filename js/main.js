@@ -493,4 +493,5 @@ document.addEventListener('DOMContentLoaded', () => {
     window.chatManager = new ChatManager();
     window.chatUI = new ChatUI();
 
+
 });

@@ -144,6 +144,7 @@ setupPrivateMessageListener() {
     this.unreadCounts.set(`private_${otherUserId}`, 0);
     this.dispatchEvent("unreadCountUpdated");
     this.dispatchEvent("conversationsUpdated", Array.from(this.conversations.entries()));
+    
 }
 
             });
@@ -199,6 +200,10 @@ async markOpenConversationAsRead(otherUserId) {
    // MODIFICADO: Garante que os dados do usuário sejam incluídos na mensagem
 // DENTRO DA CLASSE ChatManager
 async handleNewMessage(type, message, conversationId = null) {
+
+
+
+
     // Garante os dados do remetente
     const senderData = await this.getUserData(message.senderId);
     message.senderName = senderData?.name || "Novato";
@@ -212,12 +217,23 @@ async handleNewMessage(type, message, conversationId = null) {
     const isReadGroup = type === "group" && message.readBy && message.readBy[this.currentUser.uid] === true; // grupos
     const isRead = isReadPrivate || isReadGroup;
 
-const shouldCount = !isOwnMessage && !isRead && type !== "global"; // ❌ adicionei a condição para ignorar global
+// DENTRO DE ChatManager -> handleNewMessage
 
-    if (shouldCount) {
-        const currentCount = this.unreadCounts.get(key) || 0;
-        this.unreadCounts.set(key, currentCount + 1);
-    }
+// --- INÍCIO DA CORREÇÃO ---
+// Verifica se a conversa da mensagem recebida é a que está aberta na UI.
+// Acessamos a variável global da ChatUI para saber qual conversa está ativa.
+const isConversationOpen = type === 'private' && conversationId === window.chatUI.currentConversation;
+
+// Adiciona a condição !isConversationOpen à lógica de contagem.
+const shouldCount = !isOwnMessage && !isRead && type !== "global" && !isConversationOpen;
+// --- FIM DA CORREÇÃO ---
+
+if (shouldCount) {
+    const currentCount = this.unreadCounts.get(key) || 0;
+    this.unreadCounts.set(key, currentCount + 1);
+}
+
+// ... resto da função
 
     // Dispara o evento sempre (para renderizar a mensagem),
     // mas com o unreadCount atual (sem inflar quando read=true)
@@ -233,6 +249,8 @@ const shouldCount = !isOwnMessage && !isRead && type !== "global"; // ❌ adicio
     if (!isOwnMessage) {
         this.updateConversationsList(type, message, conversationId);
     }
+
+
 }
 
 

@@ -902,6 +902,9 @@ textarea:focus {
     line-height: 1.5;
 }
 
+
+
+
 /* Responsive design for review screens */
 @media (max-width: 768px) {
     .review-container {
