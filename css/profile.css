@@ -850,7 +850,9 @@ font-size: 18px;
 .streak-info {
     /* Nenhum estilo específico, mas herda de .section-header */
 }
-
+.carregando {
+    color: white;
+}
 /* --- Media Queries (Ajustes para telas menores) --- */
 @media (max-width: 768px) {
     .content-section {

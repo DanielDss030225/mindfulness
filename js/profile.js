@@ -506,7 +506,7 @@ class ProfileManager {
         }
         
         if (listElement) {
-            listElement.innerHTML = '<div class="review-loading"><div class="loading-spinner"></div><p>Carregando questões...</p></div>';
+            listElement.innerHTML = '<div class="review-loading"><div class="loading-spinner"></div><p class="carregando">Carregando questões...</p></div>';
         }
     }
 

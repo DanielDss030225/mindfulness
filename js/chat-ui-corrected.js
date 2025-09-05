@@ -403,15 +403,22 @@ fundoUSER.style.display = "flex";
         this.focusCurrentInput();
         this.markCurrentMessagesAsRead();
     }
+// DENTRO DA CLASSE ChatUI
 
-    closeChat() {
-                const botao = document.querySelector('.chat-toggle-btn');
+closeChat() {
+    const botao = document.querySelector('.chat-toggle-btn');
 
-        this.isOpen = false;
-        this.elements.chatWindow.classList.remove('active');
-        this.elements.toggleBtn.classList.remove('active');
-botao.style.display = 'block';
-    }
+    this.isOpen = false;
+    this.elements.chatWindow.classList.remove('active');
+    this.elements.toggleBtn.classList.remove('active');
+    botao.style.display = 'block';
+
+    // --- INÍCIO DA CORREÇÃO ---
+    // Zera a referência da conversa que estava aberta.
+    this.currentConversation = null; 
+    // --- FIM DA CORREÇÃO ---
+}
+
 
     switchTab(tabName) {
         this.elements.tabs.forEach(tab => {
