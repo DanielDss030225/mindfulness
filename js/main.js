@@ -459,7 +459,7 @@ function atualizarHeaderVisibilidade() {
     const loginScreen = document.getElementById('login-screen');
 
     // Detecta se é desktop (largura mínima de 1024px, pode ajustar)
-    const isDesktop = window.innerWidth >= 1024;
+    const isDesktop = window.innerWidth >= 765;
 
     // Salva no localStorage (substitui valor anterior)
     localStorage.setItem('ehDesktop', isDesktop ? 'sim' : 'não');

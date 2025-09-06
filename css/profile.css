@@ -778,9 +778,7 @@ font-size: 18px;
 }
 
 /* --- Contagem de Conquistas e Atividades --- */
-.achievement-count, .activity-count {
-    /* Nenhum estilo específico, mas herda de .section-header */
-}
+
 
 /* --- Grade de Conquistas --- */
 .achievements-grid {
@@ -796,10 +794,7 @@ font-size: 18px;
     gap: 15px;
 }
 
-/* --- Informação da Categoria --- */
-.category-info {
-     /* Nenhum estilo específico, mas herda de .section-header */
-}
+
 
 /* --- Contêiner da Sequência de Estudos --- */
 .streak-calendar {
@@ -847,9 +842,7 @@ font-size: 18px;
 }
 
 /* --- Informação da Sequência no Cabeçalho --- */
-.streak-info {
-    /* Nenhum estilo específico, mas herda de .section-header */
-}
+
 .carregando {
     color: white;
 }

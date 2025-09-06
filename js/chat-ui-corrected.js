@@ -61,6 +61,9 @@ class ChatUI {
         return `
             <div class="chat-header">
                 <h3>Chat</h3>
+                 <div class="chat-search">
+                        <input type="text" class="chat-search-input" placeholder="Pesquisar usuários..." id="userSearchInput">
+                    </div>
                 <div class="chat-header-actions">
                    <!-- <button class="chat-header-btn" id="chatSettingsBtn" title="Configurações">
                         ⚙️
@@ -70,7 +73,12 @@ class ChatUI {
                     </button>
                 </div>
             </div>
-            
+             <div class="chat-users-list" id="onlineUsersList">
+                    
+                        <div class="chat-loading">
+                            <div class="chat-loading-spinner"></div>
+                        </div>
+                    </div>
             <div class="chat-tabs">
                 <button class="chat-tab active" data-tab="global">
                     Global
@@ -87,14 +95,8 @@ class ChatUI {
 
                 <!-- Painel Global -->
                 <div class="chat-panel active" data-panel="global">
-                    <div class="chat-search">
-                        <input type="text" class="chat-search-input" placeholder="Pesquisar usuários..." id="userSearchInput">
-                    </div>
-                    <div class="chat-users-list" id="onlineUsersList">
-                        <div class="chat-loading">
-                            <div class="chat-loading-spinner"></div>
-                        </div>
-                    </div>
+                   
+                   
 <div class="fundoMensagens">
                     <div class="chat-messages" id="globalMessages">
                         <div class="chat-loading">
@@ -230,7 +232,18 @@ class ChatUI {
             tab.addEventListener('click', () => this.switchTab(tab.dataset.tab));
             
         });
+       
         this.elements.userSearchInput.addEventListener('input', (e) => {
+
+            let valorPesquisa = (e.target.value);
+            if (valorPesquisa.trim() == "") {
+            this.elements.onlineUsersList.style.display = "none";
+
+            } else {
+           this.elements.onlineUsersList.style.display = "block";
+  
+            }
+
             this.handleUserSearch(e.target.value);
         });
        // this.elements.globalSendBtn.addEventListener('click', () => this.sendGlobalMessage());
@@ -406,6 +419,24 @@ fundoUSER.style.display = "flex";
 // DENTRO DA CLASSE ChatUI
 
 closeChat() {
+
+
+    let valorPesquisado =  this.elements.userSearchInput.value;
+
+    if (valorPesquisado) {
+    this.elements.userSearchInput.value = "";
+    this.elements.userSearchInput.focus();
+
+    } else {
+        this.elements.onlineUsersList.style.display = "none";
+    this.elements.userSearchInput.value = "";
+    
+        
+
+            
+
+
+
     const botao = document.querySelector('.chat-toggle-btn');
 
     this.isOpen = false;
@@ -416,7 +447,11 @@ closeChat() {
     // --- INÍCIO DA CORREÇÃO ---
     // Zera a referência da conversa que estava aberta.
     this.currentConversation = null; 
+
+
+
     // --- FIM DA CORREÇÃO ---
+    }
 }
 
 
@@ -1015,7 +1050,8 @@ async openProfileModal(userId) { // 1. Adicione 'async' aqui
     }
 
     startPrivateChat() {
-        
+          this.elements.onlineUsersList.style.display = "none";
+    this.elements.userSearchInput.value = "";
         const targetUserId = this.elements.startPrivateChatBtn.dataset.targetUserId;
         if (targetUserId) {
             this.closeProfileModal();

@@ -77,19 +77,24 @@
 /* Janela principal do chat */
 .chat-window {
     position: fixed;
-    bottom: 50px;
-    right: 30px;
-    width: 380px;
-    height: 500px;
     background: var(--chat-background);
-    border-radius: var(--chat-radius);
     box-shadow: var(--chat-shadow-hover);
     display: none;
     flex-direction: column;
     z-index: 999;
     overflow: hidden;
     transition: var(--chat-transition);
+       position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 40%;
+    height: 100vh;
+    border-radius: 0;
+    z-index: 9900;
 }
+
+
 
 .chat-window.active {
     display: flex;
@@ -116,6 +121,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    height: 10vh;
 }
 
 .chat-header h3 {
@@ -128,7 +134,7 @@
     display: flex;
     gap: 10px;
     justify-content: end;
-    width: 100%;
+    width: auto;
     
 }
 
@@ -224,33 +230,53 @@
 .chat-panel.active {
     display: flex;
 }
-
 /* Área de pesquisa */
 .chat-search {
-    padding: 15px;
-    border-bottom: 1px solid var(--chat-border);
+  padding: 15px;
+  background: transparent; /* mantém integração com fundo escuro */
 }
 
+/* Campo de input */
 .chat-search-input {
-    width: 100%;
-    padding: 10px 15px;
-    border: 1px solid var(--chat-border);
-    border-radius: var(--chat-radius-small);
-    font-size: 14px;
-    outline: none;
-    transition: var(--chat-transition);
+  width: 100%;
+  padding: 10px 15px;
+  background: rgba(255, 255, 255, 0.08); /* fundo translúcido */
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: var(--chat-radius-small);
+  font-size: 14px;
+  color: #f1f1f1; /* texto claro */
+  outline: none;
+  transition: all 0.25s ease;
 }
 
+/* Placeholder mais suave */
+.chat-search-input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* Foco com destaque */
 .chat-search-input:focus {
-    border-color: var(--chat-primary);
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  border-color: var(--chat-primary, #667eea);
+  box-shadow: 0 0 6px rgba(102, 126, 234, 0.4);
+  background: rgba(255, 255, 255, 0.12); /* um pouco mais claro ao focar */
 }
 
 /* Lista de usuários online */
 .chat-users-list {
-    height: 70px;
-    overflow-y: auto;
-    border-bottom: 1px solid var(--chat-border);
+      position: fixed;
+    background: var(--chat-background);
+    box-shadow: var(--chat-shadow-hover);
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+    transition: var(--chat-transition);
+       position: fixed;
+    right: 0;
+    bottom: 0;
+    width: 40%;
+    height: 90vh;
+    border-radius: 0;
+    z-index: 9901; 
 }
 
 .chat-user-item {
@@ -271,6 +297,8 @@
     border-radius: 50%;
     margin-right: 10px;
     position: relative;
+    align-items: center;
+    justify-content: center;
 }
 
 .chat-user-status {
@@ -355,9 +383,7 @@ margin-right: 6px;
 .chat-panel {
     width: 100%;
 }
-.chat-search {
-    height: 70px;
-}
+
 
 
 .fundoMensagens {
@@ -505,10 +531,26 @@ margin-right: 6px;
 }
 
 .chat-message-text {
-    font-size: 14px;
-    line-height: 1.4;
-    margin: 0;
+  display: block;
+  max-width: 100%;           /* Não ultrapassa a largura do container/página */
+  box-sizing: border-box;    /* Inclui padding/borda no cálculo da largura */
+  word-wrap: break-word;     /* Quebra palavras longas */
+  overflow-wrap: break-word; /* Compatibilidade com navegadores */
+  white-space: normal;       /* Permite múltiplas linhas */
 }
+
+.chat-message-text img,
+.chat-message-text a,
+.chat-message-text .chat-link-preview {
+  max-width: 100%;           /* Não ultrapassa a largura do container */
+  height: auto;              /* Mantém proporção das imagens */
+  display: block;            /* Evita que imagens flutuem fora do fluxo */
+}
+
+.chat-message-text .chat-link-details {
+  overflow-wrap: break-word; /* Quebra texto longo dentro do preview */
+}
+
 
 /* Preview de links */
 .message-previews {
@@ -1051,16 +1093,7 @@ width: 200px;
     margin: 0;
     line-height: 1.4;
 }
-.chat-window {
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    width: 40%;
-    height: 100vh;
-    border-radius: 0;
-    z-index: 9900;
-}
+
 
 /* Responsividade */
 @media (max-width: 1000px) {
@@ -1102,8 +1135,8 @@ width: 200px;
     width: 100%;
 }
 .chat-search {
-    height: 70px;
-    display: none;
+    overflow: hidden;
+    width: 100%;
 }
 
 
@@ -1157,9 +1190,7 @@ width: 200px;
 }
 
 
-.chat-users-list {
-    height: 150px;
-}
+
 
 
 }
