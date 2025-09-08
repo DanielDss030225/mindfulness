@@ -78,10 +78,10 @@ class NotificationManager {
             this.handleNewMessage(event.detail);
         });
 
-        // Escuta quando o chat fica pronto
+       /* // Escuta quando o chat fica pronto
         document.addEventListener('chat:chatReady', () => {
             this.showWelcomeNotification();
-        });
+        });*/
 
         // Escuta mudanças de usuários online
         document.addEventListener('chat:onlineUsersUpdated', (event) => {

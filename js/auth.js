@@ -181,7 +181,13 @@ if (userName) {
             adminBtn.style.display = this.isAdmin ? 'block' : 'none';
         }
 
+if (window.uiManager && typeof window.uiManager.showScreen === 'function') {
+    // Opcional: verificar se a tela existe no DOM
+    const screenExists = document.getElementById('main-menu-screen');
+    if (screenExists) {
         window.uiManager.showScreen('main-menu-screen');
+    }
+}
         this.updateProfessorMessage();
 
         if (this.justLoggedIn) {
@@ -332,7 +338,13 @@ onUserLoggedIn(user) {
         adminBtn.style.display = this.isAdmin ? 'block' : 'none';
     }
 
-    window.uiManager.showScreen('main-menu-screen');
+if (window.uiManager && typeof window.uiManager.showScreen === 'function') {
+    // Opcional: verificar se a tela existe no DOM
+    const screenExists = document.getElementById('main-menu-screen');
+    if (screenExists) {
+        window.uiManager.showScreen('main-menu-screen');
+    }
+}
     this.updateProfessorMessage();
 
     // ==================================================================
