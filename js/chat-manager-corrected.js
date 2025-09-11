@@ -39,6 +39,8 @@ class ChatManager {
         }
     }
 
+ // DENTRO DE ChatManager
+
     async initializeUserChat() {
         if (!this.currentUser || this.isInitialized) return;
 
@@ -46,7 +48,12 @@ class ChatManager {
             await this.setupUserPresence();
             await this.loadUserData();
             this.setupMessageListeners();
-            await this.loadUserConversations();
+            
+            // ANTES: await this.loadUserConversations();
+            // AGORA:
+            await this.fetchInitialConversations(); // 1. Busca os dados iniciais primeiro.
+            this.listenForConversationUpdates();   // 2. Depois, começa a escutar por mudanças.
+
             await this.loadOnlineUsers();
             this.isInitialized = true;
             this.dispatchEvent("chatReady");
@@ -110,8 +117,15 @@ setupPrivateMessageListener() {
     const privateRef = this.database.ref("privateMessages");
 
     privateRef.on("child_added", (conversationSnapshot) => {
-        const combinedConversationId = conversationSnapshot.key; // Ex: 'userA_userB'
-        const [user1, user2] = combinedConversationId.split("_");
+const combinedConversationId = conversationSnapshot.key;
+if (!combinedConversationId) return; // ignora entradas inválidas
+
+const parts = combinedConversationId.split("_");
+if (parts.length !== 2) return; // ignora se não tiver dois IDs
+
+const [user1, user2] = parts;
+const otherUserId = user1 === userId ? user2 : user1;
+if (!otherUserId) return; // ignora se outro usuário não existir
 
         if (user1 === userId || user2 === userId) {
             // --- INÍCIO DA CORREÇÃO ---
@@ -274,7 +288,7 @@ async updateConversationsList(type, message, conversationId) {
                     ? firebase.database.ServerValue.increment(1) 
                     : firebase.database.ServerValue.increment(0),
                 otherUserName: otherUserData.name,
-                otherUserProfilePic: otherUserData.profilePicture
+                otherUserProfilePic: otherUserData.profilePicture || "https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/ICONE%20PERFIL.png?alt=media&token=d092ec7f-77b9-404d-82d0-b6ed3ce6810e"
             });
         }
 
@@ -313,7 +327,8 @@ async updateConversationsList(type, message, conversationId) {
         const messageData = {
             senderId: userId,
             senderName: userData.name,
-            senderProfilePicture: userData.profilePicture,
+               senderProfilePicture: (userData?.profilePicture) || "https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/ICONE%20PERFIL.png?alt=media&token=d092ec7f-77b9-404d-82d0-b6ed3ce6810e",
+
             message: content.trim(),
             timestamp: firebase.database.ServerValue.TIMESTAMP,
             type: this.detectMessageType(content)
@@ -421,10 +436,56 @@ async updateConversationsList(type, message, conversationId) {
         });
     }
 
-    async loadUserConversations() {
+    
+
+    // SUBSTITUA a função loadUserConversations existente por estas DUAS novas funções:
+
+    /**
+     * Busca as conversas iniciais do servidor UMA VEZ.
+     * Garante que o carregamento inicial seja feito com dados frescos e completos.
+     */
+    async fetchInitialConversations() {
         const userId = this.currentUser.uid;
         const conversationsRef = this.database.ref(`userConversations/${userId}`);
         
+        // Usamos .once() para garantir que pegamos os dados do servidor, não do cache.
+        const snapshot = await conversationsRef.once("value");
+        
+        const conversations = snapshot.val() || {};
+        this.conversations.clear();
+        
+        if (conversations.private) {
+            Object.entries(conversations.private).forEach(([otherUserId, data]) => {
+                this.conversations.set(`private_${otherUserId}`, {
+                    type: "private",
+                    id: otherUserId,
+                    ...data
+                });
+            });
+        }
+        
+        if (conversations.groups) {
+            Object.entries(conversations.groups).forEach(([groupId, data]) => {
+                this.conversations.set(`group_${groupId}`, {
+                    type: "group",
+                    id: groupId,
+                    ...data
+                });
+            });
+        }
+        
+        // Dispara o evento para a UI renderizar a lista inicial JÁ ORDENADA.
+        this.dispatchEvent("conversationsUpdated", Array.from(this.conversations.entries()));
+    }
+
+    /**
+     * Anexa um listener para receber atualizações em tempo real APÓS o carregamento inicial.
+     */
+    listenForConversationUpdates() {
+        const userId = this.currentUser.uid;
+        const conversationsRef = this.database.ref(`userConversations/${userId}`);
+        
+        // .on() agora só é responsável por atualizações futuras.
         conversationsRef.on("value", (snapshot) => {
             const conversations = snapshot.val() || {};
             this.conversations.clear();
@@ -448,9 +509,12 @@ async updateConversationsList(type, message, conversationId) {
                     });
                 });
             }
+            
+            // Notifica a UI sobre qualquer mudança que ocorra DEPOIS da inicialização.
             this.dispatchEvent("conversationsUpdated", Array.from(this.conversations.entries()));
         });
     }
+
 
     async searchUsers(query) {
         if (!query || query.trim().length < 2) return [];
@@ -690,7 +754,45 @@ async markPrivateConversationAsRead(conversationId) {
         console.log("ChatManager cleaned up.");
     }
 
-    
+   
+  // DENTRO DA CLASSE ChatManager
+
+    async deletePrivateConversation(otherUserId) {
+        const userId = this.currentUser.uid;
+        if (!userId || !otherUserId) {
+            throw new Error("IDs de usuário inválidos para exclusão.");
+        }
+
+        // Caminho para a conversa na lista do usuário atual
+        const userConversationRef = this.database.ref(`userConversations/${userId}/private/${otherUserId}`);
+
+        // Caminho para as mensagens da conversa
+        const conversationId = this.getConversationId(userId, otherUserId);
+        const messagesRef = this.database.ref(`privateMessages/${conversationId}`);
+
+        try {
+            // 1. Remove a conversa da lista do usuário atual.
+            // Isso fará com que ela desapareça da lista na UI.
+            await userConversationRef.remove();
+
+            // 2. Opcional, mas recomendado: Deleta todas as mensagens da conversa.
+            // ATENÇÃO: Isso apaga o histórico para AMBOS os usuários.
+            // Se você quiser que a conversa suma apenas para o usuário atual,
+            // pule esta etapa.
+            await messagesRef.remove();
+
+            console.log(`Conversa com ${otherUserId} foi excluída com sucesso.`);
+
+            // O listener 'on("value")' em 'listenForConversationUpdates' será
+            // acionado automaticamente após o .remove(), atualizando a UI.
+
+        } catch (error) {
+            console.error(`Falha ao excluir a conversa com ${otherUserId}:`, error);
+            throw error; // Propaga o erro para a UI poder lidar com ele.
+        }
+    }
+  
+
 }
 
 window.ChatManager = ChatManager;

@@ -204,21 +204,31 @@ padding-bottom: 3px;
 
 
 .btn-secondary {
-    background: linear-gradient(135deg, #ffc0ad, #ff5722);
-    color: white;
+    background: linear-gradient(135deg, #494949, #818181);
+    color: rgb(162, 162, 162);
     border: none;
     padding: 10px 10px;
-    border-radius: 20px;
+    border-radius: 15px;
     cursor: pointer;
     font-size: 12px;
     font-weight: 500;
     transition: all 0.3s ease;
-    box-shadow: 0 3px 10px rgba(255, 112, 67, 0.3);
-    width: 60px;
+    width: 80%px;
     height: auto;
     align-items: center;
+    word-wrap: break-word;
+    padding-right: 20px;
+    padding-left: 20px;
 }
+.buttonLoggout {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    border-radius: 20px;
 
+}
 .btn-secondary3 {
     background: linear-gradient(135deg, #ff7043, #ff5722);
     color: white;
@@ -1615,6 +1625,33 @@ padding-bottom: 0px;
     }
 
 
+    
+.btn-secondary {
+    background: linear-gradient(135deg, #494949, #818181);
+    color: rgb(162, 162, 162);
+    border: none;
+    padding: 10px 10px;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    width: 80%px;
+    height: auto;
+    align-items: center;
+    word-wrap: break-word;
+    padding-right: 20px;
+    padding-left: 20px;
+}
+.buttonLoggout {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    border-radius: 20px;
+
+}
 
 }
 

@@ -12,24 +12,25 @@ class ChatUI {
 
     async init() {
         try {
-            if (window.chatManager && window.chatManager.isReady()) {
+               document.addEventListener('chat:chatReady', () => {
                 this.setupUI();
-            } else {
-                document.addEventListener('chat:chatReady', () => {
-                    this.setupUI();
-                });
-            }
-            this.setupChatEventListeners();
+            });
+            
             console.log('ChatUI initialized');
         } catch (error) {
             console.error('Error initializing ChatUI:', error);
         }
     }
 
+
     setupUI() {
         this.createChatElements();
         this.setupEventListeners();
         this.loadInitialData();
+                    this.setupChatEventListeners();
+                        this.setupSwipeGestures(); // <-- ADICIONE ESTA LINHA AQUI
+
+
     }
 
     createChatElements() {
@@ -55,6 +56,35 @@ class ChatUI {
         this.elements.profileModal = profileModal;
 
         this.cacheElements();
+
+           // NOVO: Adicionar o modal de confirmação de exclusão
+        const deleteModal = document.createElement('div');
+        deleteModal.className = 'chat-delete-modal'; // Usaremos esta classe para o CSS
+        deleteModal.innerHTML = this.getDeleteModalHTML();
+        document.body.appendChild(deleteModal);
+        this.elements.deleteModal = deleteModal; // Cache o elemento
+
+        this.cacheElements();
+    }
+
+    // NOVO: Adicionar a função que retorna o HTML do novo modal
+    getDeleteModalHTML() {
+        return `
+            <div class="chat-delete-content">
+                <h4 class="chat-delete-title">Confirmar Exclusão</h4>
+                <p class="chat-delete-text">
+                    Você tem certeza de que deseja excluir esta conversa? Esta ação não pode ser desfeita.
+                </p>
+                <div class="chat-delete-actions">
+                    <button class="chat-delete-btn secondary" id="cancelDeleteBtn">
+                        Cancelar
+                    </button>
+                    <button class="chat-delete-btn primary" id="confirmDeleteBtn">
+                        Excluir
+                    </button>
+                </div>
+            </div>
+        `;
     }
 
     getChatWindowHTML() {
@@ -129,7 +159,7 @@ class ChatUI {
 
                        </div>
                                           <div id="fundoUSER" class="fundoUser">              <img id="userIMG" src="https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/ICONE%20PERFIL.png?alt=media&token=d092ec7f-77b9-404d-82d0-b6ed3ce6810e" alt="Foto do usuário" class="user-avatar">
- <h2 id="userNOME">030225</h2> </div>     
+ <h2 id="userNOME">Olá, Selecione uma conversa para começar.</h2> </div>     
 
                        <div class="fundoMensagens2">
 
@@ -223,6 +253,10 @@ class ChatUI {
         this.elements.startPrivateChatBtn = document.getElementById('startPrivateChatBtn');
         this.elements.closeProfileBtn = document.getElementById('closeProfileBtn');
         this.elements.notificationBadge = document.querySelector('.chat-notification-badge');
+        // NOVO: Adicionar os elementos do novo modal ao cache
+        this.elements.deleteModal = document.querySelector('.chat-delete-modal');
+        this.elements.cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
+        this.elements.confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
     }
 
     setupEventListeners() {
@@ -338,6 +372,18 @@ this.elements.globalMessages.addEventListener('click', (e) => {
     }
 });
 
+ // NOVO: Listeners para o modal de exclusão
+    this.elements.cancelDeleteBtn.addEventListener('click', () => this.closeDeleteModal());
+    this.elements.confirmDeleteBtn.addEventListener('click', () => this.confirmDeletion());
+    
+    // Fecha o modal se o usuário clicar fora da caixa de diálogo
+    this.elements.deleteModal.addEventListener('click', (e) => {
+        if (e.target === this.elements.deleteModal) {
+            this.closeDeleteModal();
+        }
+    });
+
+
 
     }
 
@@ -409,18 +455,24 @@ fundoUSER.style.display = "flex";
 
 
 
-    openChat() {
+     async openChat() { // 1. Transforme a função em 'async'
         this.isOpen = true;
         this.elements.chatWindow.classList.add('active');
         this.elements.toggleBtn.classList.add('active');
+        
+         // CORREÇÃO: Chame a função que busca os dados sob demanda.
+    if (window.chatManager) {
+        await window.chatManager.fetchInitialConversations();
+    }
+
         this.focusCurrentInput();
         this.markCurrentMessagesAsRead();
+        this.switchTab('global');
     }
+
 // DENTRO DA CLASSE ChatUI
 
 closeChat() {
-
-
     let valorPesquisado =  this.elements.userSearchInput.value;
 
     if (valorPesquisado) {
@@ -478,34 +530,51 @@ setTimeout(() => {
 
     }
 
+ // DENTRO DA CLASSE ChatUI
+
     async loadInitialData() {
+        this.elements.privateConversations.innerHTML = '<div class="chat-loading"><div class="chat-loading-spinner"></div></div>';
+        this.elements.globalMessages.innerHTML = '<div class="chat-loading"><div class="chat-loading-spinner"></div></div>';
+
         try {
-            if (window.chatManager) {
+            if (window.chatManager && window.chatManager.isReady()) {
+                // Agora podemos confiar no cache, pois 'chatReady' só é disparado após o fetch inicial.
+                const conversations = window.chatManager.getConversations();
+                this.updateConversations(conversations); // <<-- A ordenação será aplicada nos dados corretos
+
                 const onlineUsers = window.chatManager.getOnlineUsers();
                 this.updateOnlineUsers(onlineUsers);
-                const conversations = window.chatManager.getConversations();
-                this.updateConversations(conversations);
             }
             await this.loadGlobalMessages();
         } catch (error) {
             console.error('Error loading initial data:', error);
+            this.elements.privateConversations.innerHTML = '<div class="chat-empty-state">Erro ao carregar conversas.</div>';
         }
     }
 
-    async loadTabData(tabName) {
-        switch (tabName) {
-            case 'global':
-                await this.loadGlobalMessages();
 
-                break;
-            case 'private':
-                this.loadPrivateConversations();
-                break;
-            case 'groups':
-                this.loadGroupConversations();
-                break;
-        }
+  // DENTRO DA CLASSE ChatUI
+
+async loadTabData(tabName) {
+    switch (tabName) {
+        case 'global':
+            // A aba global é a única que busca ativamente um histórico de mensagens ao ser aberta.
+            await this.loadGlobalMessages();
+            break;
+        case 'private':
+            // Não é necessário fazer nada aqui.
+            // A lista de conversas privadas já é mantida em tempo real pelo listener 'conversationsUpdated'.
+            // Apenas garantimos que a lista de conversas seja exibida.
+            this.elements.privateConversations.style.display = 'flex';
+            break;
+        case 'groups':
+            // Similar ao 'private', a lista de grupos também é atualizada em tempo real.
+            // Não há necessidade de uma função de carregamento separada aqui.
+            this.elements.groupConversations.style.display = 'flex';
+            break;
     }
+}
+
 
 
     
@@ -712,93 +781,106 @@ handleNewMessage(detail) {
    // Dentro da classe ChatUI
 
 // 1. Transforme a função em 'async'
-async updateConversations(conversations) {
-    this.elements.privateConversations.innerHTML = '';
-    this.elements.groupConversations.innerHTML = '';
+// DENTRO DA CLASSE ChatUI
 
+// DENTRO DA CLASSE ChatUI
+
+async updateConversations(conversations) {
+    // Pega o container das conversas privadas.
+    const container = this.elements.privateConversations;
+
+    // Se não houver conversas, exibe o estado de "vazio" e para a execução.
     if (conversations.length === 0) {
-        this.elements.privateConversations.innerHTML = '<div class="chat-empty-state">...</div>';
-        this.elements.groupConversations.innerHTML = '<div class="chat-empty-state">...</div>';
+        container.innerHTML = `
+            <div class="chat-empty-state">
+                <div class="chat-empty-icon">💬</div>
+                <div class="chat-empty-title">Nenhuma conversa</div>
+                <div class="chat-empty-description">Clique em um usuário online para iniciar uma conversa</div>
+            </div>`;
         return;
     }
 
-    // 2. Use um loop 'for...of' em vez de 'forEach' para funcionar com 'await'
-    for (const [convId, convData] of conversations) {
-        const conversationItem = document.createElement('div');
-        conversationItem.className = 'chat-conversation-item';
-
-        conversationItem.dataset.conversationId = convData.id;
-
-        let targetContainer;
-        let name = '';
-        let avatar = '';
-        let unreadBadge = '';
-
-        if (convData.type === 'private') {
-            targetContainer = this.elements.privateConversations;
-
-            // 3. Verifique se os dados existem, se não, busque-os
-            if (convData.otherUserName && convData.otherUserProfilePic) {
-                name = convData.otherUserName;
-                avatar = convData.otherUserProfilePic;
-            } else {
-                // Busca os dados do usuário em tempo real
-                const otherUserData = await window.chatManager.getUserData(convData.id);
-                if (otherUserData) {
-
-                            
-
-                    name = otherUserData.name || 'Novato';
-                    avatar = otherUserData.profilePicture || 'https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/ICONE%20PERFIL.png?alt=media&token=d092ec7f-77b9-404d-82d0-b6ed3ce6810e';
-                } else {
-                    name = 'Usuário Desconhecido';
-                    avatar = 'https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/ICONE%20PERFIL.png?alt=media&token=d092ec7f-77b9-404d-82d0-b6ed3ce6810e';
-                }
-            }
-
-
-
-            if (convData.unreadCount > 0 ) {
-                unreadBadge = `<span class="chat-conversation-badge">🔴</span>`;
-            }
-
-
-            conversationItem.addEventListener('click', () => this.openConversation('private', convData.id));
-
-        } /*else if (convData.type === 'group') {
-            // Lógica para grupos (permanece a mesma)
-            targetContainer = this.elements.groupConversations;
-            name = convData.groupName || 'Grupo Desconhecido';
-            avatar = 'https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/ICONE%20PERFIL.png?alt=media&token=d092ec7f-77b9-404d-82d0-b6ed3ce6810e';
-            if (convData.unreadCount > 0 ) {
-                unreadBadge = `<span class="chat-conversation-badge">${convData.unreadCount}</span>`;
-            }
-            conversationItem.addEventListener('click', () => this.openConversation('group', convData.id));
-        } */
-if (targetContainer) {
-    // Limita o nome a 10 caracteres e adiciona "..." se for maior
-    const displayName = name.length > 10 ? name.slice(0, 10) + '...' : name;
-
-    // O 'innerHTML' agora sempre terá os dados corretos
-    conversationItem.innerHTML = `
-        <img src="${avatar}" alt="${displayName}" class="chat-conversation-avatar">
-        <div class="chat-conversation-info">
-            <span class="chat-conversation-name">${displayName}</span>
-            <span class="chat-conversation-last-message">${convData.lastMessage || ''}</span>
-        </div>
-        ${unreadBadge}
-    `;
-
-    // Limpa o container apenas se for a primeira iteração para aquele tipo
-    if (targetContainer.innerHTML.includes('chat-empty-state')) {
-        targetContainer.innerHTML = '';
+    // Remove o estado de "vazio" ou "carregando" se eles existirem.
+    const emptyState = container.querySelector('.chat-empty-state, .chat-loading');
+    if (emptyState) {
+        emptyState.remove();
     }
-    targetContainer.appendChild(conversationItem);
+
+    // Ordena as conversas pela mais recente primeiro.
+    const sortedConversations = conversations.sort(([, a], [, b]) => (b.lastMessageTime || 0) - (a.lastMessageTime || 0));
+
+    // Itera sobre as conversas ordenadas para atualizar a UI.
+    for (const [convId, convData] of sortedConversations) {
+        if (convData.type !== 'private') continue; // Pula se não for uma conversa privada.
+
+        // Tenta encontrar o item da conversa que JÁ ESTÁ na tela.
+        let conversationItem = container.querySelector(`.chat-conversation-item[data-conversation-id="${convData.id}"]`);
+
+        // Se o item da conversa NÃO EXISTE, nós o criamos.
+        if (!conversationItem) {
+            conversationItem = document.createElement('div');
+            conversationItem.className = 'chat-conversation-item';
+            conversationItem.dataset.conversationId = convData.id;
+            // Adiciona o novo item no início da lista.
+            container.prepend(conversationItem);
+        }
+
+        // --- Lógica para obter dados do usuário (nome e avatar) ---
+        let name = convData.otherUserName || 'Carregando...';
+        let avatar = convData.otherUserProfilePic || 'https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/ICONE%20PERFIL.png?alt=media&token=d092ec7f-77b9-404d-82d0-b6ed3ce6810e';
+
+        if (!convData.otherUserName ) {
+            const otherUserData = await window.chatManager.getUserData(convData.id);
+            if (otherUserData) {
+                name = otherUserData.name || 'Novato';
+                avatar = otherUserData.profilePicture || 'https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/ICONE%20PERFIL.png?alt=media&token=d092ec7f-77b9-404d-82d0-b6ed3ce6810e';
+            }
+        }
+        
+        // --- Lógica para criar o conteúdo do item ---
+        const unreadBadge = convData.unreadCount > 0 ? `<span class="chat-conversation-badge">🔴</span>` : '';
+        const displayName = name.length > 10 ? name.slice(0, 10 ) + '...' : name;
+        const lastMessage = convData.lastMessage || '';
+        const displayMessage = lastMessage.length > 15 ? lastMessage.substring(0, 15) + '...' : lastMessage;
+
+        // Atualiza o HTML interno do item (seja ele novo ou existente).
+        conversationItem.innerHTML = `
+            <img src="${avatar}" alt="${displayName}" class="chat-conversation-avatar">
+            <div class="chat-conversation-info">
+                <span class="chat-conversation-name">${displayName}</span>
+                <span class="chat-conversation-last-message">${displayMessage}</span>
+            </div>
+            ${unreadBadge}
+        `;
+        
+        // Adiciona o botão de deletar.
+        const deleteBtn = document.createElement('span');
+        deleteBtn.className = 'chat-conversation-delete';
+        deleteBtn.innerHTML = '🗑️';
+        deleteBtn.title = 'Excluir conversa';
+        deleteBtn.addEventListener('click', (event) => {
+            event.stopPropagation();
+            this.openDeleteModal(convData.id);
+        });
+        conversationItem.appendChild(deleteBtn);
+
+        // Garante que o evento de clique para abrir a conversa esteja sempre presente.
+        // Removemos qualquer listener antigo para evitar duplicação de eventos.
+        conversationItem.replaceWith(conversationItem.cloneNode(true));
+        container.querySelector(`.chat-conversation-item[data-conversation-id="${convData.id}"]`)
+                 .addEventListener('click', () => this.openConversation('private', convData.id));
+    }
+    
+    // Reordena os elementos no DOM para garantir que a ordem visual corresponda à ordem dos dados.
+    const items = Array.from(container.querySelectorAll('.chat-conversation-item'));
+    items.sort((a, b) => {
+        const timeA = sortedConversations.find(([_, data]) => data.id === a.dataset.conversationId)[1].lastMessageTime || 0;
+        const timeB = sortedConversations.find(([_, data]) => data.id === b.dataset.conversationId)[1].lastMessageTime || 0;
+        return timeB - timeA;
+    }).forEach(item => container.appendChild(item));
 }
 
-    }
-}
-  
+
 
 // DENTRO DA CLASSE ChatUI
 
@@ -1145,6 +1227,96 @@ focusCurrentInput() {
             }
         }
     }
+
+   
+    // DENTRO DA CLASSE ChatUI
+
+    openDeleteModal(conversationId) {
+        // Armazena o ID da conversa que será excluída no próprio botão de confirmação
+        this.elements.confirmDeleteBtn.dataset.conversationId = conversationId;
+        this.elements.deleteModal.classList.add('active');
+    }
+
+    closeDeleteModal() {
+        this.elements.deleteModal.classList.remove('active');
+        // Limpa o ID armazenado para segurança
+        delete this.elements.confirmDeleteBtn.dataset.conversationId;
+    }
+
+    async confirmDeletion() {
+        const conversationId = this.elements.confirmDeleteBtn.dataset.conversationId;
+        if (!conversationId) return;
+
+        try {
+            // Chama a função que vamos criar no ChatManager
+            await window.chatManager.deletePrivateConversation(conversationId);
+            
+            // Se a conversa excluída era a que estava aberta, limpa a tela
+            if (this.currentConversation === conversationId) {
+                this.elements.privateMessages.innerHTML = '';
+                this.elements.privateMessages.style.display = 'none';
+                this.elements.privateInputArea.style.display = 'none';
+                document.getElementById("userNOME").textContent = "030225"; // Reseta o header
+                document.getElementById("fundoUSER").style.display = "none";
+                this.currentConversation = null;
+            }
+
+        } catch (error) {
+            console.error("Erro ao excluir a conversa:", error);
+            alert("Não foi possível excluir a conversa. Tente novamente.");
+        } finally {
+            // Fecha o modal independentemente do resultado
+            this.closeDeleteModal();
+        }
+    }
+
+
+// DENTRO DA CLASSE ChatUI
+
+/**
+ * Configura os listeners para gestos de swipe (deslizar) na área de conteúdo do chat.
+ * Permite a navegação entre as abas 'global' e 'private' em dispositivos de toque.
+ */
+setupSwipeGestures() {
+    const swipeArea = this.elements.chatWindow.querySelector('.chat-content');
+    if (!swipeArea) return;
+
+    let touchStartX = 0;
+    let touchEndX = 0;
+    const swipeThreshold = 200; // A distância mínima em pixels para registrar um swipe
+
+    swipeArea.addEventListener('touchstart', (event) => {
+        // Captura a posição inicial do toque
+        touchStartX = event.changedTouches[0].screenX;
+    }, { passive: true }); // Use passive: true para melhor performance de rolagem
+
+    swipeArea.addEventListener('touchend', (event) => {
+        // Captura a posição final do toque
+        touchEndX = event.changedTouches[0].screenX;
+        handleSwipe();
+    });
+
+    const handleSwipe = () => {
+        const swipeDistance = touchEndX - touchStartX;
+
+        // Verifica se a distância do swipe é significativa
+        if (Math.abs(swipeDistance) < swipeThreshold) {
+            return; // Não foi um swipe, foi um toque ou um movimento muito curto
+        }
+
+        if (swipeDistance > 0) {
+            // O dedo moveu-se para a DIREITA
+            console.log('Swipe para a direita detectado: mudando para a aba de conversas privadas.');
+                        this.switchTab('global');
+
+        } else {
+            // O dedo moveu-se para a ESQUERDA
+            console.log('Swipe para a esquerda detectado: mudando para a aba de conversas globais.');
+                        this.switchTab('private');
+
+        }
+    };
+}
 
     
     
