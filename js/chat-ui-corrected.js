@@ -756,7 +756,7 @@ handleNewMessage(detail) {
     updateOnlineUsers(users) {
         this.elements.onlineUsersList.innerHTML = '';
         if (users.length === 0) {
-            this.elements.onlineUsersList.innerHTML = '<div class="chat-empty-state">Nenhum usuário online.</div>';
+            this.elements.onlineUsersList.innerHTML = '<div class="chat-empty-state">Nenhum usuário com este nome.</div>';
             return;
         }
         users.forEach(([userId, userData]) => {

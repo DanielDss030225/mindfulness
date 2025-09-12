@@ -243,25 +243,86 @@ async confirmDeletePost() {
         return text;
     }
 
-    async toggleLike() {
-        try {
-            const likeRef = firebase.database().ref(`socialPosts/${this.postId}/likes/${this.currentUser.uid}`);
-            const snapshot = await likeRef.once('value');
-            
-            if (snapshot.exists()) {
-                // Remove like
-                await likeRef.remove();
+ // Em js/post-view.js, substitua a função toggleLike inteira por esta:
+
+async toggleLike() {
+    const postRef = firebase.database().ref(`socialPosts/${this.postId}`);
+    const likeRef = postRef.child(`likes/${this.currentUser.uid}`);
+    const likesCountRef = postRef.child('likesCount');
+
+    try {
+        const snapshot = await likeRef.once('value');
+        const isCurrentlyLiked = snapshot.exists();
+
+        // Atualiza a interface do usuário imediatamente para uma resposta rápida
+        this.updateLikeButtonUI(!isCurrentlyLiked);
+
+        if (isCurrentlyLiked) {
+            // Usuário está descurtindo
+            await likeRef.remove(); // Remove o like do usuário
+            await likesCountRef.transaction(currentCount => {
+                return (currentCount || 0) - 1; // Decrementa o contador
+            });
+        } else {
+            // Usuário está curtindo
+            await likeRef.set(true); // Adiciona o like do usuário
+            await likesCountRef.transaction(currentCount => {
+                return (currentCount || 0) + 1; // Incrementa o contador
+            });
+        }
+
+        // Opcional: Recarregar apenas os dados de contagem se necessário,
+        // mas a atualização da UI já foi feita.
+        // Para manter a consistência total, você pode recarregar o post,
+        // mas a atualização otimista da UI já melhora a experiência.
+
+    } catch (error) {
+        console.error('Erro ao curtir publicação:', error);
+        // Se der erro, reverta a UI para o estado anterior
+        this.updateLikeButtonUI(isCurrentlyLiked); 
+    }
+}
+
+// Adicione este novo método auxiliar à sua classe PostView
+// Ele atualiza apenas o botão, sem recarregar o post inteiro.
+updateLikeButtonUI(isLiked) {
+    const likeBtn = document.querySelector(`.like-btn[data-post-id="${this.postId}"]`);
+    if (!likeBtn) return;
+
+    const icon = likeBtn.querySelector('.icon');
+    const likeText = likeBtn.querySelector('.like-text');
+    const likeCountSpan = likeBtn.querySelector('.like-count');
+    
+    let currentCount = 0;
+    if (likeCountSpan && likeCountSpan.textContent) {
+        // Extrai o número de dentro dos parênteses, ex: "(4)" -> 4
+        currentCount = parseInt(likeCountSpan.textContent.replace(/\D/g, ''), 10);
+    }
+
+    if (isLiked) {
+        likeBtn.classList.add('liked');
+        icon.textContent = '❤️';
+        likeText.textContent = 'Curtiu';
+        // Atualiza a contagem para +1
+        if (likeCountSpan) {
+            likeCountSpan.textContent = `(${(isNaN(currentCount) ? 0 : currentCount) + 1})`;
+        }
+    } else {
+        likeBtn.classList.remove('liked');
+        icon.textContent = '🤍';
+        likeText.textContent = 'Curtir';
+        // Atualiza a contagem para -1
+        const newCount = (isNaN(currentCount) ? 1 : currentCount) - 1;
+        if (likeCountSpan) {
+            if (newCount > 0) {
+                likeCountSpan.textContent = `(${newCount})`;
             } else {
-                // Add like
-                await likeRef.set(true);
+                likeCountSpan.textContent = ''; // Oculta a contagem se for zero
             }
-            
-            // Reload post to update like count
-            await this.loadPost();
-        } catch (error) {
-            console.error('Erro ao curtir publicação:', error);
         }
     }
+}
+
 
     async loadComments() {
         try {
@@ -418,7 +479,8 @@ const sortedReplies = repliesArray.sort((a, b) => new Date(b.timestamp) - new Da
         document.querySelectorAll('.comment-like-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const commentId = e.target.dataset.commentId;
-                this.toggleCommentLike(commentId);
+               this.toggleCommentLike(commentId, e.target);
+
             });
         });
 
@@ -426,8 +488,7 @@ const sortedReplies = repliesArray.sort((a, b) => new Date(b.timestamp) - new Da
         document.querySelectorAll('.reply-like-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const replyId = e.target.dataset.replyId;
-                this.toggleReplyLike(replyId);
-            });
+this.toggleReplyLike(replyId, e.target);            });
         });
 
         // Reply buttons
@@ -455,39 +516,53 @@ const sortedReplies = repliesArray.sort((a, b) => new Date(b.timestamp) - new Da
         });
     }
 
-    async toggleCommentLike(commentId) {
-        try {
-            const likeRef = firebase.database().ref(`socialPosts/${this.postId}/comments/${commentId}/likes/${this.currentUser.uid}`);
-            const snapshot = await likeRef.once('value');
-            
-            if (snapshot.exists()) {
-                await likeRef.remove();
-            } else {
-                await likeRef.set(true);
-            }
-        } catch (error) {
-            console.error('Erro ao curtir comentário:', error);
-        }
-    }
 
-    async toggleReplyLike(replyId) {
-        try {
-            // Find the comment that contains this reply
-            const comment = this.comments.find(c => c.replies && c.replies[replyId]);
-            if (!comment) return;
-            
-            const likeRef = firebase.database().ref(`socialPosts/${this.postId}/comments/${comment.id}/replies/${replyId}/likes/${this.currentUser.uid}`);
-            const snapshot = await likeRef.once('value');
-            
-            if (snapshot.exists()) {
-                await likeRef.remove();
-            } else {
-                await likeRef.set(true);
-            }
-        } catch (error) {
-            console.error('Erro ao curtir resposta:', error);
+// 1. SUBSTITUIR o método toggleCommentLike por este:
+async toggleCommentLike(commentId, buttonElement) {
+    try {
+        const likeRef = firebase.database().ref(`socialPosts/${this.postId}/comments/${commentId}/likes/${this.currentUser.uid}`);
+        const snapshot = await likeRef.once('value');
+        const isCurrentlyLiked = snapshot.exists();
+        
+        // Atualiza a UI imediatamente
+        this.updateCommentLikeButtonUI(buttonElement, !isCurrentlyLiked);
+        
+        if (isCurrentlyLiked) {
+            await likeRef.remove();
+        } else {
+            await likeRef.set(true);
         }
+    } catch (error) {
+        console.error('Erro ao curtir comentário:', error);
+        // Reverte a UI em caso de erro
+        this.updateCommentLikeButtonUI(buttonElement, isCurrentlyLiked);
     }
+}
+   // 2. SUBSTITUIR o método toggleReplyLike por este:
+async toggleReplyLike(replyId, buttonElement) {
+    try {
+        // Find the comment that contains this reply
+        const comment = this.comments.find(c => c.replies && c.replies[replyId]);
+        if (!comment) return;
+        
+        const likeRef = firebase.database().ref(`socialPosts/${this.postId}/comments/${comment.id}/replies/${replyId}/likes/${this.currentUser.uid}`);
+        const snapshot = await likeRef.once('value');
+        const isCurrentlyLiked = snapshot.exists();
+        
+        // Atualiza a UI imediatamente
+        this.updateCommentLikeButtonUI(buttonElement, !isCurrentlyLiked);
+        
+        if (isCurrentlyLiked) {
+            await likeRef.remove();
+        } else {
+            await likeRef.set(true);
+        }
+    } catch (error) {
+        console.error('Erro ao curtir resposta:', error);
+        // Reverte a UI em caso de erro
+        this.updateCommentLikeButtonUI(buttonElement, isCurrentlyLiked);
+    }
+}
 
     showReplyForm(commentId) {
         // Hide all other reply forms
@@ -701,6 +776,30 @@ const sortedReplies = repliesArray.sort((a, b) => new Date(b.timestamp) - new Da
         const commentsRef = firebase.database().ref(`socialPosts/${this.postId}/comments`);
         commentsRef.off();
     }
+
+
+// 3. ADICIONAR este novo método:
+updateCommentLikeButtonUI(buttonElement, isLiked) {
+    if (!buttonElement) return;
+    
+    // Extrai a contagem atual do texto do botão
+    const currentText = buttonElement.textContent;
+    const countMatch = currentText.match(/\((\d+)\)/);
+    let currentCount = countMatch ? parseInt(countMatch[1], 10) : 0;
+    
+    if (isLiked) {
+        buttonElement.classList.add('liked');
+        const newCount = currentCount + 1;
+        buttonElement.textContent = `Curtir ${newCount > 0 ? `(${newCount})` : ''}`;
+    } else {
+        buttonElement.classList.remove('liked');
+        const newCount = Math.max(0, currentCount - 1);
+        buttonElement.textContent = `Curtir ${newCount > 0 ? `(${newCount})` : ''}`;
+    }
+}
+
+
+
 }
 
 // Initialize the post view when the page loads

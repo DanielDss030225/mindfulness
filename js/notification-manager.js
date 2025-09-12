@@ -74,6 +74,8 @@ class NotificationManager {
 
     setupChatEventListeners() {
         // Escuta por novas mensagens
+
+        
         document.addEventListener('chat:newMessage', (event) => {
             this.handleNewMessage(event.detail);
         });
