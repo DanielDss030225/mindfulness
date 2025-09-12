@@ -169,6 +169,7 @@ class GameLogic {
     }
 
     async confirmAnswer() {
+        
         if (this.selectedAnswer === null) return;
 
         const question = this.questions[this.currentQuestionIndex];
@@ -442,6 +443,7 @@ async endQuiz() {
     
 
     nextQuestion() {
+         document.querySelector('.fundoQuestoes').scrollTop = 0;
         this.currentQuestionIndex++;
         document.getElementById("explanationContainer").style.display = "none";
         document.getElementById("nextQuestionBtn").style.display = "none";

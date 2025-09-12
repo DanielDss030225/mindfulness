@@ -172,16 +172,30 @@ class AdminManager {
     async loadCategoriesForQuestions() {
         try {
             const categories = await window.databaseManager.getCategories();
-            const categorySelect = document.getElementById('questionCategory');
+            const categorySelect = document.getElementById("questionCategory");
             
             if (categorySelect) {
                 categorySelect.innerHTML = '<option value="">Selecione uma categoria</option>';
                 
-                Object.entries(categories || {}).forEach(([id, category]) => {
+                const sortedCategories = Object.entries(categories || {}).sort(([,a], [,b]) => a.name.localeCompare(b.name));
+
+                sortedCategories.forEach(([id, category]) => {
                     const option = document.createElement('option');
                     option.value = id;
                     option.textContent = category.name;
                     categorySelect.appendChild(option);
+                });
+
+                if (this.questionCategoryChoices) {
+                    this.questionCategoryChoices.destroy();
+                }
+                this.questionCategoryChoices = new Choices(categorySelect, {
+                    searchEnabled: true,
+                    itemSelectText: 'Pressione para selecionar',
+                    noResultsText: 'Digite o nome corretamente',
+                    shouldSort: false,
+                    shouldSortItems: false,
+                    position: 'bottom',
                 });
 
                 // Add event listener for category change
@@ -193,9 +207,9 @@ class AdminManager {
     }
 
     async onQuestionCategoryChange() {
-        const categorySelect = document.getElementById('questionCategory');
-        const subcategoryGroup = document.getElementById('questionSubcategoryGroup');
-        const subcategorySelect = document.getElementById('questionSubcategory');
+        const categorySelect = document.getElementById("questionCategory");
+        const subcategoryGroup = document.getElementById("questionSubcategoryGroup");
+        const subcategorySelect = document.getElementById("questionSubcategory");
         
         if (!categorySelect || !subcategoryGroup || !subcategorySelect) return;
 
@@ -203,8 +217,12 @@ class AdminManager {
         
         if (!selectedCategory) {
             // Hide subcategory group
-            subcategoryGroup.style.display = 'none';
+            subcategoryGroup.style.display = "none";
             subcategorySelect.innerHTML = '<option value="">Selecione uma subcategoria (opcional)</option>';
+            if (this.questionSubcategoryChoices) {
+                this.questionSubcategoryChoices.destroy();
+                this.questionSubcategoryChoices = null;
+            }
             return;
         }
 
@@ -212,25 +230,40 @@ class AdminManager {
             // Load subcategories for selected category
             const subcategories = await window.databaseManager.getSubcategories(selectedCategory);
             
-            subcategorySelect.innerHTML = '<option value="">Nenhuma subcategoria</option>';
+            if (this.questionSubcategoryChoices) {
+                this.questionSubcategoryChoices.destroy();
+            }
+            subcategorySelect.innerHTML = '<option value="">Selecione uma subcategoria (opcional)</option>';
             
             if (subcategories && Object.keys(subcategories).length > 0) {
-                Object.entries(subcategories).forEach(([id, subcategory]) => {
+                const sortedSubcategories = Object.entries(subcategories).sort(([,a], [,b]) => a.name.localeCompare(b.name));
+
+                sortedSubcategories.forEach(([id, subcategory]) => {
                     const option = document.createElement('option');
                     option.value = id;
                     option.textContent = subcategory.name;
                     subcategorySelect.appendChild(option);
                 });
                 
+                this.questionSubcategoryChoices = new Choices(subcategorySelect, {
+                    searchEnabled: true,
+                    itemSelectText: 'Pressione para selecionar',
+                    noResultsText: 'Digite o nome corretamente',
+                    shouldSort: false,
+                    shouldSortItems: false,
+                    position: 'bottom',
+                });
+
                 // Show subcategory group
-                subcategoryGroup.style.display = 'block';
+                subcategoryGroup.style.display = "block";
             } else {
                 // Hide subcategory group if no subcategories
-                subcategoryGroup.style.display = 'none';
+                subcategoryGroup.style.display = "none";
+                this.questionSubcategoryChoices = null;
             }
         } catch (error) {
             console.error('Error loading subcategories for questions:', error);
-            subcategoryGroup.style.display = 'none';
+            subcategoryGroup.style.display = "none";
         }
     }
 

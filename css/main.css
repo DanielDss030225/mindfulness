@@ -2024,6 +2024,9 @@ padding-bottom: 0px;
 
 
 
+
+
+
 @media screen and (max-width: 1000px) {
     #music-player-launcher {
         width: 50px;
@@ -2236,7 +2239,6 @@ height: 100%;
     padding: 0px 0px;
     height: auto;
     overflow-x: auto;        /* se apertar muito, adiciona scroll horizontal */
-    background-color: #000000;
     
   }
 
@@ -2251,3 +2253,57 @@ height: 100%;
   color: inherit;
   font-weight: 600;
 }
+
+
+/* Custom CSS para posicionar o input de pesquisa do Choices.js acima do select */
+
+/* Força o dropdown a aparecer sempre acima do elemento select */
+.choices[data-type*="select-one"] .choices__list--dropdown,
+.choices[data-type*="select-multiple"] .choices__list--dropdown {
+    bottom: auto !important;
+    top: 100% !important;
+    margin-bottom: 2px !important;
+    margin-top: 0 !important;
+}
+
+/* Ajusta a posição do input de pesquisa dentro do dropdown */
+.choices__list--dropdown .choices__input {
+    order: -1 !important;
+    margin-bottom: 8px !important;
+    border-bottom: 0px solid #ddd !important;
+    padding-bottom: 8px !important;
+}
+
+/* Garante que o container do dropdown tenha a estrutura correta */
+.choices__list--dropdown {
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+/* Move o input de pesquisa para o topo do dropdown */
+.choices__list--dropdown .choices__input {
+    background-color: #fff !important;
+    border: 1px solid #ccc !important;
+    border-radius: 4px !important;
+    padding: 8px !important;
+    font-size: 14px !important;
+}
+
+/* Estiliza a lista de opções */
+.choices__list--dropdown .choices__list {
+    max-height: 200px !important;
+    overflow-y: auto !important;
+}
+
+/* Ajusta o z-index para garantir que o dropdown apareça acima de outros elementos */
+.choices__list--dropdown {
+    z-index: 9999 !important;
+}
+
+/* Estilo adicional para melhor aparência */
+.choices__list--dropdown .choices__input:focus {
+    outline: none !important;
+    border-color: #007bff !important;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25) !important;
+}
+

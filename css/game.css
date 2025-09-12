@@ -90,9 +90,7 @@ i {
     width: 100%;
 }
 
-span {
-    width: auto;
-}
+
 br {
     width: 100%;
 }
@@ -876,4 +874,22 @@ margin-left: 0px;    width: 100%;
 }
 
 
+}
+.question-text {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal; /* Garante que o texto quebre em várias linhas */
+}
+/* Em css/game.css */
+
+.question-text {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+}
+
+/* Adicione esta nova regra para corrigir o problema de largura fixa */
+.question-text * {
+    width: auto !important;
+    max-width: 100%;
 }

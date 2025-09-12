@@ -128,202 +128,66 @@
 
 </head>
 <body>
-    <p>PlataformaBizurada Music Player</p>
-    <audio id="background-audio"></audio>
-    <div>
-        <button id="playPauseBtn">▶️</button>
-        <button id="skipBtn">⏩</button>
-    </div>
+  <p>PlataformaBizurada Music Player</p>
 
-    <div class="time-display">
-        <span id="currentTime">00:00</span> / <span id="totalDuration">00:00</span>
-    </div>
+  <!-- Contêiner para o YouTube Player -->
+  <div id="youtube-player"></div>
 
-    <div id="songTitle">Selecione uma música</div>
+  <div>
+    <button id="playPauseBtn">▶️</button>
+    <button id="skipBtn">⏩</button>
+  </div>
 
-    <!-- --- NOVO: HTML para o Controle de Volume --- -->
-    <div class="volume-control">Volume.
-        <span id="volumeIcon">🔊</span>
-        <input type="range" id="volumeSlider" min="0" max="1" step="0.01">
-    </div>
-                <div id="fundobutton" class="header-actions">
-                    <button id="resolverQuestoes" class="share-btn" onclick="window.open('https://danieldss030225.github.io/mindfulness/', '_blank')">
-                        <span class="icon">🌐</span>
-                        Continuar navegando
-                    </button>
-                </div>
+  <div id="songTitle">Selecione uma música</div>
 
-    <script>
-        // --- SEU CÓDIGO JAVASCRIPT EXISTENTE ---
-        const audioPlayer = document.getElementById('background-audio');
-        const playPauseBtn = document.getElementById('playPauseBtn');
-        const skipBtn = document.getElementById('skipBtn');
-        const currentTimeEl = document.getElementById('currentTime');
-        const totalDurationEl = document.getElementById('totalDuration');
-        const songTitleEl = document.getElementById('songTitle');
-        
-        // --- NOVO: Referências para os elementos de volume ---
-        const volumeSlider = document.getElementById('volumeSlider');
-        const volumeIcon = document.getElementById('volumeIcon');
+  <script src="https://www.youtube.com/iframe_api"></script>
+  <script>
+    let player;
+    const songTitleEl = document.getElementById('songTitle');
+    const playPauseBtn = document.getElementById('playPauseBtn');
+    const skipBtn = document.getElementById('skipBtn');
 
-        const musicPlaylist = [
-            { src: 'music/trem-bala.mp3', title: 'Trem-Bala - Ana Vilela' },
-            { src: 'music/mercy-me.mp3', title: 'I Can Only Imagine - MercyMe' }
-        ];
-        
-        let currentTrackIndex = -1;
-        const LAST_TRACK_KEY = 'mindfulness_last_track_index';
-        // --- NOVO: Chave para salvar o volume no localStorage ---
-        const LAST_VOLUME_KEY = 'mindfulness_last_volume';
-
-        function getRandomTrackIndex(excludeIndex = -1) {
-            let newIndex;
-            if (musicPlaylist.length > 1) {
-                do {
-                    newIndex = Math.floor(Math.random() * musicPlaylist.length);
-                } while (newIndex === excludeIndex);
-            } else {
-                newIndex = 0;
+    // Quando a API do YouTube carregar
+    function onYouTubeIframeAPIReady() {
+      player = new YT.Player('youtube-player', {
+        height: '0', // sem vídeo visível
+        width: '0',
+        playerVars: {
+          listType: 'playlist',
+          list: 'PL9NW5EFEg2r2e2LUpUh_PF1Qdou0Ynlzx', // 🔹 coloque o ID da playlist do YouTube
+        },
+        events: {
+          onReady: () => {
+            songTitleEl.textContent = 'Playlist carregada 🎶';
+          },
+          onStateChange: (event) => {
+            if (event.data === YT.PlayerState.PLAYING) {
+              const videoData = player.getVideoData();
+              songTitleEl.textContent = videoData.title;
+              playPauseBtn.textContent = '⏸️';
+            } else if (event.data === YT.PlayerState.PAUSED) {
+              playPauseBtn.textContent = '▶️';
+            } else if (event.data === YT.PlayerState.ENDED) {
+              player.nextVideo();
             }
-            return newIndex;
+          }
         }
-
-        function formatTime(seconds) {
-            const minutes = Math.floor(seconds / 60);
-            const remainingSeconds = Math.floor(seconds % 60);
-            return `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
-        }
-
-        function playMusic() {
-            if (currentTrackIndex < 0 || currentTrackIndex >= musicPlaylist.length) return;
-            const track = musicPlaylist[currentTrackIndex];
-            audioPlayer.src = track.src;
-            songTitleEl.textContent = track.title;
-            songTitleEl.title = track.title;
-            localStorage.setItem(LAST_TRACK_KEY, currentTrackIndex);
-            audioPlayer.play().catch(error => console.error("Autoplay no pop-up falhou:", error));
-        }
-
-        function skipMusic() {
-            currentTrackIndex = getRandomTrackIndex(currentTrackIndex);
-            playMusic();
-        }
-
-        // --- NOVA FUNÇÃO: Atualiza o ícone de volume (Mudo, Baixo, Alto) ---
-        function updateVolumeIcon() {
-            if (audioPlayer.volume === 0) {
-                volumeIcon.textContent = '🔇';
-            } else if (audioPlayer.volume < 0.5) {
-                volumeIcon.textContent = '🔉';
-            } else {
-                volumeIcon.textContent = '🔊';
-            }
-        }
-
-        // --- NOVA FUNÇÃO: Atualiza o fundo do slider para mostrar o progresso ---
-        function updateSliderBackground() {
-            const progress = (volumeSlider.value / volumeSlider.max) * 100;
-            volumeSlider.style.background = `linear-gradient(to right, #8e2de2 ${progress}%, #d3d3d3 ${progress}%)`;
-        }
-
-        playPauseBtn.addEventListener('click', () => {
-            if (audioPlayer.paused) {
-                if (!audioPlayer.src) {
-                    const lastPlayedIndex = parseInt(localStorage.getItem(LAST_TRACK_KEY), 10);
-                    currentTrackIndex = getRandomTrackIndex(lastPlayedIndex);
-                    playMusic();
-                } else {
-                    audioPlayer.play();
-                }
-            } else {
-                audioPlayer.pause();
-            }
-        });
-        
-        audioPlayer.addEventListener('play', () => { playPauseBtn.textContent = '⏸️'; });
-        audioPlayer.addEventListener('pause', () => { playPauseBtn.textContent = '▶️'; });
-
-        skipBtn.addEventListener('click', skipMusic);
-        audioPlayer.addEventListener('ended', skipMusic);
-
-        audioPlayer.addEventListener('timeupdate', () => {
-            currentTimeEl.textContent = formatTime(audioPlayer.currentTime);
-        });
-
-        audioPlayer.addEventListener('loadedmetadata', () => {
-            totalDurationEl.textContent = formatTime(audioPlayer.duration);
-        });
-
-        // --- NOVO: Event listener para o slider de volume ---
-        volumeSlider.addEventListener('input', (e) => {
-            const newVolume = e.target.value;
-            audioPlayer.volume = newVolume;
-            localStorage.setItem(LAST_VOLUME_KEY, newVolume);
-            updateVolumeIcon();
-            updateSliderBackground();
-        });
-
-        // --- NOVO: Event listener para o ícone de volume (mutar/desmutar) ---
-        volumeIcon.addEventListener('click', () => {
-            if (audioPlayer.volume > 0) {
-                volumeSlider.setAttribute('data-last-volume', audioPlayer.volume);
-                audioPlayer.volume = 0;
-                volumeSlider.value = 0;
-            } else {
-                const lastVolume = volumeSlider.getAttribute('data-last-volume') || 0.5;
-                audioPlayer.volume = lastVolume;
-                volumeSlider.value = lastVolume;
-            }
-            updateVolumeIcon();
-            updateSliderBackground();
-        });
-
-      // Dentro da tag <script> de player.html
-
-// Lógica de inicialização do player
-document.addEventListener('DOMContentLoaded', () => {
-    // Carrega o último volume salvo ou define um padrão
-    const savedVolume = localStorage.getItem('mindfulness_last_volume') || 0.5;
-    audioPlayer.volume = savedVolume;
-    volumeSlider.value = savedVolume;
-    updateVolumeIcon();
-    updateSliderBackground();
-
-    // --- ESTA PARTE É ESSENCIAL ---
-    // Pega os parâmetros da URL para decidir se deve tocar automaticamente
-    const urlParams = new URLSearchParams(window.location.search);
-    const shouldAutoplay = urlParams.get('autoplay') === 'true';
-
-    if (shouldAutoplay) {
-        // Se o autoplay for solicitado, inicia a música
-        const lastPlayedIndex = parseInt(localStorage.getItem('mindfulness_last_track_index'), 10);
-        currentTrackIndex = isNaN(lastPlayedIndex) ? getRandomTrackIndex() : getRandomTrackIndex(lastPlayedIndex);
-        playMusic();
+      });
     }
-});
 
-// Recupera o valor salvo no localStorage
-const ehDesktop = localStorage.getItem('ehDesktop');
+    playPauseBtn.addEventListener('click', () => {
+      const state = player.getPlayerState();
+      if (state === YT.PlayerState.PLAYING) {
+        player.pauseVideo();
+      } else {
+        player.playVideo();
+      }
+    });
 
-// Verifica// Seleciona o botão
-
-const fundobutton = document.getElementById('fundobutton');
-
-// Verifica se o botão existe antes de tentar modificar
-if (fundobutton) {
-    if (ehDesktop === 'não') {
-        // Mostrar o botão em dispositivos que não são desktop
-        fundobutton.style.display = 'flex';
-            document.body.classList.add('aumentar-200');
-
-    } else {
-        // Esconder o botão em desktop ou se valor for "sim"
-        fundobutton.style.display = 'none';
-    }
-}
-
-
-
-    </script>
+    skipBtn.addEventListener('click', () => {
+      player.nextVideo();
+    });
+  </script>
 </body>
+
 </html>

@@ -80,7 +80,10 @@ class UIManager {
         console.log(`Showing screen: ${screenId}`);
 
         // Volta para o topo ao trocar de tela
-        window.scrollTo(0, 0);
+ this.forceScrollToTop();
+
+    setTimeout(() => this.forceScrollToTop(), 100);
+
 
         // Esconde todas as telas
         const screens = document.querySelectorAll('.screen');
@@ -104,7 +107,36 @@ class UIManager {
         } else {
             console.error(`Screen with ID '${screenId}' not found`);
         }
+            this.updateChatButtonVisibility(screenId);
+
     }
+
+fundoQuestoes
+forceScrollToTop() {
+    document.querySelector('.social-feed-container').scrollTop = 0;
+    document.querySelector('.menu-content').scrollTop = 0;
+    document.getElementById("quiz-setup-screen").scrollTop = 0;
+        document.getElementById("profile-screen").scrollTop = 0;
+
+    document.querySelector('.fundoQuestoes').scrollTop = 0;
+
+    // Força rolagem em todos os elementos possíveis
+    window.scrollTo(0, 0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+    
+    // Força rolagem em elementos com overflow
+    const scrollableElements = document.querySelectorAll('[style*="overflow"]');
+    scrollableElements.forEach(el => {
+        el.scrollTop = 0;
+    });
+
+
+}
+
+
+
+
 
     onScreenShown(screenId) {
         switch (screenId) {
@@ -225,19 +257,39 @@ class UIManager {
 
         try {
             const categories = await window.databaseManager.getCategories();
+            
+            // Clear existing options
             categorySelect.innerHTML = '<option value="">Selecione uma categoria</option>';
 
+            // Add 'Random' option
             const randomOption = document.createElement('option');
             randomOption.value = 'random';
             randomOption.textContent = 'Aleatórias';
             categorySelect.appendChild(randomOption);
 
-            Object.entries(categories || {}).forEach(([id, category]) => {
+            // Sort categories alphabetically
+            const sortedCategories = Object.entries(categories || {}).sort(([,a], [,b]) => a.name.localeCompare(b.name));
+
+            // Add sorted categories to the select
+            sortedCategories.forEach(([id, category]) => {
                 const option = document.createElement('option');
                 option.value = id;
                 option.textContent = category.name;
                 categorySelect.appendChild(option);
             });
+
+            // Initialize Choices.js for search functionality
+            if (this.categoryChoices) {
+                this.categoryChoices.destroy();
+            }
+                this.categoryChoices = new Choices(categorySelect, {
+                    searchEnabled: true,
+                    itemSelectText: 'Pressione para selecionar',
+                    noResultsText: 'Digite o nome corretamente',
+                    shouldSort: false,
+                    shouldSortItems: false,
+                    position: 'bottom',
+                });
 
             categorySelect.addEventListener('change', () => this.onCategoryChange());
         } catch (error) {
@@ -258,24 +310,48 @@ class UIManager {
         if (!selectedCategory || selectedCategory === 'random') {
             subcategorySection.style.display = 'none';
             subcategorySelect.innerHTML = '<option value="">Selecione uma subcategoria (opcional)</option>';
+            if (this.subcategoryChoices) {
+                this.subcategoryChoices.destroy();
+                this.subcategoryChoices = null;
+            }
             return;
         }
 
         try {
             const subcategories = await window.databaseManager.getSubcategories(selectedCategory);
+            
+            // Clear existing options and destroy previous Choices instance
+            if (this.subcategoryChoices) {
+                this.subcategoryChoices.destroy();
+            }
             subcategorySelect.innerHTML = '<option value="">Todas as subcategorias</option>';
 
             if (subcategories && Object.keys(subcategories).length > 0) {
-                Object.entries(subcategories).forEach(([id, subcategory]) => {
+                // Sort subcategories alphabetically
+                const sortedSubcategories = Object.entries(subcategories).sort(([,a], [,b]) => a.name.localeCompare(b.name));
+
+                // Add sorted subcategories to the select
+                sortedSubcategories.forEach(([id, subcategory]) => {
                     const option = document.createElement('option');
                     option.value = id;
                     option.textContent = subcategory.name;
                     subcategorySelect.appendChild(option);
                 });
 
+                // Initialize Choices.js for search functionality
+                this.subcategoryChoices = new Choices(subcategorySelect, {
+                    searchEnabled: true,
+                    itemSelectText: 'Pressione para selecionar',
+                    noResultsText: 'Digite o nome corretamente',
+                    shouldSort: false,
+                    shouldSortItems: false,
+                    position: 'bottom',
+                });
+
                 subcategorySection.style.display = 'block';
             } else {
                 subcategorySection.style.display = 'none';
+                this.subcategoryChoices = null; // No subcategories, no Choices instance
             }
         } catch (error) {
             console.error('Error loading subcategories:', error);
@@ -318,12 +394,15 @@ class UIManager {
     }
 
     exitGame() {
+
         this.showModal(
             'Sair do simulado',
             'Tem certeza que deseja sair? Seu progresso será perdido.',
             'Problema',
             true,
             () => {
+    document.getElementById("explanationContainer").style.display = "none";
+
                 this.showScreen('main-menu-screen');
                 if (window.gameLogic) window.gameLogic.resetGame();
             }
@@ -577,6 +656,19 @@ class UIManager {
     isScreenActive(screenId) {
         return this.currentScreen === screenId;
     }
+
+
+
+updateChatButtonVisibility(screenId) {
+    const chatButton = document.querySelector('.chat-toggle-btn');
+    if (chatButton) {
+        if (screenId === 'main-menu-screen') {
+            chatButton.style.display = 'block';
+        } else {
+            chatButton.style.display = 'none';
+        }
+    }
+}
 
 
 

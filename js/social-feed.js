@@ -4,7 +4,7 @@ class SocialFeedManager {
         this.currentUser = null;
         this.currentUserPhotoURL = null;
         this.postsRef = null;
-        this.postsPerPage = 20; // Quantidade de posts a carregar por vez
+        this.postsPerPage = 1; // Quantidade de posts a carregar por vez
         this.lastVisiblePostTimestamp = null; // Timestamp do último post carregado para paginação
         this.lastVisiblePostId = null; // ID do último post carregado para paginação
         this.isLoadingPosts = false; // Flag para evitar carregamentos múltiplos
