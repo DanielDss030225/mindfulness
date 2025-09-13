@@ -15,14 +15,15 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: #333;
     overflow-x: hidden;
-        overflow-y: hidden;
+    overflow-y: hidden;
+    min-height: 100vh; /* Garante altura mínima */
+    margin: 0;
+    border-bottom: 0;
 
-    height: auto;
-    margin-bottom: 0px;
-border-bottom: 0px;
-
-
+    /* Gradiente lindo de fundo */
+  background: linear-gradient(90deg, #f0f2f5 50%, #f0f2f5 50%);
 }
+
 
 .game-header p {
    font-size: 14px;
@@ -213,7 +214,7 @@ padding-bottom: 3px;
     font-size: 12px;
     font-weight: 500;
     transition: all 0.3s ease;
-    width: 80%px;
+    width: 80%;
     height: auto;
     align-items: center;
     word-wrap: break-word;
@@ -497,6 +498,8 @@ header p {
     50% { transform: translateY(-10px); }
 }
 
+
+
 .speech-bubble {
     background: white;
     padding: 15px 20px;
@@ -504,10 +507,15 @@ header p {
     margin-top: 20px;
     position: relative;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    width: 90%;
     max-width: auto;
     text-align: center;
+
+  width: 280px;
+  
+
+
 }
+
 
 .speech-bubble::before {
     content: '';
@@ -537,26 +545,40 @@ header p {
     margin-left: 0px;
         background: linear-gradient(135deg, #051e23 0%, #8d61b9 100%);
 
-    
+    max-width: 500px;
 }
 
 
 
-.fundoQuestoes{
-     flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    background-color: #f0f2f5;
-    max-width: 100%;
-      overflow: scroll;
-      height: 100vh;
-      width: 70%;
-      margin-left: 30%;
-      position: fixed;
-      align-items: center;
-      padding-bottom: 20px;
+.game-container {
+  position: relative; /* referência para .fundoQuestoes */
+  display: flex;      /* garante que os filhos se alinhem lado a lado */
 }
+
+.fundoQuestoes {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background-color: #f0f2f5;
+  overflow-y: auto;
+  height: 100vh;
+  width: 70%;
+  max-width: 1200px;
+
+  /* posiciona ao lado direito */
+  position: absolute;
+  top: 0;
+  right: 0;
+
+  align-items: center;
+  padding-bottom: 20px;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+
+
 
 /* Menu Options */
 .menu-options {
@@ -991,7 +1013,7 @@ textarea:focus {
     justify-content: center;
     margin-bottom: 0px;
     padding: 0px;
-    width: 120;
+    width: 120px;
     height: 120px;
     text-align: center;
     border-radius: 30px;
@@ -1114,6 +1136,7 @@ textarea:focus {
     max-width: 100%;
       overflow: scroll;
       height: 100vh;
+    scroll-behavior: smooth;
 
 
 }
@@ -1453,9 +1476,6 @@ textarea:focus {
 }
 
 
-.main-menu {
-    display: flex;
-}
 
 .menu-content {
   position: fixed;
@@ -1467,7 +1487,7 @@ textarea:focus {
   /* Oculta a barra de rolagem visual */
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none;  /* Internet Explorer e Edge antigos */
-  
+  max-width: 500px;
 }
 
 .menu-content::-webkit-scrollbar {
@@ -1478,10 +1498,29 @@ textarea:focus {
   position: fixed;
     background-color: #000000;
     width: 70%;
-margin-left: 30%;
 margin-top: 0px;
 margin-bottom: 0px;
 padding-bottom: 0px;
+max-width: 1200px;
+
+}
+#main-menu-screen {
+  position: relative; /* vira referência para .feedFixo */
+}
+
+.feedFixo {
+  position: absolute;   /* relativo ao main-menu-screen */
+  right: 0;             /* encosta no lado direito */
+  bottom: 0;            /* fica no final do main-menu-screen */
+
+  background-color: #000000;
+  width: 70%;
+  max-width: 1200px;
+
+  margin: 0;
+  padding-bottom: 0;
+  box-sizing: border-box;
+  margin-top: 40px  ;
 }
 
 .add-comment-input button {
@@ -2307,3 +2346,23 @@ height: 100%;
     box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25) !important;
 }
 
+.main-menu {
+    display: flex;
+    max-width: 1500px;
+        margin: 0 auto;     /* centraliza no meio */
+
+}
+
+/* Limitador global da tela */
+body {
+    max-width: 1500px;   /* não deixa a tela passar de 900px */
+    margin: 0 auto;     /* centraliza no meio */
+}
+
+
+/* Cada tela (screen) visível nunca passa de 900px */
+.screen {
+    max-width: 1500px;
+    margin: 0 auto;   /* centraliza no meio */
+    width: 100%;      /* continua ocupando toda a largura até 900px */
+}

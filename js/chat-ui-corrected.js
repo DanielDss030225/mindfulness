@@ -785,11 +785,11 @@ handleNewMessage(detail) {
 
 // DENTRO DA CLASSE ChatUI
 
+// DENTRO DA CLASSE ChatUI
+
 async updateConversations(conversations) {
-    // Pega o container das conversas privadas.
     const container = this.elements.privateConversations;
 
-    // Se não houver conversas, exibe o estado de "vazio" e para a execução.
     if (conversations.length === 0) {
         container.innerHTML = `
             <div class="chat-empty-state">
@@ -800,50 +800,45 @@ async updateConversations(conversations) {
         return;
     }
 
-    // Remove o estado de "vazio" ou "carregando" se eles existirem.
     const emptyState = container.querySelector('.chat-empty-state, .chat-loading');
     if (emptyState) {
         emptyState.remove();
     }
 
-    // Ordena as conversas pela mais recente primeiro.
     const sortedConversations = conversations.sort(([, a], [, b]) => (b.lastMessageTime || 0) - (a.lastMessageTime || 0));
 
     // Itera sobre as conversas ordenadas para atualizar a UI.
     for (const [convId, convData] of sortedConversations) {
-        if (convData.type !== 'private') continue; // Pula se não for uma conversa privada.
+        if (convData.type !== 'private') continue;
 
-        // Tenta encontrar o item da conversa que JÁ ESTÁ na tela.
         let conversationItem = container.querySelector(`.chat-conversation-item[data-conversation-id="${convData.id}"]`);
 
-        // Se o item da conversa NÃO EXISTE, nós o criamos.
         if (!conversationItem) {
             conversationItem = document.createElement('div');
             conversationItem.className = 'chat-conversation-item';
             conversationItem.dataset.conversationId = convData.id;
-            // Adiciona o novo item no início da lista.
             container.prepend(conversationItem);
+
+            // Adiciona o listener de clique para abrir a conversa APENAS na criação do elemento
+            conversationItem.addEventListener('click', () => this.openConversation('private', convData.id));
         }
 
-        // --- Lógica para obter dados do usuário (nome e avatar) ---
         let name = convData.otherUserName || 'Carregando...';
         let avatar = convData.otherUserProfilePic || 'https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/ICONE%20PERFIL.png?alt=media&token=d092ec7f-77b9-404d-82d0-b6ed3ce6810e';
 
-        if (!convData.otherUserName ) {
+        if (!convData.otherUserName) {
             const otherUserData = await window.chatManager.getUserData(convData.id);
             if (otherUserData) {
                 name = otherUserData.name || 'Novato';
                 avatar = otherUserData.profilePicture || 'https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/ICONE%20PERFIL.png?alt=media&token=d092ec7f-77b9-404d-82d0-b6ed3ce6810e';
             }
         }
-        
-        // --- Lógica para criar o conteúdo do item ---
+
         const unreadBadge = convData.unreadCount > 0 ? `<span class="chat-conversation-badge">🔴</span>` : '';
-        const displayName = name.length > 10 ? name.slice(0, 10 ) + '...' : name;
+        const displayName = name.length > 10 ? name.slice(0, 10) + '...' : name;
         const lastMessage = convData.lastMessage || '';
         const displayMessage = lastMessage.length > 15 ? lastMessage.substring(0, 15) + '...' : lastMessage;
 
-        // Atualiza o HTML interno do item (seja ele novo ou existente).
         conversationItem.innerHTML = `
             <img src="${avatar}" alt="${displayName}" class="chat-conversation-avatar">
             <div class="chat-conversation-info">
@@ -852,8 +847,7 @@ async updateConversations(conversations) {
             </div>
             ${unreadBadge}
         `;
-        
-        // Adiciona o botão de deletar.
+
         const deleteBtn = document.createElement('span');
         deleteBtn.className = 'chat-conversation-delete';
         deleteBtn.innerHTML = '🗑️';
@@ -863,23 +857,17 @@ async updateConversations(conversations) {
             this.openDeleteModal(convData.id);
         });
         conversationItem.appendChild(deleteBtn);
-
-        // Garante que o evento de clique para abrir a conversa esteja sempre presente.
-        // Removemos qualquer listener antigo para evitar duplicação de eventos.
-        conversationItem.replaceWith(conversationItem.cloneNode(true));
-        container.querySelector(`.chat-conversation-item[data-conversation-id="${convData.id}"]`)
-                 .addEventListener('click', () => this.openConversation('private', convData.id));
     }
-    
-    // Reordena os elementos no DOM para garantir que a ordem visual corresponda à ordem dos dados.
-    const items = Array.from(container.querySelectorAll('.chat-conversation-item'));
-    items.sort((a, b) => {
-        const timeA = sortedConversations.find(([_, data]) => data.id === a.dataset.conversationId)[1].lastMessageTime || 0;
-        const timeB = sortedConversations.find(([_, data]) => data.id === b.dataset.conversationId)[1].lastMessageTime || 0;
-        return timeB - timeA;
-    }).forEach(item => container.appendChild(item));
-}
 
+    // Remove da UI as conversas que não existem mais nos dados
+    const currentConversationIds = sortedConversations.map(([_, data]) => data.id);
+    const itemsInUI = Array.from(container.querySelectorAll('.chat-conversation-item'));
+    itemsInUI.forEach(item => {
+        if (!currentConversationIds.includes(item.dataset.conversationId)) {
+            item.remove();
+        }
+    });
+}
 
 
 // DENTRO DA CLASSE ChatUI

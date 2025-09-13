@@ -1323,7 +1323,7 @@ class SocialFeedManager {
         try {
             // Gerar URL exclusiva para a publicação na nova página
             const baseUrl = window.location.origin;
-            const shareUrl = `${baseUrl}/mindfulness/post.html?id=${postId}`;
+            const shareUrl = `${baseUrl}/post.html?id=${postId}`;
             
             // Copiar para a área de transferência
             if (navigator.clipboard && window.isSecureContext) {

@@ -730,7 +730,7 @@ async toggleReplyLike(replyId, buttonElement) {
 
     updateShareLink() {
         
-        const shareLink = `${window.location.origin}/mindfulness/post.html?id=${this.postId}`;
+        const shareLink = `${window.location.origin}/post.html?id=${this.postId}`;
 
 
         document.getElementById('shareLink').value = shareLink;

@@ -20,7 +20,7 @@
 }
 
 .header-content {
-   max-width: 1200px;
+   max-width: 1500px;
   margin: 0 auto;
   padding: 0 2rem;
   display: flex;
@@ -176,8 +176,8 @@ background: rgb(240, 240, 240);
 }
 
 .post-image {
-    width: 60%;
-    height: auto;
+    width: 100%;
+    max-height: 400px;
     object-fit: cover;
     border-radius: 15px;
     margin-bottom: 1rem;
