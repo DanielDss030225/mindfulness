@@ -212,7 +212,7 @@ async markOpenConversationAsRead(otherUserId) {
 
 
    // MODIFICADO: Garante que os dados do usuário sejam incluídos na mensagem
-// DENTRO DA CLASSE ChatManager
+// DENTRO DA CLASSE ChatManager class="chat-tab-badge"
 async handleNewMessage(type, message, conversationId = null) {
 
 

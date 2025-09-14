@@ -151,7 +151,6 @@ class ChatUI {
 
                         <div class="chat-empty-state">
 
-                            <div class="chat-empty-icon">💬</div>
                             <div class="chat-empty-title">Nenhuma conversa</div>
                             <div class="chat-empty-description">Clique em um usuário online para iniciar uma conversa</div>
                             
@@ -404,7 +403,6 @@ this.elements.globalMessages.addEventListener('click', (e) => {
 
 toggleChat() {
 
-
     const botao = document.querySelector('.chat-toggle-btn');
     
 
@@ -451,6 +449,22 @@ fundoUSER.style.display = "flex";
         }, 500);
     }
 
+const badge = document.querySelector(".chat-notification-badge");
+const badgeInterno = document.querySelector(".chat-tab-badge");
+
+if (badge.style.display == "none") {
+      console.log("o elemento está com display none");
+
+badgeInterno.style.display = "none";
+
+} else if (!badge) {
+  console.log("o elemento não está no dom");
+    badgeInterno.style.display = "none";
+
+} else {
+    console.log("tudo certo com o elemento.");
+}
+
 }
 
 
@@ -480,6 +494,10 @@ closeChat() {
     this.elements.userSearchInput.focus();
 
     } else {
+
+          document.getElementById("userIMG").src =
+  "https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/ICONE%20PERFIL.png?alt=media&token=d092ec7f-77b9-404d-82d0-b6ed3ce6810e";
+
         this.elements.onlineUsersList.style.display = "none";
     this.elements.userSearchInput.value = "";
     
@@ -498,9 +516,17 @@ closeChat() {
 
     // --- INÍCIO DA CORREÇÃO ---
     // Zera a referência da conversa que estava aberta.
-    this.currentConversation = null; 
+
+                this.elements.privateMessages.innerHTML = '';
+                this.elements.privateMessages.style.display = 'flex';
+                this.elements.privateInputArea.style.display = 'flex';
+                document.getElementById("userNOME").textContent = "Olá, Selecione uma conversa para começar."; // Reseta o header
+                document.getElementById("fundoUSER").style.display = "flex";
+                           
 
 
+                this.currentConversation = null;
+            
 
     // --- FIM DA CORREÇÃO ---
     }
@@ -723,7 +749,7 @@ handleNewMessage(detail) {
     if (type === 'global' && this.currentTab === 'global') {
         targetContainer = this.elements.globalMessages;
     } else if (type === 'private' && conversationId === this.currentConversation && this.currentTab === 'private') {
-               this.markCurrentMessagesAsRead();
+        this.markCurrentMessagesAsRead();
 
         targetContainer = this.elements.privateMessages;
     } else if (type === 'group' && conversationId === this.currentConversation && this.currentTab === 'groups') {
@@ -748,6 +774,7 @@ handleNewMessage(detail) {
     }
     // Atualiza badge de notificação e contadores de não lidas
     this.updateNotificationBadges(type, conversationId, unreadCount);
+
 }
 
 
@@ -793,7 +820,6 @@ async updateConversations(conversations) {
     if (conversations.length === 0) {
         container.innerHTML = `
             <div class="chat-empty-state">
-                <div class="chat-empty-icon">💬</div>
                 <div class="chat-empty-title">Nenhuma conversa</div>
                 <div class="chat-empty-description">Clique em um usuário online para iniciar uma conversa</div>
             </div>`;
@@ -806,6 +832,15 @@ async updateConversations(conversations) {
     }
 
     const sortedConversations = conversations.sort(([, a], [, b]) => (b.lastMessageTime || 0) - (a.lastMessageTime || 0));
+
+    // Cria um fragmento de documento para otimizar a manipulação do DOM
+    const fragment = document.createDocumentFragment();
+
+    // Mapeia os elementos existentes para reuso ou remoção
+    const existingItems = new Map();
+    container.querySelectorAll('.chat-conversation-item').forEach(item => {
+        existingItems.set(item.dataset.conversationId, item);
+    });
 
     // Itera sobre as conversas ordenadas para atualizar a UI.
     for (const [convId, convData] of sortedConversations) {
@@ -857,16 +892,18 @@ async updateConversations(conversations) {
             this.openDeleteModal(convData.id);
         });
         conversationItem.appendChild(deleteBtn);
+        fragment.appendChild(conversationItem);
+
+        // Remove o item do mapa de existentes, pois ele foi reusado ou criado
+        existingItems.delete(convData.id);
     }
 
-    // Remove da UI as conversas que não existem mais nos dados
-    const currentConversationIds = sortedConversations.map(([_, data]) => data.id);
-    const itemsInUI = Array.from(container.querySelectorAll('.chat-conversation-item'));
-    itemsInUI.forEach(item => {
-        if (!currentConversationIds.includes(item.dataset.conversationId)) {
-            item.remove();
-        }
-    });
+    // Remove da UI as conversas que não existem mais nos dados (restantes no existingItems)
+    existingItems.forEach(item => item.remove());
+
+    // Adiciona todos os elementos (novos e atualizados) de uma vez ao DOM
+    container.innerHTML = ""; // Limpa o container antes de adicionar o fragmento
+    container.appendChild(fragment);
 }
 
 
@@ -1239,13 +1276,17 @@ focusCurrentInput() {
             // Chama a função que vamos criar no ChatManager
             await window.chatManager.deletePrivateConversation(conversationId);
             
-            // Se a conversa excluída era a que estava aberta, limpa a tela
+            // Se a conversa excluída era a que estava aberta, limpa a tela https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/ICONE%20PERFIL.png?alt=media&token=d092ec7f-77b9-404d-82d0-b6ed3ce6810e
             if (this.currentConversation === conversationId) {
                 this.elements.privateMessages.innerHTML = '';
-                this.elements.privateMessages.style.display = 'none';
-                this.elements.privateInputArea.style.display = 'none';
-                document.getElementById("userNOME").textContent = "030225"; // Reseta o header
-                document.getElementById("fundoUSER").style.display = "none";
+                this.elements.privateMessages.style.display = 'flex';
+                this.elements.privateInputArea.style.display = 'flex';
+                document.getElementById("userNOME").textContent = "Olá, Selecione outra conversa e continue conversando."; // Reseta o header
+                document.getElementById("fundoUSER").style.display = "flex";
+                             document.getElementById("userIMG").src =
+  "https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/ICONE%20PERFIL.png?alt=media&token=d092ec7f-77b9-404d-82d0-b6ed3ce6810e";
+
+
                 this.currentConversation = null;
             }
 
@@ -1253,9 +1294,11 @@ focusCurrentInput() {
             console.error("Erro ao excluir a conversa:", error);
             alert("Não foi possível excluir a conversa. Tente novamente.");
         } finally {
+
             // Fecha o modal independentemente do resultado
             this.closeDeleteModal();
         }
+
     }
 
 

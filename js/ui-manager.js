@@ -76,42 +76,45 @@ class UIManager {
         if (commentsModal) commentsModal.addEventListener('click', e => { if (e.target === commentsModal) this.hideCommentsModal(); });
     }
 
-    showScreen(screenId) {
-        console.log(`Showing screen: ${screenId}`);
+   showScreen(screenId) {
+    console.log(`Showing screen: ${screenId}`);
 
-        // Volta para o topo ao trocar de tela
- this.forceScrollToTop();
-
-    setTimeout(() => this.forceScrollToTop(), 100);
-
-
-        // Esconde todas as telas
-        const screens = document.querySelectorAll('.screen');
-        screens.forEach(screen => {
-            screen.classList.remove('active');
-            screen.style.display = 'none';
-        });
-
-        // Exibe a nova tela
-        const targetScreen = document.getElementById(screenId);
-        if (targetScreen) {
-            targetScreen.style.display = 'flex';
-            targetScreen.classList.add('active');
-            this.currentScreen = screenId;
-
-            // Animação
-            targetScreen.classList.add('fade-in');
-            setTimeout(() => targetScreen.classList.remove('fade-in'), 500);
-
-            this.onScreenShown(screenId);
-        } else {
-            console.error(`Screen with ID '${screenId}' not found`);
+    // Se for index.html, força scroll para o topo
+    const paginaAtual = window.location.pathname.split("/").pop();
+    if (paginaAtual === "index.html" || paginaAtual === "") {
+        if (typeof this.forceScrollToTop === "function") {
+            this.forceScrollToTop();
+            setTimeout(() => this.forceScrollToTop(), 100);
         }
-            this.updateChatButtonVisibility(screenId);
-
     }
 
-fundoQuestoes
+    // Esconde todas as telas
+    const screens = document.querySelectorAll('.screen');
+    screens.forEach(screen => {
+        screen.classList.remove('active');
+        screen.style.display = 'none';
+    });
+
+    // Exibe a nova tela
+    const targetScreen = document.getElementById(screenId);
+    if (targetScreen) {
+        targetScreen.style.display = 'flex';
+        targetScreen.classList.add('active');
+        this.currentScreen = screenId;
+
+        // Animação
+        targetScreen.classList.add('fade-in');
+        setTimeout(() => targetScreen.classList.remove('fade-in'), 500);
+
+        this.onScreenShown(screenId);
+    } else {
+        console.error(`Screen with ID '${screenId}' not found`);
+    }
+
+    this.updateChatButtonVisibility(screenId);
+}
+
+
 forceScrollToTop() {
     document.querySelector('.social-feed-container').scrollTop = 0;
     document.querySelector('.menu-content').scrollTop = 0;
