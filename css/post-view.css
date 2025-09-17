@@ -4,6 +4,10 @@
     background: linear-gradient(135deg, #000000 0%, #764ba2 100%);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     overflow: auto;
+    position: fixed;
+    top: 0;
+    margin-top: 70px;
+    width: 100%;
 
 }
 
@@ -17,6 +21,9 @@
     top: 0;
     z-index: 100;
     box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    height: 70px;
+    width: 100%;
 }
 
 .header-content {
@@ -99,7 +106,7 @@
 }
 
 .post-container {
-background: rgb(240, 240, 240);
+background: rgb(221, 221, 221);
     border-radius: 30px;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
     overflow: hidden;
@@ -176,8 +183,8 @@ background: rgb(240, 240, 240);
 }
 
 .post-image {
-    width: 100%;
-    max-height: 400px;
+    width: auto;
+    max-height: 500px;
     object-fit: cover;
     border-radius: 15px;
     margin-bottom: 1rem;
@@ -326,7 +333,7 @@ background: rgb(240, 240, 240);
 }
 
 .comment-item {
-    background: #f8f9fa;
+    background: #ffffff;
     border-radius: 15px;
     padding: 1.5rem;
     margin-bottom: 1rem;
@@ -348,18 +355,61 @@ background: rgb(240, 240, 240);
 
 .comment-main-content {
     display: flex;
-    gap: 1rem;
+    flex-direction: column; /* força os itens a ficarem em coluna */
+    align-items: flex-start; /* alinha à esquerda */
+    gap: 0.5rem; /* espaço vertical entre os itens */
+    padding: 0.75rem; /* dá um respiro interno */
+   
+    background-color: rgb(235, 235, 235) ;
+    border-radius: 10px;
+
+   
+}
+.fundoComent {
+    background-color: rgb(242, 242, 242) ;
+     border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
+    padding-bottom: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 10px;
+    background: white;
     margin-bottom: 1rem;
+    border-radius: 10px;
+    border: 1px solid #e0e0e0;
+            background-color: none;
+}
+
+
+.texAreaClass {
+    width: 100%;
+    border: 2px solid #e0e0e0;
+    border-radius: 15px;
+    padding: 1rem;
+    font-family: inherit;
+    font-size: 1rem;
+    resize: vertical;
+    min-height: 80px;
+    transition: all 0.3s ease;
+}
+
+.texAreaClass:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
 }
 
 .comment-content-container {
     flex: 1;
+    width: 100%;
 }
 
 .comment-author {
     font-weight: 600;
     color: #333;
     margin-bottom: 0.5rem;
+    background-color: none;
+    width: 100%;
 }
 
 .comment-text {
@@ -448,7 +498,6 @@ width: 90%;
 .sub-comment {
     background: white;
     margin-bottom: 1rem;
-    padding: 1rem;
     border-radius: 10px;
     border: 1px solid #e0e0e0;
             background-color: none;
@@ -687,26 +736,29 @@ width: 90%;
     text-align: center;
     color: #333;
 }
-.submit-reply-btn {
-    background-color: #4da6ff; /* Azul claro */
-    color: white;
-    padding: 6px 14px;
-    font-size: 14px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
 
-.submit-reply-btn:hover {
-    background-color: #3399ff; /* Azul um pouco mais escuro no hover */
-    transform: scale(1.05);
-}
 
 .submit-reply-btn:active {
     transform: scale(0.97);
 }
+
+.submit-reply-btn {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    border: none;
+    color: white;
+    padding: 0.75rem 2rem;
+    border-radius: 50px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.submit-reply-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+}
+
+
 
 .cancel-reply-btn {
     background-color: #e0e0e0; /* Cinza claro */

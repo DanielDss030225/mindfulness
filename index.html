@@ -36,9 +36,11 @@
 <body>
 
 <header class="game-header">
+ 
     <a id="backinicio">
         <img src="https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/mindfulness_brain_transparent.png?alt=media&token=d1407573-6161-4b64-b6b2-e46206ba452f" alt="Mindfulness Logo" class="logo">
     </a>
+       <button class="menuBotton" onclick="abrirMenu()" >☰</button>
     <h1 class="logoCabecalho">PlataformaBizurada</h1>
     <p>A Plataforma do concurseiro!</p>
 
@@ -138,7 +140,7 @@
         <div class="main-menu">
             
 
-            <div class="menu-content">
+            <div class="menu-content" id="menuGeral">
                 <div class="professor-character">
                     <div class="professor-avatar">
                         <div class="professor-body">
@@ -156,6 +158,31 @@
 <script>
     function teste() {
  alert("Ainda estamos desenvolvendo este espaço para você!")
+    }
+
+
+  function abrirFeed() {
+
+  const  menuGeral = document.getElementById("menuGeral");
+  const  feedSocial = document.getElementById("feedSocial");
+  menuGeral.style.display = "none";
+  feedSocial.style.display = "flex";
+
+
+    }
+function abrirMenu() {
+  // Verifica se o uiManager está disponível e chama a função para mostrar a tela principal
+            if (window.uiManager) {
+                window.uiManager.showScreen('main-menu-screen');
+            } else {
+                console.error('UIManager não encontrado. Não foi possível voltar para a tela inicial.');
+            }
+  const  menuGeral = document.getElementById("menuGeral");
+  const  feedSocial = document.getElementById("feedSocial");
+  menuGeral.style.display = "block";
+  feedSocial.style.display = "none";
+
+
     }
 </script>
            <div class="menu-options">
@@ -182,14 +209,24 @@ Banco de provas                   </p>   </button>
                         <span class="btn-icon">🧠</span>
                                                 <p class="pmenu"> 
 
-Estudo Bizurado       </p>   </button>
+Estude Grátis       </p>   </button>
+
+<button id="feedBtn" class="menu-btn" onclick="abrirFeed() ">
+                        <span class="btn-icon">🌐</span>
+                                                <p class="pmenu"> 
+
+FeedSocial      </p>   </button>
+
 <button id="bancoBtn" class="menu-btn" onclick="window.open('https://www.pciconcursos.com.br/concursos/', '_blank')">
                         <span class="btn-icon">📢</span>
                                                 <p class="pmenu"> 
 
 Editais abertos           </p>  <p class="mini">pciconcursos</p> </button>
 
-                    <button id="adminBtn" class="menu-btn admin-only" style="display: none;">
+                   
+
+
+<button id="adminBtn" class="menu-btn admin-only" style="display: none;">
                         <span class="btn-icon">⚙️</span>
                                                                    <p class="pmenu"> Administração</p>  
                     </button>
@@ -203,7 +240,7 @@ Editais abertos           </p>  <p class="mini">pciconcursos</p> </button>
 
             </div>    
             <!-- Social Feed Section -->
-             <div class="feedFixo"> 
+             <div class="feedFixo" id="feedSocial"> 
             <div class="social-feed-container">
                 <div class="create-post-section">
                     <div class="post-header">
@@ -397,7 +434,7 @@ Editais abertos           </p>  <p class="mini">pciconcursos</p> </button>
             </div>
 
             <div class="result-actions">
-                <button id="reviewQuestionsBtn" class="btn-primary2">Revisar questões que errei</button>
+                <button id="reviewQuestionsBtn" >Revisar questões que errei</button>
                 <button id="newQuizBtn" class="btn-primary2">Iniciar novamente</button>
                 <button id="backToMenuFromResultBtn" class="btn-primary2">Menu principal</button>
             </div>

@@ -1007,7 +1007,7 @@ class SocialFeedManager {
                 </button>
                 <button class="action-btn comment-btn" data-post-id="${post.id}" onclick="window.location.href = 'post.html?id=${post.id}'">
                     <span class="icon">💬</span>
-                    <span>Ver Comentários</span>
+                    <span>Comentários</span>
                     ${post.commentsCount > 0 ? `<span class="comment-count">(${post.commentsCount})</span>` : ''}
                 </button>
                 <button class="action-btn share-btn" data-post-id="${post.id}">

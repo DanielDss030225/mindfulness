@@ -125,6 +125,7 @@ padding-bottom: 3px;
 #createPostBtn {
     width: 50%;
 }
+
 .btn-primary2 {
     background: linear-gradient(135deg, #4CAF50, #45a049);
     color: white;
@@ -149,6 +150,34 @@ padding-bottom: 3px;
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
 }
+
+
+    
+#reviewQuestionsBtn {
+    background: linear-gradient(135deg, #2196f3, #3ca5fa);
+    color: white;
+    border: none;
+    padding: 5px 5px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 45, 128, 0.4);
+    width: 100%;
+    height: 40px;
+}
+
+
+#reviewQuestionsBtn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 45, 128, 0.4);
+}
+#reviewQuestionsBtn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 45, 128, 0.4);
+}
+
 .btn-primary:disabled {
     background: #ccc;
     cursor: not-allowed;
@@ -205,7 +234,7 @@ padding-bottom: 3px;
 
 
 .btn-secondary {
-    background: linear-gradient(135deg, #494949, #818181);
+    background: linear-gradient(135deg, #838282, #818181);
     color: rgb(162, 162, 162);
     border: none;
     padding: 10px 10px;
@@ -1407,7 +1436,6 @@ textarea:focus {
 
 .comment-content-container {
      flex: 1;
-    background-color: #f0f2f5;
     border-radius: 16px;
     padding: 8px 12px;
     max-width: 100%;
@@ -1475,6 +1503,31 @@ textarea:focus {
 
 }
 
+.menuBotton {   
+    display: none;
+  background: linear-gradient(135deg, #4a90e2, #8e44ad); /* azul → roxo */
+  color: #fff;             
+  border: none;
+  border-radius: 10px;     
+  font-size: 26px;         
+  padding: 12px 18px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+}
+
+/* Hover */
+.menuBotton:hover {
+  background: linear-gradient(135deg, #5dade2, #9b59b6); /* tons mais claros */
+  transform: scale(1.08);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.3);
+}
+
+/* Ativo (quando clica) */
+.menuBotton:active {
+  background: linear-gradient(135deg, #2e86c1, #6c3483); /* tons mais escuros */
+  transform: scale(0.95);
+}
 
 
 .menu-content {
@@ -1659,9 +1712,7 @@ max-width: 1200px;
         margin-left: 30px;
     }
 
-    span {
-        font-size: 11px;
-    }
+
 
 
     
@@ -2113,16 +2164,6 @@ max-width: 1200px;
 
 }
 
-.main-menu {
-    display: flex;
-    flex-direction: column; 
-  flex: 1;                /* ocupa todo o espaço vertical disponível */
-  display: flex;
-  flex-direction: column; /* conteúdo empilhado */
-  overflow-y: hidden;       /* 🔥 só ele rola */
-  height: 100vh;
-
-}
 
   /* exemplo: user-info se adapta */
   .user-info {
@@ -2135,89 +2176,29 @@ max-width: 1200px;
 
 .menu-content {
   position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
+ 
   z-index: 999;
 
   width: 100%;
-  height: 100px;
-  padding: 0px;
-
-  display: flex;
-  align-items: start;
-  justify-content: flex-start;   /* 🔥 força início à esquerda */
-
-  overflow-x: auto;              
-  overflow-y: hidden;
-  -webkit-overflow-scrolling: touch;
-
-  background: linear-gradient(135deg, #000000 0%, #8d61b9 100%);
-  box-shadow: 0 -2px 8px rgba(0,0,0,0.2);
-    margin: 0px;
-
-}
-
-#adminBtn {
-  flex: 0 0 auto;   /* 🔥 largura fixa */
-  width: 100px;
-  text-align: center;
-  padding: 10px;
-  font-size: 12px;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  margin: 0px;
-  display: block;
-  height: 90px;
-  margin-right: 0px;
-}
-
-#adminBtn p {
-  margin: 0;
-  font-size: 12px;
-  text-align: center;
-}
+  height: 100vh;
 
 
-.menu-options {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  justify-content: flex-start;
-  align-items: start;
-  padding: 5px;
-  max-width: none; /* remove qualquer restrição máxima */
-  width: auto;
-      margin-bottom: 0px;
-height: 100%;
+  overflow: auto;              
+
+
 
 }
 
 
-.menu-btn {
-  flex: 0 0 auto;   /* 🔥 largura fixa */
-  width: 100px;
-  text-align: center;
-  padding: 10px;
-  font-size: 12px;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  margin: 0px;
-  display: block;
-  height: 80px;
-  margin-top: 5px;
-  margin-bottom: 5px;
 
+.logoProvas {
+    display: none;
 }
 
-.menu-btn p {
-    text-align: center;
-    font-size: 14px;
-      margin: 0px;
 
-}
+
+
+
 
   .feedFixo {
     margin-left: 0px;
@@ -2240,16 +2221,9 @@ height: 100%;
     height: auto;
   }
 
-.professor-character {
-    display: none;
-}
 
-
-.btn-icon {
-  display: inline-block;
-  font-size: 12px;
-  width: 100%;         /* tamanho do emoji/ícone */
-  margin-bottom: 5px;
+.menuBotton {
+    display: block;
 }
 .cantoCoruja {
     display: none;
@@ -2258,8 +2232,8 @@ height: 100%;
         display: flex;
     }
 
-  .menu-btn  .mini {
-    font-size: 6px;
+#backinicio {
+    display: none;
 }
 
  .game-header {
@@ -2291,6 +2265,7 @@ height: 100%;
   text-decoration: none;
   color: inherit;
   font-weight: 600;
+  width: 100%;
 }
 
 

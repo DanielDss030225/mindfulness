@@ -492,6 +492,7 @@ closeChat() {
     if (valorPesquisado) {
     this.elements.userSearchInput.value = "";
     this.elements.userSearchInput.focus();
+        this.elements.onlineUsersList.style.display = "none";
 
     } else {
 

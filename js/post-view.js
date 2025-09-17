@@ -133,26 +133,22 @@ class PostView {
 async renderPost() {
     const postArticle = document.getElementById('postArticle');
     
-    // Format timestamp
     const timeAgo = this.getTimeAgo(this.post.timestamp);
     const isLiked = this.post.likes && this.currentUser.uid && this.post.likes[this.currentUser.uid];
-    
-    // *** NOVO: Verificar se o usuário atual é o autor do post ***
     const isAuthor = this.currentUser && this.post.authorId === this.currentUser.uid;
-
-    // Buscar foto de perfil do autor do post
     const authorPhotoURL = await this.getUserPhotoURL(this.post.authorId);
     
     postArticle.innerHTML = `
         <div class="post-header">
-            <img src="${authorPhotoURL}" 
-                 alt="Avatar do autor" class="post-avatar">
-            <div class="post-author-info">
-                <div class="post-author">${this.post.authorName || 'Usuário'}</div>
-                <div class="post-time">${timeAgo}</div>
-            </div>
-            
-            <!-- *** NOVO: Botão de exclusão que só aparece para o autor *** -->
+            <a href="../MINDFULNESS/user-profile.html?userId=${this.post.authorId}" class="author-link" style="display:flex;align-items:center;gap:8px;text-decoration:none;color:inherit;">
+                <img src="${authorPhotoURL}" 
+                     alt="Avatar do autor" class="post-avatar">
+                <div class="post-author-info">
+                    <div class="post-author">${this.post.authorName || 'Usuário'}</div>
+                    <div class="post-time">${timeAgo}</div>
+                </div>
+            </a>
+
             ${isAuthor ? `
                 <button id="deletePostBtn" class="delete-post-btn" title="Excluir publicação">
                     <span class="icon">🗑️</span> Excluir
@@ -188,11 +184,11 @@ async renderPost() {
         </div>
     `;
 
-    // Setup like button functionality
+    // Botão de like
     const likeBtn = postArticle.querySelector('.like-btn');
     likeBtn.addEventListener('click', () => this.toggleLike());
 
-    // *** NOVO: Adicionar event listener para o botão de exclusão, se ele existir ***
+    // Botão de excluir
     const deleteBtn = document.getElementById('deletePostBtn');
     if (deleteBtn) {
         deleteBtn.addEventListener('click', () => this.confirmDeletePost());
@@ -370,96 +366,102 @@ updateLikeButtonUI(isLiked) {
         this.setupCommentInteractions();
     }
 
-    async renderComment(comment) {
-        const timeAgo = this.getTimeAgo(comment.timestamp);
-        const isLiked = comment.likes && comment.likes[this.currentUser.uid];
-        const likesCount = comment.likes ? Object.keys(comment.likes).length : 0;
-        
-        // Buscar foto de perfil do autor do comentário
-        const authorPhotoURL = await this.getUserPhotoURL(comment.authorId);
-        
-        // Renderizar respostas se existirem
-        let repliesHTML = '';
-        if (comment.replies) {
-            const repliesArray = Object.entries(comment.replies).map(([id, data]) => ({ id, ...data }));
-           // Ordenação decrescente: mais recente primeiro (b.timestamp - a.timestamp)
-const sortedReplies = repliesArray.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+ async renderComment(comment) {
+    const timeAgo = this.getTimeAgo(comment.timestamp);
+    const isLiked = comment.likes && comment.likes[this.currentUser.uid];
+    const likesCount = comment.likes ? Object.keys(comment.likes).length : 0;
+    
+    // Buscar foto de perfil do autor do comentário
+    const authorPhotoURL = await this.getUserPhotoURL(comment.authorId);
+    
+    // Renderizar respostas se existirem
+    let repliesHTML = '';
+    if (comment.replies) {
+        const repliesArray = Object.entries(comment.replies).map(([id, data]) => ({ id, ...data }));
+        const sortedReplies = repliesArray.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
 
-            
-            const repliesHTMLArray = await Promise.all(
-                sortedReplies.map(reply => this.renderReply(reply))
-            );
-            
-            repliesHTML = `
-                <div class="sub-comments-list">
-                    ${repliesHTMLArray.join('')}
-                </div>
-            `;
-        }
+        const repliesHTMLArray = await Promise.all(
+            sortedReplies.map(reply => this.renderReply(reply))
+        );
         
-        return `
-            <div class="comment-item" data-comment-id="${comment.id}">
-                <div class="comment-main-content">
-                    <img src="${authorPhotoURL}" 
-                         alt="Avatar do usuário" class="comment-avatar">
+        repliesHTML = `
+            <div class="sub-comments-list">
+                ${repliesHTMLArray.join('')}
+            </div>
+        `;
+    }
+    
+    return `
+        <div class="comment-item" data-comment-id="${comment.id}">
+        <div class="fundoComent">
+            <div class="comment-main-content">
+                <a href="../MINDFULNESS/user-profile.html?userId=${comment.authorId}" class="author-link" style="display:flex;align-items:center;gap:8px;text-decoration:none;color:inherit;">
+                    <img src="${authorPhotoURL}" alt="Avatar do usuário" class="comment-avatar">
                     <div class="comment-content-container">
                         <div class="comment-author">${comment.authorName || 'Usuário'}</div>
-                        <div class="comment-text">${this.formatCommentText(comment.text)}</div>
                     </div>
-                </div>
-                <div class="comment-actions">
-                    <button class="comment-like-btn ${isLiked ? 'liked' : ''}" data-comment-id="${comment.id}">
-                        Curtir ${likesCount > 0 ? `(${likesCount})` : ''}
-                    </button>
-                    <button class="comment-reply-btn" data-comment-id="${comment.id}">Responder</button>
-                    <span class="comment-time">${timeAgo}</span>
-                </div>
-                
-                ${repliesHTML}
-                
-                <div class="reply-form" id="replyForm-${comment.id}" style="display: none;">
-                    <div class="comment-form">
-                        <img src="${this.currentUserPhotoURL || this.getDefaultAvatarURL()}" alt="Seu Avatar" class="comment-avatar">
-                        <div class="comment-input-container">
-                            <textarea placeholder="Escreva uma resposta..." rows="2"></textarea>
-                            <div class="comment-actions">
-                                <button class="submit-reply-btn" data-comment-id="${comment.id}">Responder</button>
-                                <button class="cancel-reply-btn" data-comment-id="${comment.id}">Cancelar</button>
-                            </div>
+                </a>
+                <div class="comment-text">${this.formatCommentText(comment.text)}</div>
+            </div>
+            <div class="comment-actions">
+                <button class="comment-like-btn ${isLiked ? 'liked' : ''}" data-comment-id="${comment.id}">
+                    Curtir ${likesCount > 0 ? `(${likesCount})` : ''}
+                </button>
+                <button class="comment-reply-btn" data-comment-id="${comment.id}">Responder</button>
+                <span class="comment-time">${timeAgo}</span>
+            </div>
+            </div>
+            ${repliesHTML}
+            
+            <div class="reply-form" id="replyForm-${comment.id}" style="display: none;">
+                <div class="comment-form">
+                    <img src="${this.currentUserPhotoURL || this.getDefaultAvatarURL()}" alt="Seu Avatar" class="comment-avatar">
+                    <div class="comment-input-container">
+                        <textarea placeholder="Escreva uma resposta..." class="texAreaClass" rows="2"></textarea>
+                        <div class="comment-actions">
+                            <button class="submit-reply-btn" data-comment-id="${comment.id}">Responder</button>
+                            <button class="cancel-reply-btn" data-comment-id="${comment.id}">Cancelar</button>
                         </div>
                     </div>
                 </div>
             </div>
-        `;
-    }
+        </div>
+    `;
+}
 
-    async renderReply(reply) {
-        const timeAgo = this.getTimeAgo(reply.timestamp);
-        const isLiked = reply.likes && reply.likes[this.currentUser.uid];
-        const likesCount = reply.likes ? Object.keys(reply.likes).length : 0;
-        
-        // Buscar foto de perfil do autor da resposta
-        const authorPhotoURL = await this.getUserPhotoURL(reply.authorId);
-        
-        return `
-            <div class="comment-item sub-comment" data-reply-id="${reply.id}">
-                <div class="comment-main-content">
-                    <img src="${authorPhotoURL}" 
-                         alt="Avatar do usuário" class="comment-avatar">
+
+ async renderReply(reply) {
+    const timeAgo = this.getTimeAgo(reply.timestamp);
+    const isLiked = reply.likes && reply.likes[this.currentUser.uid];
+    const likesCount = reply.likes ? Object.keys(reply.likes).length : 0;
+    
+    // Buscar foto de perfil do autor da resposta
+    const authorPhotoURL = await this.getUserPhotoURL(reply.authorId);
+    
+    return `
+        <div class="comment-item sub-comment" data-reply-id="${reply.id}">
+            <div class="comment-main-content">
+                <a href="../MINDFULNESS/user-profile.html?userId=${reply.authorId}" class="author-link" style="display:flex;align-items:center;gap:8px;text-decoration:none;color:inherit;">
+                    <img src="${authorPhotoURL}" alt="Avatar do usuário" class="comment-avatar">
                     <div class="comment-content-container">
                         <div class="comment-author">${reply.authorName || 'Usuário'}</div>
-                        <div class="comment-text">${this.formatCommentText(reply.text)}</div>
                     </div>
-                </div>
-                <div class="comment-actions">
-                    <button class="reply-like-btn ${isLiked ? 'liked' : ''}" data-reply-id="${reply.id}">
-                        Curtir ${likesCount > 0 ? `(${likesCount})` : ''}
-                    </button>
-                    <span class="comment-time">${timeAgo}</span>
-                </div>
+                </a>
+                <div class="comment-text">${this.formatCommentText(reply.text)}</div>
             </div>
-        `;
-    }
+            <div class="comment-actions">
+                <button class="reply-like-btn ${isLiked ? 'liked' : ''}" data-reply-id="${reply.id}">
+                    Curtir ${likesCount > 0 ? `(${likesCount})` : ''}
+                </button>
+                <span class="comment-time">${timeAgo}</span>
+            </div>
+        </div>
+    `;
+}
+
+
+
+
 
     formatCommentText(text) {
         if (!text) return '';
@@ -617,6 +619,8 @@ async toggleReplyLike(replyId, buttonElement) {
         }, 0);
         
         document.getElementById('commentsCount').textContent = `${totalComments} comentário${totalComments !== 1 ? 's' : ''}`;
+
+        
     }
 
     setupEventListeners() {

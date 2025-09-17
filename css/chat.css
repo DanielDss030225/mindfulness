@@ -1127,14 +1127,7 @@ width: 200px;
     z-index: 9900; /* garante que fica acima de tudo */
 
     }
-    
-    .chat-toggle-btn {
-        bottom: 120px;
-        right: 20px;
-        width: 56px;
-        height: 56px;
-    }
-    
+
     .chat-profile-content {
         width: 95%;
         padding: 20px;
@@ -1218,7 +1211,7 @@ width: 200px;
     box-shadow: var(--chat-shadow-hover);
     display: none;
     flex-direction: column;
-    overflow: hidden;
+    overflow: auto;
     transition: var(--chat-transition);
        position: fixed;
     right: 0;

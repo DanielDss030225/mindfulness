@@ -677,6 +677,7 @@ updateChatButtonVisibility(screenId) {
 
 
 }
+
 document.addEventListener('DOMContentLoaded', function() {
     // Encontra o elemento pelo ID
     const backToHomeButton = document.getElementById('backinicio');
