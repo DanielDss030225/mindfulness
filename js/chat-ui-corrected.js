@@ -701,21 +701,25 @@ createMessageElement(message) {
     // O restante da sua lógica para construir o innerHTML permanece exatamente o mesmo.
     if (!isMyMessage) {
         messageElement.innerHTML = `
+        <div class="fundoMensagem">
             <a class="chat-message-avatar-link" data-user-id="${message.senderId}" title="Ver perfil de ${senderName}">
                 <img class="chat-message-avatar" src="${senderProfilePicture}" alt="${senderName}">
             </a>
             <div class="chat-message-content">
                 <div class="chat-message-info">
+                
                     <a class="chat-message-sender-link" data-user-id="${message.senderId}" title="Ver perfil de ${senderName}">
                         <span class="chat-message-sender">${senderName}</span>
                     </a>
                     <span class="chat-message-time">${timestamp}</span>
                 </div>
                 <div class="chat-message-text">${messageContent}</div>
-            </div>
+        </div>
+        </div>
         `;
     } else {
         messageElement.innerHTML = `
+         <div class="fundoMensagem">
             <img class="chat-message-avatar" src="${senderProfilePicture}" alt="${senderName}">
             <div class="chat-message-content">
                 <div class="chat-message-info">
@@ -724,6 +728,7 @@ createMessageElement(message) {
                 </div>
                 <div class="chat-message-text">${messageContent}</div>
             </div>
+             </div>
         `;
     }
     

@@ -11,17 +11,21 @@ border-bottom: 0px;
 
 }
 
+main {
+    max-width: 1300px;
+}
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: #333;
     overflow-x: hidden;
     overflow-y: hidden;
-    min-height: 100vh; /* Garante altura mínima */
+    min-height: 100vh;
     margin: 0;
     border-bottom: 0;
-
-    /* Gradiente lindo de fundo */
-  background: linear-gradient(90deg, #f0f2f5 50%, #f0f2f5 50%);
+    background: linear-gradient(90deg, #f0f2f5 50%, #f0f2f5 50%);
+    max-width: 1300px;
+    display: block; /* mantém como block */
+    background-color: #000000;
 }
 
 
@@ -47,13 +51,14 @@ padding-bottom: 3px;
     width: 100%;
     position: relative;
         min-height: 100vh;
+        max-width: 1300px;
 
 }
 
 .screen.active {
     display: flex;
     flex-direction: column;
-
+     max-width: 1300px;
 }
 
 /* Loading Screen */
@@ -61,6 +66,9 @@ padding-bottom: 3px;
     justify-content: center;
     align-items: center;
     background: linear-gradient(135deg, #000000 0%, #764ba2 100%);
+        display: flex;
+    flex-direction: column;
+     max-width: 1300px; 
 }
 
 .loading-content {
@@ -69,12 +77,23 @@ padding-bottom: 3px;
     
 }
 
-.loading-content .logo {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    margin-bottom: 20px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+/* Loading Overlay */
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.95);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+}
+
+.loading-overlay.active {
+    display: flex;
 }
 
 .loading-content h1 {
@@ -297,7 +316,9 @@ padding-bottom: 3px;
     background:  #8c65b4;
     border-color: #bbb;
 }
-
+#feedBtn {
+display: none;
+}
 
 #music-player-launcher {
 align-items: center;
@@ -404,16 +425,18 @@ header p {
     align-items: center; /* Alinha verticalmente */
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     backdrop-filter: blur(10px);
-    height: 55px;
+ height: 70px;
     position: sticky;
     top: 0;
     z-index: 1000;
+        max-width: 1300px;
+
 }
 
 .game-header > * {
     display: flex;
     align-items: center;
-    height: 100%;
+    height: 70px;
 }
 
 
@@ -490,8 +513,8 @@ header p {
 }
 
 .professor-head {
-    width: 200px;
-    height: 200px;
+    width: 150px;
+    height: 150px;
     background: linear-gradient(135deg, #caddd4 0%, #89c2d8 100%);
     border-radius: 50%;
     position: relative;
@@ -510,8 +533,8 @@ header p {
 }
 
 .professor-img {
-    width: 200px;
-    height: 250px;
+    width: 150px;
+    height: 200px;
 
 }
 
@@ -619,6 +642,7 @@ header p {
     padding: 0 20px;
     margin-bottom: 100px;
 }
+
 
 .menu-btn {
     background: rgba(255, 255, 255, 0.95);
@@ -1151,31 +1175,49 @@ textarea:focus {
     transition: width 0.3s ease;
     border-radius: 5px;
 }
+.image {
+    margin-left: 20px;
+    border-radius: 30px;
+    width: auto;
+}
 
-
-
-/* Social Feed Styles */
 .social-feed-container {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
     gap: 20px;
     padding: 20px;
     background-color: #f0f2f5;
-    max-width: 100%;
-      overflow: scroll;
-      height: 100vh;
-    scroll-behavior: smooth;
+
+    overflow-x: hidden;
+    overflow-y: auto;
+    position: relative;
+    height: 100vh;
 
 
+    /* Oculta a barra de rolagem visual */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;  /* IE e Edge antigos */
+
+
+
+    /* Margem proporcional limitada */
+    margin-left: min(30%, 300px);
+    margin-right: min(30%, 300px);
 }
+
+
+/* Para Chrome, Edge, Safari */
+.social-feed-container::-webkit-scrollbar {
+    width: 0px; /* torna a barra invisível */
+    background: transparent; /* opcional */
+}
+
 
 .create-post-section {
     background-color: #fff;
     padding: 15px;
     border-radius: 8px;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-    
+    margin-top: 0px;
+    margin-bottom: 20px;
 }
 
 .create-post-section .post-header {
@@ -1379,13 +1421,14 @@ textarea:focus {
     cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 5px;
     padding: 5px 10px;
     border-radius: 6px;
     transition: background-color 0.2s;
-    width: 350px;
+   
     justify-content: center;
     font-size: 13px;
+    width: 100%;
 }
 
 .post-item .action-btn:hover {
@@ -1509,11 +1552,13 @@ textarea:focus {
   color: #fff;             
   border: none;
   border-radius: 10px;     
-  font-size: 26px;         
+  font-size: 18px;         
   padding: 12px 18px;
   cursor: pointer;
   transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
   box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+  height:50px;
+  width: 50px;
 }
 
 /* Hover */
@@ -1534,47 +1579,23 @@ textarea:focus {
   position: fixed;
   background: linear-gradient(90deg, #000000 00%, #8d61b9 100%);
   height: 100vh;
+  max-width: 300px;
   width: 30%;
   overflow-y: auto;
 
   /* Oculta a barra de rolagem visual */
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none;  /* Internet Explorer e Edge antigos */
-  max-width: 500px;
+  
+  margin: 0px;
 }
 
 .menu-content::-webkit-scrollbar {
   display: none; /* Chrome, Safari, Opera */
 }
 
-.feedFixo {
-  position: fixed;
-    background-color: #000000;
-    width: 70%;
-margin-top: 0px;
-margin-bottom: 0px;
-padding-bottom: 0px;
-max-width: 1200px;
 
-}
-#main-menu-screen {
-  position: relative; /* vira referência para .feedFixo */
-}
 
-.feedFixo {
-  position: absolute;   /* relativo ao main-menu-screen */
-  right: 0;             /* encosta no lado direito */
-  bottom: 0;            /* fica no final do main-menu-screen */
-
-  background-color: #000000;
-  width: 70%;
-  max-width: 1200px;
-
-  margin: 0;
-  padding-bottom: 0;
-  box-sizing: border-box;
-  margin-top: 40px  ;
-}
 
 .add-comment-input button {
         background-color: #1877f2;
@@ -1670,12 +1691,8 @@ max-width: 1200px;
 }
 
 /* Responsive adjustments */
-@media (max-width: 768px) {
+@media (max-width: 1000px) {
    
-    .social-feed-container {
-        margin: 0px auto;
-        padding: 10px;
-    }
 
     
     .post-item {
@@ -2114,149 +2131,6 @@ max-width: 1200px;
 
 
 
-
-
-
-@media screen and (max-width: 1000px) {
-    #music-player-launcher {
-        width: 50px;
-        padding: 5px;
-    }
-
-   
-
-.logoCabecalho {
-    display: none;
-}
-       
-    
-    .game-header h1 {
-        font-size: 1.5rem;
-        margin-left: 0;
-    }
- 
-    
-    .modal-content {
-        width: 95%;
-        margin: 10px;
-    }
-    
-    .professor-body {
-        transform: scale(0.8);
-    }
-    
-    .speech-bubble {
-        max-width: 250px;
-        padding: 12px 16px;
-    }
-    
- 
-
-  /* Força os filhos a não ocuparem 100% */
-   /* 🔥 aqui estava o problema */
-
-#main-menu-screen {
-  display: flex;
-  flex-direction: column; /* garante layout em coluna */
-  overflow: scroll;
-  height: 100vh;
-
-
-}
-
-
-  /* exemplo: user-info se adapta */
-  .user-info {
-    flex: 1 1 auto;
-    min-width: 0;   /* evita quebrar */
-  }
-  .game-header p { display: none; }
-
-
-
-.menu-content {
-  position: fixed;
- 
-  z-index: 999;
-
-  width: 100%;
-  height: 100vh;
-
-
-  overflow: auto;              
-
-
-
-}
-
-
-
-.logoProvas {
-    display: none;
-}
-
-
-
-
-
-
-  .feedFixo {
-    margin-left: 0px;
-    margin-right: 0px;
-        width: 100%;
-    height: auto;
-    overflow: hidden;
-    position: relative;
-    border: white;
-        background-color:white;
-        margin: 0px;
-        border: 0px;
-
-  }
-
-
-
-  .social-feed-container {
-    overflow: hidden;
-    height: auto;
-  }
-
-
-.menuBotton {
-    display: block;
-}
-.cantoCoruja {
-    display: none;
-}
- .tocarbtn{
-        display: flex;
-    }
-
-#backinicio {
-    display: none;
-}
-
- .game-header {
-    background: rgba(255, 255, 255, 0.95);
-    display: flex;
-    flex-direction: row;     /* garante em linha */
-    flex-wrap: nowrap;       /* não deixa quebrar */
-    justify-content: space-between;
-    align-items: center;
-    gap: 0px;               /* espaçamento entre itens */
-    box-shadow: 0 0px 10px rgba(0,0,0,0.1);
-    backdrop-filter: blur(10px);
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    padding: 0px 0px;
-    height: auto;
-    overflow-x: auto;        /* se apertar muito, adiciona scroll horizontal */
-    
-  }
-
-}
-
 .author-link,
 .author-link:visited,
 .author-link:hover,
@@ -2341,3 +2215,247 @@ body {
     margin: 0 auto;   /* centraliza no meio */
     width: 100%;      /* continua ocupando toda a largura até 900px */
 }
+
+
+
+.direito {
+  position: absolute;
+  top: 0;                /* começa no topo */
+  right: 0;              /* encosta no lado direito */
+  height: 100vh;
+  max-width: 300px;
+  width: 30%;
+  background: linear-gradient(90deg, #ffffff 0%, #8d61b9 100%);
+  overflow-y: scroll;
+  /* Oculta a barra de rolagem visual */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;  /* Internet Explorer e Edge antigos */
+  margin: 0px;
+  padding-bottom: 150px;
+  padding-top: 10px;
+
+}
+
+
+.direito::-webkit-scrollbar {
+  width: 0px;                   /* Chrome, Edge e Safari */
+  background: transparent;
+}
+
+
+#menu-options {
+    overflow-y: scroll;
+    margin-top: 70px;
+}
+.card {
+  width: 260px;
+  height: 100px;
+  background-color: #f0f2f5;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  margin: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 10px;
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+}
+
+.title {
+  font-size: 16px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.subtitle {
+  font-size: 12px;
+  color: #555;
+  margin: 0;
+}
+
+.card-btn {
+  display: inline-flex;          /* garante que fique como botão */
+  align-items: center;           /* centraliza verticalmente */
+  justify-content: center;       /* centraliza horizontalmente */
+  width: 100px;
+  height: 28px;
+  margin-top: 4px;
+  background: linear-gradient(90deg, #5a5af0, #8b5cf6);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: bold;
+  text-decoration: none;         /* remove underline do link */
+  transition: transform 0.2s;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.card-btn:hover {
+  transform: scale(1.05);
+}
+
+
+.image img {
+  width: 60px;
+  height: 60px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+
+@media screen and (max-width: 1000px) {
+    #music-player-launcher {
+        width: 50px;
+        padding: 5px;
+    }
+
+   
+
+.logoCabecalho {
+    display: none;
+}
+       
+    
+    .game-header h1 {
+        font-size: 1.5rem;
+        margin-left: 0;
+    }
+ 
+    
+    .modal-content {
+        width: 95%;
+        margin: 10px;
+    }
+    
+    .professor-body {
+        transform: scale(0.8);
+    }
+    
+    .speech-bubble {
+        max-width: 250px;
+        padding: 12px 16px;
+    }
+    
+ 
+#feedBtn {
+display: flex;
+}
+  /* exemplo: user-info se adapta */
+  .user-info {
+    flex: 1 1 auto;
+    min-width: 0;   /* evita quebrar */
+  }
+  .game-header p { display: none; }
+
+
+
+.menu-content {
+  position: fixed;
+ 
+  z-index: 9990;
+
+  width: 100%;
+  height: 100vh;
+
+
+  overflow: auto;              
+
+  max-width:  100%;
+
+}
+
+.direito {
+    display: none;
+}
+
+.logoProvas {
+    display: none;
+}
+
+
+
+
+
+
+
+
+
+
+
+.menuBotton {
+    display: block;
+}
+.cantoCoruja {
+    display: none;
+}
+ .tocarbtn{
+        display: flex;
+    }
+
+#backinicio {
+    display: none;
+}
+
+ .game-header {
+    background: rgba(255, 255, 255, 0.95);
+    display: flex;
+    flex-direction: row;     /* garante em linha */
+    flex-wrap: nowrap;       /* não deixa quebrar */
+    justify-content: space-between;
+    align-items: center;
+    gap: 0px;               /* espaçamento entre itens */
+    box-shadow: 0 0px 10px rgba(0,0,0,0.1);
+    backdrop-filter: blur(10px);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    padding: 0px 0px;
+ height: 70px;
+    overflow-x: auto;        /* se apertar muito, adiciona scroll horizontal */
+    
+  }
+  
+  
+
+  
+.social-feed-container {
+    gap: 20px;
+    padding: 20px;
+    background-color: #f0f2f5;
+
+    overflow-x: hidden;
+    overflow-y: auto;
+    position: absolute;
+    height: 100vh;
+   width: 100%;
+
+    /* Oculta a barra de rolagem visual */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;  /* IE e Edge antigos */
+
+
+
+    margin: 0px;
+}
+
+}
+
+
+

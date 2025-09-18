@@ -578,32 +578,3 @@
     padding: 40px 20px;
     color: #e74c3c;
 }
-
-/* Garantir que o social-feed-container tenha scroll */
-.social-feed-container {
-    max-height: 100vh;
-    overflow-y: auto;
-padding: 15px;
-}
-
-
-
-
-/* Estilizar a scrollbar */
-.social-feed-container::-webkit-scrollbar {
-    width: 8px;
-}
-
-.social-feed-container::-webkit-scrollbar-track {
-    background: #f1f1f1;
-    border-radius: 4px;
-}
-
-.social-feed-container::-webkit-scrollbar-thumb {
-    background: #c1c1c1;
-    border-radius: 4px;
-}
-
-.social-feed-container::-webkit-scrollbar-thumb:hover {
-    background: #a8a8a8;
-}

@@ -115,13 +115,14 @@
 /* Header do chat   background: linear-gradient(135deg, #2f2f2f 0%, #764ba2 100%);*/
 
 .chat-header {
-    background: linear-gradient(135deg, #764ba2 0%, #2f2f2f 100%);
+    background: linear-gradient(135deg, #764ba2 0%, #000000 100%);
     color: white;
     padding: 15px 20px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     height: 10vh;
+    z-index: 9905;
 }
 
 .chat-header h3 {
@@ -342,15 +343,7 @@ background-image: url("../fundo.png");
 margin-right: 6px;
 }
 
-.chat-message {
-  background-color: #ffffff;   /* cor de fundo da caixa */
-  margin-bottom: 10px;         /* espaço entre mensagens */
-  padding: 10px 15px;          /* espaço interno */
-  border-radius: 20px;         /* cantos arredondados */
-  max-width: 100%;              /* largura máxima da caixa */
-  word-wrap: break-word;       /* quebra palavras longas */
-  display: inline-block;       /* faz a caixa se ajustar ao conteúdo */
-}   
+ 
 
 
 .fundoUserOnline {
@@ -399,8 +392,8 @@ margin-right: 6px;
      display: inline-block;
   height: 176px;
     background-color: none;
-    padding-left: 10px;
-    padding-right: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
   flex: 1 1 auto;
   overflow-y: auto; /* <- rolagem funciona */
   display: flex;
@@ -445,8 +438,8 @@ margin-right: 6px;
   flex-direction: column;
   padding: 0px;
   box-sizing: border-box;
-   padding-left: 10px;
-    padding-right: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
      overflow-x: hidden;
 
 }
@@ -473,12 +466,7 @@ margin-right: 6px;
     background: var(--chat-text-muted);
 }
 
-/* Mensagem individual */
-.chat-message {
-    display: flex;
-    gap: 10px;
-    animation: fadeInUp 0.3s ease;
-}
+
 
 @keyframes fadeInUp {
     from {
@@ -505,6 +493,7 @@ margin-right: 6px;
 .chat-message-content {
     flex: 1;
     max-width: 100%;
+    margin-left: 10px;
 }
 
 .chat-message.own .chat-message-content {
@@ -553,6 +542,9 @@ margin-right: 6px;
   word-wrap: break-word;     /* Quebra palavras longas */
   overflow-wrap: break-word; /* Compatibilidade com navegadores */
   white-space: normal;       /* Permite múltiplas linhas */
+  color:#141414;
+  text-align: start;
+  
 }
 
 .chat-message-text img,
@@ -1196,7 +1188,6 @@ width: 200px;
   overflow-y: auto; /* <- rolagem funciona */
   display: flex;
   flex-direction: column;
-  padding: 0px;
   box-sizing: border-box;
   
 }
@@ -1416,4 +1407,55 @@ text-align: center;
 .chat-message-time {
     font-size: 0.9em;
     color: #777;
+}
+
+
+
+
+.fundoMensagem {
+    display: flex;
+   background-color: #ffffff; /* azul */
+  color: white;
+  text-align: right; /* joga o texto pra direita */
+  border-radius: 15px;
+  padding: 8px 15px;
+  margin: 5px 0;
+  width: 80%;
+
+}
+
+.chat-message.mine {
+    display: flex;
+  background-color:none; /* azul */
+  padding: 0px;
+  margin: 0px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  border-radius: 0px;
+ justify-content: end;
+
+}
+
+.chat-message.mine .fundoMensagem {
+    background-color: #f1deff;
+}
+
+.chat-message.mine .fundoMensagem .chat-message-avatar {
+display: none;}
+
+
+.chat-message.mine .fundoMensagem .chat-message-content .chat-message-info {
+display: flex;
+justify-content: space-between;
+}
+
+.chat-message.other {
+    display: flex;
+  background-color:none; /* azul */
+  padding: 0px;
+  margin: 0px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  border-radius: 0px;
+
 }

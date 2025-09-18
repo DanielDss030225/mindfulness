@@ -562,10 +562,10 @@ class SocialFeedManager {
 
         // Atualiza texto e estilo do botão
         if (isLiked) {
-            likeBtn.textContent = `Curtiu ${likesCount > 0 ? `(${likesCount})` : ''}`;
+            likeBtn.textContent = ` ${likesCount > 0 ? `(${likesCount})` : ''}`;
             likeBtn.classList.add('liked');
         } else {
-            likeBtn.textContent = `Curtir ${likesCount > 0 ? `(${likesCount})` : ''}`;
+            likeBtn.textContent = `${likesCount > 0 ? `(${likesCount})` : ''}`;
             likeBtn.classList.remove('liked');
         }
     }
@@ -583,10 +583,10 @@ class SocialFeedManager {
 
         // Atualiza texto e estilo do botão
         if (isLiked) {
-            likeBtn.textContent = `Curtiu ${likesCount > 0 ? `(${likesCount})` : ''}`;
+            likeBtn.textContent = `${likesCount > 0 ? `(${likesCount})` : ''}`;
             likeBtn.classList.add('liked');
         } else {
-            likeBtn.textContent = `Curtir ${likesCount > 0 ? `(${likesCount})` : ''}`;
+            likeBtn.textContent = `${likesCount > 0 ? `(${likesCount})` : ''}`;
             likeBtn.classList.remove('liked');
         }
     }
@@ -1002,17 +1002,17 @@ class SocialFeedManager {
             <div class="post-actions-bar">
                 <button class="action-btn like-btn ${isLiked ? 'liked' : ''}" data-post-id="${post.id}">
                     <span class="icon">${isLiked ? '❤️' : '🤍'}</span>
-                    <span class="like-text">${isLiked ? 'Curtiu' : 'Curtir'}</span>
+                    <span class="like-text">${isLiked ? '':''}</span>
                     ${post.likesCount > 0 ? `<span class="like-count">(${post.likesCount})</span>` : ''}
                 </button>
                 <button class="action-btn comment-btn" data-post-id="${post.id}" onclick="window.location.href = 'post.html?id=${post.id}'">
                     <span class="icon">💬</span>
-                    <span>Comentários</span>
+                    <span></span>
                     ${post.commentsCount > 0 ? `<span class="comment-count">(${post.commentsCount})</span>` : ''}
                 </button>
                 <button class="action-btn share-btn" data-post-id="${post.id}">
                     <span class="icon">📤</span>
-                    <span>Compartilhar</span>
+                    <span></span>
                 </button>
             </div>
             
@@ -1068,7 +1068,7 @@ class SocialFeedManager {
                 </div>
                 <div class="comment-actions">
                     <span class="comment-like-btn ${isLiked ? 'liked' : ''}" data-comment-id="${commentId}">
-                        ${isLiked ? 'Curtiu' : 'Curtir'} ${likesCount > 0 ? `(${likesCount})` : ''}
+                        ${isLiked ? '' :''} ${likesCount > 0 ? `(${likesCount})` : ''}
                     </span>
                     <span class="comment-reply-btn" data-comment-id="${commentId}">Responder</span>
                     <span class="comment-time">${timeAgo}</span>
@@ -1099,7 +1099,7 @@ class SocialFeedManager {
                 </div>
                 <div class="comment-actions">
                     <span class="comment-like-btn ${isLiked ? 'liked' : ''}" data-reply-id="${replyId}">
-                        ${isLiked ? 'Curtiu' : 'Curtir'} ${likesCount > 0 ? `(${likesCount})` : ''}
+                        ${isLiked ? '' : ''} ${likesCount > 0 ? `(${likesCount})` : ''}
                     </span>
                     <span class="comment-time">${timeAgo}</span>
                 </div>

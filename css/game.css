@@ -848,6 +848,7 @@ margin-bottom: 10px;
     padding: 5px 15px;
     height: auto;
     overflow-x: hidden;        /* se apertar muito, adiciona scroll horizontal */
+    max-width: 1300px;
   }
 
   /* Força os filhos a não ocuparem 100% */
