@@ -184,7 +184,9 @@ background: rgb(221, 221, 221);
 
 .post-image {
     width: auto;
-    max-height: 500px;
+    max-width: 100%;
+    height: auto;
+    max-height: 400px;
     object-fit: cover;
     border-radius: 15px;
     margin-bottom: 1rem;
