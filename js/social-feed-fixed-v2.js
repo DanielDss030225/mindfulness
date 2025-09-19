@@ -988,16 +988,16 @@ class SocialFeedManager {
                     <div class="post-time">${timeAgo}</div>
                 </div>
             </div>
-            
-            ${post.content ? `<div class="post-content">${post.content}</div>` : ''}
-            
-            ${post.imageUrl ? `
+               ${post.imageUrl ? `
                 <div class="post-image-container" >
 
 <img src="${post.imageUrl}" alt="Post Image" class="post-image" onclick="window.location.href='post.html?id=${post.id}'">
 
                 </div>
             ` : ''}
+            ${post.content ? `<div class="post-content">${post.content}</div>` : ''}
+            
+         
             
             <div class="post-actions-bar">
                 <button class="action-btn like-btn ${isLiked ? 'liked' : ''}" data-post-id="${post.id}">

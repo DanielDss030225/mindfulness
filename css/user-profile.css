@@ -8,22 +8,11 @@
 
 
 
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: #333;
-    overflow: hidden; /* Esconde barras de rolagem */
-    min-height: 100vh; /* Garante altura mínima da tela */
-    margin: 0; /* Remove margens padrão */
-    background-color: #e0e0e0; /* Cor de fundo clara */
-    background-image: url('./fundo.png'); /* Se a imagem estiver uma pasta acima dentro de /images */
-    background-size: 20px 20px;
-}
-
 .profilefundo {
         overflow-y: auto;  /* adiciona scroll vertical se necessário */
         padding-bottom: 0px;
         height: 100vh;
-
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
 /* Loading Overlay */
@@ -329,6 +318,7 @@ body {
     flex-direction: column;
     gap: 30px;
     width: 100%;
+    max-width: 900px;
 }
 
 .content-section {

@@ -24,18 +24,18 @@
 .chat-toggle-btn {
     position: fixed;
     bottom: 20px;
-    right: 30px;
-    width: 60px;
-    height: 60px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
     background: linear-gradient(135deg, var(--chat-primary) 0%, var(--chat-secondary) 100%);
     border: none;
     border-radius: 50%;
     color: white;
-    font-size: 24px;
+    font-size: 20px;
     cursor: pointer;
     box-shadow: var(--chat-shadow);
     transition: var(--chat-transition);
-    z-index: 1000;
+    z-index: 10000;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -91,7 +91,7 @@
     width: 40%;
     height: 100vh;
     border-radius: 0;
-    z-index: 9900;
+    z-index: 10000;
 }
 
 

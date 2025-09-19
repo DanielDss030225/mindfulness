@@ -119,8 +119,8 @@ forceScrollToTop() {
     document.querySelector('.social-feed-container').scrollTop = 0;
     document.querySelector('.menu-content').scrollTop = 0;
     document.getElementById("quiz-setup-screen").scrollTop = 0;
-        document.getElementById("profile-screen").scrollTop = 0;
-
+   document.getElementById("profile-screen").scrollTop = 0;
+   document.getElementById("direito").scrollTop = 0;
     document.querySelector('.fundoQuestoes').scrollTop = 0;
 
     // Força rolagem em todos os elementos possíveis

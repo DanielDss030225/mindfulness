@@ -832,24 +832,7 @@ margin-bottom: 10px;
 
 
 @media screen and (max-width: 768px) {
-  .game-header {
-    background: rgba(255, 255, 255, 0.95);
-    display: flex;
-    flex-direction: row;     /* garante em linha */
-    flex-wrap: nowrap;       /* não deixa quebrar */
-    justify-content: space-between;
-    align-items: center;
-    gap: 10px;               /* espaçamento entre itens */
-    box-shadow: 0 0px 10px rgba(0,0,0,0.1);
-    backdrop-filter: blur(10px);
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    padding: 5px 15px;
-    height: auto;
-    overflow-x: hidden;        /* se apertar muito, adiciona scroll horizontal */
-    max-width: 1300px;
-  }
+  
 
   /* Força os filhos a não ocuparem 100% */
    /* 🔥 aqui estava o problema */

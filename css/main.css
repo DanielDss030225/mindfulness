@@ -12,8 +12,12 @@ border-bottom: 0px;
 }
 
 main {
-    max-width: 1300px;
+    width:100%;
+    align-items: start;
+    text-align: start;
+    justify-content: start;
 }
+
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: #333;
@@ -23,9 +27,13 @@ body {
     margin: 0;
     border-bottom: 0;
     background: linear-gradient(90deg, #f0f2f5 50%, #f0f2f5 50%);
-    max-width: 1300px;
+    max-width: 3840px;
     display: block; /* mantém como block */
     background-color: #000000;
+     align-items: center;
+    text-align: center;
+    justify-content: center;
+    width: 100%;
 }
 
 
@@ -51,14 +59,16 @@ padding-bottom: 3px;
     width: 100%;
     position: relative;
         min-height: 100vh;
-        max-width: 1300px;
+        max-width: 3840px;
 
 }
 
 .screen.active {
-    display: flex;
+    display: block;
     flex-direction: column;
-     max-width: 1300px;
+        width: 100%;
+                max-width: 3840px;
+
 }
 
 /* Loading Screen */
@@ -68,7 +78,7 @@ padding-bottom: 3px;
     background: linear-gradient(135deg, #000000 0%, #764ba2 100%);
         display: flex;
     flex-direction: column;
-     max-width: 1300px; 
+     max-width: 3840px; 
 }
 
 .loading-content {
@@ -429,7 +439,7 @@ header p {
     position: sticky;
     top: 0;
     z-index: 1000;
-        max-width: 1300px;
+        max-width: 3840px;
 
 }
 
@@ -1047,8 +1057,8 @@ textarea:focus {
 }
 
 .user-avatar {
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     object-fit: cover;
     border: 0px solid #fff;
@@ -1201,6 +1211,7 @@ textarea:focus {
     /* Margem proporcional limitada */
     margin-left: min(30%, 300px);
     margin-right: min(30%, 300px);
+    z-index: 4900;
 }
 
 
@@ -1367,13 +1378,19 @@ textarea:focus {
     font-size: 13px;
     color: #65676b;
 }
-
+#mentoriaBtn {
+    display: none;
+}
 .post-item .post-content {
     font-size: 15px;
     line-height: 1.5;
     color: #1c1e21;
     margin-bottom: 10px;
-        
+    padding: 20px;
+   border-bottom-left-radius: 20px;
+   border-bottom-right-radius: 20px;
+margin-top: 10px;
+        background-color: #f6f6f6;
 }
 
 .post-item .post-image-container {
@@ -1553,12 +1570,12 @@ textarea:focus {
   border: none;
   border-radius: 10px;     
   font-size: 18px;         
-  padding: 12px 18px;
+  padding: 0px 0px;
   cursor: pointer;
   transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
   box-shadow: 0 4px 10px rgba(0,0,0,0.25);
-  height:50px;
-  width: 50px;
+  height:45px;
+  width: 45px;
 }
 
 /* Hover */
@@ -1576,12 +1593,15 @@ textarea:focus {
 
 
 .menu-content {
+    display: inline-block;
+    left: 0;
   position: fixed;
   background: linear-gradient(90deg, #000000 00%, #8d61b9 100%);
   height: 100vh;
   max-width: 300px;
   width: 30%;
   overflow-y: auto;
+  z-index: 5000;
 
   /* Oculta a barra de rolagem visual */
   scrollbar-width: none; /* Firefox */
@@ -2197,21 +2217,15 @@ textarea:focus {
 
 .main-menu {
     display: flex;
-    max-width: 1500px;
-        margin: 0 auto;     /* centraliza no meio */
-
-}
-
-/* Limitador global da tela */
-body {
-    max-width: 1500px;   /* não deixa a tela passar de 900px */
     margin: 0 auto;     /* centraliza no meio */
+
 }
+
 
 
 /* Cada tela (screen) visível nunca passa de 900px */
 .screen {
-    max-width: 1500px;
+   
     margin: 0 auto;   /* centraliza no meio */
     width: 100%;      /* continua ocupando toda a largura até 900px */
 }
@@ -2231,8 +2245,14 @@ body {
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none;  /* Internet Explorer e Edge antigos */
   margin: 0px;
-  padding-bottom: 150px;
+  padding-bottom: 100px;
   padding-top: 10px;
+  justify-content: center;
+  text-align: center;
+  padding-right: 10px;
+  align-self: center;
+  align-items: center;
+  z-index: 4950;
 
 }
 
@@ -2247,9 +2267,13 @@ body {
     overflow-y: scroll;
     margin-top: 70px;
 }
+
+
 .card {
   width: 260px;
-  height: 100px;
+ 
+  min-height: 140px;
+   height: auto;
   background-color: #f0f2f5;
   border-radius: 12px;
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
@@ -2258,7 +2282,10 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-left: 20px;
+
 }
+
 
 .card-content {
   display: flex;
@@ -2267,13 +2294,46 @@ body {
   width: 100%;
   padding: 10px;
 }
+.direita {
+justify-content: space-between;
+height: 100%;
+}
 
 .text {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
+  text-align: left;
   gap: 4px;
+  background-color: #dfdede6b;
+  min-height: 110px;    
+  height: auto;
+  padding: 10px;
+  border-radius: 15px;
+  z-index: 1000;
 }
+
+
+
+.bannerMentorias {
+     width: 260px;
+  height: auto;
+  background-color: #f0f2f5;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  margin: 10px;
+  align-items: center;
+  justify-content: center;
+  margin-left: 20px;
+  align-items: center;
+  padding: 20px;
+
+}
+.bannerMentorias h1 {
+    margin-top: 10px;
+}
+
 
 .title {
   font-size: 16px;
@@ -2332,7 +2392,7 @@ body {
     display: none;
 }
        
-    
+
     .game-header h1 {
         font-size: 1.5rem;
         margin-left: 0;
@@ -2369,7 +2429,7 @@ display: flex;
 .menu-content {
   position: fixed;
  
-  z-index: 9990;
+
 
   width: 100%;
   height: 100vh;
@@ -2383,8 +2443,27 @@ display: flex;
 
 .direito {
     display: none;
-}
+  
+  position: absolute;
 
+  height: 100vh;
+  width: 100%;
+max-width: 100%;
+padding: 20px;
+padding-bottom: 130px;
+
+}
+.bannerMentorias {
+    margin: 0px;
+    width: 100%;
+   
+}
+.card {
+
+     margin: 0px;
+    width: 100%;
+    margin-top: 10px;
+}
 .logoProvas {
     display: none;
 }
@@ -2395,16 +2474,17 @@ display: flex;
 
 
 
-
+#mentoriaBtn {
+    display: flex;
+}
 
 
 
 .menuBotton {
     display: block;
+    margin-left: 10px;
 }
-.cantoCoruja {
-    display: none;
-}
+
  .tocarbtn{
         display: flex;
     }
@@ -2413,26 +2493,6 @@ display: flex;
     display: none;
 }
 
- .game-header {
-    background: rgba(255, 255, 255, 0.95);
-    display: flex;
-    flex-direction: row;     /* garante em linha */
-    flex-wrap: nowrap;       /* não deixa quebrar */
-    justify-content: space-between;
-    align-items: center;
-    gap: 0px;               /* espaçamento entre itens */
-    box-shadow: 0 0px 10px rgba(0,0,0,0.1);
-    backdrop-filter: blur(10px);
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    padding: 0px 0px;
- height: 70px;
-    overflow-x: auto;        /* se apertar muito, adiciona scroll horizontal */
-    
-  }
-  
-  
 
   
 .social-feed-container {
@@ -2454,6 +2514,10 @@ display: flex;
 
     margin: 0px;
 }
+
+.game-header {
+    
+}  
 
 }
 

@@ -563,7 +563,7 @@ font-size: 18px;
     }
 
     #userName {
-        width: 50px;
+        width: auto;
         font-size: 18px;
     }
 

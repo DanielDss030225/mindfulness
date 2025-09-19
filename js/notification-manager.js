@@ -189,7 +189,7 @@ class NotificationManager {
         if (!('Notification' in window) || Notification.permission !== 'granted') return;
 
         const typeText = this.getTypeDisplayName(type, conversationId);
-        const senderName = message.senderName || 'Novato';
+        const senderName = message.senderName;
         const messagePreview = this.truncateMessage(message.message);
 
         const notification = new Notification(`${senderName} - ${typeText}`, {

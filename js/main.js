@@ -409,6 +409,8 @@ screens.forEach(screen => {
     observer.observe(screen, { attributes: true, attributeFilter: ['class'] });
 });
 
+
+
 // Também pode chamar no carregamento inicial
 window.addEventListener('DOMContentLoaded', atualizarHeaderVisibilidade);
 // Em js/main.js ou um arquivo de script principal
@@ -430,7 +432,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 playerWindow = window.open(
                     'player.html?autoplay=true', // A URL do seu player com o parâmetro
                     'MusicPlayer',               // Um nome para a janela
-                    'width=350,height=450,scrollbars=no,resizable=no' // Opções da janela
+                    'width=350,height=550,scrollbars=no,resizable=no' // Opções da janela
                 );
 
                 // 2. Imediatamente após abrir, traz o foco de volta para a janela principal.
