@@ -91,30 +91,33 @@ class NotificationManager {
         });
     }
 
-    handleNewMessage(messageData) {
-        if (!this.isEnabled) return;
+handleNewMessage(messageData) {
+    if (!this.isEnabled) return;
 
-        const { type, message, conversationId, unreadCount } = messageData;
-        
-        // Não notifica se a janela do chat estiver aberta e focada
-        if (this.isChatWindowFocused(type, conversationId)) return;
+    const { type, message, conversationId, unreadCount } = messageData;
 
-        // Cria notificação visual
-       // this.showVisualNotification(type, message, conversationId);
-
-        // Toca som se habilitado
-      //  if (this.soundEnabled) {
-    //        this.playNotificationSound();
-      //  }
-
-        // Mostra notificação do navegador se habilitado
-        if (this.browserNotificationsEnabled) {
-            this.showBrowserNotification(type, message, conversationId);
-        }
-
-        // Atualiza badge de notificações
-        this.updateNotificationBadge();
+    // 🚫 Ignora mensagens enviadas pelo próprio usuário
+    if (message.senderId && window.currentUserId && message.senderId === window.currentUserId) {
+        return;
     }
+
+    // 🚫 Ignora mensagens que já foram lidas
+    if (typeof unreadCount !== "undefined" && unreadCount === 0) {
+        return;
+    }
+
+    // 🚫 Ignora se a janela do chat já estiver aberta e focada
+    if (this.isChatWindowFocused(type, conversationId)) return;
+
+    // ✅ Mostra notificação do navegador se habilitado
+    if (this.browserNotificationsEnabled) {
+        this.showBrowserNotification(type, message, conversationId);
+    }
+
+    // ✅ Atualiza badge de notificações
+    this.updateNotificationBadge();
+}
+
 
    /* showVisualNotification(type, message, conversationId) {
         // Cria elemento de notificação visual
