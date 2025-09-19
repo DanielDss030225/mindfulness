@@ -432,7 +432,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 playerWindow = window.open(
                     'player.html?autoplay=true', // A URL do seu player com o parâmetro
                     'MusicPlayer',               // Um nome para a janela
-                    'width=350,height=550,scrollbars=no,resizable=no' // Opções da janela
+                    'width=350,height=630,scrollbars=no,resizable=no' // Opções da janela
                 );
 
                 // 2. Imediatamente após abrir, traz o foco de volta para a janela principal.

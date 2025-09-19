@@ -84,40 +84,25 @@ body {
     from { opacity: 0; }
     to { opacity: 1; }
 }
-
 /* Container do Player */
 .popup-container {
-  background-color: transparent; /* corrigido de 'none' para 'transparent' */
+  background-color: transparent;
   width: 100%;
   max-width: 500px;
   height: 100vh;
-  overflow-y: auto;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  overflow-y: scroll; /* mantém o scroll funcional */
   animation: slideUp 0.4s ease;
   color: white;
 
-  /* Scrollbar discreta */
-  scrollbar-width: thin;        /* Firefox */
-  scrollbar-color: rgba(255,255,255,0.3) transparent; /* Firefox */
+  /* Firefox */
+  scrollbar-width: none; 
 }
 
 /* Chrome, Edge, Safari */
 .popup-container::-webkit-scrollbar {
-  width: 6px;
+  display: none;
 }
 
-.popup-container::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.popup-container::-webkit-scrollbar-thumb {
-  background-color: rgba(255,255,255,0.3);
-  border-radius: 3px;
-}
-
-.popup-container::-webkit-scrollbar-thumb:hover {
-  background-color: rgba(255,255,255,0.5);
-}
 
 @keyframes slideUp {
     from {
@@ -138,6 +123,7 @@ body {
     align-items: center;
     padding: 20px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    margin-top: 30px;
 }
 .player-header p {
   margin-left: 30px;
@@ -250,11 +236,13 @@ margin-bottom: 20px;
     font-size: 18px;
     margin-bottom: 5px;
     font-weight: 600;
+    transition: opacity 0.3s ease;
 }
 
 .current-track p {
     font-size: 14px;
     opacity: 0.8;
+    transition: opacity 0.3s ease;
 }
 
 /* Controles do Player */
@@ -374,6 +362,7 @@ margin-bottom: 20px;
 .playlist-container {
     padding: 20px;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
+    width: 100%;
 }
 
 .playlist-container h4 {
@@ -385,7 +374,7 @@ margin-bottom: 20px;
 }
 
 .playlist {
-    max-height: 200px;
+    height: 150px;
     overflow-y: auto;
 
     /* Scrollbar discreta */
@@ -448,6 +437,7 @@ margin-bottom: 20px;
   align-items: center;
   justify-content: center;
   gap: 5px;
+  margin-top: 30px;
 }
 /* Responsividade */
 @media (max-width: 600px) {
@@ -475,6 +465,48 @@ margin-bottom: 20px;
         width: 55px;
         height: 55px;
     }
+}
+
+/* Loading Spinner */
+.loading-spinner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 30px 20px;
+    color: white;
+    font-size: 16px;
+    gap: 15px;
+    min-height: 120px;
+    animation: fadeIn 0.3s ease;
+}
+
+.loading-spinner .spinner {
+    border: 4px solid rgba(255, 255, 255, 0.2);
+    border-top: 4px solid #3498db;
+    border-right: 4px solid #e74c3c;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1.2s linear infinite;
+    box-shadow: 0 0 20px rgba(52, 152, 219, 0.3);
+}
+
+.loading-spinner p {
+    font-weight: 500;
+    opacity: 0.9;
+    text-align: center;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
 }
 
 /* Scrollbar personalizada */
@@ -552,17 +584,22 @@ margin-bottom: 20px;
     <div id="playerPopup" class="popup-overlay active">
         <div class="popup-container">
             <!-- Header do Player -->
-            <div class="player-header">
-              <div class="divNome" >  
+        
+               <!-- Lista de Reprodução -->
+            <div class="playlist-container">
+                 <div class="divNome" >  
    <img src="./favicon.ico">
                 <h2> PlataformaBizurada</h2>
              <i class="fas fa-headphones"></i>
               </div>
-              
-                 <p> A plataforma do concurseiro!</p>                    
-
-            </div>
-            
+                <div id="loadingSpinner" class="loading-spinner" style="display: none;">
+                    <div class="spinner"></div>
+                    <p>Carregando playlist...</p>
+                </div>
+                <div id="playlist" class="playlist">
+                    <!-- As músicas serão carregadas dinamicamente -->
+                </div>
+            </div>  
             <div class="voltarSite">
               <a class="voltarAnavegar" href="https://www.plataformabizurada.com.br" target="_blank"> Voltar a Navegar </a>
             </div>
@@ -583,19 +620,17 @@ margin-bottom: 20px;
                 </button>
             </div>
 
-                      <div class="current-track">
-                        <h3 id="trackTitle">Selecione uma categoria</h3>
-                        <p id="trackDescription">Escolha uma categoria para começar a ouvir</p>
-                    </div>
+         
+                    
 
             <!-- Player de Vídeo do YouTube -->
             <div class="video-container" >
                 <div id="youtube-player"></div>
                 <div class="video-overlay">
-                    <!-- <div class="current-track">
+                    <div class="current-track">
                         <h3 id="trackTitle">Selecione uma categoria</h3>
                         <p id="trackDescription">Escolha uma categoria para começar a ouvir</p>
-                    </div>-->
+                    </div>
                 </div>
             </div>
 
@@ -631,13 +666,6 @@ margin-bottom: 20px;
                 </div>
             </div>
 
-            <!-- Lista de Reprodução -->
-            <div class="playlist-container">
-                <h4><i class="fas fa-list"></i> Playlist Atual</h4>
-                <div id="playlist" class="playlist">
-                    <!-- As músicas serão carregadas dinamicamente -->
-                </div>
-            </div>
       
     </div>
 
@@ -653,16 +681,14 @@ const playlists = {
     nature: [
         { id: 'h0CJgLE4NiY', title: 'Sons da Natureza', description: 'Sons relaxantes de Cachoeira', duration: '1:00:00' },
         { id: 'lFcSrYw-ARY', title: 'Chuva na Floresta', description: 'Sons relaxantes de chuva', duration: '3:00:00' },
-        { id: 'eKFTSSKCzWA', title: 'Ondas do Mar', description: 'Som das ondas quebrando', duration: '2:30:00' },
-        { id: 'nDq6TstdEi8', title: 'Pássaros Cantando', description: 'Sons de pássaros na natureza', duration: '1:45:00' },
+      
+        { id: 'nDq6TstdEi8', title: 'Ondas do Mar', description: 'Som das ondas quebrando', duration: '2:30:00' },
+        { id: 'eKFTSSKCzWA', title: 'Pássaros Cantando', description: 'Sons de pássaros na natureza', duration: '1:45:00' },
         { id: 'UfcAVejslrU', title: 'Fogueira Crepitante', description: 'Som relaxante de fogueira', duration: '2:15:00' },
         { id: 'wzjWIxXBs_s', title: 'Vento nas Árvores', description: 'Som suave do vento', duration: '1:30:00' }
     ],
     calm: [
         { id: 'jfKfPfyJRdk', title: 'Música Zen', description: 'Melodias para relaxamento', duration: '2:00:00' },
-        { id: 'M4QVYMy4alY', title: 'Piano Relaxante', description: 'Piano suave e calmante', duration: '1:45:00' },
-        { id: 'kHnFDa96vjY', title: 'Meditação Profunda', description: 'Música para meditação', duration: '3:15:00' },
-        { id: 'ip0_7vWRL9s', title: 'Harpa Celestial', description: 'Sons angelicais de harpa', duration: '2:30:00' },
         { id: 'YQIqgxeNtl0', title: 'Tibetan Bowls', description: 'Tigelas tibetanas relaxantes', duration: '1:20:00' }
     ],
     focus: [
@@ -670,8 +696,6 @@ const playlists = {
         { id: 'n61ULEU7CO0', title: 'Binaural Beats', description: 'Frequências para concentração', duration: '2:45:00' },
         { id: 'WPni755-Krg', title: 'Lofi Hip Hop', description: 'Música para estudar', duration: '1:30:00' },
         { id: 'jfKfPfyJRdk', title: 'White Noise', description: 'Ruído branco para foco', duration: '3:00:00' },
-        { id: 'DWcJFNfaw9c', title: 'Ambient Study', description: 'Ambiente para estudos', duration: '2:15:00' },
-        { id: 'kHnFDa96vjY', title: 'Deep Focus', description: 'Concentração profunda', duration: '1:45:00' }
     ]
 };
 
@@ -752,12 +776,18 @@ function onYouTubeIframeAPIReady() {
 
 // Função chamada quando o player está pronto
 function onPlayerReady(event) {
-
+    // Mostrar spinner durante carregamento inicial
+    showLoadingSpinner();
+    
     player.setVolume(currentVolume);
-    loadPlaylist();
-    updateTrackInfo();
-    startProgressUpdate();
-
+    
+    // Simular carregamento inicial
+    setTimeout(() => {
+        loadPlaylist();
+        updateTrackInfo();
+        startProgressUpdate();
+        hideLoadingSpinner();
+    }, 1000);
 }
 
 // Função chamada quando o estado do player muda
@@ -775,6 +805,12 @@ function onPlayerStateChange(event) {
 
 // Função para mudar categoria
 function changeCategory(category) {
+    // Verificar se a categoria existe
+    if (!playlists[category]) {
+        console.error('Categoria não encontrada:', category);
+        return;
+    }
+    
     currentCategory = category;
     currentTrackIndex = 0;
     
@@ -786,11 +822,30 @@ function changeCategory(category) {
         }
     });
     
+    // Mostrar spinner de carregamento
+    showLoadingSpinner();
+    
     // Carregar nova playlist
-    if (player) {
-        player.loadVideoById(playlists[category][0].id);
-        loadPlaylist();
-        updateTrackInfo();
+    if (player && player.loadVideoById) {
+        try {
+            player.loadVideoById(playlists[category][0].id);
+            // Simular carregamento com delay para melhor UX
+            setTimeout(() => {
+                loadPlaylist();
+                updateTrackInfo();
+                hideLoadingSpinner();
+            }, 1200);
+        } catch (error) {
+            console.error('Erro ao carregar vídeo:', error);
+            hideLoadingSpinner();
+        }
+    } else {
+        // Se o player não estiver pronto, apenas atualizar a interface
+        setTimeout(() => {
+            loadPlaylist();
+            updateTrackInfo();
+            hideLoadingSpinner();
+        }, 1200);
     }
 }
 
@@ -819,9 +874,17 @@ function playTrack(index) {
     const track = playlists[currentCategory][index];
     
     if (player) {
+        // Mostrar feedback visual durante carregamento da música
+        showTrackLoadingFeedback();
+        
         player.loadVideoById(track.id);
         updateTrackInfo();
         updatePlaylistHighlight();
+        
+        // Esconder feedback após um breve delay
+        setTimeout(() => {
+            hideTrackLoadingFeedback();
+        }, 500);
     }
 }
 
@@ -958,6 +1021,63 @@ function formatTime(seconds) {
 function startProgressUpdate() {
   
     progressInterval = setInterval(updateProgress, 1000);
+}
+
+// Função para mostrar spinner de carregamento
+function showLoadingSpinner() {
+    const loadingSpinner = document.getElementById('loadingSpinner');
+    const playlist = document.getElementById('playlist');
+    const spinnerText = loadingSpinner?.querySelector('p');
+    
+    if (loadingSpinner && playlist) {
+        loadingSpinner.style.display = 'flex';
+        playlist.style.display = 'none';
+        
+        // Atualizar texto do spinner baseado na categoria
+        if (spinnerText) {
+            const categoryNames = {
+                'nature': 'Sons da Natureza',
+                'calm': 'Música Calma',
+                'focus': 'Música para Foco'
+            };
+            const categoryName = categoryNames[currentCategory] || 'playlist';
+            spinnerText.textContent = `Carregando ${categoryName}...`;
+        }
+    }
+}
+
+// Função para esconder spinner de carregamento
+function hideLoadingSpinner() {
+    const loadingSpinner = document.getElementById('loadingSpinner');
+    const playlist = document.getElementById('playlist');
+    
+    if (loadingSpinner && playlist) {
+        loadingSpinner.style.display = 'none';
+        playlist.style.display = 'block';
+    }
+}
+
+// Função para mostrar feedback de carregamento de música
+function showTrackLoadingFeedback() {
+    const trackTitle = document.getElementById('trackTitle');
+    const trackDescription = document.getElementById('trackDescription');
+    
+    if (trackTitle && trackDescription) {
+        trackTitle.style.opacity = '0.5';
+        trackDescription.style.opacity = '0.5';
+        trackDescription.textContent = 'Carregando música...';
+    }
+}
+
+// Função para esconder feedback de carregamento de música
+function hideTrackLoadingFeedback() {
+    const trackTitle = document.getElementById('trackTitle');
+    const trackDescription = document.getElementById('trackDescription');
+    
+    if (trackTitle && trackDescription) {
+        trackTitle.style.opacity = '1';
+        trackDescription.style.opacity = '1';
+    }
 }
 
 // Atalhos de teclado
