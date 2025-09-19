@@ -91,7 +91,7 @@
     width: 40%;
     height: 100vh;
     border-radius: 0;
-    z-index: 10000;
+    z-index: 9900; /* garante que fica acima de tudo */
 }
 
 
@@ -1339,7 +1339,7 @@ text-align: center;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
     transform: scale(0.9);
     transition: transform 0.3s;
-    z-index: 9990; /* garante que fica acima de tudo */
+    z-index: 10000; /* garante que fica acima de tudo */
 }
 
 .chat-delete-modal.active .chat-delete-content {

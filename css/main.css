@@ -438,7 +438,7 @@ header p {
  height: 70px;
     position: sticky;
     top: 0;
-    z-index: 10000;
+    z-index: 8000;
         max-width: 3840px;
 
 }
