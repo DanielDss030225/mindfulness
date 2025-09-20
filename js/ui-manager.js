@@ -77,6 +77,9 @@ class UIManager {
     }
 
    showScreen(screenId) {
+           
+            document.getElementById("explanationContainer").style.display = "none";
+
     console.log(`Showing screen: ${screenId}`);
 
     // Se for index.html, força scroll para o topo
@@ -112,7 +115,10 @@ class UIManager {
     }
 
 setTimeout(() => {
+
     this.updateChatButtonVisibility(screenId);
+
+  
 }, 100);
 
 
