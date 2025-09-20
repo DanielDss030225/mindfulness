@@ -1,5 +1,5 @@
 /* Estilos para botões de curtir comentários e respostas */
-
+/*
 .comment-like-btn {
     cursor: pointer;
     color: #65676b;
@@ -43,7 +43,7 @@
 
 .comment-actions {
     display: flex;
-    gap: 12px;
+    gap: 0px;
     align-items: center;
     margin-top: 4px;
 }
@@ -54,7 +54,7 @@
     font-weight: 400;
 }
 
-/* Estilos para sub-comentários */
+
 .sub-comment {
   width: 100%;
     max-width: 100%;
@@ -66,6 +66,10 @@
     width: 100%;
 
 }
+*/
+
+
+
 
 /* Estilos para container de resposta */
 .reply-input-container {
@@ -130,7 +134,7 @@
     border-color: #1877f2;
 }
 
-/* Melhorias visuais gerais */
+/* 
 .comment-item {
     margin-bottom: 12px;
     padding: 8px 0;
@@ -180,7 +184,8 @@
     flex-shrink: 0;
 }
 
-/* Responsividade */
+
+Responsividade 
 @media (max-width: 768px) {
     .comment-actions {
         gap: 8px;
@@ -201,7 +206,7 @@
     }
 }
 
-
+*/
 
 /* Estilos para a barra de progresso */
 .upload-progress-container {

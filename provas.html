@@ -21,27 +21,21 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
 </head>
 <body>
-      <header class="post-view-header">
-            <div class="header-content">
-                <button onclick="window.location.href='index.html'" class="back-btn">
-Voltar ao início    </button>
-              
-                <div class="header-logo">
-                                        <h1 class="logoProvas" >PlataformaBizurada</h1>
+     <header class="game-header"><a href="index.html">
+                <img src="https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/mindfulness_brain_transparent.png?alt=media&token=d1407573-6161-4b64-b6b2-e46206ba452f" alt="Mindfulness Logo" class="logo"> </a>
+                <h1>PlataformaBizurada</h1>
+                   <p>A Plataforma do concurseiro!</p>
+                  <a onclick="goToProfile()" class="perfilButtom">
+    <div class="user-info" style="display: none;">
+        <div class="user-profile">
+            <img id="userProfilePic" src="https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/ICONE%20PERFIL.png?alt=media&token=d092ec7f-77b9-404d-82d0-b6ed3ce6810e" alt="Foto do usuário" class="user-avatar">
+            <span id="userName">Usuário</span>
+        </div></a>
+        <button id="logoutBtn" class="btn-secondary">Sair</button>
+    </div>
 
-                    <img src="https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/mindfulness_brain_transparent.png?alt=media&token=d1407573-6161-4b64-b6b2-e46206ba452f" alt="Mindfulness Logo" class="logo">
-                </div>
-               
-                  <div class="header-actions">
-                    <button id="sharePostBtn2" class="share-btn">
-                        <span class="icon">📤</span>
-                        Compartilhar
-                    </button>
-                </div>
-            </div>
 
-            
-        </header>
+            </header>  
         
     <div class="post-view-container">
         <!-- Header -->
@@ -54,7 +48,7 @@ Voltar ao início    </button>
                
 
                 <!-- Comments Section -->
-                <section class="comments-section-full" id="commentsSection">
+                <section class="comments-section-full2" id="commentsSection">
                     <!-- Barra de pesquisa -->
 
                     <div class="comments-header">

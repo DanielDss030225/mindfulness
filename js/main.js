@@ -411,51 +411,93 @@ screens.forEach(screen => {
 
 
 
-// Também pode chamar no carregamento inicial
-window.addEventListener('DOMContentLoaded', atualizarHeaderVisibilidade);
-// Em js/main.js ou um arquivo de script principal
-document.addEventListener('DOMContentLoaded', function() {
-    const openPlayerBtn = document.getElementById('openPlayerBtn');
+
+
+
+
+
+// Player popup functionality
+document.addEventListener("DOMContentLoaded", function() {
+    const openPlayerBtn = document.getElementById("openPlayerBtn");
     let playerWindow = null; // Variável para guardar a referência da janela do player
 
     if (openPlayerBtn) {
-        openPlayerBtn.addEventListener('click', (event) => {
+        openPlayerBtn.addEventListener("click", (event) => {
             event.preventDefault(); // Impede que o link <a> navegue
 
             // Verifica se a janela do player não existe ou se foi fechada pelo usuário
             if (playerWindow === null || playerWindow.closed) {
                 
-                // --- A LÓGICA PRINCIPAL ACONTECE AQUI ---
-
-                // 1. Abre a nova janela (pop-up). Em um celular, ela aparecerá na frente.
-                // Passamos 'autoplay=true' para que o player saiba que deve tocar imediatamente.
+                // Abre a nova janela popup
                 playerWindow = window.open(
-                    'player.html?autoplay=true', // A URL do seu player com o parâmetro
-                    'MusicPlayer',               // Um nome para a janela
-                    'width=350,height=630,scrollbars=no,resizable=no' // Opções da janela
+                    "player.html?autoplay=true", // A URL do player com parâmetro de autoplay
+                    "MusicPlayer",               // Nome único para a janela
+                    "width=400,height=700,scrollbars=no,resizable=yes,toolbar=no,menubar=no,location=no,status=no" // Opções da janela
                 );
 
-                // 2. Imediatamente após abrir, traz o foco de volta para a janela principal.
-                // Este é o passo crucial que faz a janela do player ir para segundo plano no celular.
+                // Imediatamente após abrir, traz o foco de volta para a janela principal
+                // Isso faz a janela do player ir para segundo plano
                 if (playerWindow) {
-                    // Um pequeno atraso pode aumentar a confiabilidade em alguns navegadores
                     setTimeout(() => {
                         window.focus();
-                    }, 100); 
+                        // Adiciona classe visual para indicar que o player está ativo
+                        openPlayerBtn.classList.add("player-active");
+                        openPlayerBtn.querySelector(".tocarbtn").textContent = "🎵 Tocando";
+                        openPlayerBtn.querySelector(".ouvirMusica").textContent = "Player aberto em segundo plano";
+                    }, 200); 
                 }
+
+                // Monitora se a janela foi fechada para atualizar o botão
+                const checkClosed = setInterval(() => {
+                    if (playerWindow.closed) {
+                        clearInterval(checkClosed);
+                        openPlayerBtn.classList.remove("player-active");
+                        openPlayerBtn.querySelector(".tocarbtn").textContent = "🎵 Tocar";
+                        openPlayerBtn.querySelector(".ouvirMusica").textContent = "Ouça música enquanto estuda";
+                        playerWindow = null;
+                    }
+                }, 1000);
                 
             } else {
-                // Se a janela já estiver aberta, apenas a foca (mais útil em desktops).
+                // Se a janela já estiver aberta, traz ela para frente momentaneamente
                 playerWindow.focus();
+                // Depois volta o foco para a janela principal
+                setTimeout(() => {
+                    window.focus();
+                }, 500);
             }
         });
     }
+
+    // Função global para comunicação com o player
+    window.playerControl = {
+        isPlayerOpen: () => playerWindow && !playerWindow.closed,
+        closePlayer: () => {
+            if (playerWindow && !playerWindow.closed) {
+                playerWindow.close();
+            }
+        },
+        focusPlayer: () => {
+            if (playerWindow && !playerWindow.closed) {
+                playerWindow.focus();
+            }
+        }
+    };
 });
-/**
- * Função para atualizar a visibilidade do header com base na tela ativa.
- * O header não deve aparecer na tela de login.
- * Também salva no localStorage se o usuário está em desktop ("sim") ou não ("não").
- */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 function atualizarHeaderVisibilidade() {
     const header = document.querySelector('.game-header');
     const loginScreen = document.getElementById('login-screen');
@@ -475,6 +517,10 @@ function atualizarHeaderVisibilidade() {
         }
     }
 }
+
+
+
+
 
 // Monitora mudanças nas classes das telas para atualizar o header
 document.addEventListener('DOMContentLoaded', () => {
@@ -497,3 +543,119 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 });
+
+
+
+//função para trocar professor
+function monitoraTempo(actionFunction) {
+        let lastHour = -1;
+
+        function checkHour() {
+            const now = new Date();
+            const currentHour = now.getHours();
+
+            if (currentHour !== lastHour) {
+                actionFunction(currentHour);
+                lastHour = currentHour;
+            }
+        }
+
+        // Executa logo ao carregar
+        checkHour();
+
+        // Depois verifica a cada minuto
+        setInterval(checkHour, 60000);
+    }
+
+ function minhaAcao(hour) {
+    // Array com imagens correspondentes a cada hora do dia
+    const imagens = [
+      "./professores/policialcivil.png",        // 0h-1h
+        "./professores/guardacivil.png",            // 1h-2h
+        "./professores/bombeiromilitar.png",            // 2h-3h
+       "./professores/policialrodoviario.png",             // 3h-4h
+       "./professores/policialpenal.png",             // 4h-5h
+      "./professores/policialmilitar.png",        // 5h-6h
+        "./professores/policialfederal.png",             // 6h-7h
+       "./professores/policialcivil.png",            // 7h-8h
+        "./professores/guardacivil.png",           // 8h-9h
+       "./professores/bombeiromilitar.png",             // 9h-10h
+       "./professores/policialrodoviario.png",            // 10h-11h
+    "./professores/policialpenal.png",           // 11h-12h
+        "./professores/policialmilitar.png",              // 12h-13h
+      "./professores/policialfederal.png",           // 13h-14h
+        "./professores/policialcivil.png",             // 14h-15h
+          "./professores/guardacivil.png",              // 15h-16h
+           "./professores/bombeiromilitar.png",            // 16h-17h
+         "./professores/policialrodoviario.png",  // 17h-18h
+        "./professores/policialpenal.png", // 18h-19h
+        "./professores/policialmilitar.png",            // 19h-20h
+       "./professores/policialfederal.png",           // 20h-21h
+        "./professores/policialcivil.png",           // 21h-22h
+         "./professores/guardacivil.png",           // 22h-23h
+        "./professores/bombeiromilitar.png",             // 23h-0h
+    ];
+
+    // Array apenas com os nomes
+  const nomes = [
+  "Policial Civil",         // 0h-1h
+  "Guarda Civil",           // 1h-2h
+  "Bombeiro Militar",       // 2h-3h
+  "Policial Rodoviário",    // 3h-4h
+  "Policial Penal",         // 4h-5h
+  "Policial Militar",       // 5h-6h
+  "Policial Federal",       // 6h-7h
+  "Policial Civil",         // 7h-8h
+  "Guarda Civil",           // 8h-9h
+  "Bombeiro Militar",       // 9h-10h
+  "Policial Rodoviário",    // 10h-11h
+  "Policial Penal",         // 11h-12h
+  "Policial Militar",       // 12h-13h
+  "Policial Federal",       // 13h-14h
+  "Policial Civil",         // 14h-15h
+  "Guarda Civil",           // 15h-16h
+  "Bombeiro Militar",       // 16h-17h
+  "Policial Rodoviário",    // 17h-18h
+  "Policial Penal",         // 18h-19h
+  "Policial Militar",       // 19h-20h
+  "Policial Federal",       // 20h-21h
+  "Policial Civil",         // 21h-22h
+  "Guarda Civil",           // 22h-23h
+  "Bombeiro Militar"        // 23h-0h
+];
+
+
+    // Seleciona os elementos
+    const imgElement = document.querySelector(".professor-img");
+    const nomeElement = document.querySelector(".nomeProfessora");
+ const imgElement2 = document.querySelector(".professor2-img");
+    const nomeElement2 = document.querySelector(".nomeProfessora2");
+
+    if (imgElement) {
+        imgElement.src = imagens[hour] || "img/default.png";
+        imgElement.alt = `Imagem para o intervalo ${hour}h - ${hour + 1}h`;
+    }
+
+    if (nomeElement) {
+        nomeElement.textContent = nomes[hour] || "Professor Desconhecido";
+nomeElement.textContent ="Olá, sou um(a) " + nomes[hour] +  ". Estarei aqui durante 1 hora para te motivar! Bora começar?";
+
+    }
+      if (imgElement2) {
+        imgElement2.src = imagens[hour] || "img/default.png";
+        imgElement2.alt = `Imagem para o intervalo ${hour}h - ${hour + 1}h`;
+    }
+
+    if (nomeElement2) {
+        nomeElement2.textContent = nomes[hour] || "Professor Desconhecido";
+nomeElement2.textContent ="Olá, sou um(a) " + nomes[hour] +  ". Estarei aqui durante 1 hora para te motivar! Bora começar?";
+
+    }
+}
+
+    window.addEventListener("DOMContentLoaded", () => {
+        monitoraTempo(minhaAcao);
+    });
+
+
+    

@@ -1,3 +1,4 @@
+
 class ChatUI {
     constructor() {
         this.isOpen = false;
@@ -381,6 +382,28 @@ this.elements.globalMessages.addEventListener('click', (e) => {
             this.closeDeleteModal();
         }
     });
+
+
+
+// Fechar o chat ao clicar fora (ignorando modais)
+document.addEventListener('click', (event) => {
+    const chatWindow = this.elements.chatWindow;
+    const toggleBtn = this.elements.toggleBtn;
+    const profileModal = this.elements.profileModal;
+    const deleteModal = this.elements.deleteModal;
+
+    const clickedOutsideChat =
+        this.isOpen &&
+        chatWindow &&
+        !chatWindow.contains(event.target) &&
+        !toggleBtn.contains(event.target) &&
+        !profileModal.contains(event.target) &&
+        !deleteModal.contains(event.target);
+
+    if (clickedOutsideChat) {
+        this.closeChat();
+    }
+});
 
 
 

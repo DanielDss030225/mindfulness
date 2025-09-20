@@ -212,19 +212,66 @@ if (window.uiManager && typeof window.uiManager.showScreen === 'function') {
         const messages = [
             'Olá! Pronto para aprender hoje?',
             'Vamos testar seus conhecimentos!',
-            'Que tal um simulado desafiador?',
+            
             'Aprender nunca foi tão divertido!',
             'Cada questão é uma oportunidade de crescer!',
-            'Vamos descobrir o que você já sabe!'
+            'Vamos descobrir o que você já sabe!',
+             "Vamos testar seus conhecimentos!",
+   
+    // +30 novas mensagens
+    "Você está indo muito bem, continue assim!",
+    "O conhecimento é a chave do sucesso!",
+    "Cada resposta é um passo rumo à vitória!",
+    "Você é mais inteligente do que imagina!",
+    "Aprender é um superpoder — use o seu!",
+    "Não desista, cada erro é um aprendizado!",
+    "O importante é continuar tentando!",
+    "Sua dedicação está fazendo a diferença!",
+     "Cada questão é uma oportunidade de crescer!",
+    "Vamos descobrir o que você já sabe!",
+    "Você nasceu para conquistar grandes coisas!",
+    "Desafios tornam a jornada mais emocionante!",
+    "Continue! Você está quase lá!",
+    "Você está construindo um futuro brilhante!",
+    "Não pare agora, o melhor ainda está por vir!",
+    "Errar faz parte do aprendizado!",
+    "Você está se superando!",
+    "Todo grande caminho começa com pequenos passos!",
+    "A mente que se abre a um novo conhecimento nunca volta ao tamanho original!",
+    "Cada questão resolve um mistério!",
+    "Vamos desbloquear mais um nível de sabedoria!",
+    "Você está dominando o conteúdo!",
+    "A cada resposta certa, um novo nível de confiança!",
+    "Você está fazendo progresso real!",
+    "Seja curioso, seja destemido, seja você!",
+    "As respostas certas te aproximam do seu objetivo!",
+    "Foco, força e conhecimento!",
+    "Você é capaz de aprender qualquer coisa!",
+    "Continue, sua evolução é visível!",
+    "Aprender é um caminho sem volta — e você está trilhando bem!",
+    "A coragem de tentar já é metade da vitória!",
+    "A prática leva à perfeição!",
+    "Você está escrevendo sua própria história de sucesso!",
+    "Vamos com tudo! O próximo desafio te espera!",
+    "Seu esforço hoje é o seu resultado amanhã!",
+    "Confie no seu potencial!"
         ];
 
         const randomMessage = messages[Math.floor(Math.random() * messages.length)];
         const professorMessage = document.getElementById('professorMessage');
+ const professorMessage2 = document.getElementById('professorMessage2');
 
         if (professorMessage) {
             professorMessage.textContent = randomMessage;
         }
+if (professorMessage2) {
+            professorMessage2.textContent = randomMessage;
+        }
+
     }
+
+
+
 
     showLoginForm() {
         const loginForm = document.getElementById('login-form');

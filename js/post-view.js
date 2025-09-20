@@ -140,7 +140,7 @@ async renderPost() {
     
     postArticle.innerHTML = `
         <div class="post-header">
-            <a href="../MINDFULNESS/user-profile.html?userId=${this.post.authorId}" class="author-link" style="display:flex;align-items:center;gap:8px;text-decoration:none;color:inherit;">
+            <a href="../user-profile.html?userId=${this.post.authorId}" class="author-link" style="display:flex;align-items:center;gap:8px;text-decoration:none;color:inherit;">
                 <img src="${authorPhotoURL}" 
                      alt="Avatar do autor" class="post-avatar">
                 <div class="post-author-info">
@@ -156,14 +156,14 @@ async renderPost() {
             ` : ''}
         </div>
         
-        ${this.post.content ? `<div class="post-content">${this.formatPostText(this.post.content)}</div>` : ''}
         
         ${this.post.imageUrl ? `
             <div class="post-image-container">
                 <img src="${this.post.imageUrl}" alt="Post Image" class="post-image">
             </div>
         ` : ''}
-        
+                ${this.post.content ? `<div class="post-content">${this.formatPostText(this.post.content)}</div>` : ''}
+
         <div class="post-actions-bar">
             <button class="action-btn like-btn ${isLiked ? 'liked' : ''}" data-post-id="${this.postId}">
                 <span class="icon">${isLiked ? '❤️' : '🤍'}</span>
@@ -395,10 +395,11 @@ updateLikeButtonUI(isLiked) {
         <div class="comment-item" data-comment-id="${comment.id}">
         <div class="fundoComent">
             <div class="comment-main-content">
-                <a href="../MINDFULNESS/user-profile.html?userId=${comment.authorId}" class="author-link" style="display:flex;align-items:center;gap:8px;text-decoration:none;color:inherit;">
+                <a href="../user-profile.html?userId=${comment.authorId}" class="author-link" style="display:flex;align-items:center;gap:8px;text-decoration:none;color:inherit;">
                     <img src="${authorPhotoURL}" alt="Avatar do usuário" class="comment-avatar">
                     <div class="comment-content-container">
                         <div class="comment-author">${comment.authorName || 'Usuário'}</div>
+                          <span class="comment-time">${timeAgo}</span>
                     </div>
                 </a>
                 <div class="comment-text">${this.formatCommentText(comment.text)}</div>
@@ -408,7 +409,7 @@ updateLikeButtonUI(isLiked) {
                     Curtir ${likesCount > 0 ? `(${likesCount})` : ''}
                 </button>
                 <button class="comment-reply-btn" data-comment-id="${comment.id}">Responder</button>
-                <span class="comment-time">${timeAgo}</span>
+              
             </div>
             </div>
             ${repliesHTML}
@@ -441,10 +442,11 @@ updateLikeButtonUI(isLiked) {
     return `
         <div class="comment-item sub-comment" data-reply-id="${reply.id}">
             <div class="comment-main-content">
-                <a href="../MINDFULNESS/user-profile.html?userId=${reply.authorId}" class="author-link" style="display:flex;align-items:center;gap:8px;text-decoration:none;color:inherit;">
+                <a href="../user-profile.html?userId=${reply.authorId}" class="author-link" style="display:flex;align-items:center;gap:8px;text-decoration:none;color:inherit;">
                     <img src="${authorPhotoURL}" alt="Avatar do usuário" class="comment-avatar">
                     <div class="comment-content-container">
                         <div class="comment-author">${reply.authorName || 'Usuário'}</div>
+                        <span class="comment-time">${timeAgo}</span>
                     </div>
                 </a>
                 <div class="comment-text">${this.formatCommentText(reply.text)}</div>
@@ -453,7 +455,7 @@ updateLikeButtonUI(isLiked) {
                 <button class="reply-like-btn ${isLiked ? 'liked' : ''}" data-reply-id="${reply.id}">
                     Curtir ${likesCount > 0 ? `(${likesCount})` : ''}
                 </button>
-                <span class="comment-time">${timeAgo}</span>
+                
             </div>
         </div>
     `;
@@ -618,7 +620,7 @@ async toggleReplyLike(replyId, buttonElement) {
             return total + 1 + repliesCount;
         }, 0);
         
-        document.getElementById('commentsCount').textContent = `${totalComments} comentário${totalComments !== 1 ? 's' : ''}`;
+        document.getElementById('commentsCount').textContent = `${totalComments} ${totalComments !== 1 ? '' : ''}`;
 
         
     }

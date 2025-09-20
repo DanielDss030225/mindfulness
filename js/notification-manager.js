@@ -109,6 +109,9 @@ handleNewMessage(messageData) {
     // 🚫 Ignora se a janela do chat já estiver aberta e focada
     if (this.isChatWindowFocused(type, conversationId)) return;
 
+    // 🚫 Ignora mensagens globais para notificações do navegador
+    if (type === 'global') return;
+
     // ✅ Mostra notificação do navegador se habilitado
     if (this.browserNotificationsEnabled) {
         this.showBrowserNotification(type, message, conversationId);

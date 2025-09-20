@@ -343,7 +343,7 @@ width: 100%;
 margin-bottom: 7px;
 margin-top: 7px;
 height: auto;
-padding: 5px;
+
 }
 .cantoCoruja {
     height: 100%;
@@ -356,8 +356,11 @@ padding: 5px;
     padding: 0px;
     border: 0px;
 }
+
 #openPlayerBtn {
     height: 100%;
+    width: 100%;
+    padding: 10px;
 }
 .tocarbtn {
     width: 100%;
@@ -497,6 +500,8 @@ header p {
     font-size: 1.5rem;
 }
 
+
+
 /* Professor Character */
 .professor-character {
     display: flex;
@@ -524,34 +529,31 @@ header p {
 }
 
 .professor-head {
-    width: 150px;
+    width: 200px;
     height: 150px;
-    background: linear-gradient(135deg, #caddd4 0%, #89c2d8 100%);
+    background: none;
     border-radius: 50%;
     position: relative;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    box-shadow: 0 0px 0px rgba(0,0,0,0.2);
+    align-content: center;
     
 
 }
 
-.professor-head::before {
-    position: absolute;
-    top: 100%;
-    left: 100%;
-    transform: translate(-50%, -50%);
-    font-size: 40px;
+.professor-img {
+    width: 200px;
+    height: 200px;
 
 }
 
-.professor-img {
-    width: 150px;
+.professor2-img {
+    width: 200px;
     height: 200px;
 
 }
 
 
-
-
+/*RESPONSABILIDADE DE CRIAR A ANIMAÇÃO NO PROFESSOR*/
 .professor-avatar.small .professor-body {
     transform: scale(0.7);
 }
@@ -560,20 +562,58 @@ header p {
     0%, 100% { transform: translateY(0px); }
     50% { transform: translateY(-10px); }
 }
+/*RESPONSABILIDADE DE CRIAR A ANIMAÇÃO NO PROFESSOR*/
 
 
-
-.speech-bubble {
+.speech-bubble2 {
     background: white;
-    padding: 15px 20px;
-    border-radius: 20px;
+    padding: 5px 5px;
+    border-radius: 35px;
     margin-top: 20px;
     position: relative;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     max-width: auto;
     text-align: center;
+    width: 250px;
+   left: -5%;
+margin-bottom: 10px;
 
-  width: 280px;
+}
+
+
+.speech-bubble2::before {
+    content: '';
+    position: absolute;
+    top: 100%; /* colado na parte de baixo */
+    left: 56%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 10px solid white; /* triângulo apontando para baixo */
+}
+
+.speech-bubble2 p {
+    margin: 0;
+    color: #333;
+    font-weight: 500;
+    font-size: 13px;
+}
+
+
+/*SEGUNDO BALAO*/
+.speech-bubble {
+    background: white;
+    padding: 15px 20px;
+    border-radius: 30px;
+    margin-top: 20px;
+    position: relative;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    max-width: auto;
+    text-align: center;
+left:   5%;
+  width: 250px;
   
 
 
@@ -584,7 +624,7 @@ header p {
     content: '';
     position: absolute;
     top: -10px;
-    left: 50%;
+    left: 45%;
     transform: translateX(-50%);
     width: 0;
     height: 0;
@@ -598,6 +638,7 @@ header p {
     color: #333;
     font-weight: 500;
 }
+
 
 /* esse */
 
@@ -659,7 +700,7 @@ header p {
     background: rgba(255, 255, 255, 0.95);
     border: none;
     padding: 10px;
-    border-radius: 15px;
+    border-radius: 20px;
     cursor: pointer;
     font-weight: 600;
     color: #333;
@@ -671,7 +712,8 @@ header p {
     backdrop-filter: blur(10px);
     font-size: 14px;
         height: auto;
-   
+ border-left: 5px solid #00b95d;
+
 
 }
 
@@ -1391,7 +1433,7 @@ textarea:focus {
    border-bottom-left-radius: 20px;
    border-bottom-right-radius: 20px;
 margin-top: 10px;
-        background-color: #f6f6f6;
+        background-color: #cacaca48;
 }
 
 .post-item .post-image-container {
@@ -1407,6 +1449,11 @@ margin-top: 10px;
     width: 100%;
     display: flex;
     justify-content: space-between;
+    margin-bottom: 10px;
+    border: 1px;
+    border-bottom-style: solid;
+border-bottom-color: #d3d3d3;
+    padding-bottom: 15px;
 }
 .post-item .post-image {
     max-width: 100%;
@@ -1464,6 +1511,8 @@ margin-top: 10px;
 .post-item .comments-list {
     margin-top: 10px;
 }
+
+/*
 
 .comment-item {
     display: flex;
@@ -1562,7 +1611,7 @@ margin-top: 10px;
     outline: none;
             height: 40px;
 
-}
+}*/
 
 .menuBotton {   
     display: none;
@@ -1617,7 +1666,7 @@ margin-top: 10px;
 
 
 
-
+/*
 .add-comment-input button {
         background-color: #1877f2;
 
@@ -1647,11 +1696,6 @@ margin-top: 10px;
 
 
 }
-
-
-
-
-
 
 .sub-comment {
     width: 100%;
@@ -1689,6 +1733,10 @@ margin-top: 10px;
     margin-left: 36px;
     gap: 12px;
 }
+
+*/
+
+
 
 .loading-posts {
     text-align: center;
@@ -1746,10 +1794,7 @@ margin-top: 10px;
         font-size: 11px;
     }
 
-    .sub-comments-list {
-        margin-left: 30px;
-    }
-
+ 
 
 
 
@@ -2158,9 +2203,11 @@ margin-top: 10px;
 .author-link:focus,
 .author-link:active {
   text-decoration: none;
+  padding: 0px;
   color: inherit;
   font-weight: 600;
   width: 100%;
+  margin-top: 0px;
 }
 
 
@@ -2384,7 +2431,7 @@ height: 100%;
 @media screen and (max-width: 1000px) {
     #music-player-launcher {
         width: 50px;
-        padding: 5px;
+     
     }
 
    
@@ -2516,9 +2563,7 @@ padding-bottom: 130px;
     margin: 0px;
 }
 
-.game-header {
-    
-}  
+
 
 }
 

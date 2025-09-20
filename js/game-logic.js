@@ -207,8 +207,13 @@ class GameLogic {
 }
 
 updateProfessorMessage2() {
-  const messages = [
-    "Vamos testar seus conhecimentos!",
+     const messages = [
+            'Olá! Pronto para aprender hoje?',
+            'Vamos testar seus conhecimentos!',
+            'Aprender nunca foi tão divertido!',
+            'Cada questão é uma oportunidade de crescer!',
+            'Vamos descobrir o que você já sabe!',
+             "Vamos testar seus conhecimentos!",
    
     // +30 novas mensagens
     "Você está indo muito bem, continue assim!",
@@ -221,7 +226,6 @@ updateProfessorMessage2() {
     "Sua dedicação está fazendo a diferença!",
      "Cada questão é uma oportunidade de crescer!",
     "Vamos descobrir o que você já sabe!",
-    
     "Você nasceu para conquistar grandes coisas!",
     "Desafios tornam a jornada mais emocionante!",
     "Continue! Você está quase lá!",
@@ -248,7 +252,7 @@ updateProfessorMessage2() {
     "Vamos com tudo! O próximo desafio te espera!",
     "Seu esforço hoje é o seu resultado amanhã!",
     "Confie no seu potencial!"
-];
+        ];
 
 
         const randomMessage = messages[Math.floor(Math.random() * messages.length)];
