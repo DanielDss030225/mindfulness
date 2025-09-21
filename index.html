@@ -43,7 +43,10 @@
     <a id="backinicio">
         <img src="https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/mindfulness_brain_transparent.png?alt=media&token=d1407573-6161-4b64-b6b2-e46206ba452f" alt="Mindfulness Logo" class="logo">
     </a>
-       <button class="menuBotton" onclick="abrirMenu()" >Início</button>
+       <button class="menuBotton" onclick="abrirMenu()" >
+
+<svg xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#FFFFFF"><path d="M120-240v-60h520v60H120Zm678-52L609-481l188-188 43 43-145 145 146 146-43 43ZM120-452v-60h400v60H120Zm0-208v-60h520v60H120Z"/></svg>
+       </button>
     <h1 class="logoCabecalho">PlataformaBizurada</h1>
     <p>A Plataforma do concurseiro!</p>
 
@@ -73,9 +76,9 @@
     
  
     <!-- Loading Screen -->
-    <div id="loading-screen" class="screen active">
-        <div class="loading-content">
-            <h1>PlataformaBizurada</h1> <p>A Plataforma do concurseiro!</p>
+    <div id="loading-screen" class="screen active2">
+        <div class="loadingcontent">
+            <h1 class="h1loading">PlataformaBizurada</h1> <p>A Plataforma do concurseiro!</p>
             <div class="loading-spinner"></div>
             <p>Carregando...</p>
         </div>
@@ -163,44 +166,65 @@
                     </div>
                 </div>
            <div class="menu-options">
+    <div class="card2">
+        <img class="iconPlayStore" src="img/playstore.png">
+        <div class="text">  <h1> Baixe o APP</h1>
+     <P> E aproveite todas as funcionalidades da plataforma em seu celular.</P> </div>
+   
+    </div>
+ 
                     <button id="startQuizBtn" class="menu-btn">
-                        <span class="btn-icon">🎯</span>
+                       <!--<span class="btn-icon">🎯</span>--> 
+                       <svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" fill="#434343"><path d="M548.67-346.67q16.73 0 29.03-12.3T590-388q0-16.73-12.3-29.03t-29.03-12.3q-16.73 0-29.04 12.3-12.3 12.3-12.3 29.03t12.3 29.03q12.31 12.3 29.04 12.3ZM522-473.33h51.33q1.34-29 7.67-42.84Q587.33-530 612-554q28-27.33 38.33-46.43 10.34-19.1 10.34-44.9 0-45.59-31.5-74.46-31.5-28.88-82.5-28.88-39 0-69.17 21.34Q447.33-706 434-668.67l48 20q10.33-25 26.5-37.83 16.17-12.83 38.17-12.83 27.85 0 45.26 15.83 17.4 15.83 17.4 40.83 0 18-8.66 32.17Q592-596.33 570-578.67q-32.33 29-40.17 46.17-7.83 17.17-7.83 59.17Zm-242 260q-27 0-46.83-19.84Q213.33-253 213.33-280v-533.33q0-27 19.84-46.84Q253-880 280-880h533.33q27 0 46.84 19.83Q880-840.33 880-813.33V-280q0 27-19.83 46.83-19.84 19.84-46.84 19.84H280Zm0-66.67h533.33v-533.33H280V-280ZM146.67-80q-27 0-46.84-19.83Q80-119.67 80-146.67v-600h66.67v600h600V-80h-600ZM280-813.33V-280v-533.33Z"/></svg>
                         <p class="pmenu"> 
                         Resolver quêstões 
                     </p>
                     </button>
                     <button id="profileBtn" class="menu-btn">
-                        <span class="btn-icon">📊</span>
+
+                         <!--<span class="btn-icon">📊</span>-->
+                         <svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" fill="#434343"><path d="M80-126.67v-66.66h800v66.66H80Zm40-120V-520h106.67v273.33H120Zm204 0V-720h106.67v473.33H324Zm204.67 0V-600h106.66v353.33H528.67Zm204.66 0V-840H840v593.33H733.33Z"/></svg>
+                        
                                                 <p class="pmenu"> 
 
                        Acompanhar desempenho
                          </p>
                     </button>
                     <button id="mentoriaBtn" class="menu-btn" onclick="mentoriaBtn() ">
-                        <span class="btn-icon">🧠</span>
+                         <!-- <span class="btn-icon">🧠</span>-->
+                       
+                        <svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" fill="#434343"><path d="m798-137.33 27.33-27.34L744.67-240v-120h-41.34v133.33L798-137.33ZM496.67-381v-182.33h110l-33.34-33.34h-76.66v-170q0-14.33 9.5-23.83 9.5-9.5 23.83-9.5h111q9 0 16.83 4.5Q665.67-791 670-783l82 146.33h-66.67l-41.33-80h-90.67v33.34H624l41.33 80H770l67.67 117.66q-26-11.66-54-17.66t-57-6q-72.34 0-133.17 35-60.83 35-96.83 93.33ZM430-160H319q-9 0-16.83-4.5Q294.33-169 290-177l-82-146.33h66.67l41.33 80h90.67v-33.34H336l-41.33-80H190l-61-106.66q-2-4.34-3.17-8.34-1.16-4-1.16-8.33 0-2.67 4.33-16.67l61-106.66h104.67l41.33-80h70.67v-33.34H316l-41.33 80H208L290-783q4.33-8 12.17-12.5Q310-800 319-800h111q14.33 0 23.83 9.5 9.5 9.5 9.5 23.83v170h-76.66l-33.34 33.34h110v126.66h-94.66l-39.34-80h-96L200-483.33h108l40 80h115.33V-304q-4.66 16.67-7.33 33.33-2.67 16.67-2.67 35.34 0 13.66 1.5 27.33 1.5 13.67 4.5 27.33-3 9-11.16 14.84Q440-160 430-160ZM726.67-42.67q-79.67 0-136.5-56.5-56.84-56.5-56.84-136.16 0-80.34 56.84-137.17 56.83-56.83 136.5-56.83 79.66 0 136.5 56.83Q920-315.67 920-235.33q0 79.66-56.83 136.16-56.84 56.5-136.5 56.5Z"/></svg>
                                                 <p class="pmenu"> 
 
 Mentorias    </p>   </button>
 <button id="bancoBtn" class="menu-btn" onclick="window.location.href='provas.html'">
-                        <span class="btn-icon">📝</span>
+     <!--<span class="btn-icon">📝</span>-->
+                        
+                        <svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" fill="#434343"><path d="M208-254v-319.33h66.67V-254H208Zm241.33 0v-319.33H516V-254h-66.67ZM80-120.67v-66.66h800v66.66H80ZM685.33-254v-319.33H752V-254h-66.67ZM80-640v-62l400-218.67L880-702v62H80Zm148.67-66.67h502.66-502.66Zm0 0h502.66L480-844.67l-251.33 138Z"/></svg>
                                                 <p class="pmenu"> 
 
 Banco de provas                   </p>   </button>
 
 <button id="bancoBtn" class="menu-btn" onclick="teste()">
-                        <span class="btn-icon">👨‍🏫</span>
+     <!--<span class="btn-icon">👨‍🏫</span>-->
+                        
+                        <svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" fill="#434343"><path d="M479.33-120 192.67-276.67v-240L40-600l439.33-240L920-600v318h-66.67v-280L766-516.67v240L479.33-120Zm0-316 301.34-164-301.34-162-300 162 300 164Zm0 240.33 220-120.66v-162.34L479.33-360l-220-120v163.67l220 120.66ZM480-436Zm-.67 79.33Zm0 0Z"/></svg>
                                                 <p class="pmenu"> 
 
 Estudo Bizurado       </p>   </button>
 
 <button id="feedBtn" class="menu-btn" onclick="abrirFeed() ">
-                        <span class="btn-icon">🌐</span>
+     <!--         <span class="btn-icon">🌐</span>-->
+               
+                        <svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" fill="#434343"><path d="M40-160v-160q0-30.67 21.5-52t51.83-21.33H251q18 0 34.33 9 16.34 9 27.34 24.66 29 41 73.16 63.67Q430-273.33 480-273.33q50.33 0 94.5-22.67t73.5-63.67q11.67-15.66 27.5-24.66t33.5-9h137.67q30.66 0 52 21.33Q920-350.67 920-320v160H653.33v-109.67q-35.66 30.34-80.16 46.67-44.5 16.33-93.17 16.33-48.33 0-92.67-16.5Q343-239.67 306.67-270v110H40Zm440-166.67q-36 0-69-16.83T357-390q-16.33-23.67-39.83-37.83-23.5-14.17-50.84-17.5Q293-477.67 358-495.5t122-17.83q57 0 122.33 17.83 65.34 17.83 92 50.17-27 3.33-50.66 17.5-23.67 14.16-40 37.83Q583-360 550-343.33q-33 16.66-70 16.66ZM160-453.33q-46.67 0-80-33.34-33.33-33.33-33.33-80 0-47.66 33.33-80.5Q113.33-680 160-680q47.67 0 80.5 32.83 32.83 32.84 32.83 80.5 0 46.67-32.83 80-32.83 33.34-80.5 33.34Zm640 0q-46.67 0-80-33.34-33.33-33.33-33.33-80 0-47.66 33.33-80.5Q753.33-680 800-680q47.67 0 80.5 32.83 32.83 32.84 32.83 80.5 0 46.67-32.83 80-32.83 33.34-80.5 33.34Zm-320-120q-46.67 0-80-33.34-33.33-33.33-33.33-80 0-47.66 33.33-80.5Q433.33-800 480-800q47.67 0 80.5 32.83 32.83 32.84 32.83 80.5 0 46.67-32.83 80-32.83 33.34-80.5 33.34Z"/></svg>
                                                 <p class="pmenu"> 
 
 FeedSocial      </p>   </button>
 
 <button id="bancoBtn" class="menu-btn" onclick="window.open('https://www.pciconcursos.com.br/concursos/', '_blank')">
-                        <span class="btn-icon">📢</span>
+     <!--<span class="btn-icon">📢</span>-->                    
+    
+    <svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" fill="#434343"><path d="M106.67-564q0-93.33 41.5-171.17 41.5-77.83 111.16-129.5L299-811.33q-57.33 42.66-91.5 106.66T173.33-564h-66.66Zm680 0q0-76.67-34.17-140.67-34.17-64-91.5-106.66l39.67-53.34q69.66 51.67 111.16 129.5 41.5 77.84 41.5 171.17h-66.66ZM160-200v-66.67h80v-296q0-83.66 49.67-149.5Q339.33-778 420-796v-24q0-25 17.5-42.5T480-880q25 0 42.5 17.5T540-820v24q80.67 18 130.33 83.83Q720-646.33 720-562.67v296h80V-200H160Zm320-301.33ZM480-80q-33 0-56.5-23.5T400-160h160q0 33-23.5 56.5T480-80ZM306.67-266.67h346.66v-296q0-72-50.66-122.66Q552-736 480-736t-122.67 50.67q-50.66 50.66-50.66 122.66v296Z"/></svg>
                                                 <p class="pmenu"> 
 
 Editais abertos           </p>  <p class="mini">pciconcursos</p> </button>
@@ -209,9 +233,13 @@ Editais abertos           </p>  <p class="mini">pciconcursos</p> </button>
 
 
 <button id="adminBtn" class="menu-btn admin-only" style="display: none;">
-                        <span class="btn-icon">⚙️</span>
+     <!--   <span class="btn-icon">⚙️</span>-->
+                     
+                        <svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" fill="#434343"><path d="M698.67-129.33 446-384q-22 8-44.17 12.67-22.16 4.66-45.83 4.66-98.06 0-166.69-68.44-68.64-68.45-68.64-166.22 0-32.67 8.77-63.1Q138.21-694.85 154-722l145.33 145.33L384.67-658l-148-148q26.94-16.11 57.14-25.05Q324-840 356-840q99.44 0 169.06 69.61 69.61 69.61 69.61 169.06 0 23.66-4.67 45.83-4.67 22.17-12.67 44.17l254 252.66q11.34 11.31 11.34 27.32 0 16.02-11.34 27.35l-78.66 74.67Q741.54-118 725.77-118q-15.77 0-27.1-11.33ZM727-195.67l35.67-35.66-267.34-267.34Q512-519.33 520-547.17q8-27.83 8-54.16 0-70-49.83-119.5Q428.33-770.33 362-774l92.67 94q10 10 9.66 23.67-.33 13.66-10.33 23.66l-131.33 126q-10.19 9.34-23.76 9.34-13.58 0-22.91-9.34L186-596q5 70.33 54.28 116.5T356-433.33q25.33 0 52.67-8 27.33-8 48.33-24.34l270 270ZM474.67-485.33Z"/></svg>
                                                                    <p class="pmenu"> Administração</p>  
                     </button>
+
+
                     <div class="buttonLoggout"> 
         <button id="logoutBtn" class="btn-secondary">Clique para sair do aplicativo</button>
  </div>
@@ -947,6 +975,7 @@ Editais abertos           </p>  <p class="mini">pciconcursos</p> </button>
 
     <div id="chat-container"></div>
 
+
     <!-- JavaScript Files -->
     <script src="js/firebase-config.js"></script>
     <script src="js/auth.js"></script>
@@ -1015,6 +1044,8 @@ Editais abertos           </p>  <p class="mini">pciconcursos</p> </button>
   "_blank"
 );
   }
+
+  
 }
 
 
@@ -1054,7 +1085,19 @@ function abrirMenu() {
 
   menuGeral.style.display = "block";
     }
+const card2 = document.querySelector('.card2');
 
+card2.addEventListener('click', () => {
+  // tenta abrir no app da Play Store
+  window.location.href = "market://details?id=com.seuapp.pacote";
+
+  // fallback (se não conseguir abrir o app, abre no navegador)
+  setTimeout(() => {
+    window.open("https://play.google.com/store/apps/details?id=com.seuapp.pacote", "_blank");
+  }, 1000);
+});
+
+  
 </script>
 </body>
 </html>

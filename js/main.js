@@ -486,18 +486,6 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 function atualizarHeaderVisibilidade() {
     const header = document.querySelector('.game-header');
     const loginScreen = document.getElementById('login-screen');
@@ -517,10 +505,6 @@ function atualizarHeaderVisibilidade() {
         }
     }
 }
-
-
-
-
 
 // Monitora mudanças nas classes das telas para atualizar o header
 document.addEventListener('DOMContentLoaded', () => {
@@ -601,21 +585,21 @@ function monitoraTempo(actionFunction) {
   "Policial Civil",         // 0h-1h
   "Guarda Civil",           // 1h-2h
   "Bombeiro Militar",       // 2h-3h
-  "Policial Rodoviário",    // 3h-4h
+  "Policial Rodoviário Federal",    // 3h-4h
   "Policial Penal",         // 4h-5h
   "Policial Militar",       // 5h-6h
   "Policial Federal",       // 6h-7h
   "Policial Civil",         // 7h-8h
   "Guarda Civil",           // 8h-9h
   "Bombeiro Militar",       // 9h-10h
-  "Policial Rodoviário",    // 10h-11h
+ "Policial Rodoviário Federal",   // 10h-11h
   "Policial Penal",         // 11h-12h
   "Policial Militar",       // 12h-13h
   "Policial Federal",       // 13h-14h
   "Policial Civil",         // 14h-15h
   "Guarda Civil",           // 15h-16h
   "Bombeiro Militar",       // 16h-17h
-  "Policial Rodoviário",    // 17h-18h
+  "Policial Rodoviário Federal",  // 17h-18h
   "Policial Penal",         // 18h-19h
   "Policial Militar",       // 19h-20h
   "Policial Federal",       // 20h-21h

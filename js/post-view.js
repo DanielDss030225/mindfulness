@@ -173,13 +173,14 @@ async renderPost() {
             
             <button class="action-btn comment-btn-focus" onclick="document.getElementById('commentInput').focus()">
                 <span class="icon">💬</span>
-                <span>Comentar</span>
-                ${this.post.commentsCount > 0 ? `<span class="comment-count">(${this.post.commentsCount})</span>` : ''}
+                <span id="comentarLabel">Comentar</span>
+                <span id="quantidadeComentarios">0</span>
+               
             </button>
 
             <button class="action-btn share-btn-post" onclick="postView.openShareModal()">
                 <span class="icon">📤</span>
-                <span>Compartilhar</span>
+                <span class="conpartilharLabel">Compartilhar</span>
             </button>
         </div>
     `;
@@ -346,6 +347,7 @@ updateLikeButtonUI(isLiked) {
         if (this.comments.length === 0) {
             commentsList.innerHTML = `
                 <div class="no-comments">
+                <h2>Nenhum comentário ainda.</h2>
                     <p>Seja o primeiro a comentar!</p>
                 </div>
             `;
@@ -366,7 +368,10 @@ updateLikeButtonUI(isLiked) {
         this.setupCommentInteractions();
     }
 
+
+    
  async renderComment(comment) {
+   
     const timeAgo = this.getTimeAgo(comment.timestamp);
     const isLiked = comment.likes && comment.likes[this.currentUser.uid];
     const likesCount = comment.likes ? Object.keys(comment.likes).length : 0;
@@ -385,9 +390,10 @@ updateLikeButtonUI(isLiked) {
         );
         
         repliesHTML = `
-            <div class="sub-comments-list">
-                ${repliesHTMLArray.join('')}
-            </div>
+            <div class="sub-comments-list" data-comment-id="${comment.id}">
+        <h2>Respostas</h2>
+        ${repliesHTMLArray.join('')}
+    </div>
         `;
     }
     
@@ -412,7 +418,7 @@ updateLikeButtonUI(isLiked) {
               
             </div>
             </div>
-            ${repliesHTML}
+  
             
             <div class="reply-form" id="replyForm-${comment.id}" style="display: none;">
                 <div class="comment-form">
@@ -426,6 +432,7 @@ updateLikeButtonUI(isLiked) {
                     </div>
                 </div>
             </div>
+                      ${repliesHTML}
         </div>
     `;
 }
@@ -453,6 +460,7 @@ updateLikeButtonUI(isLiked) {
             </div>
             <div class="comment-actions">
                 <button class="reply-like-btn ${isLiked ? 'liked' : ''}" data-reply-id="${reply.id}">
+                
                     Curtir ${likesCount > 0 ? `(${likesCount})` : ''}
                 </button>
                 
@@ -480,21 +488,28 @@ updateLikeButtonUI(isLiked) {
 
     setupCommentInteractions() {
         // Like comment buttons
-        document.querySelectorAll('.comment-like-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                const commentId = e.target.dataset.commentId;
-               this.toggleCommentLike(commentId, e.target);
+document.querySelectorAll('.comment-like-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
 
-            });
-        });
+        const commentId = e.currentTarget.dataset.commentId;
+        this.toggleCommentLike(commentId, e.currentTarget);
+    });
+});
 
         // Like reply buttons
-        document.querySelectorAll('.reply-like-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                const replyId = e.target.dataset.replyId;
-this.toggleReplyLike(replyId, e.target);            });
-        });
+document.querySelectorAll('.reply-like-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+        e.preventDefault();     // impede submit/navegação
+        e.stopPropagation();    // impede subir pro <a>
 
+        const replyId = e.currentTarget.dataset.replyId; // garante que vem do botão
+        this.toggleReplyLike(replyId, e.currentTarget);
+    });
+});
+
+        
         // Reply buttons
         document.querySelectorAll('.comment-reply-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
@@ -504,12 +519,30 @@ this.toggleReplyLike(replyId, e.target);            });
         });
 
         // Submit reply buttons
-        document.querySelectorAll('.submit-reply-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                const commentId = e.target.dataset.commentId;
-                this.submitReply(commentId);
-            });
-        });
+      // Clique normal no botão "Responder"
+document.querySelectorAll('.submit-reply-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+        const commentId = e.target.dataset.commentId;
+        this.submitReply(commentId);
+    });
+});
+
+// Enter dentro do textarea dispara o botão correspondente
+document.querySelectorAll('.texAreaClass').forEach(textarea => {
+    textarea.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) { 
+            e.preventDefault();
+
+            // Acha o botão submit que está mais próximo desse textarea
+            const submitBtn = textarea
+                .parentElement
+                .querySelector('.submit-reply-btn');
+
+            if (submitBtn) submitBtn.click();
+        }
+    });
+});
+
 
         // Cancel reply buttons
         document.querySelectorAll('.cancel-reply-btn').forEach(btn => {
@@ -544,29 +577,45 @@ async toggleCommentLike(commentId, buttonElement) {
 }
    // 2. SUBSTITUIR o método toggleReplyLike por este:
 async toggleReplyLike(replyId, buttonElement) {
+    // Salva o scroll atual da lista de respostas antes de qualquer mudança
+    const list = buttonElement.closest(".sub-comments-list");
+    const scrollTop = list ? list.scrollTop : 0;
+
+    let isCurrentlyLiked = false;
+
     try {
-        // Find the comment that contains this reply
-        const comment = this.comments.find(c => c.replies && c.replies[replyId]);
+        // Encontra o comentário pai que contém essa reply
+        const comment = this.comments.find(c => c.replies && c.replies.hasOwnProperty(replyId));
         if (!comment) return;
-        
-        const likeRef = firebase.database().ref(`socialPosts/${this.postId}/comments/${comment.id}/replies/${replyId}/likes/${this.currentUser.uid}`);
+
+        const likeRef = firebase.database().ref(
+            `socialPosts/${this.postId}/comments/${comment.id}/replies/${replyId}/likes/${this.currentUser.uid}`
+        );
         const snapshot = await likeRef.once('value');
-        const isCurrentlyLiked = snapshot.exists();
-        
-        // Atualiza a UI imediatamente
+        isCurrentlyLiked = snapshot.exists();
+
+        // Atualiza UI imediatamente
         this.updateCommentLikeButtonUI(buttonElement, !isCurrentlyLiked);
-        
+
+        // Atualiza o like no Firebase
         if (isCurrentlyLiked) {
             await likeRef.remove();
         } else {
             await likeRef.set(true);
         }
+
+        // Restaura scroll depois que o DOM for atualizado
+        if (list) {
+            this.observeRepliesScroll(comment.id, scrollTop);
+        }
+
     } catch (error) {
         console.error('Erro ao curtir resposta:', error);
-        // Reverte a UI em caso de erro
+        // Reverte a UI caso dê erro
         this.updateCommentLikeButtonUI(buttonElement, isCurrentlyLiked);
     }
 }
+
 
     showReplyForm(commentId) {
         // Hide all other reply forms
@@ -590,29 +639,44 @@ async toggleReplyLike(replyId, buttonElement) {
         }
     }
 
-    async submitReply(commentId) {
-        const replyForm = document.getElementById(`replyForm-${commentId}`);
-        const textarea = replyForm.querySelector('textarea');
-        const replyText = textarea.value.trim();
-        
-        if (!replyText) return;
-        
-        try {
-            const replyData = {
-                text: replyText,
-                authorId: this.currentUser.uid,
-                authorName: this.currentUser.displayName || 'Usuário',
-                timestamp: firebase.database.ServerValue.TIMESTAMP
-            };
-            
-            const replyRef = firebase.database().ref(`socialPosts/${this.postId}/comments/${commentId}/replies`).push();
-            await replyRef.set(replyData);
-            
-            this.hideReplyForm(commentId);
-        } catch (error) {
-            console.error('Erro ao enviar resposta:', error);
-        }
+async submitReply(commentId) {
+    
+    const replyForm = document.getElementById(`replyForm-${commentId}`);
+    const textarea = replyForm.querySelector('textarea');
+    const replyText = textarea.value.trim();
+
+    // Se estiver vazio → foca novamente no textarea e sai da função
+    if (!replyText) {
+        textarea.focus();
+        return;
     }
+
+    // Se tiver texto → envia e foca no body
+    try {
+        const replyData = {
+            text: replyText,
+            authorId: this.currentUser.uid,
+            authorName: this.currentUser.displayName || 'Usuário',
+            timestamp: firebase.database.ServerValue.TIMESTAMP
+        };
+
+        const replyRef = firebase.database()
+            .ref(`socialPosts/${this.postId}/comments/${commentId}/replies`)
+            .push();
+
+        await replyRef.set(replyData);
+
+        this.hideReplyForm(commentId);
+
+        // depois de enviar limpa e tira foco
+        textarea.value = "";
+        document.body.focus();
+// mostra mensagem de sucesso 🎉
+showToast("Resposta enviada com sucesso!");
+    } catch (error) {
+        console.error('Erro ao enviar resposta:', error);
+    }
+}
 
     updateCommentsCount() {
         const totalComments = this.comments.reduce((total, comment) => {
@@ -622,6 +686,12 @@ async toggleReplyLike(replyId, buttonElement) {
         
         document.getElementById('commentsCount').textContent = `${totalComments} ${totalComments !== 1 ? '' : ''}`;
 
+         setTimeout(() => {
+    document.getElementById('quantidadeComentarios').textContent = 
+        `${totalComments} ${totalComments !== 1 ? '' : ''}`;
+}, 400);
+
+ 
         
     }
 
@@ -804,6 +874,20 @@ updateCommentLikeButtonUI(buttonElement, isLiked) {
     }
 }
 
+observeRepliesScroll(commentId, scrollTop) {
+    const container = document.getElementById('commentsList');
+    if (!container) return;
+
+    const observer = new MutationObserver(() => {
+        const list = container.querySelector(`.sub-comments-list[data-comment-id="${commentId}"]`);
+        if (list) {
+            list.scrollTop = scrollTop;
+            observer.disconnect();
+        }
+    });
+
+    observer.observe(container, { childList: true, subtree: true });
+}
 
 
 }
@@ -821,3 +905,38 @@ window.addEventListener('beforeunload', () => {
     }
 });
 
+function showToast(message) {
+  const container = document.getElementById('toastContainer');
+  const toast = document.createElement('div');
+  toast.className = 'toast';
+  toast.textContent = message;
+
+  container.appendChild(toast);
+
+  // animação de entrada
+  setTimeout(() => toast.classList.add('show'), 100);
+
+  // remove depois de 3s
+  setTimeout(() => {
+    toast.classList.remove('show');
+    setTimeout(() => container.removeChild(toast), 400);
+  }, 3000);
+}
+
+
+const scrollTopBtn = document.getElementById('scrollTopBtn');
+const postViewContainer = document.querySelector('.post-view-container');
+
+// Exibe o botão ao rolar 200px dentro do container
+postViewContainer.addEventListener('scroll', () => {
+    if (postViewContainer.scrollTop > 200) {
+        scrollTopBtn.style.display = 'block';
+    } else {
+        scrollTopBtn.style.display = 'none';
+    }
+});
+
+// Ao clicar, rola suavemente para o topo do container
+scrollTopBtn.addEventListener('click', () => {
+    postViewContainer.scrollTo({ top: 0, behavior: 'smooth' });
+});

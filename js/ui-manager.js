@@ -78,7 +78,6 @@ class UIManager {
 
    showScreen(screenId) {
            
-            document.getElementById("explanationContainer").style.display = "none";
 
     console.log(`Showing screen: ${screenId}`);
 

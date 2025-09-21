@@ -395,6 +395,7 @@ Responsividade
     height: 30px;
     animation: spin 1s linear infinite;
     margin-bottom: 10px;
+     margin-top: 10px;
 }
 
 @keyframes spin {

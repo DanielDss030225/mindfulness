@@ -35,6 +35,32 @@ body {
     justify-content: center;
     width: 100%;
 }
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #764ba2 #e0e0e0;
+}
+
+/* Chrome, Edge, Safari */
+*::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #e0e0e0;
+  border-radius: 10px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #764ba2, #3498db); /* roxo → azul */
+  border-radius: 9999px; /* deixa MUITO arredondado */
+  border: 2px solid #e0e0e0; /* cria "espaço" ao redor */
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #5a3684, #217dbb); /* degradê mais escuro no hover */
+}
 
 
 .game-header p {
@@ -71,61 +97,7 @@ padding-bottom: 3px;
 
 }
 
-/* Loading Screen */
-#loading-screen {
-    justify-content: center;
-    align-items: center;
-    background: linear-gradient(135deg, #000000 0%, #764ba2 100%);
-        display: flex;
-    flex-direction: column;
-     max-width: 3840px; 
-}
 
-.loading-content {
-    text-align: center;
-    color: white;
-    
-}
-
-/* Loading Overlay */
-.loading-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(255, 255, 255, 0.95);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-    backdrop-filter: blur(10px);
-}
-
-.loading-overlay.active {
-    display: flex;
-}
-
-.loading-content h1 {
-    font-size: 2.5rem;
-    margin-bottom: 20px;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-}
-
-.loading-spinner {
-    width: 40px;
-    height: 40px;
-    border: 4px solid rgba(255,255,255,0.3);
-    border-top: 4px solid white;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-    margin: 20px auto;
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
 
 /* Common Components */
 .logo {
@@ -722,6 +694,9 @@ left:   5%;
     box-shadow: 0 6px 25px rgba(0,0,0,0.15);
     background: white;
 }
+
+
+
 
 .btn-icon {
     font-size: 24px;
@@ -1454,6 +1429,7 @@ margin-top: 10px;
     border-bottom-style: solid;
 border-bottom-color: #d3d3d3;
     padding-bottom: 15px;
+    gap: 5px;
 }
 .post-item .post-image {
     max-width: 100%;
@@ -1494,6 +1470,7 @@ border-bottom-color: #d3d3d3;
     justify-content: center;
     font-size: 13px;
     width: 100%;
+    text-align: center ;
 }
 
 .post-item .action-btn:hover {
@@ -1738,21 +1715,7 @@ border-bottom-color: #d3d3d3;
 
 
 
-.loading-posts {
-    text-align: center;
-    padding: 20px;
-    color: #65676b;
-}
 
-.loading-posts .loading-spinner {
-    border: 4px solid #f3f3f3;
-    border-top: 4px solid #1877f2;
-    border-radius: 50%;
-    width: 30px;
-    height: 30px;
-    animation: spin 1s linear infinite;
-    margin: 0 auto 10px auto;
-}
 
 @keyframes spin {
     0% { transform: rotate(0deg); }
@@ -2333,8 +2296,30 @@ border-bottom-color: #d3d3d3;
   margin-left: 20px;
 
 }
-
-
+.iconPlayStore {
+    height: 50px;
+    width: 50px;
+    margin-right: 5px;
+}
+.card2 {
+    display: none;
+  width: 260px;
+ 
+  min-height: 140px;
+   height: auto;
+  background-color: #f0f2f5;
+  border-radius: 25px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  margin: 0px;
+ 
+  align-items: center;
+  justify-content: center;
+  margin-left: 0px;
+   border-left: 4px solid #650672da;
+  padding: 8px;
+  cursor: pointer;
+}
 .card-content {
   display: flex;
   align-items: center;
@@ -2431,6 +2416,7 @@ height: 100%;
 @media screen and (max-width: 1000px) {
     #music-player-launcher {
         width: 50px;
+        display: none;
      
     }
 
@@ -2508,6 +2494,12 @@ padding-bottom: 130px;
 }
 .card {
 
+     margin: 0px;
+    width: 100%;
+    margin-top: 10px;
+}
+.card2 {
+display: flex;
      margin: 0px;
     width: 100%;
     margin-top: 10px;
