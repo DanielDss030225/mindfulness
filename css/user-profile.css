@@ -928,11 +928,7 @@
         transform: scale(0.8);
     }
     
-    .speech-bubble {
-        max-width: auto;
-        padding: 12px 16px;
-    }
-    
+
 
   /* Força os filhos a não ocuparem 100% */
    /* 🔥 aqui estava o problema */

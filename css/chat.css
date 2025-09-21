@@ -449,23 +449,6 @@ margin-right: 6px;
 
 
 
-.chat-messages::-webkit-scrollbar {
-    width: 6px;
-}
-
-.chat-messages::-webkit-scrollbar-track {
-    background: var(--chat-surface);
-}
-
-.chat-messages::-webkit-scrollbar-thumb {
-    background: var(--chat-border);
-    border-radius: 3px;
-}
-
-.chat-messages::-webkit-scrollbar-thumb:hover {
-    background: var(--chat-text-muted);
-}
-
 
 
 @keyframes fadeInUp {

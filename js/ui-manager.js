@@ -76,8 +76,12 @@ class UIManager {
         if (commentsModal) commentsModal.addEventListener('click', e => { if (e.target === commentsModal) this.hideCommentsModal(); });
     }
 
+
    showScreen(screenId) {
-           
+     
+    
+   resetCategoryFilters()
+
 
     console.log(`Showing screen: ${screenId}`);
 
@@ -193,13 +197,18 @@ forceScrollToTop() {
             modalFooter.innerHTML = '';
 
             if (showConfirmButton) {
+                
                 const confirmButton = document.createElement('button');
                 confirmButton.id = 'modalConfirm';
                 confirmButton.className = `btn-${type === 'error' ? 'secondary' : 'primary'}`;
-                confirmButton.textContent = 'OK';
+                confirmButton.textContent = 'Confirmar e sair';
                 confirmButton.addEventListener('click', () => {
+              
                     this.hideModal();
                     if (onConfirmCallback) onConfirmCallback();
+
+
+
                 });
                 modalFooter.appendChild(confirmButton);
             }
@@ -299,110 +308,281 @@ forceScrollToTop() {
     }
 
     async loadCategories() {
+        const categorySearchInput = document.getElementById('categorySearchInput');
+        const categoryDropdown = document.getElementById('categoryDropdown');
         const categorySelect = document.getElementById('categorySelect');
-        if (!categorySelect) return;
+        
+        if (!categorySearchInput || !categoryDropdown || !categorySelect) return;
 
         try {
             const categories = await window.databaseManager.getCategories();
             
             // Clear existing options
-            categorySelect.innerHTML = '<option value="">Selecione uma categoria</option>';
+            categoryDropdown.innerHTML = '';
+            categorySearchInput.placeholder = 'Digite para pesquisar categoria...';
+
+            // Store categories data for search
+            this.categoriesData = {};
 
             // Add 'Random' option
-            const randomOption = document.createElement('option');
-            randomOption.value = 'random';
-            randomOption.textContent = 'Aleatórias';
-            categorySelect.appendChild(randomOption);
+            const randomItem = document.createElement('div');
+            randomItem.className = 'dropdown-item';
+            randomItem.setAttribute('data-value', 'random');
+            randomItem.textContent = 'Aleatórias';
+            categoryDropdown.appendChild(randomItem);
+            this.categoriesData['random'] = 'Aleatórias';
 
             // Sort categories alphabetically
             const sortedCategories = Object.entries(categories || {}).sort(([,a], [,b]) => a.name.localeCompare(b.name));
 
-            // Add sorted categories to the select
+            // Add sorted categories to the dropdown
             sortedCategories.forEach(([id, category]) => {
-                const option = document.createElement('option');
-                option.value = id;
-                option.textContent = category.name;
-                categorySelect.appendChild(option);
+                const item = document.createElement('div');
+                item.className = 'dropdown-item';
+                item.setAttribute('data-value', id);
+                item.textContent = category.name;
+                categoryDropdown.appendChild(item);
+                this.categoriesData[id] = category.name;
             });
 
-            // Initialize Choices.js for search functionality
-            if (this.categoryChoices) {
-                this.categoryChoices.destroy();
-            }
-                this.categoryChoices = new Choices(categorySelect, {
-                    searchEnabled: true,
-                    itemSelectText: 'Pressione para selecionar',
-                    noResultsText: 'Digite o nome corretamente',
-                    shouldSort: false,
-                    shouldSortItems: false,
-                    position: 'bottom',
-                });
+            // Setup search functionality
+            this.setupCategorySearch();
 
-            categorySelect.addEventListener('change', () => this.onCategoryChange());
         } catch (error) {
             console.error('Error loading categories:', error);
-            categorySelect.innerHTML = '<option value="">Erro ao carregar categorias</option>';
+            categoryDropdown.innerHTML = '<div class="dropdown-item no-results">Erro ao carregar categorias</div>';
+        }
+    }
+
+    setupCategorySearch() {
+        
+        const categorySearchInput = document.getElementById('categorySearchInput');
+        const categoryDropdown = document.getElementById('categoryDropdown');
+        const categorySelect = document.getElementById('categorySelect');
+        
+        if (!categorySearchInput || !categoryDropdown || !categorySelect) return;
+
+        // Handle input click to show dropdown
+        categorySearchInput.addEventListener('click', () => {
+            categorySearchInput.removeAttribute('readonly');
+            categorySearchInput.classList.add('active');
+            categoryDropdown.classList.add('show');
+            categorySearchInput.focus();
+        });
+
+        // Handle input changes for search
+        categorySearchInput.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            this.filterCategoryDropdown(searchTerm);
+        });
+
+        // Handle dropdown item clicks
+        categoryDropdown.addEventListener('click', (e) => {
+            if (e.target.classList.contains('dropdown-item') && !e.target.classList.contains('no-results')) {
+                const value = e.target.getAttribute('data-value');
+                const text = e.target.textContent;
+                
+                categorySearchInput.value = text;
+                categorySelect.value = value;
+                categoryDropdown.classList.remove('show');
+                categorySearchInput.setAttribute('readonly', 'true');
+                categorySearchInput.classList.remove('active');
+                
+                // Trigger category change
+                this.onCategoryChange();
+            }
+        });
+
+
+
+
+        
+        // Handle clicks outside to close dropdown
+        document.addEventListener('click', (e) => {
+            if (!categorySearchInput.contains(e.target) && !categoryDropdown.contains(e.target)) {
+                categoryDropdown.classList.remove('show');
+                categorySearchInput.setAttribute('readonly', 'true');
+                categorySearchInput.classList.remove('active');
+            }
+        });
+    }
+
+    filterCategoryDropdown(searchTerm) {
+   let subcategorySection = document.getElementById("subcategorySection");
+   subcategorySection.style.display = "none";
+        const categoryDropdown = document.getElementById('categoryDropdown');
+        const items = categoryDropdown.querySelectorAll('.dropdown-item');
+        let hasVisibleItems = false;
+
+        items.forEach(item => {
+            if (item.classList.contains('no-results')) {
+                item.remove();
+                return;
+            }
+
+            const text = item.textContent.toLowerCase();
+            if (text.includes(searchTerm)) {
+                item.style.display = 'block';
+                hasVisibleItems = true;
+            } else {
+                item.style.display = 'none';
+            }
+        });
+
+        // Show "no results" message if no items match
+        if (!hasVisibleItems && searchTerm.length > 0) {
+            const noResultsItem = document.createElement('div');
+            noResultsItem.className = 'dropdown-item no-results';
+            noResultsItem.textContent = 'Nenhuma categoria encontrada';
+            categoryDropdown.appendChild(noResultsItem);
         }
     }
 
     async onCategoryChange() {
+       
         const categorySelect = document.getElementById('categorySelect');
         const subcategorySection = document.getElementById('subcategorySection');
+        const subcategorySearchInput = document.getElementById('subcategorySearchInput');
+        const subcategoryDropdown = document.getElementById('subcategoryDropdown');
         const subcategorySelect = document.getElementById('subcategorySelect');
 
-        if (!categorySelect || !subcategorySection || !subcategorySelect) return;
+        if (!categorySelect || !subcategorySection || !subcategorySearchInput || !subcategoryDropdown || !subcategorySelect) return;
 
         const selectedCategory = categorySelect.value;
 
         if (!selectedCategory || selectedCategory === 'random') {
             subcategorySection.style.display = 'none';
-            subcategorySelect.innerHTML = '<option value="">Selecione uma subcategoria (opcional)</option>';
-            if (this.subcategoryChoices) {
-                this.subcategoryChoices.destroy();
-                this.subcategoryChoices = null;
-            }
+            subcategorySearchInput.value = '';
+            subcategorySelect.value = '';
+            subcategoryDropdown.innerHTML = '<div class="dropdown-item" data-value="">Selecione uma subcategoria (opcional)</div>';
             return;
         }
 
         try {
             const subcategories = await window.databaseManager.getSubcategories(selectedCategory);
             
-            // Clear existing options and destroy previous Choices instance
-            if (this.subcategoryChoices) {
-                this.subcategoryChoices.destroy();
-            }
-            subcategorySelect.innerHTML = '<option value="">Todas as subcategorias</option>';
+            // Clear existing options
+            subcategoryDropdown.innerHTML = '';
+            subcategorySearchInput.value = '';
+            subcategorySelect.value = '';
+            subcategorySearchInput.placeholder = 'Digite para pesquisar subcategoria...';
+
+            // Store subcategories data for search
+            this.subcategoriesData = {};
+
+            // Add default option
+            const defaultItem = document.createElement('div');
+            defaultItem.className = 'dropdown-item';
+            defaultItem.setAttribute('data-value', '');
+            defaultItem.textContent = 'Todas as subcategorias';
+            subcategoryDropdown.appendChild(defaultItem);
+            this.subcategoriesData[''] = 'Todas as subcategorias';
 
             if (subcategories && Object.keys(subcategories).length > 0) {
                 // Sort subcategories alphabetically
                 const sortedSubcategories = Object.entries(subcategories).sort(([,a], [,b]) => a.name.localeCompare(b.name));
 
-                // Add sorted subcategories to the select
+                // Add sorted subcategories to the dropdown
                 sortedSubcategories.forEach(([id, subcategory]) => {
-                    const option = document.createElement('option');
-                    option.value = id;
-                    option.textContent = subcategory.name;
-                    subcategorySelect.appendChild(option);
+                    const item = document.createElement('div');
+                    item.className = 'dropdown-item';
+                    item.setAttribute('data-value', id);
+                    item.textContent = subcategory.name;
+                    subcategoryDropdown.appendChild(item);
+                    this.subcategoriesData[id] = subcategory.name;
                 });
 
-                // Initialize Choices.js for search functionality
-                this.subcategoryChoices = new Choices(subcategorySelect, {
-                    searchEnabled: true,
-                    itemSelectText: 'Pressione para selecionar',
-                    noResultsText: 'Digite o nome corretamente',
-                    shouldSort: false,
-                    shouldSortItems: false,
-                    position: 'bottom',
-                });
+                // Setup search functionality for subcategories
+                this.setupSubcategorySearch();
 
                 subcategorySection.style.display = 'block';
             } else {
                 subcategorySection.style.display = 'none';
-                this.subcategoryChoices = null; // No subcategories, no Choices instance
             }
         } catch (error) {
             console.error('Error loading subcategories:', error);
             subcategorySection.style.display = 'none';
+        }
+    }
+
+    setupSubcategorySearch() {
+        const subcategorySearchInput = document.getElementById('subcategorySearchInput');
+        const subcategoryDropdown = document.getElementById('subcategoryDropdown');
+        const subcategorySelect = document.getElementById('subcategorySelect');
+        
+        if (!subcategorySearchInput || !subcategoryDropdown || !subcategorySelect) return;
+
+        // Remove existing event listeners to prevent duplicates
+        const newSubcategorySearchInput = subcategorySearchInput.cloneNode(true);
+        subcategorySearchInput.parentNode.replaceChild(newSubcategorySearchInput, subcategorySearchInput);
+        
+        const newSubcategoryDropdown = subcategoryDropdown.cloneNode(true);
+        subcategoryDropdown.parentNode.replaceChild(newSubcategoryDropdown, subcategoryDropdown);
+
+        // Handle input click to show dropdown
+        newSubcategorySearchInput.addEventListener('click', () => {
+            newSubcategorySearchInput.removeAttribute('readonly');
+            newSubcategorySearchInput.classList.add('active');
+            newSubcategoryDropdown.classList.add('show');
+            newSubcategorySearchInput.focus();
+        });
+
+        // Handle input changes for search
+        newSubcategorySearchInput.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            this.filterSubcategoryDropdown(searchTerm);
+        });
+
+        // Handle dropdown item clicks
+        newSubcategoryDropdown.addEventListener('click', (e) => {
+            if (e.target.classList.contains('dropdown-item') && !e.target.classList.contains('no-results')) {
+                const value = e.target.getAttribute('data-value');
+                const text = e.target.textContent;
+                
+                newSubcategorySearchInput.value = text;
+                subcategorySelect.value = value;
+                newSubcategoryDropdown.classList.remove('show');
+                newSubcategorySearchInput.setAttribute('readonly', 'true');
+                newSubcategorySearchInput.classList.remove('active');
+            }
+        });
+
+        // Handle clicks outside to close dropdown
+        document.addEventListener('click', (e) => {
+            if (!newSubcategorySearchInput.contains(e.target) && !newSubcategoryDropdown.contains(e.target)) {
+                newSubcategoryDropdown.classList.remove('show');
+                newSubcategorySearchInput.setAttribute('readonly', 'true');
+                newSubcategorySearchInput.classList.remove('active');
+            }
+        });
+    }
+
+    filterSubcategoryDropdown(searchTerm) {
+        const subcategoryDropdown = document.getElementById('subcategoryDropdown');
+        const items = subcategoryDropdown.querySelectorAll('.dropdown-item');
+        let hasVisibleItems = false;
+
+        items.forEach(item => {
+            if (item.classList.contains('no-results')) {
+                item.remove();
+                return;
+            }
+
+            const text = item.textContent.toLowerCase();
+            if (text.includes(searchTerm)) {
+                item.style.display = 'block';
+                hasVisibleItems = true;
+            } else {
+                item.style.display = 'none';
+            }
+        });
+
+        // Show "no results" message if no items match
+        if (!hasVisibleItems && searchTerm.length > 0) {
+            const noResultsItem = document.createElement('div');
+            noResultsItem.className = 'dropdown-item no-results';
+            noResultsItem.textContent = 'Nenhuma subcategoria encontrada';
+            subcategoryDropdown.appendChild(noResultsItem);
         }
     }
 
@@ -440,7 +620,10 @@ forceScrollToTop() {
         }
     }
 
+
+    //correto
     exitGame() {
+  
 
         this.showModal(
             'Sair do simulado',
@@ -448,10 +631,12 @@ forceScrollToTop() {
             'Problema',
             true,
             () => {
-    document.getElementById("explanationContainer").style.display = "none";
 
-                this.showScreen('main-menu-screen');
-                if (window.gameLogic) window.gameLogic.resetGame();
+
+    
+    
+    this.showScreen('main-menu-screen');
+               
             }
         );
     }
@@ -724,27 +909,87 @@ updateChatButtonVisibility(screenId) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Encontra o elemento pelo ID
     const backToHomeButton = document.getElementById('backinicio');
 
-    // Verifica se o botão existe na página
     if (backToHomeButton) {
-        // Adiciona um evento de clique
         backToHomeButton.addEventListener('click', function(event) {
-            // Previne o comportamento padrão do link <a>
             event.preventDefault(); 
-            
-            // Verifica se o uiManager está disponível e chama a função para mostrar a tela principal
-            if (window.uiManager) {
-                window.uiManager.showScreen('main-menu-screen');
+
+            // Verifica se o game-screen está ativo
+            const gameScreen = document.getElementById('game-screen');
+            const isGameActive = gameScreen && gameScreen.classList.contains('active');
+
+            if (isGameActive) {
+                // Se estiver ativo, dispara o clique no botão "Sair" do jogo
+                const exitGameBtn = document.getElementById('exitGameBtn');
+                if (exitGameBtn) {
+                    exitGameBtn.click();
+                } else {
+                    console.error('Botão de sair do jogo não encontrado.');
+                }
             } else {
-                console.error('UIManager não encontrado. Não foi possível voltar para a tela inicial.');
+                // Se não estiver no jogo, volta para o menu principal normalmente
+                if (window.uiManager) {
+                    window.uiManager.showScreen('main-menu-screen');
+                } else {
+                    console.error('UIManager não encontrado. Não foi possível voltar para a tela inicial.');
+                }
             }
         });
     }
 });
 
+
 // Inicializa o UI Manager globalmente
 window.uiManager = new UIManager();
 
 
+
+function resetCategoryFilters() {
+    const categorySearchInput = document.getElementById('categorySearchInput');
+    const categoryDropdown = document.getElementById('categoryDropdown');
+    const categorySelect = document.getElementById('categorySelect');
+
+    const subcategorySearchInput = document.getElementById('subcategorySearchInput');
+    const subcategoryDropdown = document.getElementById('subcategoryDropdown');
+    const subcategorySelect = document.getElementById('subcategorySelect');
+    const subcategorySection = document.getElementById('subcategorySection');
+
+    // Reset Categoria
+    if (categorySearchInput) {
+        categorySearchInput.value = '';
+        categorySearchInput.setAttribute('readonly', 'true');
+        categorySearchInput.classList.remove('active');
+    }
+    if (categoryDropdown) {
+        categoryDropdown.classList.remove('show');
+        // Opcional: recarregar as categorias para restaurar o estado inicial do dropdown
+        // this.loadCategories(); // Se você estiver dentro da classe UIManager
+    }
+    if (categorySelect) {
+        categorySelect.value = ''; // Limpa o valor do input hidden
+    }
+
+    // Reset Subcategoria
+    if (subcategorySearchInput) {
+        subcategorySearchInput.value = '';
+        subcategorySearchInput.setAttribute('readonly', 'true');
+        subcategorySearchInput.classList.remove('active');
+    }
+    if (subcategoryDropdown) {
+        subcategoryDropdown.classList.remove('show');
+        // Opcional: limpar as opções do dropdown de subcategoria
+        subcategoryDropdown.innerHTML = '<div class="dropdown-item" data-value="">Selecione uma subcategoria (opcional)</div>';
+    }
+    if (subcategorySelect) {
+        subcategorySelect.value = ''; // Limpa o valor do input hidden
+    }
+    if (subcategorySection) {
+        subcategorySection.style.display = 'none'; // Esconde a seção de subcategoria
+    }
+
+    // Se você estiver usando a classe UIManager, pode querer chamar onCategoryChange para redefinir o estado da subcategoria
+    // if (window.uiManager) {
+    //     window.uiManager.onCategoryChange();
+    // }
+}

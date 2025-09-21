@@ -1,5 +1,5 @@
 // Game Logic - Handles quiz gameplay and scoring
-class GameLogic {
+ class GameLogic {
     constructor() {
         this.currentQuiz = null;
         this.currentQuestionIndex = 0;
@@ -415,6 +415,7 @@ async endQuiz() {
     }
 
     resetGame() {
+document.getElementById("explanationContainer").style.display = "none";
         this.currentQuiz = null;
         this.currentQuestionIndex = 0;
         this.score = 0;

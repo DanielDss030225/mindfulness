@@ -387,16 +387,24 @@ Editais abertos           </p>  <p class="mini">pciconcursos</p> </button>
                     <br>
                     <h3>Categoria</h3>
 
-                    <select id="categorySelect" class="select-input">
-                        <option value="">Carregando categorias...</option>
-                    </select>
+                    <div class="custom-search-select" id="categorySearchContainer">
+                        <input type="text" id="categorySearchInput" class="search-input" placeholder="Digite para pesquisar categoria..." readonly>
+                        <div class="search-dropdown" id="categoryDropdown">
+                            <div class="dropdown-item" data-value="">Carregando categorias...</div>
+                        </div>
+                    </div>
+                    <input type="hidden" id="categorySelect" value="">
                 </div>
 
                 <div class="setup-section" id="subcategorySection" style="display: none;">
                     <h3>Subcategoria</h3>
-                    <select id="subcategorySelect" class="select-input">
-                        <option value="">Selecione uma subcategoria (opcional)</option>
-                    </select>
+                    <div class="custom-search-select" id="subcategorySearchContainer">
+                        <input type="text" id="subcategorySearchInput" class="search-input" placeholder="Digite para pesquisar subcategoria..." readonly>
+                        <div class="search-dropdown" id="subcategoryDropdown">
+                            <div class="dropdown-item" data-value="">Selecione uma subcategoria (opcional)</div>
+                        </div>
+                    </div>
+                    <input type="hidden" id="subcategorySelect" value="">
                 </div>
 
                 <div class="setup-section">
@@ -1074,17 +1082,42 @@ Editais abertos           </p>  <p class="mini">pciconcursos</p> </button>
 
 
     }
-function abrirMenu() {
 
+
+
+
+function abrirMenu() {
+   
          //volta comletamente ao menu inicial
             if (window.uiManager) {
-                window.uiManager.showScreen('main-menu-screen');
+
+                // Verifica se o game-screen está ativo
+            const gameScreen = document.getElementById('game-screen');
+            const isGameActive = gameScreen && gameScreen.classList.contains('active');
+
+            if (isGameActive) {
+                // Se estiver ativo, dispara o clique no botão "Sair" do jogo
+                const exitGameBtn = document.getElementById('exitGameBtn');
+                if (exitGameBtn) {
+                    exitGameBtn.click();
+                } else {
+                    console.error('Botão de sair do jogo não encontrado.');
+                }
+            } else {
+                // Se não estiver no jogo, volta para o menu principal normalmente
+                if (window.uiManager) {
+                    window.uiManager.showScreen('main-menu-screen');
+                } else {
+                    console.error('UIManager não encontrado. Não foi possível voltar para a tela inicial.');
+                }
+            }
             } else {
                 console.error('UIManager não encontrado. Não foi possível voltar para a tela inicial.');
             }
 
   menuGeral.style.display = "block";
     }
+
 const card2 = document.querySelector('.card2');
 
 card2.addEventListener('click', () => {

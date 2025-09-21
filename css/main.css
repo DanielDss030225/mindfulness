@@ -41,26 +41,9 @@ body {
   scrollbar-color: #764ba2 #e0e0e0;
 }
 
-/* Chrome, Edge, Safari */
-*::-webkit-scrollbar {
-  width: 12px;
-  height: 12px;
-}
 
-*::-webkit-scrollbar-track {
-  background: #e0e0e0;
-  border-radius: 10px;
-}
 
-*::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #764ba2, #3498db); /* roxo → azul */
-  border-radius: 9999px; /* deixa MUITO arredondado */
-  border: 2px solid #e0e0e0; /* cria "espaço" ao redor */
-}
 
-*::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, #5a3684, #217dbb); /* degradê mais escuro no hover */
-}
 
 
 .game-header p {
@@ -457,10 +440,10 @@ header p {
 
 }
 .screen-header {
-    padding: 20px 20px;
+    padding: 10px 10px;
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 10px;
     margin-top: 0px;
     margin-bottom: 10px;
     
@@ -544,11 +527,13 @@ header p {
     margin-top: 20px;
     position: relative;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    max-width: auto;
+    width: auto;
     text-align: center;
-    width: 250px;
-   left: -5%;
+   max-width: 250px;
+
 margin-bottom: 10px;
+margin-left: 5px;
+margin-right: 5px;
 
 }
 
@@ -582,11 +567,11 @@ margin-bottom: 10px;
     margin-top: 20px;
     position: relative;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    max-width: auto;
     text-align: center;
-left:   5%;
-  width: 250px;
-  
+width: auto;
+ max-width: 250px;
+  margin-left: 5%;
+  margin-right:10px;
 
 
 }
@@ -1839,6 +1824,8 @@ border-bottom-color: #d3d3d3;
     background-color: #d8dadf;
 }
 
+/*
+
 .sub-comment {
     margin-top: 8px;
 }
@@ -1864,6 +1851,9 @@ border-bottom-color: #d3d3d3;
     font-size: 11px;
     margin-left: 36px;
 }
+
+*/
+
 
 /* Post interaction animations */
 .action-btn {
@@ -2183,7 +2173,11 @@ border-bottom-color: #d3d3d3;
     top: 100% !important;
     margin-bottom: 2px !important;
     margin-top: 0 !important;
+     font-size: 18px !important;
+     
+
 }
+
 
 /* Ajusta a posição do input de pesquisa dentro do dropdown */
 .choices__list--dropdown .choices__input {
@@ -2191,12 +2185,16 @@ border-bottom-color: #d3d3d3;
     margin-bottom: 8px !important;
     border-bottom: 0px solid #ddd !important;
     padding-bottom: 8px !important;
+       font-size: 18px !important;
 }
 
 /* Garante que o container do dropdown tenha a estrutura correta */
 .choices__list--dropdown {
     display: flex !important;
     flex-direction: column !important;
+       font-size: 18px !important;
+      
+       top: 10;
 }
 
 /* Move o input de pesquisa para o topo do dropdown */
@@ -2205,18 +2203,20 @@ border-bottom-color: #d3d3d3;
     border: 1px solid #ccc !important;
     border-radius: 4px !important;
     padding: 8px !important;
-    font-size: 14px !important;
+    font-size: 18px !important;
 }
 
 /* Estiliza a lista de opções */
 .choices__list--dropdown .choices__list {
     max-height: 200px !important;
     overflow-y: auto !important;
+       font-size: 18px !important;
 }
 
 /* Ajusta o z-index para garantir que o dropdown apareça acima de outros elementos */
 .choices__list--dropdown {
     z-index: 9999 !important;
+       font-size: 18px !important;
 }
 
 /* Estilo adicional para melhor aparência */
@@ -2224,6 +2224,7 @@ border-bottom-color: #d3d3d3;
     outline: none !important;
     border-color: #007bff !important;
     box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25) !important;
+       font-size: 18px !important;
 }
 
 .main-menu {
@@ -2231,7 +2232,6 @@ border-bottom-color: #d3d3d3;
     margin: 0 auto;     /* centraliza no meio */
 
 }
-
 
 
 /* Cada tela (screen) visível nunca passa de 900px */
@@ -2442,11 +2442,7 @@ height: 100%;
         transform: scale(0.8);
     }
     
-    .speech-bubble {
-        max-width: 250px;
-        padding: 12px 16px;
-    }
-    
+  
  
 #feedBtn {
 display: flex;
@@ -2560,4 +2556,104 @@ display: flex;
 }
 
 
+* {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE 10+ */
+}
+
+*::-webkit-scrollbar {
+    width: 0px; /* Chrome, Safari, Edge */
+    background: transparent;
+}
+
+
+/* Custom Search Select Styles */
+.custom-search-select {
+    position: relative;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.search-input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    background-color: #fff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+.search-input:focus {
+    border-color: #764ba2;
+    box-shadow: 0 0 0 3px rgba(118, 75, 162, 0.1);
+    cursor: text;
+}
+
+.search-input.active {
+    border-color: #764ba2;
+    cursor: text;
+}
+
+.search-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 2px solid #ddd;
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 1000;
+    display: none;
+}
+
+.search-dropdown.show {
+    display: block;
+}
+
+.dropdown-item {
+    padding: 12px 16px;
+    cursor: pointer;
+    border-bottom: 1px solid #f0f0f0;
+    transition: background-color 0.2s ease;
+}
+
+.dropdown-item:hover {
+    background-color: #f8f9fa;
+}
+
+.dropdown-item.selected {
+    background-color: #764ba2;
+    color: white;
+}
+
+.dropdown-item:last-child {
+    border-bottom: none;
+}
+
+.dropdown-item.no-results {
+    color: #999;
+    font-style: italic;
+    cursor: default;
+}
+
+.dropdown-item.no-results:hover {
+    background-color: transparent;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .search-input {
+        font-size: 16px; /* Prevents zoom on iOS */
+    }
+    
+    .search-dropdown {
+        max-height: 150px;
+    }
+}
 

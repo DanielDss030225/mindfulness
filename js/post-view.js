@@ -420,14 +420,14 @@ updateLikeButtonUI(isLiked) {
             </div>
   
             
-            <div class="reply-form" id="replyForm-${comment.id}" style="display: none;">
+            <div class="reply-form" id="replyForm-${comment.id}" style="display: block;">
                 <div class="comment-form">
                     <img src="${this.currentUserPhotoURL || this.getDefaultAvatarURL()}" alt="Seu Avatar" class="comment-avatar">
                     <div class="comment-input-container">
                         <textarea placeholder="Escreva uma resposta..." class="texAreaClass" rows="2"></textarea>
                         <div class="comment-actions">
                             <button class="submit-reply-btn" data-comment-id="${comment.id}">Responder</button>
-                            <button class="cancel-reply-btn" data-comment-id="${comment.id}">Cancelar</button>
+                            <button class="cancel-reply-btn" data-comment-id="${comment.id}">Fechar</button>
                         </div>
                     </div>
                 </div>
@@ -617,10 +617,10 @@ async toggleReplyLike(replyId, buttonElement) {
 }
 
 
-    showReplyForm(commentId) {
+     showReplyForm(commentId) {
         // Hide all other reply forms
         document.querySelectorAll('.reply-form').forEach(form => {
-            form.style.display = 'none';
+            form.style.display = 'block';
         });
         
         // Show the specific reply form
@@ -629,7 +629,7 @@ async toggleReplyLike(replyId, buttonElement) {
             replyForm.style.display = 'block';
             replyForm.querySelector('textarea').focus();
         }
-    }
+    } 
 
     hideReplyForm(commentId) {
         const replyForm = document.getElementById(`replyForm-${commentId}`);
