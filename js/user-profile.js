@@ -405,13 +405,7 @@ async loadAchievements() {
     const totalQuestions = this.userStats.totalQuestions || 0;
 
     if (totalQuestions === 0) {
-        achievementCountElement.textContent = '';
-        achievementsContainer.innerHTML = `          
-            <div class="no-achievements-message">
-                <p>🌱 Este usuário está começando sua jornada.</p>
-            </div>
-        `;
-        return;
+      
     }
 
     // --- LÓGICA PARA CONQUISTAS ESPECÍFICAS ---

@@ -1449,9 +1449,9 @@ border-bottom-color: #d3d3d3;
     align-items: center;
     gap: 5px;
     padding: 5px 10px;
-    border-radius: 6px;
-    transition: background-color 0.2s;
    
+    transition: background-color 0.2s;
+   border-radius: 50px;
     justify-content: center;
     font-size: 13px;
     width: 100%;
@@ -1460,6 +1460,7 @@ border-bottom-color: #d3d3d3;
 
 .post-item .action-btn:hover {
     background-color: #e4e6e9;
+    border-radius: 50px;
 }
 
 .post-item .action-btn.liked {
@@ -1855,24 +1856,7 @@ border-bottom-color: #d3d3d3;
 */
 
 
-/* Post interaction animations */
-.action-btn {
-    transition: all 0.2s ease;
-}
 
-.action-btn:active {
-    transform: scale(0.95);
-}
-
-.like-btn.liked {
-    animation: likeAnimation 0.3s ease;
-}
-
-@keyframes likeAnimation {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.2); }
-    100% { transform: scale(1); }
-}
 
 /* Loading states */
 .post-item.loading {
@@ -1952,7 +1936,7 @@ border-bottom-color: #d3d3d3;
 .comment-reply-btn:focus {
     outline: 2px solid #1877f2;
     outline-offset: 2px;
-    border-radius: 4px;
+    border-radius: 50px;
 }
 
 
@@ -2556,17 +2540,6 @@ display: flex;
 }
 
 
-* {
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* IE 10+ */
-}
-
-*::-webkit-scrollbar {
-    width: 0px; /* Chrome, Safari, Edge */
-    background: transparent;
-}
-
-
 /* Custom Search Select Styles */
 .custom-search-select {
     position: relative;
@@ -2656,4 +2629,3 @@ display: flex;
         max-height: 150px;
     }
 }
-

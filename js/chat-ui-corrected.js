@@ -387,6 +387,10 @@ this.elements.globalMessages.addEventListener('click', (e) => {
 
 // Fechar o chat ao clicar fora (ignorando modais)
 document.addEventListener('click', (event) => {
+  
+  document.getElementById("userSearchInput").value = "";
+
+
     const chatWindow = this.elements.chatWindow;
     const toggleBtn = this.elements.toggleBtn;
     const profileModal = this.elements.profileModal;
@@ -401,7 +405,17 @@ document.addEventListener('click', (event) => {
         !deleteModal.contains(event.target);
 
     if (clickedOutsideChat) {
-        this.closeChat();
+     setTimeout(() => {
+ 
+
+    document.getElementById("onlineUsersList").style.display = "none";
+}, 50);
+     setTimeout(() => {
+ 
+
+this.closeChat();
+}, 55);
+        
     }
 });
 
@@ -809,30 +823,31 @@ handleNewMessage(detail) {
 
 
     
-    updateOnlineUsers(users) {
-        this.elements.onlineUsersList.innerHTML = '';
-        if (users.length === 0) {
-            this.elements.onlineUsersList.innerHTML = '<div class="chat-empty-state">Nenhum usuário com este nome.</div>';
-            return;
-        }
-        users.forEach(([userId, userData]) => {
-            const userItem = document.createElement('div');
-            userItem.className = 'chat-user-item';
-            userItem.dataset.userId = userId;
-            userItem.innerHTML = `
-                <div class="fundoUserOnline"> 
+updateOnlineUsers(users) {
+    this.elements.onlineUsersList.innerHTML = '';
 
-                    <img src="${userData.profilePicture || 'https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/ICONE%20PERFIL.png?alt=media&token=d092ec7f-77b9-404d-82d0-b6ed3ce6810e'}" alt="${userData.name}" class="chat-user-avatar">
-                    <span class="chat-user-name">${userData.name || 'Novato'} </span>
-                                                <span class="chat-user-status online">
-
-    </span>
-
-                    </div>
-            `;
-            this.elements.onlineUsersList.appendChild(userItem);
-        });
+    if (users.length === 0) {
+        this.elements.onlineUsersList.innerHTML = '<div class="chat-empty-state">Nenhum usuário com este nome.</div>';
+        return;
     }
+
+    // pega só os 10 primeiros
+    users.slice(0, 10).forEach(([userId, userData]) => {
+        const userItem = document.createElement('div');
+        userItem.className = 'chat-user-item';
+        userItem.dataset.userId = userId;
+        userItem.innerHTML = `
+            <div class="fundoUserOnline"> 
+                <img src="${userData.profilePicture || 'https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/ICONE%20PERFIL.png?alt=media&token=d092ec7f-77b9-404d-82d0-b6ed3ce6810e'}" 
+                     alt="${userData.name}" 
+                     class="chat-user-avatar">
+                <span class="chat-user-name">${userData.name || 'Novato'}</span>
+                <span class="chat-user-status online"></span>
+            </div>
+        `;
+        this.elements.onlineUsersList.appendChild(userItem);
+    });
+}
 
    // Dentro da classe ChatUI
 
@@ -1343,7 +1358,7 @@ setupSwipeGestures() {
 
     let touchStartX = 0;
     let touchEndX = 0;
-    const swipeThreshold = 200; // A distância mínima em pixels para registrar um swipe
+    const swipeThreshold = 100; // A distância mínima em pixels para registrar um swipe
 
     swipeArea.addEventListener('touchstart', (event) => {
         // Captura a posição inicial do toque

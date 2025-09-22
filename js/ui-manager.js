@@ -118,11 +118,11 @@ class UIManager {
     }
 
 setTimeout(() => {
+ 
 
     this.updateChatButtonVisibility(screenId);
-
-  
 }, 100);
+
 
 
 }
@@ -135,6 +135,7 @@ forceScrollToTop() {
    document.getElementById("profile-screen").scrollTop = 0;
    document.getElementById("direito").scrollTop = 0;
     document.querySelector('.fundoQuestoes').scrollTop = 0;
+   
 
     // Força rolagem em todos os elementos possíveis
     window.scrollTo(0, 0);

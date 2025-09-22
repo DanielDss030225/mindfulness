@@ -411,9 +411,13 @@ updateLikeButtonUI(isLiked) {
                 <div class="comment-text">${this.formatCommentText(comment.text)}</div>
             </div>
             <div class="comment-actions">
-                <button class="comment-like-btn ${isLiked ? 'liked' : ''}" data-comment-id="${comment.id}">
-                    Curtir ${likesCount > 0 ? `(${likesCount})` : ''}
+           
+            <button class="comment-like-btn ${isLiked ? 'liked' : ''}" data-comment-id="${comment.id}">
+             <span>${isLiked ? 'Curtiu' : 'Curtir'}</span>
+                     ${likesCount > 0 ? `(${likesCount})` : ''}
+                    
                 </button>
+
                 <button class="comment-reply-btn" data-comment-id="${comment.id}">Responder</button>
               
             </div>
@@ -461,7 +465,7 @@ updateLikeButtonUI(isLiked) {
             <div class="comment-actions">
                 <button class="reply-like-btn ${isLiked ? 'liked' : ''}" data-reply-id="${reply.id}">
                 
-                    Curtir ${likesCount > 0 ? `(${likesCount})` : ''}
+                    Curtir ${likesCount > 0 ? `(${likesCount})` : 'Curtiu'}
                 </button>
                 
             </div>
@@ -866,11 +870,11 @@ updateCommentLikeButtonUI(buttonElement, isLiked) {
     if (isLiked) {
         buttonElement.classList.add('liked');
         const newCount = currentCount + 1;
-        buttonElement.textContent = `Curtir ${newCount > 0 ? `(${newCount})` : ''}`;
+        buttonElement.textContent = `Curtir ${newCount > 0 ? `(${newCount})` : 'Curtiu'}`;
     } else {
         buttonElement.classList.remove('liked');
         const newCount = Math.max(0, currentCount - 1);
-        buttonElement.textContent = `Curtir ${newCount > 0 ? `(${newCount})` : ''}`;
+        buttonElement.textContent = `Curtiu ${newCount > 0 ? `(${newCount})` : 'Curtiu'}`;
     }
 }
 

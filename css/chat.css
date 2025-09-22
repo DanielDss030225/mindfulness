@@ -413,6 +413,7 @@ margin-right: 6px;
   padding: 10px;
   box-sizing: border-box;
   z-index: 100;
+  overflow: hidden;
 }
 
 
@@ -642,12 +643,14 @@ margin-right: 6px;
     padding: 15px;
     border-top: 1px solid var(--chat-border);
     background: var(--chat-background);
+    overflow: hidden;
 }
 
 .chat-input-container {
     display: flex;
     gap: 10px;
     align-items: flex-end;
+    overflow: hidden;
 }
 
 .chat-input {
@@ -662,6 +665,7 @@ margin-right: 6px;
     resize: none;
     outline: none;
     transition: var(--chat-transition);
+    overflow: hidden;
 }
 
 .chat-input:focus {
@@ -1154,6 +1158,7 @@ width: 200px;
   padding: 10px;
   box-sizing: border-box;
   z-index: 100;
+  overflow: hidden;
 }
 
 
@@ -1442,3 +1447,5 @@ justify-content: space-between;
   border-radius: 0px;
 
 }
+
+

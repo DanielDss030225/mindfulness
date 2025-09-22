@@ -699,14 +699,8 @@ async loadAndDisplayAchievements(userId, containerId) {
 
         // Se o usuário não respondeu nenhuma questão, exibe uma mensagem padrão
         if (totalQuestions === 0) {
-            achievementsContainer.innerHTML = `
-                <div class="no-achievements-message">
-                    <p>🌱 Comece a responder questões para desbloquear suas primeiras conquistas!</p>
-                </div>`;
-            // Garante que o cabeçalho também seja atualizado
-            const achievementCountElement = document.getElementById('achievementCount2');
-            if(achievementCountElement) achievementCountElement.textContent = 'Nenhuma conquista ainda';
-            return;
+         
+          
         }
 
         // 2. Buscar detalhes para conquistas específicas (Português, Direito, etc.)
