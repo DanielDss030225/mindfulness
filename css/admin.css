@@ -229,7 +229,7 @@ text-align: center;
     border-radius: 0 0 10px 10px;
     padding: 15px;
     background: white;
-    font-size: 16px;
+    font-size: 18px;
     line-height: 1.6;
     transition: border-color 0.3s ease;
 }
@@ -254,6 +254,7 @@ text-align: center;
 .rich-editor em {
     font-style: italic;
     color: #7f8c8d;
+     font-size: 18px;
 }
 
 .rich-editor u {
@@ -264,10 +265,13 @@ text-align: center;
 .rich-editor ol {
     margin: 10px 0;
     padding-left: 30px;
+     font-size: 18px;
 }
+
 
 .rich-editor li {
     margin: 5px 0;
+     font-size: 18px;
 }
 
 /* Editor Toolbar */
@@ -280,6 +284,7 @@ text-align: center;
     border-bottom: none;
     border-radius: 10px 10px 0 0;
     align-items: center;
+     font-size: 18px;
 }
 
 .toolbar-btn {
@@ -439,6 +444,7 @@ text-align: center;
 .form-group.error .rich-editor {
     border-color: #f44336;
     box-shadow: 0 0 0 4px rgba(244, 67, 54, 0.1);
+     font-size: 18px;
 }
 
 .form-group.success input,
@@ -447,6 +453,7 @@ text-align: center;
 .form-group.success .rich-editor {
     border-color: #4CAF50;
     box-shadow: 0 0 0 4px rgba(76, 175, 80, 0.1);
+     font-size: 18px;
 }
 
 .error-message {

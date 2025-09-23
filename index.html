@@ -168,8 +168,8 @@
            <div class="menu-options">
     <div class="card2">
         <img class="iconPlayStore" src="img/playstore.png">
-        <div class="text">  <h1> Baixe o APP</h1>
-     <P> E aproveite todas as funcionalidades da plataforma em seu celular.</P> </div>
+        <div class="text">  <h1>Acesse no PC</h1>
+     <P> E aproveite todas as funcionalidades da Plataforma.</P> </div>
    
     </div>
  
@@ -180,6 +180,7 @@
                         Resolver Questões 
                     </p>
                     </button>
+
                     <button id="profileBtn" class="menu-btn">
 
                          <!--<span class="btn-icon">📊</span>-->
@@ -197,6 +198,7 @@
                                                 <p class="pmenu"> 
 
 Mentorias    </p>   </button>
+
 <button id="bancoBtn" class="menu-btn" onclick="window.location.href='provas.html'">
      <!--<span class="btn-icon">📝</span>-->
                         
@@ -205,6 +207,8 @@ Mentorias    </p>   </button>
 
 Banco de provas                   </p>   </button>
 
+
+
 <button id="bancoBtn" class="menu-btn" onclick="teste()">
      <!--<span class="btn-icon">👨‍🏫</span>-->
                         
@@ -212,6 +216,13 @@ Banco de provas                   </p>   </button>
                                                 <p class="pmenu"> 
 
 Estudo Bizurado       </p>   </button>
+<button id="bancoBtn" class="menu-btn" onclick="provasSimulados()">
+     <!--<span class="btn-icon">👨‍🏫</span>-->
+              <svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" fill="#434343"><path d="M186.67-633.33h586.66v-113.34H186.67v113.34Zm0 0v-113.34 113.34Zm0 553.33q-27 0-46.84-19.83Q120-119.67 120-146.67v-600q0-27 19.83-46.83 19.84-19.83 46.84-19.83h56.66V-880h70v66.67h333.34V-880h70v66.67h56.66q27 0 46.84 19.83Q840-773.67 840-746.67v280.34q-15.78-7.86-32.39-13.1-16.61-5.24-34.28-8.24v-79H186.67v420h296.66q6.34 18.67 14.84 35 8.5 16.34 20.16 31.67H186.67Zm540.66 40q-79.95 0-136.31-56.35-56.35-56.36-56.35-136.32 0-79.95 56.35-136.31 56.36-56.35 136.31-56.35 79.96 0 136.32 56.35Q920-312.62 920-232.67q0 79.96-56.35 136.32Q807.29-40 727.33-40Zm61.17-93.67 27.83-28-75-75v-112H702V-222l86.5 88.33Z"/></svg>
+                                                <p class="pmenu"> 
+
+Cronograma de Estudos    </p>   </button>
+
 
 <button id="feedBtn" class="menu-btn" onclick="abrirFeed() ">
      <!--         <span class="btn-icon">🌐</span>-->
@@ -373,20 +384,40 @@ Editais         </p>  <p class="mini">pciconcursos</p> </button>
            
 
  </h1></div>
-
+   
 
             <div class="setup-content">
                  <div class="screen-header">
                 <button id="backToMenuBtn" class="btn-back">Voltar</button>
                 <h2>Selecionar filtro</h2>
             </div>
-                <div class="setup-section">
-                    <h4>Cada simulado é composto por até 15 questões aleatórias selecionadas de um banco com milhares de questões.</h4>
-   <br>
-                    <h3>Resolva quantos simulados quiser — sem limites!</h3>
-                    <br>
-                    <h3>Categoria</h3>
 
+              <h4>Cada simulado é composto por até 50 questões aleatórias selecionadas de um banco com milhares de questões.</h4>
+  
+                    <h3>Resolva quantos simulados quiser — sem limites!</h3>
+              
+                 
+       <h3 style="text-align:center; margin-top: 20px;">Escolha a quantidade de questões</h3>
+
+ <p id="seSelectButton" style="display:none ;"> 0</p>
+
+
+
+  <div class="containerBotoesSelecQuant">
+    <button class="botaoSelecQuant">5</button>
+    <button class="botaoSelecQuant">10</button>
+    <button class="botaoSelecQuant">15</button>
+    <button class="botaoSelecQuant">20</button>
+    <button class="botaoSelecQuant">30</button>
+    <button class="botaoSelecQuant">40</button>
+    <button class="botaoSelecQuant">50</button>
+  </div>
+                <div class="setup-section">
+                <div style="display: flex; gap: 10px; height: auto; justify-content: center; align-items: center; flex-direction: center; text-align: center; margin: 10px;">
+ <h3 style="display: flex; height: auto; align-items: center; position: center; margin: 0px;">Escolha a Disciplina:</h3><p style="font-size: 13px;">(após escolher você selecionará a área).</p>
+
+                </div>
+                   
                     <div class="custom-search-select" id="categorySearchContainer">
                         <input type="text" id="categorySearchInput" class="search-input" placeholder="Digite para pesquisar categoria..." readonly>
                         <div class="search-dropdown" id="categoryDropdown">
@@ -396,8 +427,12 @@ Editais         </p>  <p class="mini">pciconcursos</p> </button>
                     <input type="hidden" id="categorySelect" value="">
                 </div>
 
-                <div class="setup-section" id="subcategorySection" style="display: none;">
-                    <h3>Subcategoria</h3>
+                <div class="setup-section" id="subcategorySection" style="display: none; margin: 0px;">
+                    <div style="display: flex; gap: 10px; height: auto; justify-content: center; align-items: center; flex-direction: center; text-align: center; margin: 0px;">
+ <h3 style="display: flex; height: auto; align-items: center; position: center; margin: 0px;">Área da Disciplina:</h3><p style="font-size: 13px;">(Escolha a área da disciplina para resolver questões).</p>
+
+                </div>
+                    
                     <div class="custom-search-select" id="subcategorySearchContainer">
                         <input type="text" id="subcategorySearchInput" class="search-input" placeholder="Digite para pesquisar subcategoria..." readonly>
                         <div class="search-dropdown" id="subcategoryDropdown">
@@ -988,6 +1023,8 @@ Editais         </p>  <p class="mini">pciconcursos</p> </button>
     <script src="js/firebase-config.js"></script>
     <script src="js/auth.js"></script>
     <script src="js/database.js"></script>
+
+
     <script src="js/profile-picture.js"></script>
     <script src="js/game-logic.js"></script>
     <script src="js/ui-manager.js"></script>
@@ -1009,13 +1046,23 @@ Editais         </p>  <p class="mini">pciconcursos</p> </button>
 <script src="js/chat-ui-corrected.js"></script>
 
     <script src="js/main.js"></script>
+
+
+    
 <script>
 
+
     function teste() {
- alert("Ainda estamos desenvolvendo este espaço para você!")
+   alert("Ainda estamos desenvolvendo este espaço para você!")
+
+        
     }
 
-
+function provasSimulados() {
+    window.location.href = "./cronograma.html";
+    document.querySelector(".professor-img");
+    
+}
 
 
 

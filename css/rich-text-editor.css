@@ -104,10 +104,11 @@
     border: none;
     outline: none;
     font-family: inherit;
-    font-size: 14px;
+  
     line-height: 1.4;
     resize: none;
     box-sizing: border-box;
+     font-size: 18px;
 
     
 }

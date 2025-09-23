@@ -614,6 +614,7 @@ function monitoraTempo(actionFunction) {
     const nomeElement = document.querySelector(".nomeProfessora");
  const imgElement2 = document.querySelector(".professor2-img");
     const nomeElement2 = document.querySelector(".nomeProfessora2");
+  const nomeElement3 = document.getElementById(".imgOfProfessor");
 
     if (imgElement) {
         imgElement.src = imagens[hour] || "img/default.png";
@@ -625,6 +626,9 @@ function monitoraTempo(actionFunction) {
 nomeElement.textContent ="Olá, sou um(a) " + nomes[hour] +  ". Estarei aqui durante 1 hora para te motivar! Bora começar?";
 
     }
+
+
+
       if (imgElement2) {
         imgElement2.src = imagens[hour] || "img/default.png";
         imgElement2.alt = `Imagem para o intervalo ${hour}h - ${hour + 1}h`;
@@ -635,7 +639,16 @@ nomeElement.textContent ="Olá, sou um(a) " + nomes[hour] +  ". Estarei aqui dur
 nomeElement2.textContent ="Olá, sou um(a) " + nomes[hour] +  ". Estarei aqui durante 1 hora para te motivar! Bora começar?";
 
     }
+
+    if (nomeElement3) {
+        nomeElement3.src = imagens[hour] || "img/default.png";
+        nomeElement3.alt = `Imagem para o intervalo ${hour}h - ${hour + 1}h`;
+    }
+
+
 }
+
+
 
     window.addEventListener("DOMContentLoaded", () => {
         monitoraTempo(minhaAcao);

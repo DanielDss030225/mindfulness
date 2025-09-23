@@ -38,6 +38,7 @@
     }
 
     async startQuiz(category, type, subcategory = "") {
+       
         try {
             // Reset game state
             this.resetGame();
@@ -86,7 +87,7 @@
 
     loadCurrentQuestion() {
         if (this.currentQuestionIndex >= this.questions.length) {
-            this.endQuiz();
+            this.endQuiz(); 
             return;
         }
 
@@ -462,10 +463,6 @@ document.getElementById("explanationContainer").style.display = "none";
 
 // Initialize Game Logic
 window.gameLogic = new GameLogic();
-
-
-
-
 
 
 

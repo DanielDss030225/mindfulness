@@ -137,32 +137,30 @@ class DatabaseManager {
         }
     }
 
-    async getQuestionsForUser(userId, filters = {}) {
-        try {
-            // Get all questions
-            const allQuestions = await this.getQuestions(filters);
-            
-            // Get user's answered questions
-            const userAnswersSnapshot = await this.database.ref(`userAnswers/${userId}`).once("value");
-            const userAnswers = userAnswersSnapshot.val() || {};
-            
-            // Filter out already answered questions (for new questions)
-            let availableQuestions = allQuestions.filter(question => !userAnswers[question.id]);
-            
-            // If no new questions available, return all questions
-            if (availableQuestions.length === 0) {
-                availableQuestions = allQuestions;
-            }
-            
-            // Shuffle and limit to 50 questions
-            availableQuestions = this.shuffleArray(availableQuestions);
-            return availableQuestions.slice(0, 50);
-            
-        } catch (error) {
-            console.error("Error getting questions for user:", error);
-            throw error;
-        }
+  async getQuestionsForUser(userId, filters = {}) {
+  try {
+    const allQuestions = await this.getQuestions(filters);
+    const userAnswersSnapshot = await this.database.ref(`userAnswers/${userId}`).once("value");
+    const userAnswers = userAnswersSnapshot.val() || {};
+
+    let availableQuestions = allQuestions.filter(question => !userAnswers[question.id]);
+
+    if (availableQuestions.length === 0) {
+      availableQuestions = allQuestions;
     }
+
+    availableQuestions = this.shuffleArray(availableQuestions);
+
+    // 🔹 pega do próprio objeto, com fallback para 50
+    const limit = this.maxQuestions || 10;
+    return availableQuestions.slice(0, limit);
+
+  } catch (error) {
+    console.error("Error getting questions for user:", error);
+    throw error;
+  }
+}
+
 
     async addQuestion(questionData) {
         try {
@@ -497,3 +495,28 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 1000);
 });
 
+  // simulação: sua classe DatabaseManager já foi criada antes
+    if (!window.databaseManager) {
+      window.databaseManager = { maxQuestions: 20 }; // valor padrão
+    }
+
+    const buttons = document.querySelectorAll('.botaoSelecQuant');
+         const seSelectButton = document.getElementById('seSelectButton');
+
+
+
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        // Remove seleção de todos
+        buttons.forEach(b => b.classList.remove('selected'));
+
+        // Marca o clicado
+        btn.classList.add('selected');
+seSelectButton.textContent = 1;
+        // Atualiza a variável no DatabaseManager
+        const valor = parseInt(btn.textContent, 10);
+        window.databaseManager.maxQuestions = valor;
+
+        console.log("Quantidade de questões definida para:", window.databaseManager.maxQuestions);
+      });
+    });

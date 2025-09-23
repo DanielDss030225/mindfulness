@@ -686,7 +686,9 @@ width: auto;
 .btn-icon {
     font-size: 24px;
 }
-
+icon {
+    font-size: 40px;
+}
 /* Form Styles */
 .input-group {
     margin-bottom: 20px;
@@ -1214,7 +1216,7 @@ textarea:focus {
     /* Margem proporcional limitada */
     margin-left: min(30%, 300px);
     margin-right: min(30%, 300px);
-    z-index: 4900;
+    z-index: 0;
 }
 
 
@@ -2629,3 +2631,33 @@ display: flex;
         max-height: 150px;
     }
 }
+
+
+
+    .containerBotoesSelecQuant {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-top: 10px;
+      margin-bottom:20px;
+    }
+
+    .botaoSelecQuant {
+      width: 60px;
+      height: 60px;
+      border: 2px solid #6b6b6b;
+      background: transparent;
+      cursor: pointer;
+      transition: 0.2s;
+      border-radius: 10px;
+    }
+
+    .botaoSelecQuant.selected {
+      background:#e6bcff;
+      border-color: #59008d;
+    }
+
+    .line-spacing-dropdown {
+        width: 150px;
+        background-color: #000000;
+    }

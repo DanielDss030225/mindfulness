@@ -329,9 +329,9 @@ forceScrollToTop() {
             const randomItem = document.createElement('div');
             randomItem.className = 'dropdown-item';
             randomItem.setAttribute('data-value', 'random');
-            randomItem.textContent = 'Aleatórias';
+            randomItem.textContent = '🎲 Resolver Questões Aleatórias';
             categoryDropdown.appendChild(randomItem);
-            this.categoriesData['random'] = 'Aleatórias';
+            this.categoriesData['random'] = '🎲 Resolver Questões Aleatórias';
 
             // Sort categories alphabetically
             const sortedCategories = Object.entries(categories || {}).sort(([,a], [,b]) => a.name.localeCompare(b.name));
@@ -588,6 +588,13 @@ forceScrollToTop() {
     }
 
     async startQuiz() {
+      
+         const seSelectButton = document.getElementById('seSelectButton');
+
+         if ( seSelectButton.textContent == 0) {
+            alert("Seleciona a quantidade de questões para este simulado.")
+          return
+         } 
         const categorySelect = document.getElementById('categorySelect');
         const subcategorySelect = document.getElementById('subcategorySelect');
         const questionTypeRadios = document.querySelectorAll('input[name="questionType"]');
