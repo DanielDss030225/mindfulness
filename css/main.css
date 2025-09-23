@@ -1962,6 +1962,7 @@ border-bottom-color: #d3d3d3;
     transition: all 0.3s ease;
     cursor: pointer;
     width: 100%;
+   
   }
 
   .baixarProva:hover {

@@ -41,12 +41,14 @@
 <header class="game-header">
  
     <a id="backinicio">
-        <img src="https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/mindfulness_brain_transparent.png?alt=media&token=d1407573-6161-4b64-b6b2-e46206ba452f" alt="Mindfulness Logo" class="logo">
+        <img src="./ico.png" alt="Mindfulness Logo" class="logo">
     </a>
        <button class="menuBotton" onclick="abrirMenu()" >
 
 <svg xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#FFFFFF"><path d="M120-240v-60h520v60H120Zm678-52L609-481l188-188 43 43-145 145 146 146-43 43ZM120-452v-60h400v60H120Zm0-208v-60h520v60H120Z"/></svg>
-       </button>
+      
+
+</button>
     <h1 class="logoCabecalho">PlataformaBizurada</h1>
     <p>A Plataforma do concurseiro!</p>
 
@@ -209,14 +211,14 @@ Banco de provas                   </p>   </button>
 
 
 
-<button id="bancoBtn" class="menu-btn" onclick="teste()">
+<button  class="menu-btn" onclick="estudoProgramado()">
      <!--<span class="btn-icon">👨‍🏫</span>-->
                         
                         <svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" fill="#434343"><path d="M479.33-120 192.67-276.67v-240L40-600l439.33-240L920-600v318h-66.67v-280L766-516.67v240L479.33-120Zm0-316 301.34-164-301.34-162-300 162 300 164Zm0 240.33 220-120.66v-162.34L479.33-360l-220-120v163.67l220 120.66ZM480-436Zm-.67 79.33Zm0 0Z"/></svg>
                                                 <p class="pmenu"> 
 
-Estudo Bizurado       </p>   </button>
-<button id="bancoBtn" class="menu-btn" onclick="provasSimulados()">
+Estudo Programado       </p>   </button>
+<button id="bancoBtn" class="menu-btn" onclick="cronograma()">
      <!--<span class="btn-icon">👨‍🏫</span>-->
               <svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" fill="#434343"><path d="M186.67-633.33h586.66v-113.34H186.67v113.34Zm0 0v-113.34 113.34Zm0 553.33q-27 0-46.84-19.83Q120-119.67 120-146.67v-600q0-27 19.83-46.83 19.84-19.83 46.84-19.83h56.66V-880h70v66.67h333.34V-880h70v66.67h56.66q27 0 46.84 19.83Q840-773.67 840-746.67v280.34q-15.78-7.86-32.39-13.1-16.61-5.24-34.28-8.24v-79H186.67v420h296.66q6.34 18.67 14.84 35 8.5 16.34 20.16 31.67H186.67Zm540.66 40q-79.95 0-136.31-56.35-56.35-56.36-56.35-136.32 0-79.95 56.35-136.31 56.36-56.35 136.31-56.35 79.96 0 136.32 56.35Q920-312.62 920-232.67q0 79.96-56.35 136.32Q807.29-40 727.33-40Zm61.17-93.67 27.83-28-75-75v-112H702V-222l86.5 88.33Z"/></svg>
                                                 <p class="pmenu"> 
@@ -1052,15 +1054,15 @@ Editais         </p>  <p class="mini">pciconcursos</p> </button>
 <script>
 
 
-    function teste() {
-   alert("Ainda estamos desenvolvendo este espaço para você!")
+    function estudoProgramado() {
+      window.location.href = "./estudoProgramado.html";
 
         
     }
 
-function provasSimulados() {
+function cronograma() {
     window.location.href = "./cronograma.html";
-    document.querySelector(".professor-img");
+
     
 }
 

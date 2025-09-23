@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#764ba2">
     <title>Cronograma de Estudos - PlataformaBizurada</title>
-    <link rel="stylesheet" href="cronograma-styles.css">
+    <link rel="stylesheet" href="css/cronograma-styles.css">
     
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
@@ -18,9 +18,9 @@
     <!-- Header -->
     <header class="game-header">
         <button class="btn-back" onclick="voltarMenu()">
-            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#FFFFFF">
-                <path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z"/>
-            </svg>
+
+               <svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px" fill="#FFFFFF"><path d="M120-240v-60h520v60H120Zm678-52L609-481l188-188 43 43-145 145 146 146-43 43ZM120-452v-60h400v60H120Zm0-208v-60h520v60H120Z"/></svg>
+
         </button>
         <h1>Cronograma de Estudos</h1>
         <div class="user-info">
@@ -28,6 +28,25 @@
             <span id="userName">Usuário</span>
         </div>
     </header>
+
+<div id="customModal" class="modal-overlay" style="display: none;">
+  <div class="modal-box">
+    <div style="display: flex; width: 100%; background-color: rgb(255, 255, 255); justify-content: end; text-align: end;"> <span id="modalClose" class="modal-close">&times;</span></div>
+    <div id="modalContent" class="modal-content"></div>
+  </div>
+</div>
+
+<div id="confirmModalCustom" class="modal-confirm-custom hidden-confirm">
+  <div class="modal-box-custom">
+    <h2 class="modal-title-custom">Confirmação</h2>
+    <p id="confirmMessageCustom" class="modal-text-custom">Tem certeza que deseja excluir este item?</p>
+    <div class="modal-actions-custom">
+      <button id="confirmYesCustom" class="btn-confirm-custom">Excluir</button>
+      <button id="confirmNoCustom" class="btn-cancel-custom">Cancelar</button>
+    </div>
+  </div>
+</div>
+
        <!-- Modal para Adicionar/Editar Item -->
     <div id="scheduleModal" class="modal">
         <div class="modal-content">
@@ -70,7 +89,19 @@
             </form>
         </div>
     </div>
-<div class="profilefundo">  
+
+       <!-- Loading Screen -->
+        <div id="loading-screen" class="loading-overlay active">
+        <div class="loading-content">
+  
+            <h1>PlataformaBizurada</h1> <p>A Plataforma do concurseiro!</p>
+            <div class="loading-spinner"></div>
+            <p>Carregando...</p>
+
+        </div>
+        </div>
+
+<div class="profilefundo" id="profilefundo">  
     <div class="cronogramaContainer">  
 
     <!-- Main Content -->
@@ -78,10 +109,11 @@
         <!-- Instruções -->
         <div class="instructions-card">
             <div class="professor-message">
-                <img id="imgOfProfessor" src="https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/mindfulness_brain_transparent.png?alt=media&token=d1407573-6161-4b64-b6b2-e46206ba452f" alt="Professor" class="professor-icon">
-                <div class="message-bubble">
+                <div class="message-bubble2">
                     <p>Organize seus estudos por dia da semana! Clique no botão "+" para adicionar matérias e descrições.</p>
                 </div>
+                <img id="imgOfProfessor" src="https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/mindfulness_brain_transparent.png?alt=media&token=d1407573-6161-4b64-b6b2-e46206ba452f" alt="Professor" class="professor-icon">
+                
             </div>
         </div>
 
@@ -184,6 +216,14 @@
                     <!-- Itens do cronograma serão inseridos aqui -->
                 </div>
             </div>
+             <div class="day-card" data-day="sabado">
+                <div class="fundoImgSocial"> 
+
+                 <img class="imgSocial" src="./img/bannersocial.png">
+
+                </div>
+              
+            </div>
         </div>
     </main>
 
@@ -203,8 +243,8 @@
      <script src="js/auth.js"></script>
 
    <script src="js/database.js"></script>
-<script src="cronograma-app.js"></script>     <!-- 4º - UI e Eventos do Cronograma -->
-<script src="cronograma-manager.js"></script> <!-- 3º - Lógica do Cronograma -->
+<script src="js/cronograma-app.js"></script>     <!-- 4º - UI e Eventos do Cronograma -->
+<script src="js/cronograma-manager.js"></script> <!-- 3º - Lógica do Cronograma -->
 
 </body>
 </html>

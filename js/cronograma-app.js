@@ -15,7 +15,27 @@ function fecharModal() {
 }
 
 function voltarMenu() {
-    window.location.href = 'index.html';
+     window.location.href = "index.html";
+  
+  /*   const voltar = localStorage.getItem("voltarAoCronograma");
+  const paginaAtual = window.location.pathname;
+
+  // verifica se já está em estudoProgramado.html
+  if (paginaAtual.includes("estudoProgramado.html")) {
+    // remove o valor salvo
+    localStorage.removeItem("voltarAoCronograma");
+    // redireciona para index
+   
+  } else {
+    // se tiver valor salvo, vai para estudoProgramado
+    if (voltar === "true") {
+      window.location.href = "estudoProgramado.html";
+    } else {
+      window.location.href = "index.html";
+    }
+  }*/
+
+
 }
 
 // Classe principal da aplicação do cronograma
@@ -282,20 +302,23 @@ class CronogramaApp {
             this.showLoading(false);
         }
     }
+//esse
+  async deleteItem(dayKey, itemId) {
+  const confirmDelete = await showConfirmCustom("Tem certeza que deseja excluir este item?");
+  if (!confirmDelete) return;
 
-    async deleteItem(dayKey, itemId) {
-        if (!confirm("Tem certeza que deseja excluir este item?")) return;
-        this.showLoading(true);
-        try {
-            await window.cronogramaManager.deleteScheduleItem(dayKey, itemId);
-            this.showSuccess("Item excluído!");
-            await this.loadInitialData();
-        } catch (error) {
-            this.showError("Erro ao excluir");
-        } finally {
-            this.showLoading(false);
-        }
-    }
+  this.showLoading(true);
+  try {
+    await window.cronogramaManager.deleteScheduleItem(dayKey, itemId);
+    this.showSuccess("Item excluído!");
+    await this.loadInitialData();
+  } catch (error) {
+    this.showError("Erro ao excluir");
+  } finally {
+    this.showLoading(false);
+  }
+}
+
 
     async loadInitialData() {
         this.showLoading(true);
@@ -320,8 +343,56 @@ class CronogramaApp {
         alert(`${type.toUpperCase()}: ${message}`);
     }
 
-    showSuccess(message) { this.showNotification(message, 'success'); }
-    showError(message) { this.showNotification(message, 'error'); }
+   showSuccess(message) { 
+  showModal(message, "success"); 
+}
+
+showError(message) { 
+  showModal(message, "error"); 
+}
+
+
+}
+
+function showModal(message, type = "success") {
+  const modal = document.getElementById("customModal");
+  const content = document.getElementById("modalContent");
+  const closeBtn = document.getElementById("modalClose");
+
+  // define cor pelo tipo
+  if (type === "success") {
+    content.className = "modal-content modal-success";
+  } else {
+    content.className = "modal-content modal-error";
+  }
+
+  // insere a mensagem
+  content.textContent = message;
+
+  // mostra modal
+  modal.style.display = "flex";
+
+  // fechar ao clicar no X
+  closeBtn.onclick = () => { modal.style.display = "none"; };
+
+  // fechar ao clicar fora
+  modal.onclick = (e) => {
+    if (e.target === modal) modal.style.display = "none";
+  };
+
+  // fechar automático depois de 3s (opcional)
+  setTimeout(() => {
+    modal.style.display = "none";
+  }, 3000);
+}
+
+// substitui suas funções atuais:
+function showSuccess(message) {
+  showModal(message, "success");
+}
+
+function showError(message) {
+  showModal(message, "error");
 }
 
 // Inicialização da Aplicação
@@ -329,3 +400,30 @@ document.addEventListener('DOMContentLoaded', () => {
     window.cronogramaApp = new CronogramaApp();
     window.cronogramaApp.init();
 });
+
+
+   
+
+function showConfirmCustom(message) {
+  return new Promise((resolve) => {
+    const modal = document.getElementById("confirmModalCustom");
+    const msg = document.getElementById("confirmMessageCustom");
+    const yesBtn = document.getElementById("confirmYesCustom");
+    const noBtn = document.getElementById("confirmNoCustom");
+
+    msg.textContent = message;
+    modal.style.display = "flex";
+
+    const cleanup = () => {
+      modal.style.display = "none";
+      yesBtn.removeEventListener("click", onYes);
+      noBtn.removeEventListener("click", onNo);
+    };
+
+    const onYes = () => { cleanup(); resolve(true); };
+    const onNo = () => { cleanup(); resolve(false); };
+
+    yesBtn.addEventListener("click", onYes);
+    noBtn.addEventListener("click", onNo);
+  });
+}

@@ -1,26 +1,21 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Plano de Estudos Programado</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background: #f5f6fa;
-      color: #333;
-      padding: 40px;
-    }
-    .container {
-      max-width: 1000px;
-      margin: 0 auto;
-    }
-    h1 {
-      text-align: center;
-      margin-bottom: 30px;
-      color: #2c3e50;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#764ba2">
+    <title>Cronograma de Estudos - PlataformaBizurada</title>
+    <link rel="stylesheet" href="css/cronograma-styles.css">
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
+
+</head>
+ <style>
+    
     .step {
       display: grid;
       grid-template-columns: 1fr 250px;
@@ -53,30 +48,151 @@
         grid-template-columns: 1fr;
       }
     }
+    a {
+      color: rgb(40, 88, 147);
+      cursor: pointer;
+    }
+    img {
+      height: 100px;
+      width: 100px;
+    }
+    div {
+      align-items: center;
+      text-align: left ;
+    }
+    .loading-content p {
+      color: white;
+    }
+   ul li a {
+      text-decoration: none;
+      list-style: none;  
+    }
+    .botaoA {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #28a745; /* verde */
+  color: #fff;              /* texto branco */
+  text-decoration: none;    /* remove o sublinhado */
+  border: none;
+  border-radius: 5px;       /* cantos levemente arredondados */
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 10px;
+}
+.logoMarca {
+  background: linear-gradient(90deg, #1e90ff, #8a2be2, #000);
+  -webkit-background-clip: text; /* necessário para Chrome/Safari */
+  -webkit-text-fill-color: transparent;
+  background-clip: text;         /* necessário para Firefox */
+  font-weight: bold;
+}
+
   </style>
-</head>
 <body>
-  <div class="container">
-    <h1>Plano de Estudos Programado para Concurseiros</h1>
+    <!-- Header -->
+    <header class="game-header">
+        <button class="btn-back" onclick="voltarMenu()">
+           <svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px" fill="#FFFFFF"><path d="M120-240v-60h520v60H120Zm678-52L609-481l188-188 43 43-145 145 146 146-43 43ZM120-452v-60h400v60H120Zm0-208v-60h520v60H120Z"/></svg>
+        </button>
+        <h1>Estudo Programado</h1>
+        <div class="user-info">
+            <img id="userProfilePic" src="https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/ICONE%20PERFIL.png?alt=media&token=d092ec7f-77b9-404d-82d0-b6ed3ce6810e" alt="Foto do usuário" class="user-avatar">
+            <span id="userName">Usuário</span>
+        </div>
+    </header>
+
+
+       <!-- Modal para Adicionar/Editar Item -->
+    <div id="scheduleModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Adicionar Item ao Cronograma</h2>
+                <button class="close-btn" onclick="fecharModal()">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#666">
+                        <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/>
+                    </svg>
+                </button>
+            </div>
+            
+            <form id="scheduleForm" class="modal-form">
+                <div class="form-group">
+                    <label for="subject">Matéria:</label>
+                    <input type="text" id="subject" name="subject" required placeholder="Ex: Matemática, Português, História...">
+                </div>
+                
+                <div class="form-group">
+                    <label for="description">Descrição:</label>
+                    <textarea id="description" name="description" rows="3" placeholder="Ex: Álgebra linear - Capítulo 3, Exercícios de interpretação..."></textarea>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="time">Horário:</label>
+                        <input type="time" id="time" name="time">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="duration">Duração (min):</label>
+                        <input type="number" id="duration" name="duration" min="15" max="480" placeholder="60">
+                    </div>
+                </div>
+                
+                <div class="modal-actions">
+                    <button type="button" class="btn-secondary" onclick="fecharModal()">Cancelar</button>
+                    <button type="submit" class="btn-primary">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+       <!-- Loading Screen -->
+        <div id="loading-screen" class="loading-overlay active">
+        <div class="loading-content">
+  
+            <h1>PlataformaBizurada</h1> <p>A Plataforma do concurseiro!</p>
+            <div class="loading-spinner"></div>
+            <p>Carregando...</p>
+
+        </div>
+        </div>
+
+<div class="profilefundo2" id="profilefundo">  
+    <div class="cronogramaContainer">  
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Instruções -->
+        <div class="instructions-card">
+            <div class="professor-message">
+                <img id="imgOfProfessor" src="https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/mindfulness_brain_transparent.png?alt=media&token=d1407573-6161-4b64-b6b2-e46206ba452f" alt="Professor" class="professor-icon">
+                <div class="message-bubble">
+                    <p>Siga cada passo do nosso Plano de Estudo Programado para Concurseiros e transforme sua rotina em disciplina. Com foco e constância, a aprovação deixará de ser um sonho distante e se tornará o seu próximo resultado.</p>
+                </div>
+            </div>
+        </div>
+<div class="container">
+    <h1 style="margin-bottom: 20px; width: 100%; text-align: center;">Passo a passo para a aprovação!</h1>
 
     <div class="step">
       <div>
         <h2>1. Defina o Objetivo</h2>
         <p>Escolha o concurso principal que deseja prestar, estude o edital mais recente (ou editais anteriores) e liste todas as matérias cobradas.</p>
       </div>
-      <img src="img1.jpg" alt="Imagem ilustrativa passo 1">
+      <img src="img/objetivo.png" alt="Imagem ilustrativa passo 1">
     </div>
 
     <div class="step">
+            <img src="img/tempo.png" alt="Imagem ilustrativa passo 2">
+
       <div>
         <h2>2. Organize o Tempo</h2>
-        <p>Defina quantas horas por dia você pode estudar de forma realista e crie um cronograma semanal fixo.</p>
+        <p>Defina quantas horas por dia você pode estudar de forma realista e crie um <a id="irParaCronograma"> cronograma semanal fixo.</a></p>
         <ul>
           <li>Exemplo: 3h/dia durante a semana + 6h no sábado.</li>
           <li>Crie rotina em horários fixos (manhã, tarde ou noite).</li>
         </ul>
       </div>
-      <img src="img2.jpg" alt="Imagem ilustrativa passo 2">
     </div>
 
     <div class="step">
@@ -89,19 +205,20 @@
         </ul>
         <p>Regra de ouro inicial: 70% do tempo para básicas e 30% para específicas (depois pode inverter).</p>
       </div>
-      <img src="img3.jpg" alt="Imagem ilustrativa passo 3">
+      <img src="img/disciplinas.png" alt="Imagem ilustrativa passo 3">
     </div>
 
     <div class="step">
+            <img src="img/metodo.png" alt="Imagem ilustrativa passo 4">
+
       <div>
         <h2>4. Método de Estudo</h2>
         <ul>
           <li><b>Teoria (40%):</b> Ler PDFs, apostilas, assistir aulas, fazer anotações.</li>
-          <li><b>Questões (50%):</b> Resolver questões de provas anteriores, de preferência da mesma banca.</li>
+          <li><b>Questões (50%):</b> Resolver questões de provas anteriores na <span class="logoMarca"> PlataformaBizurada</span> , de preferência de banca anteriores.</li>
           <li><b>Revisão (10%):</b> Revisar no mesmo dia, depois de 7 dias e após 30 dias.</li>
         </ul>
       </div>
-      <img src="img4.jpg" alt="Imagem ilustrativa passo 4">
     </div>
 
     <div class="step">
@@ -113,10 +230,12 @@
           <li>Leia a lei seca regularmente, principalmente para concursos jurídicos.</li>
         </ul>
       </div>
-      <img src="img5.jpg" alt="Imagem ilustrativa passo 5">
+      <img src="img/fixar.png" alt="Imagem ilustrativa passo 5">
     </div>
 
     <div class="step">
+            <img src="img/simulados.png" alt="Imagem ilustrativa passo 6">
+
       <div>
         <h2>6. Simulados e Controle</h2>
         <ul>
@@ -125,7 +244,6 @@
           <li>Reforce as matérias com maior índice de erros.</li>
         </ul>
       </div>
-      <img src="img6.jpg" alt="Imagem ilustrativa passo 6">
     </div>
 
     <div class="step">
@@ -138,15 +256,16 @@
           <li>Durma 7–8h por noite e pratique atividade física leve.</li>
         </ul>
       </div>
-      <img src="img7.jpg" alt="Imagem ilustrativa passo 7">
+      <img src="img/habitos.png" alt="Imagem ilustrativa passo 7">
     </div>
 
     <div class="step">
+      <img src="img/ajuste.png" alt="Imagem ilustrativa passo 8">
       <div>
         <h2>8. Ajuste Progressivo</h2>
         <p>Se o edital sair, reorganize o cronograma de acordo com o peso das matérias. No último mês, concentre-se em revisões, questões e simulados.</p>
       </div>
-      <img src="img8.jpg" alt="Imagem ilustrativa passo 8">
+      
     </div>
 
     <div class="step">
@@ -160,11 +279,64 @@
           <li><b>Sexta:</b> Revisão geral (3h – teoria + questões)</li>
           <li><b>Sábado:</b> Simulado (manhã) + correção (tarde)</li>
           <li><b>Domingo:</b> Descanso ou revisão leve (lei seca/flashcards)</li>
+     <a id="botaoA" class="botaoA"> Clique aqui e monte seu cronograma bizurado!</a>
+
         </ul>
+
       </div>
-      <img src="img9.jpg" alt="Imagem ilustrativa cronograma">
+      <img src="img/cronograma.png" alt="Imagem ilustrativa cronograma">
     </div>
 
   </div>
+ 
+    </main>
+
+
+  
+
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="loading-spinner"></div>
+        <p>Carregando cronograma...</p>
+    </div>
+ </div>
+    </div>
+
+<!-- Scripts -->
+ <script> 
+
+  document.getElementById("irParaCronograma").addEventListener("click", (e) => {
+  e.preventDefault();
+
+  // remove qualquer valor antigo
+  localStorage.removeItem("voltarAoCronograma");
+
+  // salva o valor novo
+  localStorage.setItem("voltarAoCronograma", "true");
+  // redireciona para a página do cronograma
+  window.location.href = "./cronograma.html"; 
+});
+
+  document.getElementById("botaoA").addEventListener("click", (e) => {
+  e.preventDefault();
+
+  // remove qualquer valor antigo
+  localStorage.removeItem("voltarAoCronograma");
+
+  // salva o valor novo
+  localStorage.setItem("voltarAoCronograma", "true");
+  // redireciona para a página do cronograma
+  window.location.href = "./cronograma.html"; 
+});
+ </script>
+
+ <script src="js/firebase-config.js"></script>
+     <script src="js/auth.js"></script>
+
+   <script src="js/database.js"></script>
+<script src="js/cronograma-app.js"></script>     <!-- 4º - UI e Eventos do Cronograma -->
+<script src="js/cronograma-manager.js"></script> <!-- 3º - Lógica do Cronograma -->
+
 </body>
 </html>

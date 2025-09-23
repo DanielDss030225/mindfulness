@@ -524,10 +524,12 @@ margin-right: 6px;
   max-width: 100%;           /* Não ultrapassa a largura do container/página */
   box-sizing: border-box;    /* Inclui padding/borda no cálculo da largura */
   word-wrap: break-word;     /* Quebra palavras longas */
-  overflow-wrap: break-word; /* Compatibilidade com navegadores */
   white-space: normal;       /* Permite múltiplas linhas */
   color:#141414;
   text-align: start;
+    white-space: normal;          /* permite quebra de linha */
+  overflow-wrap: anywhere;      /* quebra strings longas quando necessário */
+  word-break: break-word; 
   
 }
 
@@ -1385,6 +1387,10 @@ text-align: center;
     justify-content: space-between; /* joga cada elemento para um lado */
     align-items: center; /* alinha verticalmente */
     width: 100%;
+     white-space: normal;           /* permite quebra de linha */
+  white-space: normal;          /* permite quebra de linha */
+  overflow-wrap: anywhere;      /* quebra strings longas quando necessário */
+  word-break: break-word; 
 }
 
 .chat-message-sender {

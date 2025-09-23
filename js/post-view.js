@@ -351,6 +351,8 @@ updateLikeButtonUI(isLiked) {
                     <p>Seja o primeiro a comentar!</p>
                 </div>
             `;
+                                    document.getElementById("commentsSection").style.display = "none";
+
             return;
         }
 

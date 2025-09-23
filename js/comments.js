@@ -106,11 +106,16 @@ class CommentsManager {
         if (!commentsList) return;
 
         if (this.comments.length === 0) {
-            commentsList.innerHTML = `
+            commentsList.innerHTML = 
+            
+            `
                 <div class="no-comments">
                     <p>Nenhum comentário ainda. Seja o primeiro a comentar!</p>
                 </div>
+
+                
             `;
+
             return;
         }
 
