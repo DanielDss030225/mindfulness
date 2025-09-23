@@ -533,7 +533,7 @@ document.addEventListener('DOMContentLoaded', () => {
 //função para trocar professor
 function monitoraTempo(actionFunction) {
         let lastHour = -1;
-
+   
         function checkHour() {
             const now = new Date();
             const currentHour = now.getHours();

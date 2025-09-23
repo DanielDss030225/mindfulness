@@ -91,16 +91,17 @@
         if (seSelectButton > this.questions.length) {
 
    setTimeout(() => {
-   let texto = "Questões Não Respondidas!"
+   let texto = "Questões!"
    if (this.questions.length < 2) {
-texto =  "Questão Não Respondida!"
+texto =  "Questão!"
 
    }
-        window.uiManager.showModal(`${this.questions.length} ` + texto, " Estamos preparando novas questões para esta área da disciplina. Você verá questões repetidas só após responder todas. 😊");
+        window.uiManager.showModal(` Simulado elaborado com ${this.questions.length} ` + texto, "Estamos preparando novas questões para esta área da disciplina. 😊");
     }, 500);
+
         }
 
-     
+     iniciarCronometro();
 
     }
 
@@ -487,7 +488,29 @@ document.getElementById("explanationContainer").style.display = "none";
 
     
 }
+let segundos = 0;
+    let intervalo;
 
+    function formatarTempo(segundos) {
+      const minutos = Math.floor(segundos / 60);
+      const seg = segundos % 60;
+      return `${String(minutos).padStart(2, '0')}:${String(seg).padStart(2, '0')}`;
+    }
+
+    function iniciarCronometro() {
+      // Zera o tempo e a tela
+      segundos = 0;
+      document.getElementById("timer").textContent = "00:00";
+
+      // Se já estiver rodando, para o anterior
+      clearInterval(intervalo);
+
+      // Inicia o novo cronômetro
+      intervalo = setInterval(() => {
+        segundos++;
+        document.getElementById("timer").textContent = formatarTempo(segundos);
+      }, 1000);
+    }
 // Initialize Game Logic
 window.gameLogic = new GameLogic();
 
