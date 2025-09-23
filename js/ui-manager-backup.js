@@ -297,14 +297,29 @@ if (profileBtn) {
             categorySelect.innerHTML = '<option value="">Erro ao carregar categorias</option>';
         }
     }
+  async startQuiz() {
+      
+         const seSelectButton = document.getElementById('seSelectButton');
 
-    async startQuiz() {
+        
         const categorySelect = document.getElementById('categorySelect');
+        const subcategorySelect = document.getElementById('subcategorySelect');
         const questionTypeRadios = document.querySelectorAll('input[name="questionType"]');
+ if ( seSelectButton.textContent == 0) {
+                     this.showModal('Atenção','Seleciona a quantidade de questões para este simulado.');
+
+          return
+         } 
+
         if (!categorySelect || !questionTypeRadios.length) return;
 
         const selectedCategory = categorySelect.value;
-        const selectedType = [...questionTypeRadios].find(r => r.checked)?.value || '';
+        const selectedSubcategory = subcategorySelect ? subcategorySelect.value : '';
+        let selectedType = '';
+
+        questionTypeRadios.forEach(radio => {
+            if (radio.checked) selectedType = radio.value;
+        });
 
         if (!selectedCategory) {
             this.showModal('Atenção', 'Por favor, selecione uma categoria.');
@@ -314,14 +329,14 @@ if (profileBtn) {
         try {
             this.showLoading();
             if (window.gameLogic) {
-                await window.gameLogic.startQuiz(selectedCategory, selectedType);
+                await window.gameLogic.startQuiz(selectedCategory, selectedType, selectedSubcategory);
                 this.showScreen('game-screen');
             }
             this.hideLoading();
         } catch (error) {
             this.hideLoading();
             console.error('Error starting quiz:', error);
-            this.showModal('Erro', 'Erro ao iniciar o quiz. Tente novamente.');
+            this.showModal('Ops', 'Aqui ainda não tem questões cadastradas, selecione outro filtro!');
         }
     }
 

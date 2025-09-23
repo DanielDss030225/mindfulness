@@ -202,7 +202,7 @@ forceScrollToTop() {
                 const confirmButton = document.createElement('button');
                 confirmButton.id = 'modalConfirm';
                 confirmButton.className = `btn-${type === 'error' ? 'secondary' : 'primary'}`;
-                confirmButton.textContent = 'Confirmar e sair';
+                confirmButton.textContent = 'Confirmar';
                 confirmButton.addEventListener('click', () => {
               
                     this.hideModal();
@@ -591,13 +591,16 @@ forceScrollToTop() {
       
          const seSelectButton = document.getElementById('seSelectButton');
 
-         if ( seSelectButton.textContent == 0) {
-            alert("Seleciona a quantidade de questões para este simulado.")
-          return
-         } 
+        
         const categorySelect = document.getElementById('categorySelect');
         const subcategorySelect = document.getElementById('subcategorySelect');
         const questionTypeRadios = document.querySelectorAll('input[name="questionType"]');
+        
+ if ( seSelectButton.textContent == 0) {
+                     this.showModal('Atenção','Seleciona a quantidade de questões para este simulado.');
+
+          return
+         } 
 
         if (!categorySelect || !questionTypeRadios.length) return;
 
@@ -621,6 +624,7 @@ forceScrollToTop() {
                 this.showScreen('game-screen');
             }
             this.hideLoading();
+
         } catch (error) {
             this.hideLoading();
             console.error('Error starting quiz:', error);

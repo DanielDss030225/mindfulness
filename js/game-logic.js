@@ -38,7 +38,10 @@
     }
 
     async startQuiz(category, type, subcategory = "") {
-       
+
+
+
+
         try {
             // Reset game state
             this.resetGame();
@@ -83,9 +86,26 @@
             console.error("Error starting quiz:", error);
             throw error;
         }
+         
+        let seSelectButton = document.getElementById("seSelectButton").textContent;
+        if (seSelectButton > this.questions.length) {
+
+   setTimeout(() => {
+   let texto = "Questões Não Respondidas!"
+   if (this.questions.length < 2) {
+texto =  "Questão Não Respondida!"
+
+   }
+        window.uiManager.showModal(`${this.questions.length} ` + texto, " Estamos preparando novas questões para esta área da disciplina. Você verá questões repetidas só após responder todas. 😊");
+    }, 500);
+        }
+
+     
+
     }
 
     loadCurrentQuestion() {
+
         if (this.currentQuestionIndex >= this.questions.length) {
             this.endQuiz(); 
             return;
@@ -104,6 +124,9 @@
         if (confirmBtn) {
             confirmBtn.disabled = true;
         }
+
+     
+
     }
 
     updateQuestionUI(question) {
@@ -310,13 +333,17 @@ updateProfessorMessage2() {
     }
 
     updateGameHeader() {
+
         const questionCounter = document.getElementById("questionCounter");
         const gameScore = document.getElementById("gameScore");
-        
+
+    
+
         if (questionCounter) {
             questionCounter.textContent = `Questão ${this.currentQuestionIndex + 1} de ${this.questions.length}`;
         }
-        
+         
+
         if (gameScore) {
             gameScore.textContent = `Pontos: ${this.score}`;
         }

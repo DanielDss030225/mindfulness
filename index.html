@@ -170,8 +170,8 @@
            <div class="menu-options">
     <div class="card2">
         <img class="iconPlayStore" src="img/playstore.png">
-        <div class="text">  <h1>Acesse no PC</h1>
-     <P> E aproveite todas as funcionalidades da Plataforma.</P> </div>
+        <div class="text">  <h4>Use um Computador</h4>
+     <P>E aproveite todas as funcionalidades da Plataforma.</P> </div>
    
     </div>
  
@@ -234,13 +234,13 @@ Cronograma de Estudos    </p>   </button>
 
 FeedSocial      </p>   </button>
 
-<button id="bancoBtn" class="menu-btn" onclick="window.open('https://www.pciconcursos.com.br/concursos/', '_blank')">
+<button id="bancoBtn" class="menu-btn">
      <!--<span class="btn-icon">📢</span>-->                    
     
     <svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" fill="#434343"><path d="M106.67-564q0-93.33 41.5-171.17 41.5-77.83 111.16-129.5L299-811.33q-57.33 42.66-91.5 106.66T173.33-564h-66.66Zm680 0q0-76.67-34.17-140.67-34.17-64-91.5-106.66l39.67-53.34q69.66 51.67 111.16 129.5 41.5 77.84 41.5 171.17h-66.66ZM160-200v-66.67h80v-296q0-83.66 49.67-149.5Q339.33-778 420-796v-24q0-25 17.5-42.5T480-880q25 0 42.5 17.5T540-820v24q80.67 18 130.33 83.83Q720-646.33 720-562.67v296h80V-200H160Zm320-301.33ZM480-80q-33 0-56.5-23.5T400-160h160q0 33-23.5 56.5T480-80ZM306.67-266.67h346.66v-296q0-72-50.66-122.66Q552-736 480-736t-122.67 50.67q-50.66 50.66-50.66 122.66v296Z"/></svg>
                                                 <p class="pmenu"> 
 
-Editais         </p>  <p class="mini">pciconcursos</p> </button>
+Editais         </p>  <p class="mini">Acompanhe o Feed</p> </button>
 
                    
 
@@ -415,7 +415,7 @@ Editais         </p>  <p class="mini">pciconcursos</p> </button>
     <button class="botaoSelecQuant">50</button>
   </div>
                 <div class="setup-section">
-                <div style="display: flex; gap: 10px; height: auto; justify-content: center; align-items: center; flex-direction: center; text-align: center; margin: 10px;">
+                <div style="display: flex; gap: 10px; height: auto; justify-content: center; align-items: center; flex-direction: center; text-align: center; margin: 10px; flex-wrap: wrap;">
  <h3 style="display: flex; height: auto; align-items: center; position: center; margin: 0px;">Escolha a Disciplina:</h3><p style="font-size: 13px;">(após escolher você selecionará a área).</p>
 
                 </div>
@@ -430,7 +430,7 @@ Editais         </p>  <p class="mini">pciconcursos</p> </button>
                 </div>
 
                 <div class="setup-section" id="subcategorySection" style="display: none; margin: 0px;">
-                    <div style="display: flex; gap: 10px; height: auto; justify-content: center; align-items: center; flex-direction: center; text-align: center; margin: 0px;">
+                    <div style="display: flex; gap: 10px; height: auto; justify-content: center; align-items: center; flex-direction: center; text-align: center; margin: 0px; flex-wrap: wrap;">
  <h3 style="display: flex; height: auto; align-items: center; position: center; margin: 0px;">Área da Disciplina:</h3><p style="font-size: 13px;">(Escolha a área da disciplina para resolver questões).</p>
 
                 </div>
@@ -1167,17 +1167,6 @@ function abrirMenu() {
   menuGeral.style.display = "block";
     }
 
-const card2 = document.querySelector('.card2');
-
-card2.addEventListener('click', () => {
-  // tenta abrir no app da Play Store
-  window.location.href = "market://details?id=com.seuapp.pacote";
-
-  // fallback (se não conseguir abrir o app, abre no navegador)
-  setTimeout(() => {
-    window.open("https://play.google.com/store/apps/details?id=com.seuapp.pacote", "_blank");
-  }, 1000);
-});
 
   
 </script>

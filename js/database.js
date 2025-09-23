@@ -512,7 +512,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Marca o clicado
         btn.classList.add('selected');
-seSelectButton.textContent = 1;
+seSelectButton.textContent = parseInt(btn.textContent, 10);
         // Atualiza a variável no DatabaseManager
         const valor = parseInt(btn.textContent, 10);
         window.databaseManager.maxQuestions = valor;
