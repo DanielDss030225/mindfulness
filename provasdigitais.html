@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Provas Digitais</title>
-   
+   <link rel="icon" href="./ico.png" type="image/png">
+
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
@@ -203,27 +204,27 @@
         <div class="alternatives-list">
             <div class="alternative-item">
                 <input type="radio" name="correct-answer" value="0" required>
-                <label>A)</label>
+                <label>A</label>
                 <textarea class="alternative-text" name="option-a" rows="2" required placeholder="Digite o texto da alternativa A"></textarea>
             </div>
             <div class="alternative-item">
                 <input type="radio" name="correct-answer" value="1" required>
-                <label>B)</label>
+                <label>B</label>
                 <textarea class="alternative-text" name="option-b" rows="2" required placeholder="Digite o texto da alternativa B"></textarea>
             </div>
             <div class="alternative-item">
                 <input type="radio" name="correct-answer" value="2" required>
-                <label>C)</label>
+                <label>C</label>
                 <textarea class="alternative-text" name="option-c" rows="2" required placeholder="Digite o texto da alternativa C"></textarea>
             </div>
             <div class="alternative-item">
                 <input type="radio" name="correct-answer" value="3" required>
-                <label>D)</label>
+                <label>D</label>
                 <textarea class="alternative-text" name="option-d" rows="2" required placeholder="Digite o texto da alternativa D"></textarea>
             </div>
             <div class="alternative-item">
                 <input type="radio" name="correct-answer" value="4" required>
-                <label>E)</label>
+                <label>E</label>
                 <textarea class="alternative-text" name="option-e" rows="2" required placeholder="Digite o texto da alternativa E"></textarea>
             </div>
         </div>
@@ -294,13 +295,18 @@
             <div class="question-container">
                 <div class="question-header">
                     <span id="question-number">Questão 1</span>
+                     
                      <div class="question-actions">
                         <button id="show-answer-btn" class="btn-outline">Ver Gabarito</button>
                     </div>
+                    <div class="question-actions">
+                        <button id="esconderTexto" class="btn-outline" onclick="verTexto()">Ver Texto</button>
+                    </div>
                         <div class="answer-sheet-actions">
                 <button id="finish-exam-final-btn" class="btn-outline">Finalizar Prova</button>
+                
             </div>
-                   
+                    
                 </div>
 
                 <div id="question-associated-text-display" class="question-associated-text" style="display: none;">

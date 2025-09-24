@@ -60,10 +60,9 @@ async loadUserData() {
     try {
         // Carregar categorias (continua hardcoded)
         this.categories = { 
-            'cat1': { name: 'Polícia Civil de Minas Gerais' },
-            'cat2': { name: 'Direito Administrativo' },
-            'cat3': { name: 'Português' },
-            'cat4': { name: 'Matemática' }
+          
+           // 'cat3': { name: 'Português' },
+            'cat4': { name: 'Polícia Penal De Minas Gerais' }
         };
 
         // Buscar exames do Firebase
@@ -646,9 +645,9 @@ clearQuestionForm() {
         const associatedTextDisplay = document.getElementById('question-associated-text-display');
         if (question.associatedText && question.associatedText.trim()) {
             associatedTextDisplay.innerHTML = this.formatQuestionText(question.associatedText);
-            associatedTextDisplay.style.display = 'block';
+           // associatedTextDisplay.style.display = 'block';
         } else {
-            associatedTextDisplay.style.display = 'none';
+           // associatedTextDisplay.style.display = 'none';
         }
         
         document.getElementById('question-text-display').innerHTML = this.formatQuestionText(question.text);
@@ -1069,3 +1068,20 @@ document.addEventListener("DOMContentLoaded", () => {
     window.system = new DigitalExamsSystem();
     window.system.init();
 });
+
+function verTexto() {
+    const associatedTextDisplay = document.getElementById('question-associated-text-display');
+        const esconderTexto = document.getElementById('esconderTexto');
+
+
+    if (associatedTextDisplay.style.display === 'block') {
+        
+        associatedTextDisplay.style.display = 'none';
+        esconderTexto.textContent = "Ver Texto"
+
+    } else {
+        associatedTextDisplay.style.display = 'block';
+                esconderTexto.textContent = "Esconder Texto"
+
+    }
+}
