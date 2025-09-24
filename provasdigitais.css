@@ -1088,6 +1088,11 @@ font-size: 14px;
 
 }
 
+#esconderTexto {
+    width:200px;
+}
+
+
 
 
 /* Estilos para porcentagem de acerto */
@@ -1179,8 +1184,33 @@ font-size: 14px;
     font-style: italic;
 }
 
+#answer-key-container {
+  display: grid;
+  grid-template-rows: repeat(25, auto); /* define 10 linhas */
+  grid-auto-flow: column; /* preenche por coluna */
+  gap: 10px;
+  margin-bottom: 20px;
+  margin-top: 10px;
+}
+
+#answer-key-container2 {
+  display: grid;
+  grid-template-rows: repeat(25, auto); /* define 10 linhas */
+  grid-auto-flow: column; /* preenche por coluna */
+  gap: 10px;
+  margin-bottom: 20px;
+  margin-top: 10px;
+}
+
+.answer-key-item {
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #f5f5f5;
+  word-break: break-word;
+}
 /* Responsividade para texto associado */
-@media (max-width: 768px) {
+@media (max-width: 1000px) {
     .question-associated-text {
         padding: 15px;
         font-size: 0.95rem;
@@ -1199,5 +1229,33 @@ font-size: 14px;
     .question-actions {
         width: 100%;
     }
-}
+    #show-answer-btn {
+        width: 100%;
+    }
+    .answer-sheet-actions {
+        width: 100%;
+    }
 
+    
+#answer-key-container {
+  display: grid;
+  grid-template-rows: repeat(50, auto); /* define 10 linhas */
+  grid-auto-flow: column; /* preenche por coluna */
+  gap: 10px;
+  margin-bottom: 20px;
+}
+#answer-key-container2 {
+  display: grid;
+  grid-template-rows: repeat(50, auto); /* define 10 linhas */
+  grid-auto-flow: column; /* preenche por coluna */
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.answer-key-item {
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #f5f5f5;
+  word-break: break-word;
+}
+}

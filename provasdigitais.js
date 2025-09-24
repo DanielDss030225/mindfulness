@@ -748,8 +748,10 @@ updateProgress() {
     }
 
 nextQuestion() {
+    verTexto();
     window.scrollTo({
   top: 0,
+  
 });
 
     const currentQuestion = this.currentExamQuestions[this.currentQuestionIndex];
@@ -944,15 +946,28 @@ updateAnswerKey() {
         document.getElementById('answer-key-container2')
     ];
 
-    // Limpa os gabaritos anteriores
+    const totalQuestions = this.currentExamQuestions.length;
+
     containers.forEach(container => {
-        if (container) container.innerHTML = '';
-    });
+        if (!container) return;
 
-    this.currentExamQuestions.forEach((question, index) => {
-        containers.forEach(container => {
-            if (!container) return;
+        // Limpa gabarito antigo
+        container.innerHTML = '';
 
+        // Ajusta grid para preencher por coluna
+        container.style.display = 'grid';
+        container.style.gridAutoFlow = 'column';
+
+        // Para telas menores: cada container terá número de linhas igual ao total de questões
+        if (window.innerWidth < 1000) { // breakpoint para mobile/tablet
+            container.style.gridTemplateRows = `repeat(${totalQuestions}, auto)`;
+        } else {
+            // Para telas maiores, você pode definir um número fixo de linhas ou repetir automaticamente
+            container.style.gridTemplateRows = 'repeat(25, auto)'; 
+        }
+
+        // Cria os itens
+        this.currentExamQuestions.forEach((question, index) => {
             const div = document.createElement('div');
             div.className = 'answer-key-item';
             div.textContent = `Questão ${index + 1}: ${String.fromCharCode(65 + question.correctAnswer)}`;
@@ -961,13 +976,10 @@ updateAnswerKey() {
             const userAnswer = this.userAnswers[question.id];
 
             if (userAnswer === undefined) {
-                // Não respondida → cinza
                 div.classList.remove('correct', 'incorrect');
             } else if (userAnswer === question.correctAnswer) {
-                // Correta → verde
                 div.classList.add('correct');
             } else {
-                // Errada → vermelho
                 div.classList.add('incorrect');
             }
 
@@ -975,6 +987,9 @@ updateAnswerKey() {
         });
     });
 }
+
+
+
 
 
     showMotivationalMessage(accuracyPercentage, correct, total) {
@@ -1085,3 +1100,9 @@ function verTexto() {
 
     }
 }
+// Também é bom atualizar o grid se o usuário redimensionar a tela
+window.addEventListener('resize', () => {
+    if (window.system) {
+        window.system.updateAnswerKey();
+    }
+});
