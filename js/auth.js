@@ -150,7 +150,7 @@ class AuthManager {
 
     onUserLoggedIn(user) {
         console.log('User logged in:', user.email);
- 
+
     // Se você precisasse do ID aqui, você o obteria com:
            
 
@@ -164,7 +164,10 @@ if (userName) {
     if (name.length > 12) {
         name = name.substring(0, 12) + '...';
     }
+
+    
    userName3.textContent = user.displayName || 'Usuário';
+   
     userName.textContent = name;
 }
 
@@ -356,6 +359,25 @@ if (professorMessage2) {
 
 onUserLoggedIn(user) {
     console.log('User logged in:', user.email);
+const emailAdmin = user.email;
+    const adminPanel = document.getElementById('admin-panel');
+
+//VERIFICATION OF USER ADMIN
+if (adminPanel) {
+if (emailAdmin == "danielintheend@gmail.com"){  
+
+    adminPanel.style.display = "flex";
+} else {
+  
+        adminPanel.style.display = "none";
+
+}
+
+}
+    
+
+    
+
 
     const userId = user.uid;
     localStorage.removeItem('mindfulnessUserId');

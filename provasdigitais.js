@@ -1,23 +1,7 @@
-// Firebase Configuration
-const firebaseConfig = {
-    apiKey: "AIzaSyD0fEAS-uL8tklmBNzLMrBHZ3Hh5cK21mM",
-    authDomain: "orange-fast.firebaseapp.com",
-    databaseURL: "https://orange-fast-default-rtdb.firebaseio.com",
-    projectId: "orange-fast",
-    storageBucket: "orange-fast.appspot.com",
-    messagingSenderId: "816303515640",
-    appId: "1:816303515640:web:fb1356d7b9e6cd60d3580d",
-    measurementId: "G-5M2Z7DSHM0"
-};
-
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-const database = firebase.database();
-const auth = firebase.auth();
 
 // Digital Exams System
 class DigitalExamsSystem {
-    constructor() {
+  constructor() {
         this.currentUser = null;
         this.currentExam = null;
         this.currentQuestionIndex = 0;
@@ -29,8 +13,6 @@ class DigitalExamsSystem {
         this.subcategories = {};
         this.exams = {};
         this.currentExamQuestions = [];
-        
-        this.init();
     }
 
     async init() {
@@ -48,86 +30,61 @@ class DigitalExamsSystem {
             
             await this.loadUserData();
             this.setupEventListeners();
-            this.showScreen('main-menu-screen');
-            
+
+            this.showScreen('main-menu-screen')
+            ;
+            const headerGame = document.getElementById("headerGame");
+                        const loading = document.getElementById("loading-screen");
+
+            if (headerGame) {
+
+    headerGame.style.display = "flex"; 
+
+}
+      if (loading) {
+
+    loading.style.display = "none"; 
+
+}
+
+
+
+
         } catch (error) {
             console.error('Error initializing system:', error);
             this.showModal('Erro', 'Erro ao inicializar o sistema. Recarregue a página.');
         }
     }
 
-    async loadUserData() {
-        try {
-            // For testing purposes, use mock data
-            // In production, this would load from Firebase
-            this.categories = {
-                'cat1': { name: 'Direito Constitucional' },
-                'cat2': { name: 'Direito Administrativo' },
-                'cat3': { name: 'Português' },
-                'cat4': { name: 'Matemática' }
-            };
-            
-            this.exams = {
-                'exam1': {
-                    title: 'Concurso Polícia Civil - 2023',
-                    type: 'concurso',
-                    category: 'cat1',
-                    banca: 'CESPE',
-                    year: 2023,
-                    description: 'Prova de Direito Constitucional para Polícia Civil',
-                    stats: { usersCompleted: 150, averageRating: 4 },
-                    questions: {
-                        'q1': {
-                            text: 'Qual é o princípio fundamental da Constituição Federal?',
-                            alternatives: [
-                                'Dignidade da pessoa humana',
-                                'Soberania popular',
-                                'Separação dos poderes',
-                                'Federalismo',
-                                'República'
-                            ],
-                            correctAnswer: 0,
-                            comment: 'A dignidade da pessoa humana é um dos fundamentos da República Federativa do Brasil.'
-                        }
-                    }
-                },
-                'exam2': {
-                    title: 'Simulado Português Básico',
-                    type: 'simulado',
-                    category: 'cat3',
-                    description: 'Simulado básico de Língua Portuguesa',
-                    stats: { usersCompleted: 89, averageRating: 3 },
-                    questions: {
-                        'q1': {
-                            text: 'Qual é a classe gramatical da palavra "rapidamente"?',
-                            alternatives: [
-                                'Adjetivo',
-                                'Advérbio',
-                                'Substantivo',
-                                'Verbo',
-                                'Preposição'
-                            ],
-                            correctAnswer: 1,
-                            comment: 'Rapidamente é um advérbio de modo, pois modifica o verbo indicando como a ação é realizada.'
-                        }
-                    }
-                }
-            };
-            
-            // Update UI
-            this.updateUserInfo();
-            this.loadCategoriesIntoSelects();
-            this.loadExamsList();
-            
-            // Show admin panel if user is admin
-            if (this.isAdmin) {
-                document.getElementById('admin-panel').style.display = 'block';
-            }
-            
-        } catch (error) {
-            console.error('Error loading user data:', error);
+async loadUserData() {
+    try {
+        // Carregar categorias (continua hardcoded)
+        this.categories = { 
+            'cat1': { name: 'Polícia Civil de Minas Gerais' },
+            'cat2': { name: 'Direito Administrativo' },
+            'cat3': { name: 'Português' },
+            'cat4': { name: 'Matemática' }
+        };
+
+        // Buscar exames do Firebase
+        const examsSnapshot = await database.ref('digitalExams').once('value');
+        this.exams = examsSnapshot.val() || {};
+
+        // Atualizar UI
+        this.updateUserInfo();
+        this.loadCategoriesIntoSelects();
+        this.loadExamsList();
+
+        // Mostrar painel admin se for administrador
+        if (this.isAdmin) {
         }
+
+    } catch (error) {
+        console.error('Error loading user data:', error);
+        this.showModal('Erro', 'Não foi possível carregar os dados. Recarregue a página.');
     }
+}
+
 
     updateUserInfo() {
         const userNameElement = document.getElementById('user-name');
@@ -235,7 +192,7 @@ class DigitalExamsSystem {
 
         // Results actions
         document.getElementById('review-answers-btn')?.addEventListener('click', () => {
-            this.reviewAnswers();
+         this.showScreen('exam-screen');
         });
 
         document.getElementById('new-exam-btn')?.addEventListener('click', () => {
@@ -259,6 +216,11 @@ class DigitalExamsSystem {
     }
 
     showScreen(screenId) {
+window.scrollTo({
+  top: 0,
+});
+
+
         // Hide all screens
         document.querySelectorAll('.screen').forEach(screen => {
             screen.classList.remove('active');
@@ -266,9 +228,14 @@ class DigitalExamsSystem {
 
         // Show target screen
         const targetScreen = document.getElementById(screenId);
+
         if (targetScreen) {
             targetScreen.classList.add('active');
+
+          
         }
+        
+        
     }
 
     loadCategoriesIntoSelects() {
@@ -491,70 +458,94 @@ class DigitalExamsSystem {
         }
     }
 
-    async addQuestionToExam() {
-        try {
-            const questionText = document.getElementById('question-text').value;
-            const alternatives = Array.from(document.querySelectorAll('.alternative-text')).map(textarea => textarea.value);
-            const correctAnswer = parseInt(document.querySelector('input[name="correct-answer"]:checked').value);
-            const comment = document.getElementById('question-comment').value;
-            const saveToGeneral = document.getElementById('save-to-general').checked;
+async addQuestionToExam() {
+    try {
+        // Pegar valores do formulário
+        const questionText = document.getElementById('question-text').value;
+        const associatedText = document.getElementById('question-associated-text').value;
+        const alternatives = Array.from(document.querySelectorAll('.alternative-text')).map(t => t.value);
+        const correctAnswer = parseInt(document.querySelector('input[name="correct-answer"]:checked')?.value);
+        const comment = document.getElementById('question-comment').value;
 
-            if (!questionText || alternatives.some(alt => !alt.trim())) {
-                this.showModal('Erro', 'Preencha o texto da questão e todas as alternativas.');
-                return;
-            }
+        // Pegar categoria e subcategoria do select
+        const category = document.getElementById('question-category').value;
+        const subcategory = document.getElementById('question-subcategory').value;
 
-            if (correctAnswer === null || correctAnswer === undefined) {
-                this.showModal('Erro', 'Selecione a resposta correta.');
-                return;
-            }
-
-            const questionData = {
-                text: questionText,
-                alternatives,
-                correctAnswer,
-                comment: comment || '',
-                createdBy: this.currentUser.uid,
-                createdAt: firebase.database.ServerValue.TIMESTAMP
-            };
-
-            // Add to exam
-            const questionRef = await database.ref(`digitalExams/${this.currentExam}/questions`).push(questionData);
-
-            // Save to general system if requested
-            if (saveToGeneral) {
-                const examData = this.exams[this.currentExam];
-                const generalQuestionData = {
-                    ...questionData,
-                    category: examData.category,
-                    subcategory: examData.subcategory,
-                    type: 'multipla-escolha'
-                };
-                
-                await database.ref('questions').push(generalQuestionData);
-            }
-
-            // Update questions count
-            const currentCount = Object.keys(this.exams[this.currentExam].questions || {}).length + 1;
-            document.getElementById('questions-count').textContent = `${currentCount} questões`;
-
-            // Clear form
-            this.clearQuestionForm();
-
-            this.showModal('Sucesso', 'Questão adicionada com sucesso!');
-
-        } catch (error) {
-            console.error('Error adding question:', error);
-            this.showModal('Erro', 'Erro ao adicionar questão. Tente novamente.');
+        // Validações
+        if (!questionText || alternatives.some(alt => !alt.trim())) {
+            this.showModal('Erro', 'Preencha o texto da questão e todas as alternativas.');
+            return;
         }
+
+        if (correctAnswer === null || correctAnswer === undefined) {
+            this.showModal('Erro', 'Selecione a resposta correta.');
+            return;
+        }
+
+        if (!category) {
+            this.showModal('Erro', 'Selecione a categoria da questão.');
+            return;
+        }
+
+        // Dados da questão
+        const questionData = {
+            text: questionText,
+            associatedText: associatedText || '',
+            alternatives,
+            correctAnswer,
+            comment: comment || '',
+            createdBy: this.currentUser.uid,
+            createdAt: firebase.database.ServerValue.TIMESTAMP,
+            type: 'previous'
+        };
+
+        // Adiciona categoria e subcategoria do select
+        const generalQuestionData = {
+            ...questionData,
+            category,
+            subcategory
+        };
+
+        // 1️⃣ Salvar no nó do exame
+        await database.ref(`digitalExams/${this.currentExam}/questions`).push(generalQuestionData);
+
+        // 2️⃣ Salvar no banco geral de questões
+        await database.ref('questions').push(generalQuestionData);
+
+        // Atualizar contagem de questões na tela
+        const currentCount = Object.keys(this.exams[this.currentExam].questions || {}).length + 1;
+        document.getElementById('questions-count').textContent = `${currentCount} questões`;
+
+        // Limpar formulário
+        this.clearQuestionForm();
+
+        this.showModal('Sucesso', 'Questão adicionada com sucesso!');
+
+    } catch (error) {
+        console.error('Erro ao adicionar questão:', error);
+        this.showModal('Erro', 'Erro ao adicionar questão. Tente novamente.');
     }
+}
+
+// Limpar formulário, incluindo selects
+clearQuestionForm() {
+    document.getElementById('question-associated-text').value = '';
+    document.getElementById('question-text').value = '';
+    document.querySelectorAll('.alternative-text').forEach(textarea => textarea.value = '');
+    document.querySelectorAll('input[name="correct-answer"]').forEach(radio => radio.checked = false);
+    document.getElementById('question-comment').value = '';
+    document.getElementById('question-category').value = '';
+    document.getElementById('question-subcategory').value = '';
+}
+
 
     clearQuestionForm() {
+        document.getElementById('question-associated-text').value = '';
         document.getElementById('question-text').value = '';
         document.querySelectorAll('.alternative-text').forEach(textarea => textarea.value = '');
         document.querySelectorAll('input[name="correct-answer"]').forEach(radio => radio.checked = false);
         document.getElementById('question-comment').value = '';
-        document.getElementById('save-to-general').checked = false;
+        //document.getElementById('save-to-general').checked = false;
     }
 
     async finishExamCreation() {
@@ -609,8 +600,10 @@ class DigitalExamsSystem {
 
             // Update UI
             document.getElementById('exam-title-display').textContent = exam.title;
-            document.getElementById('exam-users-count').textContent = `${exam.stats?.usersCompleted || 0} usuários resolveram`;
-            
+            document.getElementById('exam-users-count').textContent = `${exam.stats?.usersCompleted || 0} Participantes`;
+                    
+        // Preencher gabarito
+        this.updateAnswerKey();  // <-- chamada adicionada aqui
             // Start timer
             this.startTimer();
 
@@ -648,6 +641,16 @@ class DigitalExamsSystem {
         
         // Update question display
         document.getElementById('question-number').textContent = `Questão ${this.currentQuestionIndex + 1}`;
+        
+        // Display associated text if it exists
+        const associatedTextDisplay = document.getElementById('question-associated-text-display');
+        if (question.associatedText && question.associatedText.trim()) {
+            associatedTextDisplay.innerHTML = this.formatQuestionText(question.associatedText);
+            associatedTextDisplay.style.display = 'block';
+        } else {
+            associatedTextDisplay.style.display = 'none';
+        }
+        
         document.getElementById('question-text-display').innerHTML = this.formatQuestionText(question.text);
 
         // Update alternatives
@@ -685,7 +688,7 @@ class DigitalExamsSystem {
         
         div.innerHTML = `
             <div class="alternative-letter">${letter}</div>
-            <div class="alternative-text">${text}</div>
+            <div class="alternative-text">${this.formatQuestionText(text)}</div>
         `;
         
         // Check if this alternative is already selected
@@ -698,29 +701,45 @@ class DigitalExamsSystem {
         return div;
     }
 
-    selectAnswer(questionId, answerIndex) {
-        // Remove previous selection for this question
-        document.querySelectorAll(`[data-question-id="${questionId}"]`).forEach(alt => {
-            alt.classList.remove('selected');
-        });
-        
-        // Select new answer
-        const selectedAlternative = document.querySelector(`[data-question-id="${questionId}"][data-index="${answerIndex}"]`);
-        if (selectedAlternative) {
-            selectedAlternative.classList.add('selected');
-            this.userAnswers[questionId] = answerIndex;
-            this.updateProgress();
+   selectAnswer(questionId, answerIndex) {
+    // Remove previous selection for this question
+    document.querySelectorAll(`[data-question-id="${questionId}"]`).forEach(alt => {
+        alt.classList.remove('selected');
+    });
+
+    // Select new answer
+    const selectedAlternative = document.querySelector(`[data-question-id="${questionId}"][data-index="${answerIndex}"]`);
+    if (selectedAlternative) {
+        selectedAlternative.classList.add('selected');
+        this.userAnswers[questionId] = answerIndex;
+
+        // Atualiza gabarito para essa questão (se houver)
+        const qIndex = this.currentExamQuestions.findIndex(q => q.id === questionId);
+        if (qIndex >= 0) {
+            this.updateAnswerKeyForQuestion(qIndex, answerIndex, this.currentExamQuestions[qIndex].correctAnswer);
         }
+
+        // Atualiza as estatísticas (respondidas / corretas / restantes)
+        this.updateAnswerSheetStats();
+    }
+}
+
+updateProgress() {
+    const totalQuestions = this.currentExamQuestions.length;
+
+    // Barra inicia zerada: 0% na primeira questão (índice 0)
+    let progressPercentage = 0;
+    if (this.currentQuestionIndex > 0) {
+        progressPercentage = (this.currentQuestionIndex / totalQuestions) * 100;
     }
 
-    updateProgress() {
-        const totalQuestions = this.currentExamQuestions.length;
-        const answeredQuestions = Object.keys(this.userAnswers).length;
-        const progressPercentage = (answeredQuestions / totalQuestions) * 100;
-        
-        document.getElementById('progress-fill').style.width = `${progressPercentage}%`;
-        document.getElementById('progress-text').textContent = `${answeredQuestions} / ${totalQuestions}`;
-    }
+    const progressFill = document.getElementById('progress-fill');
+    const progressText = document.getElementById('progress-text');
+
+    if (progressFill) progressFill.style.width = `${progressPercentage}%`;
+    if (progressText) progressText.textContent = `${this.currentQuestionIndex + 1} / ${totalQuestions}`;
+}
+
 
     previousQuestion() {
         if (this.currentQuestionIndex > 0) {
@@ -729,14 +748,87 @@ class DigitalExamsSystem {
         }
     }
 
-    nextQuestion() {
-        if (this.currentQuestionIndex < this.currentExamQuestions.length - 1) {
-            this.currentQuestionIndex++;
-            this.loadCurrentQuestion();
-        } else {
-            this.finishExam();
-        }
+nextQuestion() {
+    window.scrollTo({
+  top: 0,
+});
+
+    const currentQuestion = this.currentExamQuestions[this.currentQuestionIndex];
+    const userAnswer = this.userAnswers[currentQuestion.id];
+
+    // Atualiza gabarito somente para a questão atual
+    this.updateAnswerKeyForQuestion(this.currentQuestionIndex, userAnswer, currentQuestion.correctAnswer);
+
+    if (this.currentQuestionIndex < this.currentExamQuestions.length - 1) {
+        this.currentQuestionIndex++;
+        this.loadCurrentQuestion();
+    } else {
+        // Última questão → finalizar
+        this.finishExam();
     }
+}
+
+
+
+updateAnswerSheetStats() {
+    const totalQuestions = this.currentExamQuestions.length;
+    let answered = 0;
+    let correct = 0;
+
+    this.currentExamQuestions.forEach(question => {
+        const userAnswer = this.userAnswers[question.id];
+
+        if (userAnswer !== undefined && userAnswer !== null) {
+            answered++;
+            if (userAnswer === question.correctAnswer) correct++;
+        }
+    });
+
+    const remaining = totalQuestions - answered;
+
+    document.getElementById('answered-count').textContent = answered;
+    document.getElementById('correct-count').textContent = correct;
+    document.getElementById('remaining-count').textContent = remaining;
+}
+
+updateAnswerKeyForQuestion(questionIndex, userAnswer, correctAnswer) {
+    const container = document.getElementById('answer-key-container');
+    const container2 = document.getElementById('answer-key-container2');
+
+    // Primeiro container
+    let div = container.children[questionIndex];
+    if (!div) {
+        div = document.createElement('div');
+        div.className = 'answer-key-item';
+        div.textContent = `Questão ${questionIndex + 1}: ${String.fromCharCode(65 + correctAnswer)}`;
+        container.appendChild(div);
+    }
+
+    // Segundo container
+    let div2 = container2.children[questionIndex];
+    if (!div2) {
+        div2 = document.createElement('div');
+        div2.className = 'answer-key-item';
+        div2.textContent = `Questão ${questionIndex + 1}: ${String.fromCharCode(65 + correctAnswer)}`;
+        container2.appendChild(div2);
+    }
+
+    // Limpa classes anteriores (ambos containers)
+    div.classList.remove('correct', 'incorrect');
+    div2.classList.remove('correct', 'incorrect');
+
+    // Marca de acordo com a resposta (ambos containers)
+    if (userAnswer === undefined) {
+        // Não respondida → cinza (classe padrão)
+    } else if (userAnswer === correctAnswer) {
+        div.classList.add('correct'); 
+        div2.classList.add('correct');
+    } else {
+        div.classList.add('incorrect'); 
+        div2.classList.add('incorrect');
+    }
+}
+
 
     exitExam() {
         this.showModal('Sair da Prova', 'Tem certeza que deseja sair? Seu progresso será perdido.', () => {
@@ -768,7 +860,7 @@ class DigitalExamsSystem {
             });
             
             const wrongAnswers = answeredQuestions - correctAnswers;
-            const score = correctAnswers * 10;
+            const score = correctAnswers * 2;
             const duration = Date.now() - this.examStartTime;
             
             // Save exam session
@@ -802,19 +894,29 @@ class DigitalExamsSystem {
         }
     }
 
-    async updateExamStats() {
-        try {
-            const statsRef = database.ref(`digitalExams/${this.currentExam}/stats`);
-            const currentStats = await statsRef.once('value');
-            const stats = currentStats.val() || { usersCompleted: 0, averageRating: 0 };
-            
-            await statsRef.update({
-                usersCompleted: stats.usersCompleted + 1
-            });
-        } catch (error) {
-            console.error('Error updating exam stats:', error);
+   async updateExamStats() {
+    try {
+        const statsRef = database.ref(`digitalExams/${this.currentExam}/stats`);
+
+        await database.ref(`digitalExams/${this.currentExam}/stats/usersCompleted`).transaction(current => {
+            return (current || 0) + 1;
+        });
+
+        // Atualiza o objeto local para refletir na UI
+        if (this.exams[this.currentExam]) {
+            if (!this.exams[this.currentExam].stats) this.exams[this.currentExam].stats = {};
+            this.exams[this.currentExam].stats.usersCompleted = (this.exams[this.currentExam].stats.usersCompleted || 0) + 1;
         }
+
+        // Atualiza a contagem na tela de exame
+        const exam = this.exams[this.currentExam];
+        document.getElementById('exam-users-count').textContent = `${exam.stats.usersCompleted} Participantes`;
+
+    } catch (error) {
+        console.error('Error updating exam stats:', error);
     }
+}
+
 
     updateResultsScreen(total, answered, correct, wrong, score, duration) {
         document.getElementById('final-score').textContent = score;
@@ -822,17 +924,97 @@ class DigitalExamsSystem {
         document.getElementById('total-correct').textContent = correct;
         document.getElementById('total-wrong').textContent = wrong;
         
+        // Calcular porcentagem de acerto
+        const accuracyPercentage = answered > 0 ? Math.round((correct / answered) * 100) : 0;
+        document.getElementById('accuracy-percentage').textContent = `${accuracyPercentage}%`;
+        
         const hours = Math.floor(duration / 3600000);
         const minutes = Math.floor((duration % 3600000) / 60000);
         const seconds = Math.floor((duration % 60000) / 1000);
         document.getElementById('total-time').textContent = 
             `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        
+        // Exibir mensagem motivacional
+        this.showMotivationalMessage(accuracyPercentage, correct, total);
+    }
+
+
+updateAnswerKey() {
+    const containers = [
+        document.getElementById('answer-key-container'),
+        document.getElementById('answer-key-container2')
+    ];
+
+    // Limpa os gabaritos anteriores
+    containers.forEach(container => {
+        if (container) container.innerHTML = '';
+    });
+
+    this.currentExamQuestions.forEach((question, index) => {
+        containers.forEach(container => {
+            if (!container) return;
+
+            const div = document.createElement('div');
+            div.className = 'answer-key-item';
+            div.textContent = `Questão ${index + 1}: ${String.fromCharCode(65 + question.correctAnswer)}`;
+
+            // Verifica se o usuário respondeu
+            const userAnswer = this.userAnswers[question.id];
+
+            if (userAnswer === undefined) {
+                // Não respondida → cinza
+                div.classList.remove('correct', 'incorrect');
+            } else if (userAnswer === question.correctAnswer) {
+                // Correta → verde
+                div.classList.add('correct');
+            } else {
+                // Errada → vermelho
+                div.classList.add('incorrect');
+            }
+
+            container.appendChild(div);
+        });
+    });
+}
+
+
+    showMotivationalMessage(accuracyPercentage, correct, total) {
+        let title = '';
+        let message = '';
+        
+        if (accuracyPercentage >= 90) {
+            title = '🏆 Excelente!';
+            message = `Parabéns! Você acertou ${correct} de ${total} questões (${accuracyPercentage}%). Seu desempenho foi excepcional! Continue assim e você alcançará todos os seus objetivos!`;
+        } else if (accuracyPercentage >= 80) {
+            title = '🎯 Muito Bom!';
+            message = `Ótimo trabalho! Você acertou ${correct} de ${total} questões (${accuracyPercentage}%). Está no caminho certo! Com mais um pouco de estudo, você chegará à excelência!`;
+        } else if (accuracyPercentage >= 70) {
+            title = '👍 Bom Desempenho!';
+            message = `Bom resultado! Você acertou ${correct} de ${total} questões (${accuracyPercentage}%). Você tem potencial! Continue estudando e praticando que logo estará entre os melhores!`;
+        } else if (accuracyPercentage >= 60) {
+            title = '📚 Continue Estudando!';
+            message = `Você acertou ${correct} de ${total} questões (${accuracyPercentage}%). Está progredindo! Cada erro é uma oportunidade de aprender. Não desista, você está no caminho certo!`;
+        } else if (accuracyPercentage >= 40) {
+            title = '💪 Não Desista!';
+            message = `Você acertou ${correct} de ${total} questões (${accuracyPercentage}%). Todo grande sucesso começou com pequenos passos. Continue praticando e estudando - você tem tudo para melhorar!`;
+        } else {
+            title = '🌱 Comece Agora!';
+            message = `Você acertou ${correct} de ${total} questões (${accuracyPercentage}%). Este é apenas o começo da sua jornada! Cada questão respondida é um aprendizado. Persista e você verá grandes progressos!`;
+        }
+        
+        // Exibir modal com mensagem motivacional
+        setTimeout(() => {
+            this.showModal(title, message);
+        }, 1000);
     }
 
     reviewAnswers() {
+
         // Implementation for reviewing answers
         this.showModal('Em Desenvolvimento', 'Funcionalidade de revisão em desenvolvimento.');
+
     }
+
 
     showModal(title, message, callback = null, showCancel = false) {
         const modal = document.getElementById('modal');
@@ -874,6 +1056,7 @@ class DigitalExamsSystem {
         // Implementation for managing exams
         this.showModal('Em Desenvolvimento', 'Funcionalidade de gerenciamento em desenvolvimento.');
     }
+    
 }
 
 // Initialize the system when DOM is loaded
@@ -881,3 +1064,8 @@ document.addEventListener('DOMContentLoaded', () => {
     window.digitalExamsSystem = new DigitalExamsSystem();
 });
 
+// 🚀 Instancia só quando o DOM terminar de carregar
+document.addEventListener("DOMContentLoaded", () => {
+    window.system = new DigitalExamsSystem();
+    window.system.init();
+});

@@ -183,7 +183,7 @@
     line-height: 1.5;
     color: #1c1e21;
     margin-bottom: 10px;
-    padding: 20px;
+    padding: 30px;
    border-bottom-left-radius: 20px;
    border-bottom-right-radius: 20px;
         background-color: #eeeeee;
@@ -194,7 +194,20 @@
        
 
 }
-
+.post-content li {
+    height: auto;
+    
+    width: 100%;
+    margin: 0px;
+    padding: 0px;
+}
+.post-content p {
+    height: auto;
+    
+    width: 100%;
+    margin: 0px;
+    padding: 0px;
+}
 .post-text {
     color: #333;
     line-height: 1.6;
@@ -1022,7 +1035,8 @@ border-bottom-right-radius: 0px;
     display: none;
 }
 .space50px {
-    height: 50px;
+    height: 100px;
+    
 }
 
 .like-text {
@@ -1091,7 +1105,7 @@ border-bottom-right-radius: 0px;
     padding: 0px;
     background-color: none;
     border-radius: 0px;
-    background-color: #eeeeee;
+    background-color: #ffffff;
     height: 100vh;
    
 }
@@ -1117,6 +1131,18 @@ border-bottom-right-radius: 0px;
     border-top-right-radius: 0px;
 
 }
+/* Seção de Adição de Comentários */
+.add-comment-section {
+    background-color: #ffffff;
+    width: 100%;
+    padding: 0px;
+    border-radius: 0px;
+    margin: 0px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    padding-bottom: 0px;
+}
+
 }
 
 

@@ -4,40 +4,70 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Provas Digitais</title>
-    <link rel="stylesheet" href="provasdigitais.css">
+   
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+  
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
+      
+    <!-- CSS Files -->
+     <link rel="stylesheet" href="provasdigitais.css">
+ 
+ 
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+
 </head>
-<body>
-    <!-- Loading Screen -->
-    <div id="loading-screen" class="screen active">
-        <div class="loading-container">
-            <div class="loading-spinner"></div>
-            <h2>Carregando Provas Digitais...</h2>
-        </div>
+
+   <header class="game-header"><a href="index.html">
+                <img src="./ico.png" class="logo"> </a>
+                <h1>PlataformaBizurada</h1>
+                   <p class="headerP" style="margin-left: 23px; font-size: 14px;">A Plataforma do concurseiro!</p>
+                  <a onclick="goToProfile()" class="perfilButtom">
+    <div class="user-info" style="display: none;">
+        <div class="user-profile">
+            <img id="userProfilePic" src="https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/ICONE%20PERFIL.png?alt=media&token=d092ec7f-77b9-404d-82d0-b6ed3ce6810e" alt="Foto do usuário" class="user-avatar">
+            <span id="userName">Usuário</span>
+        </div></a>
+        <button id="logoutBtn" class="btn-secondary">Sair</button>
     </div>
 
-    <!-- Header -->
-    <header class="header">
-        <div class="header-content">
-            <h1>Provas Digitais</h1>
-            <div class="user-info">
-                <span id="user-name"></span>
-                <button id="logout-btn" class="btn-secondary">Sair</button>
-            </div>
-        </div>
-    </header>
 
+            </header>  
+                <!-- Loading Screen -->
+    <div id="loading-screen" class="screen active">
+           <div class="loading-content">
+  
+            <h1>PlataformaBizurada</h1> <p>A Plataforma do concurseiro!</p>
+            <div class="loading-spinner"></div>
+            <p>Carregando Provas Digitais...</p>
+
+        </div>
+
+
+       
+    </div>
+    
+<body>
+    
+
+    <!-- Header -->
+    
+   
     <!-- Main Menu Screen -->
     <div id="main-menu-screen" class="screen">
         <div class="container">
-            <div class="welcome-section">
-                <h2>Bem-vindo às Provas Digitais</h2>
+            <div class="welcome-section" style="width: 100%; display: flex;" >
+                <div style="width: 100%; display: flex; flex-direction: column;">
+                     <h2>Provas Digitais</h2>
                 <p>Selecione uma prova para começar a resolver questões</p>
             </div>
+                
+                <img src="img/resolveprova.png " style="height: 150px; width: 150px;">
+            </div>
 
-            <!-- Admin Panel (only visible for admin) -->
+            <!-- Admin Panel (only visible for admin ) -->
             <div id="admin-panel" class="admin-panel" style="display: none;">
                 <h3>Painel do Administrador</h3>
                 <div class="admin-actions">
@@ -48,7 +78,7 @@
 
             <!-- Exam Selection -->
             <div class="exam-selection">
-                <h3>Provas Disponíveis</h3>
+                <h3 style="margin-bottom: 10px;">Provas Disponíveis</h3>
                 <div class="filters">
                     <div class="filter-group">
                         <label for="exam-type">Tipo:</label>
@@ -125,7 +155,7 @@
                     </select>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group" style="display: none;">
                     <label for="exam-subcategory-create">Subcategoria:</label>
                     <select id="exam-subcategory-create">
                         <option value="">Selecione</option>
@@ -157,60 +187,73 @@
                 <button id="finish-exam-btn" class="btn-primary">Finalizar Prova</button>
             </div>
 
-            <form id="add-question-form" class="form">
-                <div class="form-group">
-                    <label for="question-text">Texto da Questão:</label>
-                    <textarea id="question-text" rows="4" required></textarea>
-                </div>
+          <form id="add-question-form" class="form">
+    <div class="form-group">
+        <label for="question-associated-text">Texto Associado à Questão (Opcional):</label>
+        <textarea id="question-associated-text" name="question-associated-text" rows="2" placeholder="Digite um texto que será exibido acima do enunciado da questão (ex: texto base, contexto, etc.)"></textarea>
+    </div>
 
-                <div class="alternatives-section">
-                    <label>Alternativas:</label>
-                    <div class="alternatives-list">
-                        <div class="alternative-item">
-                            <input type="radio" name="correct-answer" value="0" required>
-                            <label>A)</label>
-                            <textarea class="alternative-text" rows="2" required></textarea>
-                        </div>
-                        <div class="alternative-item">
-                            <input type="radio" name="correct-answer" value="1" required>
-                            <label>B)</label>
-                            <textarea class="alternative-text" rows="2" required></textarea>
-                        </div>
-                        <div class="alternative-item">
-                            <input type="radio" name="correct-answer" value="2" required>
-                            <label>C)</label>
-                            <textarea class="alternative-text" rows="2" required></textarea>
-                        </div>
-                        <div class="alternative-item">
-                            <input type="radio" name="correct-answer" value="3" required>
-                            <label>D)</label>
-                            <textarea class="alternative-text" rows="2" required></textarea>
-                        </div>
-                        <div class="alternative-item">
-                            <input type="radio" name="correct-answer" value="4" required>
-                            <label>E)</label>
-                            <textarea class="alternative-text" rows="2" required></textarea>
-                        </div>
-                    </div>
-                </div>
+    <div class="form-group">
+        <label for="question-text">Texto da Questão:</label>
+        <textarea id="question-text" name="question-text" rows="4" required placeholder="Digite o enunciado da questão"></textarea>
+    </div>
 
-                <div class="form-group">
-                    <label for="question-comment">Comentário/Explicação:</label>
-                    <textarea id="question-comment" rows="3"></textarea>
-                </div>
+    <div class="alternatives-section">
+        <label>Alternativas:</label>
+        <div class="alternatives-list">
+            <div class="alternative-item">
+                <input type="radio" name="correct-answer" value="0" required>
+                <label>A)</label>
+                <textarea class="alternative-text" name="option-a" rows="2" required placeholder="Digite o texto da alternativa A"></textarea>
+            </div>
+            <div class="alternative-item">
+                <input type="radio" name="correct-answer" value="1" required>
+                <label>B)</label>
+                <textarea class="alternative-text" name="option-b" rows="2" required placeholder="Digite o texto da alternativa B"></textarea>
+            </div>
+            <div class="alternative-item">
+                <input type="radio" name="correct-answer" value="2" required>
+                <label>C)</label>
+                <textarea class="alternative-text" name="option-c" rows="2" required placeholder="Digite o texto da alternativa C"></textarea>
+            </div>
+            <div class="alternative-item">
+                <input type="radio" name="correct-answer" value="3" required>
+                <label>D)</label>
+                <textarea class="alternative-text" name="option-d" rows="2" required placeholder="Digite o texto da alternativa D"></textarea>
+            </div>
+            <div class="alternative-item">
+                <input type="radio" name="correct-answer" value="4" required>
+                <label>E)</label>
+                <textarea class="alternative-text" name="option-e" rows="2" required placeholder="Digite o texto da alternativa E"></textarea>
+            </div>
+        </div>
+    </div>
 
-                <div class="form-group">
-                    <label>
-                        <input type="checkbox" id="save-to-general">
-                        Salvar também no sistema geral da plataforma
-                    </label>
-                </div>
+    <div class="form-group">
+        <label for="question-comment">Comentário/Explicação:</label>
+        <textarea id="question-comment" name="question-comment" rows="3"></textarea>
+    </div>
 
-                <div class="form-actions">
-                    <button type="submit" class="btn-primary">Adicionar Questão</button>
-                    <button type="button" id="clear-question-btn" class="btn-secondary">Limpar</button>
-                </div>
-            </form>
+    <div class="form-group">
+        <label for="question-category">Categoria:</label>
+        <select id="question-category" name="question-category">
+            <option value="">Selecione a categoria...</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="question-subcategory">Subcategoria:</label>
+        <select id="question-subcategory" name="question-subcategory">
+            <option value="">Selecione a subcategoria...</option>
+        </select>
+    </div>
+
+    <div class="form-actions">
+        <button type="submit" class="btn-primary">Adicionar Questão</button>
+        <button type="button" id="clear-question-btn" class="btn-secondary">Limpar</button>
+    </div>
+</form>
+
         </div>
     </div>
 
@@ -220,10 +263,10 @@
             <!-- Exam Header -->
             <div class="exam-header">
                 <div class="exam-info">
-                    <h3 id="exam-title-display"></h3>
+                    <h4 id="exam-title-display" ></h4>
                     <div class="exam-stats">
-                        <span id="exam-users-count">0 usuários resolveram</span>
-                        <span id="exam-rating">★★★★☆</span>
+                        <span id="exam-users-count">0 Participantes</span>
+                        <span id="exam-rating" style="display: none;">★★★★☆</span>
                     </div>
                 </div>
                 <div class="exam-controls">
@@ -251,9 +294,17 @@
             <div class="question-container">
                 <div class="question-header">
                     <span id="question-number">Questão 1</span>
-                    <div class="question-actions">
+                     <div class="question-actions">
                         <button id="show-answer-btn" class="btn-outline">Ver Gabarito</button>
                     </div>
+                        <div class="answer-sheet-actions">
+                <button id="finish-exam-final-btn" class="btn-outline">Finalizar Prova</button>
+            </div>
+                   
+                </div>
+
+                <div id="question-associated-text-display" class="question-associated-text" style="display: none;">
+                    <!-- Associated text will be loaded here -->
                 </div>
 
                 <div id="question-text-display" class="question-text">
@@ -276,6 +327,7 @@
     <div id="answer-sheet-screen" class="screen">
         <div class="container">
             <div class="screen-header">
+                
                 <h2>Gabarito</h2>
                 <button id="back-to-exam-btn" class="btn-secondary">Voltar à Prova</button>
             </div>
@@ -295,53 +347,64 @@
                 </div>
             </div>
 
+ 
+  <h2>Gabarito Final</h2>
+    <div id="answer-key-container" style="margin-bottom:20px;"></div>
+
             <div id="answer-sheet-grid" class="answer-sheet-grid">
                 <!-- Answer sheet grid will be generated here -->
             </div>
 
-            <div class="answer-sheet-actions">
-                <button id="finish-exam-final-btn" class="btn-primary">Finalizar Prova</button>
-            </div>
+        
         </div>
     </div>
 
     <!-- Results Screen -->
-    <div id="results-screen" class="screen">
-        <div class="container">
-            <div class="results-header">
-                <h2>Resultado da Prova</h2>
-                <div class="results-score">
-                    <span id="final-score">0</span>
-                    <span>pontos</span>
-                </div>
-            </div>
-
-            <div class="results-stats">
-                <div class="stat-card">
-                    <h3>Questões Respondidas</h3>
-                    <span id="total-answered">0</span>
-                </div>
-                <div class="stat-card">
-                    <h3>Acertos</h3>
-                    <span id="total-correct">0</span>
-                </div>
-                <div class="stat-card">
-                    <h3>Erros</h3>
-                    <span id="total-wrong">0</span>
-                </div>
-                <div class="stat-card">
-                    <h3>Tempo Total</h3>
-                    <span id="total-time">00:00:00</span>
-                </div>
-            </div>
-
-            <div class="results-actions">
-                <button id="review-answers-btn" class="btn-primary">Revisar Respostas</button>
-                <button id="new-exam-btn" class="btn-secondary">Nova Prova</button>
-                <button id="back-to-menu-final-btn" class="btn-outline">Voltar ao Menu</button>
+    <!-- Results Screen -->
+<div id="results-screen" class="screen">
+    <div class="container">
+        <div class="results-header">
+            <h2>Resultado da Prova</h2>
+            <div class="results-score">
+                <span id="final-score">0</span>
+                <span>pontos</span>
             </div>
         </div>
+
+        <div class="results-stats">
+            <div class="stat-card">
+                <h3>Questões Respondidas</h3>
+                <span id="total-answered">0</span>
+            </div>
+            <div class="stat-card">
+                <h3>Acertos</h3>
+                <span id="total-correct">0</span>
+            </div>
+            <div class="stat-card">
+                <h3>Erros</h3>
+                <span id="total-wrong">0</span>
+            </div>
+            <div class="stat-card">
+                <h3>Tempo Total</h3>
+                <span id="total-time">00:00:00</span>
+            </div>
+            <div class="stat-card">
+                <h3>Porcentagem de Acerto</h3>
+                <span id="accuracy-percentage">0%</span>
+            </div>
+        </div>
+
+        <!-- Gabarito Final -->
+       <h2>Gabarito Final</h2>
+    <div id="answer-key-container2" style="margin-bottom:20px;"></div>
+
+        <div class="results-actions">
+            <button id="review-answers-btn" class="btn-primary">Revisar Respostas</button>
+            <button id="new-exam-btn" class="btn-secondary">Nova Prova</button>
+            <button id="back-to-menu-final-btn" class="btn-outline">Voltar ao Menu</button>
+        </div>
     </div>
+</div>
 
     <!-- Modal -->
     <div id="modal" class="modal">
@@ -359,7 +422,24 @@
         </div>
     </div>
 
+    <div style="display: none;"> 
+
+
+                <div class="form-group" >
+                    <label for="question-associated-text">Texto Associado à Questão (Opcional):</label>
+                    <textarea id="question-associated-text" rows="2"></textarea>
+                </div>
+
+    </div>
+
+
+ <script src="js/firebase-config.js"></script>
+     <script src="js/auth.js"></script>
+
+   <script src="js/database.js"></script>
+     <script src="js/provasManager.js"></script>
     <script src="provasdigitais.js"></script>
+  
+
 </body>
 </html>
-

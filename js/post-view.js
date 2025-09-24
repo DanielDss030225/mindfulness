@@ -235,7 +235,7 @@ async confirmDeletePost() {
         text = text.replace(urlRegex, '<a href="$1" target="_blank" rel="noopener noreferrer" class="post-link">$1</a>');
         
         // Convert line breaks to <br>
-        text = text.replace(/\n/g, '<br>');
+      
         
         return text;
     }
@@ -797,6 +797,11 @@ showToast("Resposta enviada com sucesso!");
             await commentRef.set(commentData);
             
             commentInput.value = '';
+             // ✅ Mostra a seção de comentários caso seja o primeiro
+        const commentsSection = document.getElementById('commentsSection');
+        if (commentsSection) {
+            commentsSection.style.display = 'block';
+        }
         } catch (error) {
             console.error('Erro ao enviar comentário:', error);
         }
