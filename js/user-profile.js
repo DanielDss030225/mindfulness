@@ -397,82 +397,105 @@ alert('URL userId: ' + currentUser);
 // Em js/user-profile.js, substitua a função loadAchievements() inteira
 
 async loadAchievements() {
+    console.log('[loadAchievements] Iniciando carregamento de conquistas...');
+
     const achievementsContainer = document.getElementById('achievementsList');
     const achievementCountElement = document.getElementById('achievementCount');
 
-    if (!achievementsContainer || !achievementCountElement) return;
-
-    const totalQuestions = this.userStats.totalQuestions || 0;
-
-    if (totalQuestions === 0) {
-      
+    if (!achievementsContainer || !achievementCountElement) {
+        console.warn('[loadAchievements] Elementos de UI não encontrados, abortando.');
+        return;
     }
 
-    // --- LÓGICA PARA CONQUISTAS ESPECÍFICAS ---
+    try {
+        const totalQuestions = this.userStats.totalQuestions || 0;
+        console.log('[loadAchievements] Total de questões respondidas:', totalQuestions);
 
-    // 1. Buscar detalhes das questões respondidas para analisar por categoria
-    const answeredQuestions = await window.databaseManager.getAnsweredQuestionsDetails(this.currentUserId);
+        // 1. Buscar detalhes das questões respondidas
+        console.log('[loadAchievements] Buscando questões respondidas...');
+        const answeredQuestions = await window.databaseManager.getAnsweredQuestionsDetails(this.currentUserId);
+        console.log('[loadAchievements] Questões respondidas recebidas:', answeredQuestions.length);
 
-    // 2. Buscar os IDs das categorias "Português" e "Direito"
-    const allCategories = await window.databaseManager.getCategories();
-    let portuguesCategoryId = null;
-    let direitoCategoryId = null; // <-- Variável para o ID de Direito
+        // 2. Buscar categorias
+        console.log('[loadAchievements] Buscando categorias...');
+        const allCategories = await window.databaseManager.getCategories();
+        console.log('[loadAchievements] Categorias carregadas:', Object.keys(allCategories).length);
 
-    for (const id in allCategories) {
-        const categoryName = allCategories[id].name.toLowerCase();
-        if (categoryName === 'português') {
-            portuguesCategoryId = id;
+        let portuguesCategoryId = null;
+        let direitoCategoryId = null;
+
+        for (const id in allCategories) {
+            const categoryName = allCategories[id].name.toLowerCase();
+         
+
         }
-        if (categoryName === 'direito') { // <-- Encontra o ID para Direito
-            direitoCategoryId = id;
-        }
-    }
 
-    // 3. Contar quantas questões de cada categoria foram respondidas
-    let portuguesQuestionsCount = 0;
-    if (portuguesCategoryId) {
-        portuguesQuestionsCount = answeredQuestions.filter(q => q.category === portuguesCategoryId).length;
-    }
+let categoriaPortugues = "";
+let categoriaDireitoPenal = "";
 
-    let direitoQuestionsCount = 0; // <-- Variável para a contagem de Direito
-    if (direitoCategoryId) {
-        direitoQuestionsCount = answeredQuestions.filter(q => q.category === direitoCategoryId).length;
-    }
+console.log('[loadAchievements] Contagem de questões por categoria:');
+for (const id in allCategories) {
+    const categoryName = allCategories[id].name;
+    const count = answeredQuestions.filter(q => q.category === id).length;
 
-    // 4. Usar os dados da sequência calculados anteriormente (se existirem)
-    const currentStreak = this.streaksData ? this.streaksData.currentStreak : 0;
+    console.log(`Categoria: ${categoryName} | ID: ${id} | Questões respondidas: ${count}`);
 
-    // 5. Definir a lista de conquistas com a nova lógica para Direito
-    const achievements = [
-        { id: 1, name: 'Primeira Questão', icon: '🎯', earned: totalQuestions >= 1 },
-                { id: 4, name: 'Concurseiro Pro', icon: '🔥', earned: totalQuestions >= 20 },
-
-        { id: 3, name: 'Acerto Perfeito', icon: '🎪', earned: totalQuestions >= 50 },
-                { id: 2, name: '100 Questões', icon: '💯', earned: totalQuestions >= 100 },
-
-          { id: 5, name: 'Especialista em Português', icon: '📚', earned: portuguesQuestionsCount >= 10 },
-        { id: 6, name: 'Mestre do Direito', icon: '⚖️', earned: direitoQuestionsCount >= 10 }, // <-- LÓGICA ADICIONADA AQUI
-                { id: 8, name: '200 Questões', icon: '🏆',earned: totalQuestions >= 200 },
-        { id: 9, name: 'Mentor da Comunidade', icon: '👨‍🏫', earned: totalQuestions >= 250 },
-        { id: 10, name: 'Lenda dos Concursos', icon: '👑', earned: totalQuestions >= 500 },
-
-        { id: 7, name: 'Milhar de Questões', icon: '🚀', earned: totalQuestions >= 1000 },
-        { id: 11, name: '2000 Questões', icon: '⚡',  earned: totalQuestions >= 2000 },
-        { id: 12, name: '5000 Questões', icon: '💎', earned: totalQuestions >= 5000 },
+    if (categoryName  == "🆎 Português: Língua Portuguesa e Interpretação de Textos" ) {
+categoriaPortugues =  count;
        
-    ];
 
-    // 6. Renderizar as conquistas na UI
-    const earnedCount = achievements.filter(a => a.earned).length;
-    achievementCountElement.textContent = `${earnedCount} de ${achievements.length} desbloqueadas`;
+    }
 
-    achievementsContainer.innerHTML = achievements.map(achievement => `
-        <div class="achievement-badge ${achievement.earned ? 'earned' : ''}" title="${achievement.name}">
-            <span class="achievement-icon">${achievement.icon}</span>
-            <div class="achievement-name">${achievement.name}</div>
-        </div>
-    `).join('');
+if (categoryName.includes("⚖️ Direito Penal - Código Penal") ) {
+categoriaDireitoPenal =  count;
+
+
+     
+    }
+
 }
+
+      
+
+        // 4. Streak atual
+        const currentStreak = this.streaksData ? this.streaksData.currentStreak : 0;
+        console.log('[loadAchievements] Sequência de estudos atual:', currentStreak);
+
+        // 5. Definir conquistas
+        const achievements = [
+            { id: 1, name: 'Primeira Questão', icon: '🎯', earned: totalQuestions >= 1 },
+            { id: 4, name: 'Concurseiro Pro', icon: '🔥', earned: totalQuestions >= 20 },
+            { id: 3, name: 'Acerto Perfeito', icon: '🎪', earned: totalQuestions >= 50 },
+            { id: 2, name: '100 Questões', icon: '💯', earned: totalQuestions >= 100 },
+            { id: 5, name: 'Especialista em Português', icon: '📚', earned: categoriaPortugues >= 10 },
+            { id: 6, name: 'Mestre do Direito Penal', icon: '⚖️', earned: categoriaDireitoPenal >= 10 },
+            { id: 8, name: '200 Questões', icon: '🏆', earned: totalQuestions >= 200 },
+            { id: 9, name: 'Mentor da Comunidade', icon: '👨‍🏫', earned: totalQuestions >= 250 },
+            { id: 10, name: 'Lenda dos Concursos', icon: '👑', earned: totalQuestions >= 500 },
+            { id: 7, name: 'Milhar de Questões', icon: '🚀', earned: totalQuestions >= 1000 },
+            { id: 11, name: '2000 Questões', icon: '⚡', earned: totalQuestions >= 2000 },
+            { id: 12, name: '5000 Questões', icon: '💎', earned: totalQuestions >= 5000 },
+        ];
+
+        const earnedCount = achievements.filter(a => a.earned).length;
+        console.log(`[loadAchievements] Conquistas desbloqueadas: ${earnedCount}/${achievements.length}`);
+
+        // 6. Renderizar na UI
+        achievementCountElement.textContent = `${earnedCount} de ${achievements.length} desbloqueadas`;
+
+        achievementsContainer.innerHTML = achievements.map(achievement => `
+            <div class="achievement-badge ${achievement.earned ? 'earned' : ''}" title="${achievement.name}">
+                <span class="achievement-icon">${achievement.icon}</span>
+                <div class="achievement-name">${achievement.name}</div>
+            </div>
+        `).join('');
+
+        console.log('[loadAchievements] Conquistas renderizadas com sucesso.');
+    } catch (error) {
+        console.error('[loadAchievements] Erro ao carregar conquistas:', error);
+    }
+}
+
 
 
 

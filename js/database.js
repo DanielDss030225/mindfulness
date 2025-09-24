@@ -234,20 +234,24 @@ class DatabaseManager {
     }
 
     // User Statistics
-    async getUserStats(userId) {
-        try {
-            const snapshot = await this.database.ref(`users/${userId}/stats`).once("value");
-            return snapshot.val() || {
-                totalQuestions: 0,
-                correctAnswers: 0,
-                wrongAnswers: 0,
-                totalScore: 0
-            };
-        } catch (error) {
-            console.error("Error getting user stats:", error);
-            throw error;
-        }
+  async getUserStats(userId) {
+    try {
+        console.log("Tentando buscar stats para userId:", userId);
+        const snapshot = await this.database.ref(`users/${userId}/stats`).once("value");
+        const data = snapshot.val();
+        console.log("Dados retornados do Firebase:", data);
+
+        return data || {
+            totalQuestions: 0,
+            correctAnswers: 0,
+            wrongAnswers: 0,
+            totalScore: 0
+        };
+    } catch (error) {
+        console.error("Error getting user stats:", error);
+        throw error;
     }
+}
 
     async updateUserStats(userId, stats) {
         try {

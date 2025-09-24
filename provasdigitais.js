@@ -748,7 +748,16 @@ updateProgress() {
     }
 
 nextQuestion() {
-    verTexto();
+
+   let textoAssociation = document.getElementById("question-associated-text-display");
+   if (textoAssociation) {
+    if (textoAssociation.style.display == "none" )
+    {
+
+    } else {
+        verTexto()
+    }
+   }
     window.scrollTo({
   top: 0,
   

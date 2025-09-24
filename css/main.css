@@ -669,7 +669,7 @@ width: auto;
     backdrop-filter: blur(10px);
     font-size: 14px;
         height: auto;
- border-left: 5px solid #00b95d;
+  border-left:  solid 4px rgb(68, 165, 97);
 
 
 
@@ -2285,6 +2285,7 @@ border-bottom-color: #d3d3d3;
   align-items: center;
   justify-content: center;
   margin-left: 20px;
+  border-left:  solid 4px rgb(68, 165, 97);
 
 }
 .iconPlayStore {
@@ -2326,9 +2327,9 @@ height: 100%;
 .text {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
   text-align: left;
-  gap: 4px;
+ 
   background-color: #dfdede6b;
   min-height: 110px;    
   height: auto;
@@ -2336,8 +2337,9 @@ height: 100%;
   border-radius: 15px;
   z-index: 1000;
 }
-
-
+.text p {
+    margin: 0px;
+}
 
 .bannerMentorias {
      width: 260px;
@@ -2352,6 +2354,8 @@ height: 100%;
   margin-left: 20px;
   align-items: center;
   padding: 20px;
+    border-left:  solid 4px rgb(68, 165, 97);
+
 
 }
 .bannerMentorias h1 {
