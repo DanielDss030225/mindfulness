@@ -27,7 +27,7 @@ margin-top: 30px;
 
 .auth-header {
     text-align: center;
-    margin-bottom: 40px;
+    
     
 }
 
@@ -203,7 +203,7 @@ margin-top: 30px;
     }
 
     .auth-header {
-    background: linear-gradient(135deg, #ffffff 0%, #be7dff 100%);
+   
     
     /* 1. Transforma o contêiner em um flex container */
     display: flex;
