@@ -428,11 +428,11 @@ body {
     border-radius: 20px;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
     overflow: hidden;
-    flex: 1;
+    
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    justify-content: top;
+    align-items: top;
 }
 .exam-timer{
 font-size: 14px;
@@ -480,6 +480,7 @@ font-size: 14px;
     display: flex;
     align-items: center;
     gap: 20px;
+    width: 100%;
 }
 
 .progress-bar {
