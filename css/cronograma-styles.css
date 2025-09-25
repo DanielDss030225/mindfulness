@@ -592,7 +592,7 @@ div {
 
 .imgSocial {
     height: 280px;
-    width: 340px;
+    width: 320px;
     
 }
 .fundoImgSocial{
@@ -681,6 +681,7 @@ div {
     justify-content: flex-start;
     align-items: center;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding-bottom: 100px;
 }
 
 .profilefundo2 {
@@ -692,6 +693,7 @@ div {
     justify-content: flex-start;
     align-items: center;
     background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+    padding-bottom: 100px;
 }
 
 

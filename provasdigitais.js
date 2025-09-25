@@ -184,7 +184,9 @@ async loadUserData() {
         document.getElementById('back-to-exam-btn')?.addEventListener('click', () => {
             this.showScreen('exam-screen');
         });
-
+ document.getElementById('back-to-exam-btn2')?.addEventListener('click', () => {
+            this.showScreen('exam-screen');
+        });
         document.getElementById('exit-exam-btn')?.addEventListener('click', () => {
             this.exitExam();
         });
@@ -667,7 +669,7 @@ clearQuestionForm() {
         // Update navigation buttons
         document.getElementById('prev-question-btn').disabled = this.currentQuestionIndex === 0;
         document.getElementById('next-question-btn').textContent = 
-            this.currentQuestionIndex === this.currentExamQuestions.length - 1 ? 'Finalizar' : 'Próxima';
+            this.currentQuestionIndex === this.currentExamQuestions.length - 1 ? 'Finalizar Prova' : 'Próxima Questão';
     }
 
     formatQuestionText(text) {
@@ -1096,15 +1098,18 @@ document.addEventListener("DOMContentLoaded", () => {
 function verTexto() {
     const associatedTextDisplay = document.getElementById('question-associated-text-display');
         const esconderTexto = document.getElementById('esconderTexto');
+        const fundoEsconderTexto     = document.getElementById('fundoEsconderTexto');
 
 
     if (associatedTextDisplay.style.display === 'block') {
-        
+         fundoEsconderTexto.style.display = 'none';
         associatedTextDisplay.style.display = 'none';
         esconderTexto.textContent = "Ver Texto"
 
     } else {
         associatedTextDisplay.style.display = 'block';
+                fundoEsconderTexto.style.display = 'flex';
+
                 esconderTexto.textContent = "Esconder Texto"
 
     }

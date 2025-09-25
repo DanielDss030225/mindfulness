@@ -75,6 +75,36 @@ body {
     z-index: 1000;
     animation: fadeIn 0.3s ease;
 }
+/* Input de pesquisa da playlist */
+.playlist-search {
+    padding: 10px 15px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.playlist-search input {
+    width: 100%;
+    padding: 10px 15px;
+    border-radius: 25px;
+    border: 2px solid transparent;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-size: 14px;
+    outline: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2) inset;
+}
+
+.playlist-search input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.playlist-search input:focus {
+    border-color: #3498db;
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 0 10px rgba(52, 152, 219, 0.5);
+}
 
 
 .popup-overlay.active {
@@ -365,7 +395,7 @@ margin-bottom: 20px;
     padding: 0px;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
     width: 100%;
-    height: 260px;
+    height: 420px;
     margin: 0px;
 }
 
@@ -378,11 +408,10 @@ margin-bottom: 20px;
 }
 
 .playlist {
-    height: 150px;
+    height: 180px;
     overflow-y: auto;
 
     /* Scrollbar discreta */
-    scrollbar-width: thin; /* Firefox */
     scrollbar-color: rgba(255,255,255,0.3) transparent; /* Firefox */
 }
 
@@ -441,13 +470,13 @@ margin-bottom: 20px;
   align-items: center;
   justify-content: center;
   gap: 5px;
-  margin-top: 30px;
-  margin-bottom: 15px;
+  margin-top: 10px;
+  margin-bottom: 5px;
 }
 /* Responsividade */
 @media (max-width: 600px) {
     .popup-container {
-        width: 95%;
+        width: 100%;
     }
     
   
@@ -573,12 +602,19 @@ margin-bottom: 20px;
     box-shadow: 0 5px 10px rgba(0,0,0,0.2);
 }
 .Mensagem {
-  width: 90%;
-  margin-left: 5%;
-  margin-right: 5%;
-  text-align: center;
+  width: 100%;
+
+  
   font-size: 14px;
-  margin-top: 15px;
+
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  background-color: #0869cbe0;
+  align-items: center;
+  z-index: 1000;
+  margin: 0px;
+  margin-top: 50px;
 }
 </style>
 
@@ -600,45 +636,62 @@ margin-bottom: 20px;
         </div>
         
                <!-- Lista de Reprodução -->
-            <div class="playlist-container">
-                 <div class="divNome" >  
-   <img src="./favicon.ico">
-                <h2> PlataformaBizurada</h2>
-             <i class="fas fa-headphones"></i>
-              </div>
-                <div id="loadingSpinner" class="loading-spinner" style="display: flex;">
-                    <div class="spinner"></div>
-                    <p>Carregando playlist...</p>
-                </div>
-                <div id="playlist" class="playlist">
-                    <!-- As músicas serão carregadas dinamicamente -->
-                </div>
-            </div>  
-            <div class="voltarSite">
-              <a class="voltarAnavegar" href="https://www.plataformabizurada.com.br" target="_blank"> Voltar a Navegar </a>
-            </div>
-   <p class="Mensagem"> Que tal ouvir uma música enquanto estuda?</p>     
-            <!-- Categorias de Música -->
+         <!-- Lista de Reprodução -->
+<div class="playlist-container">
+    <div class="divNome">  
+        <img src="./favicon.ico">
+        <h2> PlataformaBizurada</h2>
+        <i class="fas fa-headphones"></i>
+    </div>
+  <!-- Categorias de Música -->
             <div class="categories">
-                <button class="category-btn active " data-category="nature">
+                <button class="category-btn active " data-category="Natureza">
                     <i class="fas fa-leaf"></i>
-                    <span>Sons da Natureza</span>
+                    <span>Natureza</span>
                 </button>
-                <button class="category-btn" data-category="calm">
+                <button class="category-btn" data-category="Calma">
                     <i class="fas fa-spa"></i>
                     <span>Calma</span>
                 </button>
-                <button class="category-btn" data-category="focus">
+                <button class="category-btn" data-category="Focado">
                     <i class="fas fa-brain"></i>
-                    <span>Audiobook</span>
+                    <span>Focado</span>
                 </button>
             </div>
 
+    <!-- Input de pesquisa -->
+    <div class="playlist-search">
+        <input 
+            type="text" 
+            id="searchInput" 
+            placeholder="🔍 Buscar música em: Natureza..." 
+        />
+    </div>
+
+    <div id="loadingSpinner" class="loading-spinner" style="display: flex;">
+        <div class="spinner"></div>
+        <p>Carregando playlist...</p>
+    </div>
+
+    <div id="playlist" class="playlist">
+        <!-- As músicas serão carregadas dinamicamente -->
+    </div>
+</div>  
+
+
+
+
+            <div class="voltarSite">
+              <a class="voltarAnavegar" href="https://www.plataformabizurada.com.br" target="_blank"> Voltar a Navegar </a>
+            </div>
+
+            
+          
          
                     
 
             <!-- Player de Vídeo do YouTube -->
-            <div class="video-container" >
+            <div class="video-container" style="display: none;">
                 <div id="youtube-player"></div>
                 <div class="video-overlay">
                     <div class="current-track">
@@ -692,29 +745,43 @@ margin-bottom: 20px;
 ///ADICIONAR MÚSICAS
     // Configuração das playlists por categoria
 const playlists = {
-    nature: [
+    Natureza: [
         { id: 'h0CJgLE4NiY', title: 'Sons da Natureza', description: 'Sons relaxantes de Cachoeira', duration: '1:00:00' },
         { id: 'lFcSrYw-ARY', title: 'Chuva na Floresta', description: 'Sons relaxantes de chuva', duration: '3:00:00' },
-      
         { id: 'nDq6TstdEi8', title: 'Ondas do Mar', description: 'Som das ondas quebrando', duration: '2:30:00' },
         { id: 'eKFTSSKCzWA', title: 'Pássaros Cantando', description: 'Sons de pássaros na natureza', duration: '1:45:00' },
         { id: 'UfcAVejslrU', title: 'Fogueira Crepitante', description: 'Som relaxante de fogueira', duration: '2:15:00' },
         { id: 'wzjWIxXBs_s', title: 'Vento nas Árvores', description: 'Som suave do vento', duration: '1:30:00' }
     ],
-    calm: [
-        { id: 'jfKfPfyJRdk', title: 'Música Zen', description: 'Melodias para relaxamento', duration: '2:00:00' },
-        { id: 'YQIqgxeNtl0', title: 'Tibetan Bowls', description: 'Tigelas tibetanas relaxantes', duration: '1:20:00' }
+    Calma: [
+        { id: 'jfKfPfyJRdk', title: 'Live Infinita - Música Zen - Melodias Para Relaxamento', description: 'Melodias para relaxamento', duration: '2:00:00' },
+        { id: 'jfKfPfyJRdk', title: 'Live Infinita - lofi hip hop radio 📚 beats to relax/study to', description: 'lofi hip hop radio 📚 beats to relax/study to', duration: '1:20:00' }
     ],
-    focus: [
-        { id: 'uFOBAwBjbsw', title: 'CF em áudio ATUALIZADA 2024 - Do Preâmbulo ao art. 5º - PRINCÍPIOS FUNDAMENTAIS, DIREITOS, DEVERES', description: 'CF em áudio ATUALIZADA 2024', duration: '00:23:52' },
-        { id: 'VzSsUGmeqNk', title: 'CF em áudio ATUALIZADA 2024 - DOS DIREITOS SOCIAIS - Do art. 6º ao 11 - CF em áudio ', description: 'CF em áudio ATUALIZADA 2024', duration: '00:11:15' },
+
+    Focado: [
+        { id: 'kbHoOffcSuk', title: '10 músicas - 1 Hour Chill Country Music', description: '1 Hour Chill Country Music Playlist – Relaxing Country Songs to Brighten Your Day', duration: '00:23:52' },
+
+         { id: 'nE0uNEmVnIQ', title: '12 Músicas - Ed Sheeran - Romanct', description: 'Ed Sheeran Full Hits Songs Collection Album 2025 - Ed Sheeran Best Songs Playlist 2025', duration: '01:24:28' },
+        
+         { id: '1Pl3Y-GAhqE', title: '14 Músicas - Acoustic Hillsong Worship', description: 'Acoustic Hillsong Worship Praise Songs 2020 HILLSONG Praise And Worship Songs Playlist 2020480P', duration: '01:35:38' },
+         
+         
+         { id: 'V7X2ARlm4lY', title: '16 Músicas - Gospel, Louvores e Adoração', description: '', duration: '01:46:57' },
+
+           { id: 'YkTYkIzUuzk', title: '7 Músicas - Fernandinho 🎤 Louvores', description: '', duration: '00:28:40' },
+
+         { id: '6DcNYIhAY1k', title: '20 Músicas - Eletrônica para Estudar Concentraçãos', description: '', duration: '02:14:43' },
+
+         { id: 'JIMnT2hI4_M', title: '20 Músicas - para começar a semana bem', description: '', duration: '01:39:32' },
+
+          { id: 'luM8whWSNQk', title: '12 Músicas - Lukas Graham - 7 Years', description: '', duration: '01:00:00' },
     ]
 };
 
 // Variáveis globaisDOS DIREITOS SOCIAIS - Do art. 6º ao 11 - CF em áudio
 
 let player;
-let currentCategory = 'nature';
+let currentCategory = 'Natureza';
 let currentTrackIndex = 0;
 let isPlaying = false;
 let currentVolume = 50;
@@ -816,14 +883,20 @@ function onPlayerStateChange(event) {
     }
 }
 
+
 // Função para mudar categoria
 function changeCategory(category) {
+
     // Verificar se a categoria existe
     if (!playlists[category]) {
         console.error('Categoria não encontrada:', category);
         return;
     }
-    
+     
+     let searchInput = document.getElementById("searchInput");
+    searchInput.value = "";
+     searchInput.placeholder  = "🔍 Buscar música em: " + category + "...";
+
     currentCategory = category;
     currentTrackIndex = 0;
     
@@ -863,23 +936,41 @@ function changeCategory(category) {
 }
 
 // Função para carregar playlist na interface
-function loadPlaylist() {
+const searchInput = document.getElementById("searchInput");
+
+function loadPlaylist(filterText = "") {
     playlistContainer.innerHTML = '';
     const currentPlaylist = playlists[currentCategory];
-    
-    currentPlaylist.forEach((track, index) => {
-        const playlistItem = document.createElement('div');
-        playlistItem.className = `playlist-item ${index === currentTrackIndex ? 'active' : ''}`;
-        playlistItem.innerHTML = `
-            <div class="track-info">
-                <div class="track-title">${track.title}</div>
-                <div class="track-duration">${track.duration}</div>
-            </div>
-        `;
-        playlistItem.addEventListener('click', () => playTrack(index));
-        playlistContainer.appendChild(playlistItem);
-    });
+
+    currentPlaylist
+        .filter(track => 
+            track.title.toLowerCase().includes(filterText.toLowerCase()) || 
+            track.description.toLowerCase().includes(filterText.toLowerCase())
+        )
+        .forEach(track => {
+            const playlistItem = document.createElement('div');
+            const realIndex = currentPlaylist.indexOf(track); // índice real na playlist original
+
+            playlistItem.className = `playlist-item ${realIndex === currentTrackIndex ? 'active' : ''}`;
+            playlistItem.innerHTML = `
+                <div class="track-info">
+                    <div class="track-title">${track.title}</div>
+                    <div class="track-duration">${track.duration}</div>
+                </div>
+            `;
+            playlistItem.addEventListener('click', () => playTrack(realIndex));
+            playlistContainer.appendChild(playlistItem);
+        });
 }
+
+
+
+
+// Atualiza lista conforme o usuário digita
+searchInput.addEventListener("input", () => {
+    loadPlaylist(searchInput.value);
+});
+
 
 // Função para tocar uma faixa específica
 function playTrack(index) {
@@ -1049,9 +1140,9 @@ function showLoadingSpinner() {
         // Atualizar texto do spinner baseado na categoria
         if (spinnerText) {
             const categoryNames = {
-                'nature': 'Sons da Natureza',
-                'calm': 'Música Calma',
-                'focus': 'Música para Foco'
+                'Natureza': 'Natureza',
+                'Calma': 'Música Calma',
+                'Focado': 'Música para Foco'
             };
             const categoryName = categoryNames[currentCategory] || 'playlist';
             spinnerText.textContent = `Carregando ${categoryName}...`;

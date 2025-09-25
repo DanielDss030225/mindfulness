@@ -24,7 +24,7 @@
    <header class="game-header"><a href="index.html">
                 <img src="./ico.png" class="logo"> </a>
                 <h1>PlataformaBizurada</h1>
-                   <p class="headerP" style="margin-left: 23px; font-size: 14px;">A Plataforma do concurseiro!</p>
+                   <p class="headerP" style="margin-left: 20px; font-size: 14px; display: flex; justify-content: start; ">Cada prova finalizada, é um passo mais próximo da aprovação!</p>
                   <a onclick="goToProfile()" class="perfilButtom">
     <div class="user-info" style="display: none;">
         <div class="user-profile">
@@ -40,7 +40,7 @@
     <div id="loading-screen" class="screen active">
            <div class="loading-content">
   
-            <h1>PlataformaBizurada</h1> <p>A Plataforma do concurseiro!</p>
+            <h1>PlataformaBizurada</h1> 
             <div class="loading-spinner"></div>
             <p>Carregando Provas Digitais...</p>
 
@@ -62,7 +62,7 @@
             <div class="welcome-section" style="width: 100%; display: flex;" >
                 <div style="width: 100%; display: flex; flex-direction: column;">
                      <h2>Provas Digitais</h2>
-                <p>Selecione uma prova para começar a resolver questões</p>
+                <p>Selecione uma prova para começar a resolver</p>
             </div>
                 
                 <img src="img/resolveprova.png " style="height: 150px; width: 150px;">
@@ -81,6 +81,7 @@
             <div class="exam-selection">
                 <h3 style="margin-bottom: 10px;">Provas Disponíveis</h3>
                 <div class="filters">
+                    
                     <div class="filter-group">
                         <label for="exam-type">Tipo:</label>
                         <select id="exam-type">
@@ -107,6 +108,7 @@
                             <option value="">Todos</option>
                         </select>
                     </div>
+                    
                 </div>
                 <div id="exams-list" class="exams-list">
                     <!-- Exams will be loaded here -->
@@ -305,11 +307,13 @@
                       
                     
                 </div>
-
+               
                 <div id="question-associated-text-display" class="question-associated-text" style="display: none;">
                     <!-- Associated text will be loaded here -->
                 </div>
-
+        <div  id="fundoEsconderTexto"  style="width: 100%;  justify-content: right; display: none;"> 
+          <button id="esconderTexto2" class="btn-outline" onclick="verTexto()" > Esconder Texto</button>
+        </div>
                 <div id="question-text-display" class="question-text">
                     <!-- Question text will be loaded here -->
                 </div>
@@ -320,8 +324,9 @@
 
                 <div class="question-navigation">
                     <button id="prev-question-btn" class="btn-secondary">Anterior</button>
-                     <button id="finish-exam-final-btn" class="btn-outline">Finalizar Prova</button>
-                    <button id="next-question-btn" class="btn-primary">Próxima</button>
+                     
+                    <button id="next-question-btn" class="btn-primary">Próxima Questão</button>
+                    <button id="finish-exam-final-btn" class="btn-outline">Finalizar Prova</button>
                 </div>
             </div>
         </div>
@@ -360,6 +365,10 @@
 
             <div id="answer-sheet-grid" class="answer-sheet-grid">
                 <!-- Answer sheet grid will be generated here -->
+            </div>
+            <div style=" display: flex; justify-content: center; width: 100%;"> 
+                <button id="back-to-exam-btn2" class="btn-secondary">Voltar à Prova</button>
+
             </div>
 
         
