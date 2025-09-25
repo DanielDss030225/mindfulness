@@ -80,7 +80,7 @@ class CronogramaManager {
 
     validateScheduleData(data) {
         if (!data.subject || data.subject.trim().length === 0) {
-            throw new Error("O nome da matéria é obrigatório.");
+            throw new Error("O nome da Disciplina é obrigatório.");
         }
     }
 

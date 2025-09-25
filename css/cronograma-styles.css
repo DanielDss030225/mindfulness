@@ -88,11 +88,12 @@ body {
     display: flex;
     align-items: center;
     gap: 10px;
+    width: auto;
 }
 
 .user-avatar {
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 37px;
     border-radius: 50%;
     object-fit: cover;
 }
