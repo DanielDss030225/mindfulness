@@ -235,7 +235,7 @@ updateProfessorMessage2() {
      const messages = [
             'Olá! Pronto para aprender hoje?',
             'Vamos testar seus conhecimentos!',
-            'Aprender nunca foi tão divertido!',
+            'Aprender nunca foi tão legal!',
             'Cada questão é uma oportunidade de crescer!',
             'Vamos descobrir o que você já sabe!',
              "Vamos testar seus conhecimentos!",
