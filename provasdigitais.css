@@ -103,6 +103,10 @@ body {
     padding: 30px;
     flex: 1;
 }
+.headerP {
+    display: flex;
+   
+}
 .question-container {
      width: 700px;
       background: rgba(255, 255, 255, 0.95);

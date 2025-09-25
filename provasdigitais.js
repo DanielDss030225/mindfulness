@@ -618,9 +618,13 @@ clearQuestionForm() {
             console.error('Error starting exam:', error);
             this.showModal('Erro', 'Erro ao iniciar prova. Tente novamente.');
         }
+       
+
+    this.showModal('Concurseiro, Boa Sorte!', 'Observe o tempo e tente completar a prova/simulado dentro do prazo do concurso real.');
     }
 
     startTimer() {
+         
         this.timerInterval = setInterval(() => {
             const elapsed = Date.now() - this.examStartTime;
             const hours = Math.floor(elapsed / 3600000);
@@ -630,6 +634,8 @@ clearQuestionForm() {
             document.getElementById('exam-timer').textContent = 
                 `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
         }, 1000);
+
+      
     }
 
     loadCurrentQuestion() {
