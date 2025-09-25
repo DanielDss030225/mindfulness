@@ -395,7 +395,7 @@ class DatabaseManager {
 
     // Data validation
     validateQuestionData(questionData) {
-        const required = ["text", "alternatives", "category", "type"];
+        const required = ["text", "alternatives", "category", "type", "associatedText"];
         
         for (const field of required) {
             if (!questionData[field]) {

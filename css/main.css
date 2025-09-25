@@ -219,7 +219,7 @@ padding-bottom: 3px;
 
 .btn-secondary {
     background: linear-gradient(135deg, #838282, #818181);
-    color: rgb(162, 162, 162);
+    color: rgb(183, 183, 183);
     border: none;
     padding: 10px 10px;
     border-radius: 15px;
@@ -233,7 +233,8 @@ padding-bottom: 3px;
     word-wrap: break-word;
     padding-right: 20px;
     padding-left: 20px;
-    margin-bottom: 50px;
+    margin-bottom: 50px;    
+    margin-top: 20px;
 }
 .buttonLoggout {
     display: flex;
@@ -244,6 +245,7 @@ padding-bottom: 3px;
     border-radius: 20px;
 
 }
+
 .btn-secondary3 {
     background: linear-gradient(135deg, #ff7043, #ff5722);
     color: white;
@@ -527,13 +529,15 @@ header p {
     margin-top: 20px;
     position: relative;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    width: auto;
+    width: 70%;
     text-align: center;
-   max-width: 250px;
+   max-width: 100%;
 
 margin-bottom: 10px;
 margin-left: 5px;
 margin-right: 5px;
+display: flex;
+justify-content: center;
 
 }
 
@@ -562,16 +566,17 @@ margin-right: 5px;
 /*SEGUNDO BALAO*/
 .speech-bubble {
     background: white;
-    padding: 15px 20px;
+    padding: 10px 10px;
     border-radius: 30px;
     margin-top: 20px;
     position: relative;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     text-align: center;
 width: auto;
- max-width: 250px;
+ max-width: 80%;
   margin-left: 5%;
   margin-right:10px;
+  padding-bottom: 15px;
 
 
 }
@@ -1300,6 +1305,8 @@ textarea:focus {
 
 .create-post-section .btn-icon-text .icon {
     font-size: 20px;
+  
+
 }
 
 .create-post-section .btn-primary {
@@ -2644,14 +2651,131 @@ display: flex;
     background-color: transparent;
 }
 
+/* Estilos para texto associado à questão */
+.question-associated-text {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border: 2px solid #dee2e6;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #495057;
+    position: relative;
+
+     word-wrap: break-word;       /* compatível com navegadores antigos */
+    overflow-wrap: break-word;   /* padrão moderno */
+        word-break: break-all;
+        margin-top: 20px;
+
+}
+
+strong {
+    word-break: break-all;
+}
+
+
+.question-associated-text::before {
+    content: "📋 Texto Associado";
+    position: absolute;
+    top: -12px;
+    left: 15px;
+    background: #667eea;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 15px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+      word-break: break-all;
+}
+
+.question-associated-text p {
+    margin: 0;
+      word-break: break-all;
+}
+
+.question-associated-text strong {
+    color: #333;
+    margin: 0px;
+    padding: 0px;
+      word-break: break-all;
+}
+
+.question-associated-text em {
+    color: #667eea;
+    font-style: italic;
+    margin: 0px;
+    padding: 0px;
+      word-break: break-all;
+}
+
+.verTexto {
+    background-color: #4CAF50; /* Verde principal */
+    color: white;              /* Texto branco */
+    border: none;              /* Sem borda */
+    padding: 10px 10px;        /* Espaçamento interno */
+    font-size: 14px;           /* Tamanho da fonte */
+    border-radius: 8px;        /* Cantos arredondados */
+    cursor: pointer;           /* Cursor de clique */
+    transition: background-color 0.3s, transform 0.2s; /* Transições suaves */
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* Sombra sutil */
+    margin-top: 15px;
+    width: 150px;
+}
+
+.verTexto:hover {
+    background-color: #45a049; /* Verde um pouco mais escuro no hover */
+    transform: translateY(-2px); /* Leve elevação ao passar o mouse */
+}
+
+.verTexto:active {
+    background-color: #3e8e41; /* Verde mais escuro ao clicar */
+    transform: translateY(0);  /* Retorna à posição normal */
+}
+
+.verTexto2 {
+    background-color: #eeeeee; /* Verde principal */
+    color: rgb(65, 65, 65);              /* Texto branco */
+    border: none;              /* Sem borda */
+    padding: 10px 10px;        /* Espaçamento interno */
+    font-size: 18px;           /* Tamanho da fonte */
+    border-radius: 50px;        /* Cantos arredondados */
+    cursor: pointer;           /* Cursor de clique */
+    transition: background-color 0.3s, transform 0.2s; /* Transições suaves */
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* Sombra sutil */
+    margin-top: 15px;
+    width: 40px;
+    height: 40px;
+}
+
+.verTexto2:hover {
+    background-color: #dcdada; /* Verde um pouco mais escuro no hover */
+    transform: translateY(-2px); /* Leve elevação ao passar o mouse */
+}
+
+.verTexto2:active {
+    background-color: #cdcbcb; /* Verde mais escuro ao clicar */
+    transform: translateY(0);  /* Retorna à posição normal */
+}
 /* Responsive adjustments */
-@media (max-width: 768px) {
+@media (max-width: 1000px) {
     .search-input {
         font-size: 16px; /* Prevents zoom on iOS */
     }
     
     .search-dropdown {
         max-height: 150px;
+    }
+     .question-associated-text {
+        padding: 15px;
+        font-size: 0.95rem;
+    }
+    
+    .question-associated-text::before {
+        font-size: 11px;
+        padding: 3px 10px;
     }
 }
 
@@ -2686,3 +2810,6 @@ display: flex;
         width: 150px;
         background-color: #000000;
     }
+
+
+

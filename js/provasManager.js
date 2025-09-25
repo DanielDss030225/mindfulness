@@ -142,30 +142,62 @@ class ProvasManager {
         }
     }
 
-    async adicionarQuestao(formData) {
-        try {
-            const questao = {
-                enunciado: formData.get("question-text"),
-                categoria: formData.get("question-category") || null,
-                subcategoria: formData.get("question-subcategory") || null,
-                alternativas: [
-                    formData.get("option-a"),
-                    formData.get("option-b"),
-                    formData.get("option-c"),
-                    formData.get("option-d")
-                ],
-                respostaCorreta: formData.get("correct-answer"),
-                criadaEm: Date.now()
-            };
+   async adicionarQuestao(formData) {
+    try {
+        const enunciado = formData.get("question-text")?.trim();
+        const alternativas = [
+            formData.get("option-a")?.trim(),
+            formData.get("option-b")?.trim(),
+            formData.get("option-c")?.trim(),
+            formData.get("option-d")?.trim()
+        ];
+        const respostaCorreta = formData.get("correct-answer");
+        const categoria = formData.get("question-category");
+        const subcategoria = formData.get("question-subcategory");
 
-            const ref = await this.db.ref("questoes").push(questao);
-            console.log("✅ Questão adicionada:", ref.key);
-
-        } catch (error) {
-            console.error("❌ Erro ao adicionar questão:", error);
-            alert("Erro ao adicionar questão!");
+        // 🔎 Validações
+        if (!enunciado) {
+            alert("Erro: o enunciado da questão é obrigatório.");
+            return;
         }
+
+        if (alternativas.some(alt => !alt)) {
+            alert("Erro: todas as alternativas devem ser preenchidas.");
+            return;
+        }
+
+        if (!respostaCorreta) {
+            alert("Erro: selecione a resposta correta.");
+            return;
+        }
+
+        if (!categoria) {
+            alert("Erro: selecione a categoria da questão.");
+            return;
+        }
+
+        const questao = {
+            enunciado,
+            categoria,
+            subcategoria: subcategoria || null,
+            alternativas,
+            respostaCorreta,
+            criadaEm: Date.now()
+        };
+
+        const ref = await this.db.ref("questoes").push(questao);
+        console.log("✅ Questão adicionada:", ref.key);
+        alert("Questão adicionada com sucesso!");
+
+        // 🔄 Opcional: limpar formulário após salvar
+        document.getElementById("add-question-form").reset();
+
+    } catch (error) {
+        console.error("❌ Erro ao adicionar questão:", error);
+        alert("Erro ao adicionar questão!");
     }
+}
+
 }
 
 // Inicializar automaticamente

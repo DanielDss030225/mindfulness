@@ -262,7 +262,7 @@ Editais         </p>  <p class="mini">Acompanhe o Feed</p> </button>
 
 
                     <div class="buttonLoggout"> 
-        <button id="logoutBtn" class="btn-secondary">Clique para sair do aplicativo</button>
+        <button id="logoutBtn" class="btn-secondary">Clique Para Sair do Aplicativo</button>
  </div>
 
 
@@ -294,7 +294,7 @@ Editais         </p>  <p class="mini">Acompanhe o Feed</p> </button>
                     </div>
                     <div class="post-actions">
                         <input type="file" id="postImageInput" accept="image/*" style="display: none;">
-                        <button class="btn-icon-text" id="selectImageBtn"><span class="icon">📷</span>Adicionar Imagem</button>
+                        <button class="btn-icon-text" id="selectImageBtn"><span class="icon">📷 </span><p style="margin-top: 2px;">Adicionar Imagem</p></button>
                         <button class="btn-primary" id="createPostBtn">Publicar</button>
                     </div>
                     <div id="imagePreviewContainer" class="image-preview-container" style="display: none;">
@@ -510,10 +510,24 @@ Editais         </p>  <p class="mini">Acompanhe o Feed</p> </button>
                     <span id="gameScore">Pontos: 0</span>
                     
                       <div  id="timer" style="width:auto; position: end;">00:00</div>
-
-              
-               
+        
+            
                   </div>
+                  <div id="fundoTextoAssociation" style="display: none;"> 
+                   
+  <button id="verTexto" class="verTexto" onclick="verTexto()"> Ver Texto</button>
+      <div id="fundoDoTexto" class="question-associated-text" style="display: none;" >
+                        <p id="associatedText" style="padding: 15px; margin-top: 10px; margin-bottom: 10px;" style="display: none;"></p>
+               <div style="width: 100%; display: flex; justify-content: end;">
+                        <button id="verTexto2" class="verTexto2" onclick="verTexto()">x</button> 
+
+
+                    </div>
+
+                    </div>
+
+                  </div>
+                  
                     <div class="question-text" id="questionText">
                         Carregando questão...
                     </div>
@@ -1177,7 +1191,6 @@ function abrirMenu() {
 
   menuGeral.style.display = "block";
     }
-
 
   
 </script>

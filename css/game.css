@@ -78,26 +78,16 @@ margin-left: 10px;
     color: #4CAF50;
 }
 .question-text {
-    font-size: 18px;
-    line-height: 1.6;
-    color: #333;
-    background: #f8f9fa;
+    font-size: 1.1rem;
+    line-height: 1.8;
+    margin-bottom: 30px;
     padding: 25px;
+    background: #f8f9fa;
     border-radius: 15px;
-    border-left: 5px solid #4CAF50;
-    min-height: 100px;
-    display: flex;
-    flex-direction: column; /* <-- deixa os elementos em coluna */
-    align-items: flex-start; /* <-- alinha à esquerda (opcional) */
-    height: auto;
-    margin-bottom: 10px;
-    margin-top: 10px;
-        width: 100%;          /* ocupa 100% do espaço disponível */
-         /* mas nunca passa de 550px */
-    box-sizing: border-box; /* garante que padding conte dentro da largura */
-    word-wrap: break-word; /* quebra palavras grandes */
-
+    border-left: 5px solid #53b46e;
+    margin-top: 15px;
 }
+
 
 div  {
     width: 100%;
@@ -116,13 +106,16 @@ br {
 .question-text strong {
     font-weight: 700;
     color: #2c3e50;
+    margin: 0px;
+    padding: 0px;
     
 }
 
 .question-text em {
     font-style: italic;
-    color: #7f8c8d;
-
+    color: #667eea;
+margin: 0px;
+    padding: 0px;
 }
 
 .alternatives {
@@ -881,17 +874,12 @@ padding-bottom: 100px;
 }
 /* Em css/game.css */
 
-.question-text {
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-    white-space: normal;
-}
-
 /* Adicione esta nova regra para corrigir o problema de largura fixa */
 .question-text * {
     width: auto !important;
     max-width: 100%;
 }
+
  #reviewQuestionsBtn {
     background-color: #2196f3;
     }

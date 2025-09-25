@@ -62,7 +62,8 @@ async loadUserData() {
         this.categories = { 
           
            // 'cat3': { name: 'Português' },
-            'cat4': { name: 'Polícia Penal De Minas Gerais' }
+            'cat1': { name: 'Polícia Penal De Minas Gerais' },
+            'cat2': { name: 'Polícia Militar De Minas Gerais' }
         };
 
         // Buscar exames do Firebase
@@ -217,6 +218,7 @@ async loadUserData() {
     }
 
     showScreen(screenId) {
+      this.updateAnswerSheetStats();
 window.scrollTo({
   top: 0,
 });
@@ -313,6 +315,8 @@ window.scrollTo({
         const questionsCount = exam.questions ? Object.keys(exam.questions).length : 0;
         const usersCount = exam.stats?.usersCompleted || 0;
         const rating = exam.stats?.averageRating || 0;
+      
+       let concusaoName = usersCount === 1 ? "conclusão" : "conclusões";
 
         card.innerHTML = `
             <h4>${exam.title}</h4>
@@ -324,8 +328,9 @@ window.scrollTo({
             </div>
             <p>${exam.description || 'Sem descrição'}</p>
             <div class="exam-stats">
+            
                 <span>${questionsCount} questões</span>
-                <span>${usersCount} usuários</span>
+                <span>${usersCount} ${concusaoName}</span>
                 <span>${'★'.repeat(Math.floor(rating))}${'☆'.repeat(5 - Math.floor(rating))}</span>
             </div>
         `;
@@ -462,71 +467,77 @@ window.scrollTo({
 async addQuestionToExam() {
     try {
         // Pegar valores do formulário
-        const questionText = document.getElementById('question-text').value;
-        const associatedText = document.getElementById('question-associated-text').value;
-        const alternatives = Array.from(document.querySelectorAll('.alternative-text')).map(t => t.value);
+        const questionText = document.getElementById('question-text')?.value.trim();
+        const associatedText = document.getElementById('question-associated-text')?.value.trim();
+        const alternatives = Array.from(document.querySelectorAll('.alternative-text'))
+            .map(t => t.value.trim());
         const correctAnswer = parseInt(document.querySelector('input[name="correct-answer"]:checked')?.value);
-        const comment = document.getElementById('question-comment').value;
+        const comment = document.getElementById('question-comment')?.value.trim();
+        const category = document.getElementById('question-category')?.value;
+        const subcategory = document.getElementById('question-subcategory')?.value;
 
-        // Pegar categoria e subcategoria do select
-        const category = document.getElementById('question-category').value;
-        const subcategory = document.getElementById('question-subcategory').value;
-
-        // Validações
-        if (!questionText || alternatives.some(alt => !alt.trim())) {
-            this.showModal('Erro', 'Preencha o texto da questão e todas as alternativas.');
+        // 🔎 Validações
+        if (!this.currentExam) {
+            this.showModal("Erro", "Nenhuma prova ativa. Crie ou selecione uma prova antes de adicionar questões.");
             return;
         }
 
-        if (correctAnswer === null || correctAnswer === undefined) {
-            this.showModal('Erro', 'Selecione a resposta correta.');
+        if (!questionText) {
+            this.showModal("Erro", "O enunciado da questão é obrigatório.");
+            return;
+        }
+
+        if (alternatives.length < 4 || alternatives.some(alt => !alt)) {
+            this.showModal("Erro", "Preencha todas as alternativas (A, B, C e D).");
+            return;
+        }
+
+        if (isNaN(correctAnswer)) {
+            this.showModal("Erro", "Selecione a resposta correta.");
             return;
         }
 
         if (!category) {
-            this.showModal('Erro', 'Selecione a categoria da questão.');
+            this.showModal("Erro", "Selecione a categoria da questão.");
             return;
         }
 
         // Dados da questão
         const questionData = {
             text: questionText,
-            associatedText: associatedText || '',
+            associatedText: associatedText || "",
             alternatives,
             correctAnswer,
-            comment: comment || '',
-            createdBy: this.currentUser.uid,
+            comment: comment || "",
+            createdBy: this.currentUser?.uid || "anon",
             createdAt: firebase.database.ServerValue.TIMESTAMP,
-            type: 'previous'
-        };
-
-        // Adiciona categoria e subcategoria do select
-        const generalQuestionData = {
-            ...questionData,
+            type: "previous",
             category,
-            subcategory
+            subcategory: subcategory || null
         };
 
         // 1️⃣ Salvar no nó do exame
-        await database.ref(`digitalExams/${this.currentExam}/questions`).push(generalQuestionData);
+        await database.ref(`digitalExams/${this.currentExam}/questions`).push(questionData);
 
         // 2️⃣ Salvar no banco geral de questões
-        await database.ref('questions').push(generalQuestionData);
+        await database.ref("questions").push(questionData);
 
-        // Atualizar contagem de questões na tela
-        const currentCount = Object.keys(this.exams[this.currentExam].questions || {}).length + 1;
-        document.getElementById('questions-count').textContent = `${currentCount} questões`;
+        // Atualizar contagem
+        const snapshot = await database.ref(`digitalExams/${this.currentExam}/questions`).once("value");
+        const currentCount = snapshot.numChildren();
+        document.getElementById("questions-count").textContent = `${currentCount} questões`;
 
         // Limpar formulário
         this.clearQuestionForm();
 
-        this.showModal('Sucesso', 'Questão adicionada com sucesso!');
+        this.showModal("Sucesso", "Questão adicionada com sucesso!");
 
     } catch (error) {
-        console.error('Erro ao adicionar questão:', error);
-        this.showModal('Erro', 'Erro ao adicionar questão. Tente novamente.');
+        console.error("❌ Erro ao adicionar questão:", error);
+        this.showModal("Erro", "Erro ao adicionar questão. Tente novamente.");
     }
 }
+
 
 // Limpar formulário, incluindo selects
 clearQuestionForm() {
@@ -598,10 +609,10 @@ clearQuestionForm() {
             this.currentQuestionIndex = 0;
             this.userAnswers = {};
             this.examStartTime = Date.now();
-
+            let concusaoName = exam.stats?.usersCompleted === 1 ? "conclusão" : "conclusões";
             // Update UI
             document.getElementById('exam-title-display').textContent = exam.title;
-            document.getElementById('exam-users-count').textContent = `${exam.stats?.usersCompleted || 0} Participantes`;
+            document.getElementById('exam-users-count').textContent = `${exam.stats?.usersCompleted || 0} ${concusaoName}`;
                     
         // Preencher gabarito
         this.updateAnswerKey();  // <-- chamada adicionada aqui
@@ -925,10 +936,11 @@ updateAnswerKeyForQuestion(questionIndex, userAnswer, correctAnswer) {
             if (!this.exams[this.currentExam].stats) this.exams[this.currentExam].stats = {};
             this.exams[this.currentExam].stats.usersCompleted = (this.exams[this.currentExam].stats.usersCompleted || 0) + 1;
         }
-
+         
         // Atualiza a contagem na tela de exame
         const exam = this.exams[this.currentExam];
-        document.getElementById('exam-users-count').textContent = `${exam.stats.usersCompleted} Participantes`;
+        let concusaoName = exam.stats.usersCompleted === 1 ? "conclusão" : "conclusões";
+        document.getElementById('exam-users-count').textContent = `${exam.stats.usersCompleted} ${concusaoName}`;
 
     } catch (error) {
         console.error('Error updating exam stats:', error);
@@ -941,9 +953,13 @@ updateAnswerKeyForQuestion(questionIndex, userAnswer, correctAnswer) {
         document.getElementById('total-answered').textContent = answered;
         document.getElementById('total-correct').textContent = correct;
         document.getElementById('total-wrong').textContent = wrong;
-        
+
+       let naoRespondidas = (total - (correct + wrong));
+       console.log( "Questão não respondidas: ", naoRespondidas)
+       document.getElementById("naoRespondidas").textContent = naoRespondidas;
         // Calcular porcentagem de acerto
-        const accuracyPercentage = answered > 0 ? Math.round((correct / answered) * 100) : 0;
+        
+        const accuracyPercentage = answered > 0 ? Math.round((correct / total) * 100) : 0;
         document.getElementById('accuracy-percentage').textContent = `${accuracyPercentage}%`;
         
         const hours = Math.floor(duration / 3600000);

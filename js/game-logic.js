@@ -136,14 +136,16 @@ texto =  "Questão!"
         if (questionText) {
             questionText.innerHTML = this.formatQuestionText(question.text);
         }
-
+  console.log("Enunciado da questão: ", this.formatQuestionText(question.text))
         // Update alternatives
         const alternativesContainer = document.getElementById("alternatives");
         if (alternativesContainer) {
             alternativesContainer.innerHTML = "";
             
             question.alternatives.forEach((alternative, index) => {
-                const alternativeElement = this.createAlternativeElement(alternative, index);
+                const alternativeElement = this.createAlternativeElement(alternative, index, question.associatedText);
+                  console.log("Alternativas da quêstão: ", alternative )
+
                 alternativesContainer.appendChild(alternativeElement);
             });
         }
@@ -152,21 +154,32 @@ texto =  "Questão!"
     formatQuestionText(text) {
         // Support for bold text and basic formatting
         return text
-            .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
-            .replace(/\*(.*?)\*/g, "<em>$1</em>")
-            .replace(/\n/g, "<br>");
+            .replace(/\*\*(.*?)\*\*/g,"<strong>$1</strong>")
+            .replace(/\*(.*?)\*/g,"<em>$1</em>")
+            .replace(/\n/g,"<br>");
     }
 
-    createAlternativeElement(text, index) {
+    createAlternativeElement(text, index, associatedText,) {
+document.getElementById("fundoTextoAssociation").style.display = "none";
+        console.log("texto associado:", associatedText);
+
+if (associatedText){
+document.getElementById("associatedText").innerHTML = this.formatQuestionText(associatedText);
+document.getElementById("fundoTextoAssociation").style.display = "block";
+
+}
+
         const div = document.createElement("div");
         div.className = "alternative";
         div.dataset.index = index;
+   
         
+
         const letter = String.fromCharCode(65 + index); // A, B, C, D, E
         
         div.innerHTML = `
             <div class="alternative-letter">${letter}</div>
-            <div class="alternative-text">${text}</div>
+            <div class="alternative-text">${this.formatQuestionText(text)}</div>
         `;
         
         div.addEventListener("click", () => this.selectAnswer(index));
@@ -224,12 +237,15 @@ texto =  "Questão!"
         this.showAnswerFeedback(isCorrect, question);
 
         // Show explanation and next question button
-        document.getElementById("questionExplanation").innerHTML = question.comment;
+         document.getElementById("questionExplanation").innerHTML = this.formatQuestionText(question.comment);
+
         document.getElementById("explanationContainer").style.display = "block";
         document.getElementById("confirmAnswerBtn").style.display = "none";
         document.getElementById("nextQuestionBtn").style.display = "block";
 
 }
+
+
 
 updateProfessorMessage2() {
      const messages = [
@@ -253,7 +269,7 @@ updateProfessorMessage2() {
     "Vamos descobrir o que você já sabe!",
     "Você nasceu para conquistar grandes coisas!",
     "Desafios tornam a jornada mais emocionante!",
-    "Continue! Você está quase lá!",
+    "Continue estudando! Você está quase lá!",
     "Você está construindo um futuro brilhante!",
     "Não pare agora, o melhor ainda está por vir!",
     "Errar faz parte do aprendizado!",
@@ -516,3 +532,22 @@ window.gameLogic = new GameLogic();
 
 
 
+
+function verTexto() {
+    let texto = document.getElementById("associatedText");
+         let verTexto = document.getElementById("verTexto");
+   let verTexto2 = document.getElementById("verTexto2");
+
+
+         if (texto.style.display == "none"){
+texto.style.display = "block";
+fundoDoTexto.style.display = "block";
+verTexto.textContent = "Esconder Texto";
+         } else {
+            texto.style.display = "none";
+fundoDoTexto.style.display = "none";
+verTexto.textContent = "Ver Texto";
+
+         }
+
+}

@@ -276,7 +276,7 @@ class UIManager {
     "Vamos descobrir o que você já sabe!",
     "Você nasceu para conquistar grandes coisas!",
     "Desafios tornam a jornada mais emocionante!",
-    "Continue! Você está quase lá!",
+    "Continue estudando! Você está quase lá!",
     "Você está construindo um futuro brilhante!",
     "Não pare agora, o melhor ainda está por vir!",
     "Errar faz parte do aprendizado!",
