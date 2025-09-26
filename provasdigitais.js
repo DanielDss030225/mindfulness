@@ -326,7 +326,7 @@ window.scrollTo({
                 ${exam.banca ? `<span class="exam-tag">${exam.banca}</span>` : ''}
                 ${exam.year ? `<span class="exam-tag">${exam.year}</span>` : ''}
             </div>
-            <p>${exam.description || 'Sem descrição'}</p>
+            <p >${exam.description || 'Sem descrição'}</p>
             <div class="exam-stats">
             
                 <span>${questionsCount} questões</span>
