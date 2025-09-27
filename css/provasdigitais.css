@@ -249,6 +249,8 @@ body {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 20px;
+ align-items: flex-start; /* <-- deixa cada filho com altura automática */
+
 }
 
 .exam-card {
@@ -258,6 +260,9 @@ body {
     padding: 25px;
     transition: all 0.3s ease;
     cursor: pointer;
+    display: flex;
+    height: auto;
+    flex-direction: column;
 }
 
 .exam-card:hover {

@@ -228,7 +228,7 @@
   display: none;
   flex-direction: column;
   background-color: #d3d3d3;          /* cor de fallback */
-background-image: url("../fundo.png");
+background-image: url("../img/fundo.png");
   background-size: cover;             /* cobre todo o painel */
   background-repeat: no-repeat;       /* não repete */
   background-position: center;        /* centraliza a imagem */

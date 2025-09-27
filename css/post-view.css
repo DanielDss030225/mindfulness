@@ -671,7 +671,7 @@ border-bottom-right-radius: 0px;
 
     /* Fundo com imagem */
     background-color: #dfdfdf; /* cor base caso a imagem não carregue */
-    background-image: url('../fundo.png'); /* substitua pelo caminho real */
+    background-image: url('../img/fundo.png'); /* substitua pelo caminho real */
     background-repeat: no-repeat; /* evita repetição */
     background-size: cover; /* cobre todo o elemento */
     background-position: center; /* centraliza a imagem */

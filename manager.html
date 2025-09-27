@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciador de Provas - PlataformaBizurada</title>
+    <link rel="icon" src="./img/ico.png" type="image/png">
+
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+
+    <link rel="stylesheet" href="./css/main.css">
+ 
+    <link rel="stylesheet" href="./manager.css">
+
+</head>
+<body>
+    <header class="game-header">
+        <a href="index.html">
+            <img src="./img/ico.png" class="logo"> 
+        </a>
+        <h1>PlataformaBizurada</h1>
+        <p class="headerP" style="margin-left: 20px; font-size: 18px; justify-content: start;">Gerenciamento de Provas</p>
+        <a onclick="goToProfile()" class="perfilButtom">
+            <div class="user-info" style="display: none;">
+                <div class="user-profile">
+                    <img id="userProfilePic" src="./img/perfil.png" alt="Foto do usuário" class="user-avatar">
+                    <span id="userName">Usuário</span>
+                </div>
+            </div>
+        </a>
+    </header>
+
+
+    <div id="loading-screen" class="screen ">
+        <div class="loading-content">
+            <h1>PlataformaBizurada</h1> 
+            <div class="loading-spinner"></div>
+            <p>Carregando Gerenciador de Provas...</p>
+        </div>
+    </div>
+
+
+<div class="container02">
+
+
+
+
+    <div id="manager-screen" class="screen active">
+        <div class="container">
+            <div class="screen-header">
+                <h2>Gerenciar Provas</h2>
+                <button id="back-to-main-menu-btn" class="btn-secondary" style="width:200px">Voltar ao Menu Principal</button>
+            </div>
+
+            <div class="admin-actions">
+                <button id="create-new-exam-btn" class="btn-primary" style="display: none;">Criar Nova Prova</button>
+            </div>
+
+            <div class="exam-list-section">
+                <h3>Provas Existentes</h3>
+                <div id="manager-exams-list" class="exams-list">
+                    <!-- Lista de provas será carregada aqui -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Create Exam Screen -->
+    <div id="create-exam-screen" class="screen">
+        <div class="container">
+            <div class="screen-header">
+                <h2>Criar Nova Prova</h2>
+                <button id="cancel-create-exam-btn" class="btn-secondary">Cancelar</button>
+            </div>
+
+            <form id="create-exam-form" class="form">
+
+                <div class="duploDivForm">
+
+ <div class="form-group" style="width: 40%;">
+                    <label for="create-exam-title">Título da Prova:</label>
+                    <input type="text" id="create-exam-title" required>
+                </div>
+
+               <div class="form-group" style="width: 40%;">
+                    <label for="create-exam-type">Tipo:</label>
+                    <select id="create-exam-type" required>
+                        <option value="">Selecione</option>
+                        <option value="concurso">Concurso</option>
+                        <option value="simulado">Simulado</option>
+                    </select>
+                </div>
+                </div>
+               
+
+                <div id="concurso-fields" class="conditional-fields">
+                    <div class="form-group">
+                        <label for="create-exam-banca">Banca:</label>
+                        <input type="text" id="create-exam-banca">
+                    </div>
+                    <div class="form-group">
+                        <label for="create-exam-year">Ano:</label>
+                        <input type="number" id="create-exam-year" min="2000" max="2030">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="create-exam-category">Categoria:</label>
+                    <select id="create-exam-category" required>
+                        <option value="">Selecione</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="create-exam-subcategory">Subcategoria:</label>
+                    <select id="create-exam-subcategory">
+                        <option value="">Selecione</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="create-exam-description">Descrição:</label>
+                    <textarea id="create-exam-description" rows="3"></textarea>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary">Criar Prova</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- Edit Exam Screen -->
+    <div id="edit-exam-screen" class="screen">
+        <div class="container">
+            <div class="screen-header">
+                <h2>Editar Prova</h2>
+                <button id="back-to-manager-btn" class="btn-secondary" style="width: 200px">Voltar</button>
+            </div>
+
+            <form id="edit-exam-form" class="form">
+
+
+                <input type="hidden" id="edit-exam-id">
+                   <div class="duploDivForm"> 
+                <div class="form-group">
+                    <label for="edit-exam-title">Título da Prova:</label>
+                    <input type="text" id="edit-exam-title" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="edit-exam-type">Tipo:</label>
+                    <select id="edit-exam-type" required>
+                        <option value="">Selecione</option>
+                        <option value="concurso">Concurso</option>
+                        <option value="simulado">Simulado</option>
+                    </select>
+                </div>
+</div>
+                <div id="edit-concurso-fields" class="conditional-fields">
+                    <div class="duploDivForm"> 
+                    <div class="form-group">
+                        <label for="edit-exam-banca">Banca:</label>
+                        <input type="text" id="edit-exam-banca">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-exam-year">Ano:</label>
+                        <input type="number" id="edit-exam-year" min="2000" max="2030">
+                    </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="edit-exam-category">Categoria:</label>
+                    <select id="edit-exam-category" required>
+                         <option value="">Selecione Categoria</option>
+                        <option value="cat1">Polícia Penal De Minas Gerais</option>
+                        <option value="cat2">Polícia Militar De Minas Gerais</option>
+                       
+                    </select>
+                </div>
+
+              <div class="form-group"  style="display: none;">
+                    <label for="edit-exam-subcategory">Subcategoria:</label>
+                    <select id="edit-exam-subcategory">
+                        <option value="">Selecione</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="edit-exam-description">Descrição:</label>
+                    <textarea id="edit-exam-description" rows="3"></textarea>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary">Salvar Alterações</button>
+                    <button type="button" id="delete-exam-btn" class="btn-danger">Excluir Prova</button>
+                </div>
+            </form>
+
+            <div class="questions-management-section">
+                <h3>Questões da Prova</h3>
+                <button id="add-question-to-exam-btn" class="btn-primary">Adicionar Nova Questão</button>
+                <div id="exam-questions-list" class="exams-list">
+                    <!-- Questões da prova serão carregadas aqui -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Edit Question Screen -->
+    <div id="edit-question-screen" class="screen">
+        <div class="container">
+            <div class="screen-header">
+                <h2>Editar Questão</h2>
+                <button id="back-to-edit-exam-btn" class="btn-secondary">Voltar</button>
+            </div>
+
+            <form id="edit-question-form" class="form">
+                <input type="hidden" id="edit-question-id">
+                <input type="hidden" id="edit-question-exam-id">
+
+                <div class="form-group">
+                    <label for="edit-question-associated-text">Texto Associado à Questão (Opcional):</label>
+                    <textarea id="edit-question-associated-text" name="question-associated-text" rows="2" placeholder="Digite um texto que será exibido acima do enunciado da questão (ex: texto base, contexto, etc.)"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="edit-question-text">Texto da Questão:</label>
+                    <textarea id="edit-question-text" name="question-text" rows="4" required placeholder="Digite o enunciado da questão"></textarea>
+                </div>
+
+                <div class="alternatives-section">
+                    <label>Alternativas:</label>
+                    <div class="alternatives-list" id="edit-alternatives-list">
+                        <!-- Alternativas serão carregadas e editadas aqui -->
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="edit-question-comment">Comentário/Explicação:</label>
+                    <textarea id="edit-question-comment" name="question-comment" rows="3"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="edit-question-category">Categoria:</label>
+                    <select id="edit-question-category" name="question-category">
+                        <option value="">Selecione a categoria...</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="edit-question-subcategory">Subcategoria:</label>
+                    <select id="edit-question-subcategory" name="question-subcategory">
+                        <option value="">Selecione a subcategoria...</option>
+                    </select>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary">Salvar Alterações da Questão</button>
+                    <button type="button" id="delete-question-btn" class="btn-danger">Excluir Questão</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- Add Question to Exam Screen (similar to the one in provasdigitais.html but for manager) -->
+    <div id="add-question-to-exam-screen" class="screen">
+        <div class="container">
+            <div class="screen-header">
+                <h2>Adicionar Questão à Prova</h2>
+                <div class="exam-info">
+                    <span id="add-question-current-exam-title"></span>
+                </div>
+                <button id="back-from-add-question-btn" class="btn-secondary">Voltar</button>
+            </div>
+
+            <form id="add-question-to-exam-form" class="form">
+                <input type="hidden" id="add-question-exam-id">
+
+                <div class="form-group">
+                    <label for="add-question-associated-text">Texto Associado à Questão (Opcional):</label>
+                    <textarea id="add-question-associated-text" name="question-associated-text" rows="2" placeholder="Digite um texto que será exibido acima do enunciado da questão (ex: texto base, contexto, etc.)"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="add-question-text">Texto da Questão:</label>
+                    <textarea id="add-question-text" name="question-text" rows="4" required placeholder="Digite o enunciado da questão"></textarea>
+                </div>
+
+                <div class="alternatives-section">
+                    <label>Alternativas:</label>
+                    <div class="alternatives-list" id="add-alternatives-list">
+                        <div class="alternative-item">
+                            <input type="radio" name="correct-answer" value="0" required>
+                            <label>A</label>
+                            <textarea class="alternative-text" name="option-a" rows="2" required placeholder="Digite o texto da alternativa A"></textarea>
+                        </div>
+                        <div class="alternative-item">
+                            <input type="radio" name="correct-answer" value="1" required>
+                            <label>B</label>
+                            <textarea class="alternative-text" name="option-b" rows="2" required placeholder="Digite o texto da alternativa B"></textarea>
+                        </div>
+                        <div class="alternative-item">
+                            <input type="radio" name="correct-answer" value="2" required>
+                            <label>C</label>
+                            <textarea class="alternative-text" name="option-c" rows="2" required placeholder="Digite o texto da alternativa C"></textarea>
+                        </div>
+                        <div class="alternative-item">
+                            <input type="radio" name="correct-answer" value="3" required>
+                            <label>D</label>
+                            <textarea class="alternative-text" name="option-d" rows="2" required placeholder="Digite o texto da alternativa D"></textarea>
+                        </div>
+                        <div class="alternative-item">
+                            <input type="radio" name="correct-answer" value="4" required>
+                            <label>E</label>
+                            <textarea class="alternative-text" name="option-e" rows="2" required placeholder="Digite o texto da alternativa E"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="add-question-comment">Comentário/Explicação:</label>
+                    <textarea id="add-question-comment" name="question-comment" rows="3"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="add-question-category">Categoria:</label>
+                    <select id="add-question-category" name="question-category">
+                        <option value="">Selecione a categoria...</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="add-question-subcategory">Subcategoria:</label>
+                    <select id="add-question-subcategory" name="question-subcategory">
+                        <option value="">Selecione a subcategoria...</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <input type="checkbox" id="save-to-global-questions" checked>
+                    <label for="save-to-global-questions">Salvar também no banco de questões global</label>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary">Adicionar Questão</button>
+                    <button type="button" id="clear-add-question-form-btn" class="btn-secondary">Limpar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- Modal Structure -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <h3 id="modal-title"></h3>
+            <p id="modal-message"></p>
+            <div class="modal-footer"></div>
+        </div>
+    </div>
+
+
+</div>
+
+
+    <script src="./js/firebase-config.js"></script>
+     <script src="js/auth.js"></script>
+    <script src="./js/database.js"></script>
+    <script src="./manager.js"></script> <!-- Lógica de gerenciamento de provas -->
+       
+
+
+  
+</body>
+</html>
+

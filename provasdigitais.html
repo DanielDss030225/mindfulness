@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Provas Digitais - PlataformaBizurada</title>
-   <link rel="icon" href="./ico.png" type="image/png">
+   <link rel="icon" src="./img/ico.png" type="image/png">
 
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
@@ -13,7 +13,7 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
       
     <!-- CSS Files -->
-     <link rel="stylesheet" href="provasdigitais.css">
+     <link rel="stylesheet" href="./css/provasdigitais.css">
  
  
      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
@@ -22,13 +22,13 @@
 </head>
 
    <header class="game-header"><a href="index.html">
-                <img src="./ico.png" class="logo"> </a>
+                <img src="./img/ico.png" class="logo"> </a>
                 <h1>PlataformaBizurada</h1>
                    <p class="headerP" style="margin-left: 20px; font-size: 18px; justify-content: start; ">Cada prova finalizada é um passo mais próximo da aprovação!</p>
                   <a onclick="goToProfile()" class="perfilButtom">
     <div class="user-info" style="display: none;">
         <div class="user-profile">
-            <img id="userProfilePic" src="https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/ICONE%20PERFIL.png?alt=media&token=d092ec7f-77b9-404d-82d0-b6ed3ce6810e" alt="Foto do usuário" class="user-avatar">
+            <img id="userProfilePic" src="img/perfil.png" alt="Foto do usuário" class="user-avatar">
             <span id="userName">Usuário</span>
         </div></a>
         <button id="logoutBtn" class="btn-secondary">Sair</button>
@@ -312,7 +312,7 @@
                     <!-- Associated text will be loaded here -->
                 </div>
         <div  id="fundoEsconderTexto"  style="width: 100%;  justify-content: right; display: none;"> 
-          <button id="esconderTexto2" class="btn-outline" onclick="verTexto()" > Esconder Texto</button>
+          <button id="esconderTexto2" class="btn-outline" onclick="verTexto()" style="margin-bottom:10px;"> Esconder Texto</button>
         </div>
                 <div id="question-text-display" class="question-text">
                     <!-- Question text will be loaded here -->
@@ -459,7 +459,7 @@
 
    <script src="js/database.js"></script>
      <script src="js/provasManager.js"></script>
-    <script src="provasdigitais.js"></script>
+    <script src="js/provasdigitais.js"></script>
   
 
 </body>

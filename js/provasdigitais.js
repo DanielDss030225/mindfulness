@@ -104,9 +104,14 @@ async loadUserData() {
             this.showScreen('create-exam-screen');
         });
 
-        document.getElementById('manage-exams-btn')?.addEventListener('click', () => {
-            this.showManageExamsModal();
-        });
+      document.getElementById('manage-exams-btn')?.addEventListener('click', () => {
+    // Navega para a página admProvas/index.html
+    window.location.href = 'manager.html';
+
+    // Se ainda quiser manter o modal, deixe a linha abaixo
+    // this.showManageExamsModal();
+});
+
 
         // Navigation
         document.getElementById('back-to-menu-btn')?.addEventListener('click', () => {
