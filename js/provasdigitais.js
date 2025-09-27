@@ -459,9 +459,9 @@ window.scrollTo({
             // Show add questions screen
             document.getElementById('current-exam-title').textContent = title;
             document.getElementById('questions-count').textContent = '0 questões';
-            this.showScreen('add-questions-screen');
+            window.location.href = `manager.html?examId=${examRef.key}`;
 
-            this.showModal('Sucesso', 'Prova criada com sucesso! Agora adicione as questões.');
+
 
         } catch (error) {
             console.error('Error creating exam:', error);

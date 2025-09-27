@@ -107,7 +107,7 @@ body{
 /* Exam cards */
 .exams-list {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 20px;
     margin-top: 20px;
 }
@@ -325,6 +325,8 @@ h2 {
     margin-top: 8px;
     width: auto;
     flex-shrink: 0;
+    height: 35px;
+    width: 35px;
 }
 
 .alternative-item label {
@@ -378,7 +380,12 @@ h2 {
     transform: translateY(-1px);
     box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
 }
+#add-question-to-exam-btn {
 
+   background: #33b161;
+    color: #ffffff;
+    border: 1px solid #ddd;  
+}
 .btn-secondary {
     background: #33b161;
     color: #ffffff;
@@ -501,36 +508,10 @@ h2 {
     font-size: 0.95rem;
 }
 
-/* Choices.js customization */
-.choices {
-    margin-bottom: 0;
-}
 
-.choices__inner {
-    background: white;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 8px 12px;
-    min-height: 44px;
-    font-size: 1rem;
-}
 
-.choices__inner:focus {
-    border-color: #667eea;
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-}
-
-.choices__list--dropdown {
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-
-.choices__item--selectable.is-highlighted {
-    background-color: #667eea;
-}
 .container02 {
-    width: 700px;
+    width: 900px;
     margin: 0 auto;
     background: white;
     border-radius: 20px;
@@ -548,7 +529,31 @@ h2 {
    
    
 }
-/* Responsive design */
+
+.elementoA {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 24px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff;
+    font-weight: 500;
+    font-size: 1rem;
+    border-radius: 8px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.elementoA {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    background: linear-gradient(135deg, #5566dd 0%, #653ba0 100%);
+}
+
+/* R
+
+esponsive design */
 @media (max-width: 768px) {
     .container {
         padding: 15px;
@@ -589,24 +594,7 @@ h2 {
     }
 }
 
-@media (max-width: 480px) {
-    .container {
-        padding: 10px;
-    }
-    
-    .form {
-        padding: 20px;
-    }
-    
-    .btn-primary,
-    .btn-secondary,
-    .btn-danger {
-        padding: 10px 20px;
-        font-size: 0.9rem;
-    }
-}
-
-/* Text utilities */
+t utilities */
 .text-center {
     text-align: center;
 }

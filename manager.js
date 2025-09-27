@@ -18,15 +18,27 @@ class ProvasManager {
         this.choicesAddQuestionSubcategory = null;
     }
 
-    async initManager() {
-        console.log("📚 ProvasManager inicializado");
-        this.showScreen("loading-screen");
-        await this.checkAuthAndLoadData();
-        this.setupEventListeners();
-        this.showScreen("manager-screen");
-        document.body.style.overflow = "auto";
+   async initManager() {
+    console.log("📚 ProvasManager inicializado");
+    this.showScreen("loading-screen");
+    await this.checkAuthAndLoadData();
 
+    // Capturar examId da URL
+    const params = new URLSearchParams(window.location.search);
+    const examId = params.get("examId");
+
+    this.setupEventListeners();
+
+    if (examId) {
+        // Se tem examId, abre direto a edição dessa prova
+        this.loadExamForEdit(examId);
+    } else {
+        // Se não tem examId, vai para tela inicial de manager
+        this.showScreen("manager-screen");
     }
+
+    document.body.style.overflow = "auto";
+}
 
     async checkAuthAndLoadData() {
         return new Promise((resolve) => {
@@ -287,37 +299,43 @@ class ProvasManager {
         }
     }
 
-    renderExamsList() {
-        const examsListDiv = document.getElementById('manager-exams-list');
-        if (!examsListDiv) return;
+renderExamsList() {
+    const examsListDiv = document.getElementById('manager-exams-list');
+    if (!examsListDiv) return;
 
-        examsListDiv.innerHTML = '';
+    examsListDiv.innerHTML = '';
 
-        if (Object.keys(this.exams).length === 0) {
-            examsListDiv.innerHTML = '<p class="text-center">Nenhuma prova disponível.</p>';
-            return;
-        }
-
-        Object.entries(this.exams).forEach(([examId, exam]) => {
-            const examCard = document.createElement('div');
-            examCard.className = 'exam-card';
-            examCard.innerHTML = `
-                <h4>${exam.title}</h4>
-                <div class="exam-meta">
-                    <span class="exam-tag">${exam.type === 'concurso' ? 'Concurso' : 'Simulado'}</span>
-                    <span class="exam-tag">${this.categories[exam.category]?.name || 'N/A'}</span>
-                    ${exam.banca ? `<span class="exam-tag">${exam.banca}</span>` : ''}
-                    ${exam.year ? `<span class="exam-tag">${exam.year}</span>` : ''}
-                </div>
-                <p>${exam.description || 'Sem descrição'}</p>
-                <div class="exam-actions">
-                    <button class="btn-secondary" data-id="${examId}">Editar</button>
-                </div>
-            `;
-            examCard.querySelector('button').addEventListener('click', () => this.loadExamForEdit(examId));
-            examsListDiv.appendChild(examCard);
-        });
+    if (Object.keys(this.exams).length === 0) {
+        examsListDiv.innerHTML = '<p class="text-center">Nenhuma prova disponível.</p>';
+        return;
     }
+
+    Object.entries(this.exams).forEach(([examId, exam]) => {
+        // Conta a quantidade de questões da prova
+        const questionCount = exam.questions ? Object.keys(exam.questions).length : 0;
+
+        const examCard = document.createElement('div');
+        examCard.className = 'exam-card';
+        examCard.innerHTML = `
+            <h4>${exam.title}</h4>
+            <div class="exam-meta">
+                <span class="exam-tag">${exam.type === 'concurso' ? 'Concurso' : 'Simulado'}</span>
+                <span class="exam-tag">${this.categories[exam.category]?.name || 'N/A'}</span>
+                ${exam.banca ? `<span class="exam-tag">${exam.banca}</span>` : ''}
+                ${exam.year ? `<span class="exam-tag">${exam.year}</span>` : ''}
+                <span class="exam-tag">Questões: ${questionCount}</span> <!-- NOVO -->
+            </div>
+            <p>${exam.description || 'Sem descrição'}</p>
+            <div class="exam-actions">
+                <button class="btn-secondary" data-id="${examId}">Editar</button>
+            </div>
+        `;
+examCard.querySelector('button').addEventListener('click', () => {
+    window.location.href = `manager.html?examId=${examId}`;
+});
+        examsListDiv.appendChild(examCard);
+    });
+}
 
     async createExam() {
         try {
@@ -503,7 +521,11 @@ renderExamQuestions(examId, questions) {
             ${question.associatedText ? `<p><strong>Texto associado:</strong> ${this.truncateText(question.associatedText)}</p>` : ''}
             ${question.comment ? `<p><strong>Comentário:</strong> ${this.truncateText(question.comment)}</p>` : ''}
             <p><strong>Categoria:</strong> ${this.categories[question.category]?.name || 'N/A'}</p>
-            ${question.subcategory ? `<p><strong>Subcategoria:</strong> ${this.subcategories[question.subcategory]?.name || 'N/A'}</p>` : ''}
+
+
+          
+           
+           
             <div class="question-actions">
                 <button class="btn-secondary" data-id="${questionId}">Editar Questão</button>
             </div>
@@ -522,6 +544,7 @@ renderExamQuestions(examId, questions) {
 
         try {
             const snapshot = await this.db.ref(`digitalExams/${examId}/questions/${questionId}`).once('value');
+            
             const question = snapshot.val();
 
             if (!question) {
@@ -565,56 +588,53 @@ renderExamQuestions(examId, questions) {
         }
     }
 
-    async updateQuestion() {
-        try {
-            const examId = document.getElementById('edit-question-exam-id').value;
-            const questionId = document.getElementById('edit-question-id').value;
+  async updateQuestion() {
+    try {
+        // Pega o ID da prova e o ID da questão (mesmo ID usado no banco global)
+        const examId = document.getElementById('edit-question-exam-id').value;
+        const questionId = document.getElementById('edit-question-id').value;
 
-            const associatedText = document.getElementById('edit-question-associated-text').value.trim();
-            const text = document.getElementById('edit-question-text').value.trim();
-            const comment = document.getElementById('edit-question-comment').value.trim();
-            const category = document.getElementById('edit-question-category').value;
-            const subcategory = document.getElementById('edit-question-subcategory').value;
+        const associatedText = document.getElementById('edit-question-associated-text').value.trim();
+        const text = document.getElementById('edit-question-text').value.trim();
+        const comment = document.getElementById('edit-question-comment').value.trim();
+        const category = document.getElementById('edit-question-category').value;
+        const subcategory = document.getElementById('edit-question-subcategory').value;
 
-            const alternatives = Array.from(document.querySelectorAll('#edit-alternatives-list .alternative-text')).map(textarea => textarea.value.trim());
-            const correctAnswer = parseInt(document.querySelector('input[name="edit-correct-answer"]:checked')?.value);
+        const alternatives = Array.from(document.querySelectorAll('#edit-alternatives-list .alternative-text')).map(textarea => textarea.value.trim());
+        const correctAnswer = parseInt(document.querySelector('input[name="edit-correct-answer"]:checked')?.value);
 
-            if (!text || alternatives.some(alt => !alt) || isNaN(correctAnswer) || !category) {
-                this.showModal('Erro', 'Preencha todos os campos obrigatórios da questão e selecione a resposta correta.');
-                return;
-            }
-
-            const questionData = {
-                associatedText: associatedText || "",
-                text,
-                alternatives,
-                correctAnswer,
-                comment: comment || "",
-                category,
-                subcategory: subcategory || null,
-                // createdBy e createdAt não são alterados na edição
-            };
-
-            // Atualizar no nó da prova
-            await this.db.ref(`digitalExams/${examId}/questions/${questionId}`).update(questionData);
-
-            // Atualizar no nó global de questões (se existir)
-            const globalQuestionSnapshot = await this.db.ref(`questions`).orderByChild('text').equalTo(text).once('value');
-            const globalQuestionKey = Object.keys(globalQuestionSnapshot.val() || {})[0];
-            if (globalQuestionKey) {
-                await this.db.ref(`questions/${globalQuestionKey}`).update(questionData);
-            }
-
-            this.showModal('Sucesso', 'Questão atualizada com sucesso!', () => {
-                this.showScreen('edit-exam-screen');
-                this.loadExamForEdit(examId);
-            });
-
-        } catch (error) {
-            console.error('Error updating question:', error);
-            this.showModal('Erro', 'Erro ao atualizar questão. Tente novamente.');
+        if (!text || alternatives.some(alt => !alt) || isNaN(correctAnswer) || !category) {
+            this.showModal('Erro', 'Preencha todos os campos obrigatórios da questão e selecione a resposta correta.');
+            return;
         }
+
+        const questionData = {
+            associatedText: associatedText || "",
+            text,
+            alternatives,
+            correctAnswer,
+            comment: comment || "",
+            category,
+            subcategory: subcategory || null,
+            // createdBy e createdAt não são alterados na edição
+        };
+
+        // Atualizar no nó da prova
+        await this.db.ref(`digitalExams/${examId}/questions/${questionId}`).update(questionData);
+
+        // Atualizar no banco global de questões com o mesmo ID
+        await this.db.ref(`questions/${questionId}`).update(questionData);
+
+        this.showModal('Sucesso', 'Questão atualizada com sucesso!', () => {
+            this.showScreen('edit-exam-screen');
+            this.loadExamForEdit(examId);
+        });
+
+    } catch (error) {
+        console.error('Error updating question:', error);
+        this.showModal('Erro', 'Erro ao atualizar questão. Tente novamente.');
     }
+}
 
     async deleteQuestion() {
         const examId = document.getElementById('edit-question-exam-id').value;
@@ -649,57 +669,60 @@ renderExamQuestions(examId, questions) {
         }
     }
 
-    async addQuestionToExam() {
-        try {
-            const examId = document.getElementById('add-question-exam-id').value;
+  async addQuestionToExam() {
+    try {
+        const examId = document.getElementById('add-question-exam-id').value;
 
-            const associatedText = document.getElementById('add-question-associated-text').value.trim();
-            const text = document.getElementById('add-question-text').value.trim();
-            const comment = document.getElementById('add-question-comment').value.trim();
-            const category = document.getElementById('add-question-category').value;
-            const subcategory = document.getElementById('add-question-subcategory').value;
-            const saveToGlobal = document.getElementById('save-to-global-questions').checked;
+        const associatedText = document.getElementById('add-question-associated-text').value.trim();
+        const text = document.getElementById('add-question-text').value.trim();
+        const comment = document.getElementById('add-question-comment').value.trim();
+        const category = document.getElementById('add-question-category').value;
+        const subcategory = document.getElementById('add-question-subcategory').value;
+        const saveToGlobal = document.getElementById('save-to-global-questions').checked;
 
-            const alternatives = Array.from(document.querySelectorAll('#add-alternatives-list .alternative-text')).map(textarea => textarea.value.trim());
-            const correctAnswer = parseInt(document.querySelector('input[name="correct-answer"]:checked')?.value);
+        const alternatives = Array.from(document.querySelectorAll('#add-alternatives-list .alternative-text')).map(textarea => textarea.value.trim());
+        const correctAnswer = parseInt(document.querySelector('input[name="correct-answer"]:checked')?.value);
 
-            if (!text || alternatives.some(alt => !alt) || isNaN(correctAnswer) || !category) {
-                this.showModal('Erro', 'Preencha todos os campos obrigatórios da questão e selecione a resposta correta.');
-                return;
-            }
-
-            const questionData = {
-                associatedText: associatedText || "",
-                text,
-                alternatives,
-                correctAnswer,
-                comment: comment || "",
-                createdBy: this.currentUser.uid,
-                createdAt: firebase.database.ServerValue.TIMESTAMP,
-                type: "previous", // Ou outro tipo padrão
-                category,
-                subcategory: subcategory || null
-            };
-
-            // 1. Salvar no nó da prova
-            await this.db.ref(`digitalExams/${examId}/questions`).push(questionData);
-
-            // 2. Salvar no nó global de questões, se marcado
-            if (saveToGlobal) {
-                await this.db.ref("questions").push(questionData);
-            }
-
-            this.showModal('Sucesso', 'Questão adicionada com sucesso!', () => {
-                this.resetAddQuestionForm();
-                this.loadExamForEdit(examId); // Recarrega a prova para mostrar a nova questão
-                this.showScreen('edit-exam-screen');
-            });
-
-        } catch (error) {
-            console.error('Error adding question to exam:', error);
-            this.showModal('Erro', 'Erro ao adicionar questão. Tente novamente.');
+        if (!text || alternatives.some(alt => !alt) || isNaN(correctAnswer) || !category) {
+            this.showModal('Erro', 'Preencha todos os campos obrigatórios da questão e selecione a resposta correta.');
+            return;
         }
+
+        // 1. Gerar um ID único manualmente (exemplo usando push().key)
+        const questionId = this.db.ref().child('questions').push().key;
+
+        const questionData = {
+            associatedText: associatedText || "",
+            text,
+            alternatives,
+            correctAnswer,
+            comment: comment || "",
+            createdBy: this.currentUser.uid,
+            createdAt: firebase.database.ServerValue.TIMESTAMP,
+            type: "previous", // ou outro tipo padrão
+            category,
+            subcategory: subcategory || null
+        };
+
+        // 2. Salvar no nó da prova com o mesmo ID
+        await this.db.ref(`digitalExams/${examId}/questions/${questionId}`).set(questionData);
+
+        // 3. Salvar no nó global de questões com o mesmo ID, se marcado
+        if (saveToGlobal) {
+            await this.db.ref(`questions/${questionId}`).set(questionData);
+        }
+
+        this.showModal('Sucesso', 'Questão adicionada com sucesso!', () => {
+            this.resetAddQuestionForm();
+            this.loadExamForEdit(examId); // Recarrega a prova
+            this.showScreen('edit-exam-screen');
+        });
+
+    } catch (error) {
+        console.error('Error adding question to exam:', error);
+        this.showModal('Erro', 'Erro ao adicionar questão. Tente novamente.');
     }
+}
 
     resetCreateExamForm() {
         document.getElementById('create-exam-form').reset();
@@ -737,6 +760,7 @@ renderExamQuestions(examId, questions) {
         confirmBtn.className = 'btn-primary';
         confirmBtn.textContent = 'OK';
         confirmBtn.onclick = () => {
+               salvaValorInput();
             this.hideModal();
             if (callback) callback();
         };
@@ -793,3 +817,60 @@ function goToProfile() {
     alert('Funcionalidade de perfil em desenvolvimento.');
 }
 
+
+
+function alternativaE() {
+
+    document.getElementById("alternativaE").value = "Ignorar questão."
+}
+
+
+function salvaValorInput() {
+    const input = document.getElementById('add-question-associated-text');
+
+    const valor = input.value.trim(); // pega o valor do input
+    if(valor) {
+        localStorage.setItem('associatedText', valor); // sobrescreve o valor anterior
+        console.log('Valor salvo:', valor);
+    } else {
+        console.log('Input vazio, nada salvo.');
+    }
+}
+
+
+
+function usarValorInput() {
+
+const valorSalvo = localStorage.getItem('associatedText');
+    const input = document.getElementById('add-question-associated-text');
+
+if(valorSalvo) {
+    input.value = valorSalvo; // preenche o input com o valor salvo
+    console.log('Valor recuperado:', valorSalvo);
+} else {
+        console.log('valor de texto vazio');
+
+}
+}
+
+
+document.addEventListener("DOMContentLoaded", async () => {
+    const params = new URLSearchParams(window.location.search);
+    const examId = params.get("examId");
+
+    if (examId) {
+        // Já existe examId na URL → abre a edição dessa prova
+        try {
+            await examManager.loadExamForEdit(examId); 
+            examManager.showScreen("edit-exam-screen");
+        } catch (error) {
+            console.error("Erro ao carregar prova via examId:", error);
+            examManager.showModal("Erro", "Não foi possível abrir a prova automaticamente.");
+            examManager.showScreen("manager-screen"); // fallback
+        }
+    } else {
+        // Sem examId → fluxo normal de gerenciamento
+        examManager.showScreen("manager-screen");
+        examManager.loadExamsList();
+    }
+});
