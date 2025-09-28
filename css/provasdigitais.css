@@ -1313,3 +1313,11 @@ input[type="radio"] {
   word-break: break-word;
 }
 }
+
+.alternative-text img {
+    max-width: 95%;
+}
+
+.question-text img {
+  max-width: 95%;
+}

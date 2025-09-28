@@ -2813,3 +2813,6 @@ strong {
 
 
 
+.alternative-text img {
+    max-width: 95%;
+}

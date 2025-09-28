@@ -874,3 +874,41 @@ document.addEventListener("DOMContentLoaded", async () => {
         examManager.loadExamsList();
     }
 });
+
+
+
+// Seleciona todos os textareas dentro da div #add-alternatives-list 
+const textareas = document.querySelectorAll('#add-alternatives-list textarea');
+
+const enunciado = document.getElementById("add-question-text");
+let textoUmaLinha = enunciado.value.replace(/\r?\n|\r/g, ' ').replace(/\s+/g, ' ').trim();
+enunciado.value = textoUmaLinha; // <-- Aqui atualizamos o conteúdo do textarea
+
+
+
+
+textareas.forEach(textarea => {
+    // Limpa o texto ao colar ou digitar
+    textarea.addEventListener('input', () => {
+        let valor = textarea.value;
+
+        // Remove quebras de linha e espaços extras
+        valor = valor.replace(/\r?\n|\r/g, ' ').replace(/\s+/g, ' ').trim();
+
+        textarea.value = valor;
+    });
+
+    // Limpa imediatamente ao colar
+    textarea.addEventListener('paste', (e) => {
+        e.preventDefault();
+        let paste = (e.clipboardData || window.clipboardData).getData('text');
+
+        // Remove quebras de linha e espaços extras
+        paste = paste.replace(/\r?\n|\r/g, ' ').replace(/\s+/g, ' ').trim();
+
+        // Insere o texto tratado no textarea
+        textarea.value = paste;
+    });
+});
+
+
