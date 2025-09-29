@@ -981,3 +981,25 @@ document.addEventListener('DOMContentLoaded', () => {
     new UserProfileManager();
 });
 
+const modal = document.getElementById("imageModal");
+const modalImg = document.getElementById("modalImg");
+const captionText = document.getElementById("caption");
+const avatar = document.getElementById("userAvatar");
+const closeBtn = document.getElementsByClassName("close")[0];
+
+avatar.onclick = function() {
+  modal.style.display = "block";
+  modalImg.src = this.src;
+  captionText.innerHTML = this.alt;
+}
+
+closeBtn.onclick = function() {
+  modal.style.display = "none";
+}
+
+// Fecha o modal se clicar fora da imagem
+modal.onclick = function(event) {
+  if(event.target === modal) {
+    modal.style.display = "none";
+  }
+}

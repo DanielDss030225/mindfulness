@@ -543,6 +543,8 @@ async addQuestionToExam() {
         console.error("❌ Erro ao adicionar questão:", error);
         this.showModal("Erro", "Erro ao adicionar questão. Tente novamente.");
     }
+
+    
 }
 
 
@@ -669,11 +671,29 @@ clearQuestionForm() {
         
         // Display associated text if it exists
         const associatedTextDisplay = document.getElementById('question-associated-text-display');
+        const buttonText = document.getElementById("esconderTexto");
+   let textoAssociation = document.getElementById("question-associated-text-display");
+   if (textoAssociation) {
+    if (textoAssociation.style.display == "none" )
+    {
+
+    } else {
+        verTexto()
+    }
+   }
         if (question.associatedText && question.associatedText.trim()) {
             associatedTextDisplay.innerHTML = this.formatQuestionText(question.associatedText);
-           // associatedTextDisplay.style.display = 'block';
+buttonText.style.display = 'block';
+// ======== NOVO CÓDIGO PARA ZOOM ========
+associatedTextDisplay.querySelectorAll('img').forEach(img => {
+    img.style.cursor = 'zoom-in'; // opcional, muda o cursor
+    img.onclick = () => abrirModalExclusivo(img);
+});
+          //  associatedTextDisplay.style.display = 'block';
         } else {
-           // associatedTextDisplay.style.display = 'none';
+          //  associatedTextDisplay.style.display = 'none';
+          buttonText.style.display = 'none';
+
         }
         
         document.getElementById('question-text-display').innerHTML = this.formatQuestionText(question.text);
@@ -1149,3 +1169,57 @@ window.addEventListener('resize', () => {
         window.system.updateAnswerKey();
     }
 });
+
+
+
+
+// Mantendo tudo que você já tem...
+const modalExclusivo = document.getElementById("modalImagemExclusiva");
+const modalImgExclusiva = document.getElementById("imagemExclusivaModal");
+const legendaExclusiva = document.getElementById("legendaExclusiva");
+const fecharExclusivo = document.getElementsByClassName("fechar-exclusivo")[0];
+
+let zoomAtivo = false; // controla estado do zoom
+
+function abrirModalExclusivo(img) {
+  modalExclusivo.style.display = "block";
+  modalImgExclusiva.src = img.src;
+  legendaExclusiva.innerHTML = img.alt || '';
+  // Reset tamanho
+  modalImgExclusiva.style.width = "auto";
+  modalImgExclusiva.style.maxWidth = "90%";
+  zoomAtivo = false;
+  modalImgExclusiva.style.cursor = "zoom-in";
+}
+
+// Fecha modal ao clicar no X ou fora da imagem
+fecharExclusivo.onclick = () => modalExclusivo.style.display = "none";
+modalExclusivo.onclick = (e) => { 
+  if(e.target === modalExclusivo) modalExclusivo.style.display = "none"; 
+}
+
+// Clique na imagem para zoom
+modalImgExclusiva.onclick = (e) => {
+  e.stopPropagation(); // evita fechar o modal
+  if(!zoomAtivo){
+    modalImgExclusiva.style.width = "150%"; // aumenta real a largura
+    modalImgExclusiva.style.maxWidth = "none";
+    zoomAtivo = true;
+    modalImgExclusiva.style.cursor = "zoom-out";
+  } else {
+    modalImgExclusiva.style.width = "auto"; // volta ao tamanho normal
+    modalImgExclusiva.style.maxWidth = "90%";
+    zoomAtivo = false;
+    modalImgExclusiva.style.cursor = "zoom-in";
+  }
+}
+
+// Mantendo seleção de imagens no container
+const containerTexto = document.getElementById("fundoDoTexto");
+const imagens = containerTexto.getElementsByTagName("img");
+
+for (let img of imagens) {
+  img.style.cursor = "pointer"; 
+  img.addEventListener("click", () => abrirModalExclusivo(img));
+}
+

@@ -77,6 +77,50 @@
 </header>
 
 
+<!-- Modal Exclusivo -->
+<div id="modalImagemExclusiva" class="modal-exclusiva">
+  <span class="fechar-exclusivo">&times;</span>
+  <img class="modal-img-exclusiva" id="imagemExclusivaModal">
+  <div id="legendaExclusiva"></div>
+</div>
+
+<style>
+.modal-exclusiva {
+  display: none; 
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 100%; 
+  height: 100%; 
+  overflow: auto; /* permite scroll vertical e horizontal */
+  background-color: rgba(0,0,0,0.9);
+  text-align: center; /* centraliza horizontalmente */
+  padding: 20px 0; /* espaço em cima e embaixo */
+}
+
+.modal-img-exclusiva {
+  display: inline-block;
+  max-width: 90%; /* limita largura na tela */
+  height: auto;
+  cursor: zoom-in;
+  transition: all 0.3s ease;
+  margin-left: 50px;
+  margin-right: 50px;
+}
+
+/* opcional: botão fechar continua igual */
+.fechar-exclusivo {
+  position: absolute;
+  top: 20px;
+  right: 35px;
+  color: #fff;
+  font-size: 40px;
+  font-weight: bold;
+  cursor: pointer;
+}
+</style>
+
 
 
  <main id="app-container">

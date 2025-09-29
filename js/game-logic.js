@@ -133,26 +133,33 @@ encontrado = "Foi encontrada ";
 
     }
 
-    updateQuestionUI(question) {
-        // Update question text
-        const questionText = document.getElementById("questionText");
-        if (questionText) {
-            questionText.innerHTML = this.formatQuestionText(question.text);
-        }
-  console.log("Enunciado da questão: ", this.formatQuestionText(question.text))
-        // Update alternatives
-        const alternativesContainer = document.getElementById("alternatives");
-        if (alternativesContainer) {
-            alternativesContainer.innerHTML = "";
-            
-            question.alternatives.forEach((alternative, index) => {
-                const alternativeElement = this.createAlternativeElement(alternative, index, question.associatedText);
-                  console.log("Alternativas da quêstão: ", alternative )
-
-                alternativesContainer.appendChild(alternativeElement);
-            });
-        }
+   updateQuestionUI(question) {
+    const questionText = document.getElementById("questionText");
+    if (questionText) {
+        questionText.innerHTML = this.formatQuestionText(question.text);
     }
+
+    const alternativesContainer = document.getElementById("alternatives");
+    if (alternativesContainer) {
+        alternativesContainer.innerHTML = "";
+        question.alternatives.forEach((alternative, index) => {
+            const altElement = this.createAlternativeElement(alternative, index, question.associatedText);
+            alternativesContainer.appendChild(altElement);
+        });
+    }
+
+    // ===== ADICIONAR LISTENER NAS IMAGENS ASSOCIADAS =====
+    const containerTexto = document.getElementById("associatedText");
+    const imagens = containerTexto.getElementsByTagName("img");
+
+    for (let img of imagens) {
+        img.style.cursor = "pointer";
+        img.onclick = () => abrirModalExclusivo(img);
+    }
+}
+
+
+
 
     formatQuestionText(text) {
         // Support for bold text and basic formatting
@@ -561,3 +568,56 @@ verTexto.textContent = "Ver Texto";
          }
 
 }
+
+
+
+// Mantendo tudo que você já tem...
+const modalExclusivo = document.getElementById("modalImagemExclusiva");
+const modalImgExclusiva = document.getElementById("imagemExclusivaModal");
+const legendaExclusiva = document.getElementById("legendaExclusiva");
+const fecharExclusivo = document.getElementsByClassName("fechar-exclusivo")[0];
+
+let zoomAtivo = false; // controla estado do zoom
+
+function abrirModalExclusivo(img) {
+  modalExclusivo.style.display = "block";
+  modalImgExclusiva.src = img.src;
+  legendaExclusiva.innerHTML = img.alt || '';
+  // Reset tamanho
+  modalImgExclusiva.style.width = "auto";
+  modalImgExclusiva.style.maxWidth = "90%";
+  zoomAtivo = false;
+  modalImgExclusiva.style.cursor = "zoom-in";
+}
+
+// Fecha modal ao clicar no X ou fora da imagem
+fecharExclusivo.onclick = () => modalExclusivo.style.display = "none";
+modalExclusivo.onclick = (e) => { 
+  if(e.target === modalExclusivo) modalExclusivo.style.display = "none"; 
+}
+
+// Clique na imagem para zoom
+modalImgExclusiva.onclick = (e) => {
+  e.stopPropagation(); // evita fechar o modal
+  if(!zoomAtivo){
+    modalImgExclusiva.style.width = "150%"; // aumenta real a largura
+    modalImgExclusiva.style.maxWidth = "none";
+    zoomAtivo = true;
+    modalImgExclusiva.style.cursor = "zoom-out";
+  } else {
+    modalImgExclusiva.style.width = "auto"; // volta ao tamanho normal
+    modalImgExclusiva.style.maxWidth = "90%";
+    zoomAtivo = false;
+    modalImgExclusiva.style.cursor = "zoom-in";
+  }
+}
+
+// Mantendo seleção de imagens no container
+const containerTexto = document.getElementById("fundoDoTexto");
+const imagens = containerTexto.getElementsByTagName("img");
+
+for (let img of imagens) {
+  img.style.cursor = "pointer"; 
+  img.addEventListener("click", () => abrirModalExclusivo(img));
+}
+
