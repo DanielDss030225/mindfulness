@@ -1321,3 +1321,7 @@ input[type="radio"] {
 .question-text img {
   max-width: 95%;
 }
+
+img {
+    max-width: 100%;
+}

@@ -962,3 +962,6 @@ padding-bottom: 100px;
 }
 
 
+#fundoDoTexto #associatedText img {
+    max-width: 100%;
+}
