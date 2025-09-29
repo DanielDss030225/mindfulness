@@ -70,11 +70,11 @@
   <a href="provas/CFS-2023-PMMG.pdf" download class="baixarProva">📄 Clique para baixar CFS - 2023 - PMMG</a>
   <a href="provas/CFS-2024-PMMG.pdf" download class="baixarProva">📄 Clique para baixar CFS - 2024 - PMMG</a>
   <a href="provas/CFSD-2022-PMMG.pdf" download class="baixarProva">📄 Clique para baixar CFSd-QPPM - 2022 - PMMG</a>
- <!-- <a href="provas/CFSD-2023-PMMG.pdf" download class="baixarProva">📄 Clique para baixar CFSd-QPPM - 2023 - PMMG
+ <a href="provas/CFSD-2025-PMMG.pdf" download class="baixarProva">📄 Clique para baixar CFSd-QPPM - 2025 - PMMG
 </a> 
 
 
-    <a href="provas/CFSd-QPE-2022-Armeiro-PMMG.pdf" download class="baixarProva">📄 Clique para baixar CFSd-QPE - 2022 - Armeiro - PMMG</a>
+  <!--   <a href="provas/CFSd-QPE-2022-Armeiro-PMMG.pdf" download class="baixarProva">📄 Clique para baixar CFSd-QPE - 2022 - Armeiro - PMMG</a>
   <a href="provas/CFSd-QPE-2022-Auxiliar-de-Comunicacoes-PMMG.pdf" download class="baixarProva">📄 Clique para baixar CFSd-QPE - 2022 - Auxiliar de Comunicações - PMMG</a>
   <a href="provas/CFSd-QPE-2022-Auxiliar-de-Motomecanizacao-PMMG.pdf" download class="baixarProva">📄 Clique para baixar CFSd-QPE - 2022 - Auxiliar de Motomecanização - PMMG</a>
   <a href="provas/CFSd-QPE-2022-Tecnico-em-Analises-Clinicas-Patologia-Clinica-PMMG.pdf" download class="baixarProva">📄 Clique para baixar CFSd-QPE - 2022 - Técnico em Análises Clínicas - Patologia Clínica - PMMG</a>
@@ -162,26 +162,13 @@
 
     <!-- JavaScript Files -->
   
+
+ <script src="js/firebase-config.js"></script>
+     <script src="js/auth.js"></script>
+
+
 <script>
-  const shareBtn = document.getElementById('sharePostBtn2');
-
-  shareBtn.addEventListener('click', () => {
-    if (navigator.share) {
-      navigator.share({
-        title: 'Confira isso!',
-        text: 'Dá uma olhada neste conteúdo incrível:',
-        url: window.location.href
-      })
-      .then(() => console.log('Compartilhado com sucesso'))
-      .catch((error) => console.error('Erro ao compartilhar:', error));
-    } else {
-      alert('Compartilhamento não suportado neste navegador.');
-    }
-  });
-</script>
-
-    <script>
-function normalizarTexto(texto) {
+  function normalizarTexto(texto) {
     return texto
         .toLowerCase()
         .normalize("NFD")               // remove acentos
@@ -204,8 +191,17 @@ document.getElementById('searchInput').addEventListener('input', function () {
         link.style.display = corresponde ? 'block' : 'none';
     });
 });
-</script>
 
+   document.addEventListener('DOMContentLoaded', () => {
+        protegerPagina(); // Bloqueia acesso se não estiver logado
+    });
+
+
+    
+
+
+  
+</script>
 
 </body>
 </html>

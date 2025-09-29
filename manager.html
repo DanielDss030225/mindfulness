@@ -180,7 +180,7 @@
                          <option value="">Selecione Categoria</option>
                         <option value="cat1">Polícia Penal De Minas Gerais</option>
                         <option value="cat2">Polícia Militar De Minas Gerais</option>
-                                               <option value="cat2">Simulado Bizurado</option>
+                                               <option value="cat3">Simulado Bizurado</option>
 
                     </select>
                 </div>
@@ -376,8 +376,12 @@
     <script src="./js/manager.js"></script> <!-- Lógica de gerenciamento de provas -->
        
 
-
-  
 </body>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        protegerPagina(); // Bloqueia acesso se não estiver logado
+    });
+</script>
+
 </html>
 

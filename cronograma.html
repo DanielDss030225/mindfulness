@@ -15,6 +15,9 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
 
 </head>
+
+
+
 <body>
     <!-- Header -->
     <header class="game-header">
@@ -250,4 +253,12 @@
 <script src="js/cronograma-manager.js"></script> <!-- 3º - Lógica do Cronograma -->
 
 </body>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        protegerPagina(); // Bloqueia acesso se não estiver logado
+    });
+</script>
+
 </html>
+

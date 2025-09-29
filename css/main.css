@@ -278,6 +278,7 @@ padding-bottom: 3px;
     cursor: pointer;
     font-size: 14px;
     transition: all 0.3s ease;
+    height: 40px;
 }
 
 .btn-back:hover {
@@ -304,7 +305,7 @@ height: auto;
 }
 .cantoCoruja {
     height: 100%;
-    width: 70px;
+    width: 85px;
     margin: 0px;
 }
 
@@ -448,6 +449,8 @@ header p {
     gap: 10px;
     margin-top: 0px;
     margin-bottom: 10px;
+    justify-content: space-between;
+    max-width: 100%;
     
 }
 
@@ -2663,15 +2666,15 @@ display: flex;
     color: #495057;
     position: relative;
 
-     word-wrap: break-word;       /* compatível com navegadores antigos */
-    overflow-wrap: break-word;   /* padrão moderno */
-        word-break: break-all;
+     word-wrap: normal;      /* compatível com navegadores antigos */
+    overflow-wrap: normal;   /* padrão moderno */
+        word-break: normal;
         margin-top: 20px;
 
 }
 
 strong {
-    word-break: break-all;
+    word-break: normal;
 }
 
 

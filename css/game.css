@@ -125,7 +125,25 @@ margin: 0px;
 margin-bottom: 10px;
 
 }
+.imgFiltro {
+    height: 100px;
+    width: 100px;
 
+}
+.selectFilter {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+
+}
+.destaqueEfeito {
+     background: linear-gradient(90deg, #1e90ff, #8a2be2, #000);
+  -webkit-background-clip: text; /* necessário para Chrome/Safari */
+  -webkit-text-fill-color: transparent;
+  background-clip: text;         /* necessário para Firefox */
+  font-weight: bold;
+  margin-bottom: 10px;
+}
 .alternative {
     display: flex;
     align-items: center;
@@ -867,11 +885,13 @@ padding-bottom: 100px;
 
 
 }
+
 .question-text {
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-    white-space: normal; /* Garante que o texto quebre em várias linhas */
+    white-space: normal;        /* Permite quebras de linha normais */
+    overflow-wrap: normal;      /* Não força quebra de palavras */
+    word-break: normal;         /* Evita quebra forçada de palavras */
 }
+
 /* Em css/game.css */
 
 /* Adicione esta nova regra para corrigir o problema de largura fixa */

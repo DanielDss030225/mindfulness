@@ -493,6 +493,13 @@ document.getElementById("explanationContainer").style.display = "none";
     
 
     nextQuestion() {
+         let texto = document.getElementById("associatedText");
+         let verTexto = document.getElementById("verTexto");
+        
+         texto.style.display = "none";
+fundoDoTexto.style.display = "none";
+verTexto.textContent = "Ver Texto";
+
          document.querySelector('.fundoQuestoes').scrollTop = 0;
         this.currentQuestionIndex++;
         document.getElementById("explanationContainer").style.display = "none";

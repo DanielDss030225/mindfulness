@@ -56,7 +56,7 @@ class ProvasManager {
                     this.updateUserInfo();
                     resolve();
                 } else {
-                    alert("Você precisa estar logado para acessar esta página.");
+                  
                     window.location.href = "index.html"; // Redirecionar para login
                     resolve();
                 }

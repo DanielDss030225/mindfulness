@@ -300,5 +300,13 @@
     <!-- User Profile Script - Carregado por último para garantir que todos os managers estejam disponíveis -->
     <script src="js/user-profile.js"></script>
 </body>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        protegerPagina(); // Bloqueia acesso se não estiver logado
+    });
+</script>
+
 </html>
 

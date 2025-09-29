@@ -437,5 +437,19 @@ if (window.uiManager && typeof window.uiManager.showScreen === 'function') {
     
 }
 
+function protegerPagina() {
+
+    // Garante que o Firebase já foi inicializado
+    const auth = window.firebaseServices.auth;
+
+    auth.onAuthStateChanged((user) => {
+        if (!user) {
+            // Redireciona imediatamente para a página de login
+            window.location.href = "index.html";
+        }
+        // Se estiver logado, nada acontece e a página continua
+    });
+}
+
 // Initialize authentication manager
 window.authManager = new AuthManager();

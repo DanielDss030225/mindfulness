@@ -66,7 +66,7 @@ class CronogramaApp {
         try {
             await window.cronogramaManager.ensureAuthReady();
         } catch (err) {
-            alert("Você precisa estar logado para acessar o cronograma.");
+           
             window.location.href = "index.html";
             return;
         }
