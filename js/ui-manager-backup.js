@@ -341,7 +341,7 @@ if (profileBtn) {
     }
 
     exitGame() {
-        this.showModal('Sair do simulado', 'Tem certeza que deseja sair? Seu progresso será perdido.', 'warning', true);
+        this.showModal('Atenção', 'Tem certeza que deseja sair? Seu progresso será perdido.', 'warning', true);
         const modalConfirm = document.getElementById('modalConfirm');
         const modalCancel = document.getElementById('modalCancel');
 

@@ -381,7 +381,7 @@ class UIManager {
 
     exitGame() {
         this.showModal(
-            'Sair do simulado',
+            'Atenção',
             'Tem certeza que deseja sair? Seu progresso será perdido.',
             'warning',
             true

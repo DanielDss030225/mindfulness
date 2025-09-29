@@ -91,12 +91,15 @@
         if (seSelectButton > this.questions.length) {
 
    setTimeout(() => {
-   let texto = "Questões!"
-   if (this.questions.length < 2) {
-texto =  "Questão!"
+   let texto = "Questões!";
+   let encontrado = "Foram encontradas ";
 
+   if (this.questions.length < 2) {
+
+texto =  "Questão!"
+encontrado = "Foi encontrada ";
    }
-        window.uiManager.showModal(` Simulado elaborado com ${this.questions.length} ` + texto, "Estamos preparando novas questões para esta área da disciplina. 😊");
+        window.uiManager.showModal( encontrado + `${this.questions.length} ` + texto, "Estamos preparando novas questões para esta área da disciplina. 😊");
     }, 500);
 
         }
@@ -429,7 +432,7 @@ async endQuiz() {
     }
     
     setTimeout(() => {
-        window.uiManager.showModal("Simulado Finalizado!", message, "success");
+        window.uiManager.showModal("Questões Finalizadas!", message, "success");
     }, 500);
 }
 

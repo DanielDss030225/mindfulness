@@ -638,7 +638,7 @@ forceScrollToTop() {
   
 
         this.showModal(
-            'Sair do simulado',
+            'Atenção',
             'Tem certeza que deseja sair? Seu progresso será perdido.',
             'Problema',
             true,
@@ -658,7 +658,7 @@ forceScrollToTop() {
         if (incorrectQuestions.length > 0) {
             this.displayReviewQuestions(incorrectQuestions);
         } else {
-            this.showModal('Revisar Questões', 'Parabéns! Você não errou nenhuma questão no último simulado.');
+            this.showModal('Revisar Questões', 'Parabéns! Você não errou nenhuma questão.');
         }
     }
 
