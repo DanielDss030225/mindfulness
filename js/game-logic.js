@@ -215,7 +215,7 @@ document.getElementById("fundoTextoAssociation").style.display = "block";
 
         const question = this.questions[this.currentQuestionIndex];
         const isCorrect = this.selectedAnswer === question.correctAnswer;
-        const points = isCorrect ? 10 : 0;
+        const points = isCorrect ? 2 : 0;
         
         // Store user answer
         const userAnswer = {
