@@ -137,7 +137,7 @@ class ChatUI {
                     </div>
                     <div class="chat-input-area">
                         <div class="chat-input-container">
-                            <textarea class="chat-input" placeholder="Digite sua mensagem..." id="globalMessageInput" rows="1"></textarea>
+                            <textarea class="chat-input" placeholder="Digite sua mensagem..." id="globalMessageInput" rows="1" style="height: 39px; white-space: nowrap; overflow-x: auto; overflow-y: hidden; resize: none;"></textarea>
                             <button class="chat-send-btn" id="globalSendBtn">
                                 ➤
                             </button>
@@ -171,7 +171,7 @@ class ChatUI {
  
                       <div class="chat-input-area" id="privateInputArea" style="display: flex;">
                         <div class="chat-input-container">
-                            <textarea class="chat-input" placeholder="Digite sua mensagem..." id="privateMessageInput" rows="1"></textarea>
+                            <textarea class="chat-input" placeholder="Digite sua mensagem..." id="privateMessageInput" rows="1" style="height: 39px; white-space: nowrap; overflow-x: auto; overflow-y: hidden; resize: none;"></textarea>
                             <button class="chat-send-btn" id="privateSendBtn">
                                 ➤
                             </button>
