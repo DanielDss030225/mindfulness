@@ -222,19 +222,19 @@ padding-bottom: 3px;
     color: rgb(183, 183, 183);
     border: none;
     padding: 10px 10px;
-    border-radius: 15px;
+    border-radius: 9px;
     cursor: pointer;
     font-size: 12px;
     font-weight: 500;
     transition: all 0.3s ease;
-    width: 80%;
+    width: 92%;
     height: auto;
     align-items: center;
     word-wrap: break-word;
     padding-right: 20px;
     padding-left: 20px;
     margin-bottom: 50px;    
-    margin-top: 20px;
+    margin-top: 10px;
 }
 .buttonLoggout {
     display: flex;
@@ -242,7 +242,7 @@ padding-bottom: 3px;
     align-items: center;
     justify-content: center;
     height: 100%;
-    border-radius: 20px;
+    border-radius: 10px;
 
 }
 
@@ -262,7 +262,7 @@ padding-bottom: 3px;
 
 .btn-secondary:hover {
     transform: translateY(-1px);
-    box-shadow: 0 4px 15px rgba(255, 112, 67, 0.4);
+    box-shadow: 0 4px 15px rgba(255, 111, 67, 0.197);
 }
 
 .btn-secondary3:hover {
@@ -1769,12 +1769,12 @@ border-bottom-color: #d3d3d3;
     color: rgb(162, 162, 162);
     border: none;
     padding: 10px 10px;
-    border-radius: 15px;
+    border-radius: 9px;
     cursor: pointer;
     font-size: 12px;
     font-weight: 500;
     transition: all 0.3s ease;
-    width: 80%px;
+    width: 92%;
     height: auto;
     align-items: center;
     word-wrap: break-word;

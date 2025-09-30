@@ -517,7 +517,7 @@ renderExamQuestions(examId, questions) {
         questionCard.className = 'question-card';
         questionCard.innerHTML = `
             <h2>Questão ${questionNumber}</h2>
-            <p><strong>Texto:</strong> ${this.truncateText(question.text)}</p>
+            <p><strong>Enunciado:</strong> ${this.truncateText(question.text)}</p>
             ${question.associatedText ? `<p><strong>Texto associado:</strong> ${this.truncateText(question.associatedText)}</p>` : ''}
             ${question.comment ? `<p><strong>Comentário:</strong> ${this.truncateText(question.comment)}</p>` : ''}
             <p><strong>Categoria:</strong> ${this.categories[question.category]?.name || 'N/A'}</p>

@@ -159,7 +159,7 @@ class ChatUI {
 
                        </div>
                                           <div id="fundoUSER" class="fundoUser">              <img id="userIMG" src="https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/ICONE%20PERFIL.png?alt=media&token=d092ec7f-77b9-404d-82d0-b6ed3ce6810e" alt="Foto do usuário" class="user-avatar">
- <h2 id="userNOME">Olá, Selecione uma conversa para começar.</h2> </div>     
+ <h4 id="userNOME">Olá, Selecione uma conversa para começar.</h4> </div>     
 
                        <div class="fundoMensagens2">
 
