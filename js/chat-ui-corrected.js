@@ -353,7 +353,9 @@ this.elements.groupSendBtn.addEventListener('mousedown', (event) => {
                 const userId = userItem.dataset.userId;
                 if (userId) {
                     this.openProfileModal(userId);
-                    alert(userId);                }
+                    
+
+                          }
             }
         });
 
