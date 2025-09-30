@@ -1312,6 +1312,29 @@ input[type="radio"] {
   background-color: #f5f5f5;
   word-break: break-word;
 }
+
+ .filters {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* espaço entre filtros */
+    width: 100%;
+  }
+
+  .filter-group {
+    width: 100%;
+  }
+
+  .filter-group select {
+    width: 100%;
+  }
+
+  .exams-list {
+    grid-template-columns: 1fr; /* apenas uma coluna */
+  }
+
+  .exam-card {
+    width: 100%;
+  }
 }
 
 .alternative-text img {

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Provas Digitais - PlataformaBizurada</title>
+    <title>Provas/Simulados Digitais - PlataformaBizurada</title>
     <link rel="icon" src="img/ico.png" type="image/png">
 
 
@@ -53,12 +53,16 @@
 </div>
 
 <style>
+
 .modal-exclusiva {
   display: none; 
   position: fixed;
   z-index: 9999;
   left: 0;
   top: 0;
+  bottom: 0;
+  justify-content: center;
+  align-items: center;
   width: 100%; 
   height: 100%; 
   overflow: auto; /* permite scroll vertical e horizontal */
@@ -75,7 +79,8 @@
   transition: all 0.3s ease;
     margin-left: 50px;
   margin-right: 50px;
-  
+   margin-top: 100px;
+   
 }
 
 /* opcional: botão fechar continua igual */
@@ -96,7 +101,7 @@
   
             <h1>PlataformaBizurada</h1> 
             <div class="loading-spinner"></div>
-            <p>Carregando Provas Digitais...</p>
+            <p>Carregando Provas E Simulados Digitais...</p>
 
         </div>
 
@@ -115,8 +120,8 @@
         <div class="container">
             <div class="welcome-section" style="width: 100%; display: flex;" >
                 <div style="width: 100%; display: flex; flex-direction: column;">
-                     <h2>Provas Digitais</h2>
-                <p>Selecione uma prova para começar a resolver</p>
+                     <h2>Provas e Simulados</h2>
+                <p>Selecione uma prova ou simulado para começar a resolver</p>
             </div>
                 
                 <img src="img/resolveprova.png " style="height: 150px; width: 150px;">
@@ -133,7 +138,7 @@
 
             <!-- Exam Selection -->
             <div class="exam-selection">
-                <h3 style="margin-bottom: 10px;">Provas Disponíveis</h3>
+                <h3 style="margin-bottom: 10px;">Provas e Simulados Disponíveis</h3>
                 <div class="filters">
                     
                     <div class="filter-group">
@@ -241,7 +246,7 @@
                     <span id="current-exam-title"></span>
                     <span id="questions-count">0 questões</span>
                 </div>
-                <button id="finish-exam-btn" class="btn-primary">Finalizar Prova</button>
+                <button id="finish-exam-btn" class="btn-primary">Finalizar Agora</button>
             </div>
 
           <form id="add-question-form" class="form">
@@ -380,7 +385,7 @@
                     <button id="prev-question-btn" class="btn-secondary">Anterior</button>
                      
                     <button id="next-question-btn" class="btn-primary">Próxima Questão</button>
-                    <button id="finish-exam-final-btn" class="btn-outline">Finalizar Prova</button>
+                    <button id="finish-exam-final-btn" class="btn-outline">Finalizar Agora</button>
                 </div>
             </div>
         </div>
@@ -434,7 +439,7 @@
 <div id="results-screen" class="screen">
     <div class="container">
         <div class="results-header">
-            <h2>Resultado da Prova</h2>
+            <h2>Resultado da Prova/Simulado</h2>
             <div class="results-score">
                 <span id="final-score">0</span>
                 <span>pontos</span>
@@ -475,7 +480,7 @@
 
         <div class="results-actions">
             <button id="review-answers-btn" class="btn-primary">Análise e Revisão</button>
-            <button id="new-exam-btn" class="btn-secondary">Nova Prova</button>
+            <button id="new-exam-btn" class="btn-secondary">Nova Prova/Simulado</button>
             <button id="back-to-menu-final-btn" class="btn-outline">Voltar ao Menu</button>
         </div>
     </div>
