@@ -64,7 +64,9 @@ async loadUserData() {
            // 'cat3': { name: 'Português' },
             'cat1': { name: 'Polícia Penal De Minas Gerais' },
             'cat2': { name: 'Polícia Militar De Minas Gerais' },
-         'cat3': { name: 'Simulado Bizurado PM, PC, PP, GCM, ETC...' }
+         'cat3': { name: '🆎 Português: Língua Portuguesa' }
+                                
+
 
         };
 
@@ -328,7 +330,14 @@ window.scrollTo({
         card.innerHTML = `
             <h4>${exam.title}</h4>
             <div class="exam-meta">
-                <span class="exam-tag">${exam.type === 'concurso' ? 'Concurso' : 'Simulado'}</span>
+               <span class="exam-tag">
+  ${exam.type === 'concurso' 
+    ? 'Concurso' 
+    : exam.type === 'simulado' 
+      ? 'Simulado' 
+      : 'Exercício'}
+</span>
+
                 <span class="exam-tag">${categoryName}</span>
                 ${exam.banca ? `<span class="exam-tag">${exam.banca}</span>` : ''}
                 ${exam.year ? `<span class="exam-tag">${exam.year}</span>` : ''}
@@ -713,7 +722,7 @@ associatedTextDisplay.querySelectorAll('img').forEach(img => {
         // Update navigation buttons
         document.getElementById('prev-question-btn').disabled = this.currentQuestionIndex === 0;
         document.getElementById('next-question-btn').textContent = 
-            this.currentQuestionIndex === this.currentExamQuestions.length - 1 ? 'Finalizar Prova' : 'Próxima Questão';
+            this.currentQuestionIndex === this.currentExamQuestions.length - 1 ? 'Finalizar' : 'Próxima Questão';
     }
 
     formatQuestionText(text) {

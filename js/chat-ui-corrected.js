@@ -353,7 +353,7 @@ this.elements.groupSendBtn.addEventListener('mousedown', (event) => {
                 const userId = userItem.dataset.userId;
                 if (userId) {
                     this.openProfileModal(userId);
-                }
+                    alert(userId);                }
             }
         });
 
@@ -1017,10 +1017,25 @@ async openConversation(type, conversationId) {
         const userIdToDisplay = conversationId;
         const userData = await window.chatManager.getUserData(userIdToDisplay);
         
-        if (userData) {
-            document.getElementById("userNOME").textContent = userData.name || "Novato";
-            document.getElementById("userIMG").src = userData.profilePicture || "https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/ICONE%20PERFIL.png?alt=media&token=d092ec7f-77b9-404d-82d0-b6ed3ce6810e";
-        }
+    if (userData) {
+    const userNomeEl = document.getElementById("userNOME");
+    const userImgEl = document.getElementById("userIMG");
+
+    userNomeEl.textContent = userData.name || "Novato";
+    userImgEl.src = userData.profilePicture || 
+        "https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/ICONE%20PERFIL.png?alt=media&token=d092ec7f-77b9-404d-82d0-b6ed3ce6810e";
+
+    // Adiciona clique na imagem
+    userImgEl.style.cursor = "pointer"; // dá feedback visual
+    userImgEl.onclick = () => {
+
+   
+
+      
+    window.location.href = `user-profile.html?userId=${conversationId}`;
+    };
+}
+
 
     } else if (type === 'group' ) {
         this.elements.groupMessages.style.display = 'block';

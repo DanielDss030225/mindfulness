@@ -59,7 +59,7 @@ class UserProfileManager {
 
             // Se não há userId na URL, usar o usuário atual logado
                    
-alert('URL userId: ' + currentUser); 
+
 
             if (currentUser) {
                 this.currentUserId = currentUser.uid;

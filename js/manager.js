@@ -319,7 +319,16 @@ renderExamsList() {
         examCard.innerHTML = `
             <h4>${exam.title}</h4>
             <div class="exam-meta">
-                <span class="exam-tag">${exam.type === 'concurso' ? 'Concurso' : 'Simulado'}</span>
+              <span class="exam-tag">
+  ${
+    exam.type === 'concurso' 
+      ? 'Concurso' 
+      : exam.type === 'simulado' 
+        ? 'Simulado' 
+        : 'Exercício'
+  }
+</span>
+
                 <span class="exam-tag">${this.categories[exam.category]?.name || 'N/A'}</span>
                 ${exam.banca ? `<span class="exam-tag">${exam.banca}</span>` : ''}
                 ${exam.year ? `<span class="exam-tag">${exam.year}</span>` : ''}
