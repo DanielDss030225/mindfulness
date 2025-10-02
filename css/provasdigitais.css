@@ -1052,7 +1052,9 @@ font-size: 14px;
         border-radius: 15px;
         width: 95%;
     }
-
+   .game-header h1 {
+        font-size: 1.4rem;
+    }
     .header-content {
         padding: 15px;
     }

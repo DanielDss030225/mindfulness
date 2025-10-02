@@ -402,6 +402,7 @@ header p {
     top: 0;
     z-index: 8000;
         max-width: 3840px;
+        width: 100%;
 
 }
 
@@ -2419,12 +2420,11 @@ height: 100%;
 }
 
 #backinicio {
-    right: 0;
+
     background-color:none;
     margin-left: 20px;
 }
 .backinicio {
-    right: 0;
     background-color:none;
     margin-left: 20px;
 }
@@ -2483,7 +2483,7 @@ display: flex;
   overflow: auto;              
 
   max-width:  100%;
-  padding-bottom: 100px;
+  padding-bottom: 40px;
 
 }
 
@@ -2581,6 +2581,8 @@ display: flex;
     align-items: center;
     text-align: center;
 }
+
+
 }
 
 
