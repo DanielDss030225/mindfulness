@@ -38,7 +38,7 @@ class ChatUI {
         const toggleBtn = document.createElement('button');
         toggleBtn.className = 'chat-toggle-btn';
         toggleBtn.innerHTML = `
-            💬
+<svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" fill="#FFFFFF"><path d="m40-40 74-259.33q-19.67-42.34-28.83-87.09Q76-431.17 76-478q0-83.67 31.5-156.67 31.5-73 86.17-127.66Q248.33-817 321.33-848.5T478-880q83.67 0 156.67 31.5 73 31.5 127.66 86.17Q817-707.67 848.5-634.67T880-478q0 83.67-31.5 156.67-31.5 73-86.17 127.66Q707.67-139 634.67-107.5T478-76q-46.83 0-91.58-9.17-44.75-9.16-87.09-28.83L40-40Zm100-100 134.67-38q15.33-4.67 29.5-3.33 14.16 1.33 28.5 7.33 34.66 14.67 71.22 23 36.55 8.33 74.15 8.33 139.96 0 237.63-97.66Q813.33-338 813.33-478t-97.66-237.67Q618-813.33 478-813.33t-237.67 97.52q-97.66 97.53-97.66 238.06 0 37.75 6.33 74.75t25 70.33q7 13.47 7.5 28.49.5 15.01-3.5 29.51L140-140Zm304.67-177.33h66.66V-442h125.34v-66.67H511.33V-634h-66.66v125.33H319.33V-442h125.34v124.67ZM477-477Z"/></svg>
             <span class="chat-notification-badge"></span>
         `;
         document.body.appendChild(toggleBtn);
@@ -91,7 +91,7 @@ class ChatUI {
     getChatWindowHTML() {
         return `
             <div class="chat-header">
-                <h3>Chat</h3>
+                <h3>Bate-papo</h3>
                  <div class="chat-search">
                         <input type="text" class="chat-search-input" placeholder="Pesquisar usuários..." id="userSearchInput">
                     </div>
@@ -135,14 +135,21 @@ class ChatUI {
                         </div>
 </div>
                     </div>
-                    <div class="chat-input-area">
-                        <div class="chat-input-container">
-                            <textarea class="chat-input" placeholder="Digite sua mensagem..." id="globalMessageInput" rows="1" style="height: 39px; white-space: nowrap; overflow-x: auto; overflow-y: hidden; resize: none;"></textarea>
+
+
+                    <div class="chat-input-area">                       
+                    <div class="chat-input-container">
+                            <textarea class="chat-input" placeholder="Digite sua mensagem..." id="globalMessageInput" rows="1" 
+      
+          ></textarea>
+
                             <button class="chat-send-btn" id="globalSendBtn">
                                 ➤
                             </button>
                         </div>
                     </div>
+
+                    
                 </div>
                 
                 <!-- Painel Privadas -->
@@ -159,7 +166,11 @@ class ChatUI {
 
                        </div>
                                           <div id="fundoUSER" class="fundoUser">              <img id="userIMG" src="https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/ICONE%20PERFIL.png?alt=media&token=d092ec7f-77b9-404d-82d0-b6ed3ce6810e" alt="Foto do usuário" class="user-avatar">
- <h4 id="userNOME">Olá, Selecione uma conversa para começar.</h4> </div>     
+ <h4 id="userNOME">Olá, Selecione uma conversa para começar.</h4> 
+ 
+ <svg xmlns="http://www.w3.org/2000/svg" height="35px" viewBox="0 -960 960 960" width="35px" fill="#208244ff"><path d="M160-760v-80h640v80H160Zm280 640v-408L336-424l-56-56 200-200 200 200-56 56-104-104v408h-80Z"/></svg>
+ 
+ </div>     
 
                        <div class="fundoMensagens2">
 
@@ -168,10 +179,12 @@ class ChatUI {
 
                       </div>
                       </div>
- 
+
                       <div class="chat-input-area" id="privateInputArea" style="display: flex;">
                         <div class="chat-input-container">
-                            <textarea class="chat-input" placeholder="Digite sua mensagem..." id="privateMessageInput" rows="1" style="height: 39px; white-space: nowrap; overflow-x: auto; overflow-y: hidden; resize: none;"></textarea>
+                            <textarea class="chat-input" placeholder="Digite sua mensagem..." id="privateMessageInput" rows="1" ></textarea>
+
+                            
                             <button class="chat-send-btn" id="privateSendBtn">
                                 ➤
                             </button>
@@ -1104,40 +1117,59 @@ chatmessages2.scrollTop = chatmessages2.scrollHeight;
     // Adicione esta linha no final da função
     }
 
-    async sendPrivateMessage() {
-        const messageInput = this.elements.privateMessageInput;
-        const messageText = messageInput.value.trim();
-        if (messageText === '' || !this.currentConversation) return;
+async sendPrivateMessage() {
+  
+    const messageInput = this.elements.privateMessageInput;
+    const messageText = messageInput.value.trim();
+    if (messageText === '' || !this.currentConversation) return;
 
-        try {
-            const messageId = await window.chatManager.sendMessage('private', messageText, this.currentConversation);
-            // Exibir a própria mensagem imediatamente
-            const currentUser = window.chatManager.currentUser;
-            const messageData = {
-                id: messageId,
-                senderId: currentUser.uid,
-                senderName: currentUser.displayName || 'Você',
-                senderProfilePicture: currentUser.photoURL || 'https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/ICONE%20PERFIL.png?alt=media&token=d092ec7f-77b9-404d-82d0-b6ed3ce6810e',
-                message: messageText,
-                timestamp: Date.now(),
-                type: window.chatManager.detectMessageType(messageText)
-            };
-            if (messageData.type === 'link') {
-                messageData.linkPreview = await window.chatManager.generateLinkPreview(messageText);
-            }
-            this.elements.privateMessages.appendChild(this.createMessageElement(messageData));
-            this.elements.privateMessages.scrollTop = this.elements.privateMessages.scrollHeight;
-            messageInput.value = '';
-            this.autoResizeTextarea(messageInput);
-        } catch (error) {
-            console.error('Error sending private message:', error);
-            alert('Erro ao enviar mensagem privada: ' + error.message);
+    try {
+        const messageId = await window.chatManager.sendMessage('private', messageText, this.currentConversation);
+
+        // Exibir a própria mensagem imediatamente
+        const currentUser = window.chatManager.currentUser;
+        const messageData = {
+            id: messageId,
+            senderId: currentUser.uid,
+            senderName: currentUser.displayName || 'Você',
+            senderProfilePicture: currentUser.photoURL || 'https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/ICONE%20PERFIL.png?alt=media&token=d092ec7f-77b9-404d-82d0-b6ed3ce6810e',
+            message: messageText,
+            timestamp: Date.now(),
+            type: window.chatManager.detectMessageType(messageText)
+        };
+
+        if (messageData.type === 'link') {
+            messageData.linkPreview = await window.chatManager.generateLinkPreview(messageText);
         }
-          const fundoMensagens2 = document.querySelector(".fundoMensagens2");
-fundoMensagens2.scrollTop = fundoMensagens2.scrollHeight;
-//document.getElementById("privateMessageInput").focus();
 
+        // Adiciona a mensagem ao DOM
+        const messageElement = this.createMessageElement(messageData);
+        this.elements.privateMessages.appendChild(messageElement);
+
+        // Limpa o input e ajusta altura do textarea
+        messageInput.value = '';
+        this.autoResizeTextarea(messageInput);
+
+        // Rolagem automática para baixo
+        const fundoMensagens2 = document.querySelector(".fundoMensagens2");
+        const chatMessages2 = document.querySelector(".chat-messages2");
+
+        setTimeout(() => {
+            [this.elements.privateMessages, fundoMensagens2, chatMessages2].forEach(el => {
+                if (el) {
+                    el.scrollTo({
+                        top: el.scrollHeight,
+                        behavior: "smooth"
+                    });
+                }
+            });
+        }, 100); // pequeno atraso para garantir que o elemento já esteja renderizado
+
+    } catch (error) {
+        console.error('Error sending private message:', error);
+        alert('Erro ao enviar mensagem privada: ' + error.message);
     }
+}
 
     /*async sendGroupMessage() {
         const messageInput = this.elements.groupMessageInput;
@@ -1237,6 +1269,46 @@ async openProfileModal(userId) { // 1. Adicione 'async' aqui
 // DENTRO DA CLASSE ChatUI
 
 focusCurrentInput() {
+
+    
+// Inicializa a área sempre oculta
+const area = document.getElementById("privateConversations");
+const fundoMensagens = document.querySelector(".fundoMensagens2");
+const chatMessages = document.querySelector(".chat-messages2");
+
+if (area) {
+    area.style.transition = "max-height 0.3s ease, opacity 0.3s ease"; 
+    area.style.maxHeight = "0px";   // Oculta
+    area.style.opacity = "0";       // Invisível
+}
+
+// Função para mostrar a área quando o botão for clicado
+function showPrivateConversations() {
+    if (area) {
+        area.style.maxHeight = "80px"; // Ajuste conforme desejar
+        area.style.opacity = "1";
+
+        // Rola para baixo as mensagens
+        [fundoMensagens, chatMessages].forEach(el => {
+            if (el) {
+                el.scrollTo({
+                    top: el.scrollHeight,
+                    behavior: "smooth"
+                });
+            }
+        });
+
+        // Opcional: foca no input
+        if (window.chatUI && window.chatUI.elements.privateMessageInput) {
+            window.chatUI.elements.privateMessageInput.focus();
+        }
+    }
+}
+
+// Exemplo: botão chama a função
+document.getElementById("fundoUSER").addEventListener("click", showPrivateConversations);
+
+
     // Verifica se o dispositivo atual é propenso a ter um teclado virtual.
     // A propriedade 'ontouchstart' em 'window' é um bom indicador de um dispositivo de toque.
     const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
@@ -1260,6 +1332,10 @@ focusCurrentInput() {
         // Atrasar um pouco o foco pode ajudar a garantir que o elemento esteja visível.
         setTimeout(() => inputElement.focus(), 100);
     }
+    
+
+
+
 }
 
 
@@ -1418,5 +1494,4 @@ setupSwipeGestures() {
 
 
 window.ChatUI = ChatUI;
-
 

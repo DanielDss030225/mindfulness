@@ -20,25 +20,78 @@
     --chat-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Botão flutuante do chat */
+
+
+/* Campo de entrada fixo no rodapé */
+.chat-input-area {
+    position: fixed;       /* fixa no viewport */
+    bottom: 0;             /* alinhada ao rodapé */
+    right: 0;               /* alinhada à esquerda */
+    width: 100%;           /* ocupa toda a largura */
+    background-color: #f8f8f8;
+    border-top: 1px solid #ccc;
+    padding: 10px 15px;    /* espaço interno */
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    z-index: 100;          /* acima de outros elementos */
+    overflow: hidden;
+    width: 40%;
+    
+    
+}
+
+/* Ajuste do textarea dentro da área fixa */
+.chat-input-area textarea.chat-input {
+    flex: 1;               /* ocupa o máximo possível */
+    resize: none;          /* evita redimensionamento manual */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 8px;
+    font-size: 14px;
+    max-height: 150px;     /* limita altura máxima */
+    overflow-y: auto;      /* rolagem interna do textarea */
+    
+}
+
+.chat-input-container {
+    display: flex;
+    gap: 10px;
+    align-items: flex-end;
+    overflow: hidden;
+    min-height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+   
+}
 .chat-toggle-btn {
     position: fixed;
     bottom: 20px;
     right: 20px;
     width: 60px;
     height: 60px;
-    background: linear-gradient(135deg, var(--chat-primary) 0%, var(--chat-secondary) 100%);
+  background: linear-gradient(135deg, #4CAF50, #45a049);
     border: none;
     border-radius: 50%;
     color: white;
     font-size: 20px;
     cursor: pointer;
-    box-shadow: var(--chat-shadow);
+    box-shadow: 0 0px 50px rgb(72, 72, 72); /* sombra verde suave */
     transition: var(--chat-transition);
     z-index: 10000;
     display: flex;
     align-items: center;
     justify-content: center;
+
+    
+}
+
+@keyframes spinPause {
+    0%   { transform: rotate(0deg); }
+    40%  { transform: rotate(360deg); }
+    100% { transform: rotate(360deg); }
 }
 
 .chat-toggle-btn:hover {
@@ -129,6 +182,7 @@
     margin: 0;
     font-size: 16px;
     font-weight: 600;
+    width: 150px;
 }
 
 .chat-header-actions {
@@ -377,72 +431,51 @@ margin-right: 6px;
 
 
 
+
+
+/* Container geral da área de mensagens */
 .fundoMensagens {
-     height: 176px;
-  overflow-y: auto;
-  flex: 1 1 auto; /* <- ocupa todo o espaço entre header e input */
-  overflow: hidden; /* não precisa de rolagem aqui */
-  padding: 0px;
-  display: flex;
-  flex-direction: column;
+    flex: 1 1 auto;            /* ocupa o máximo espaço disponível */
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;          /* evita rolagem aqui */
+    padding: 0;
+    height: 280px;
+   margin-bottom: 69px;
 }
-/* Área de mensagens */
 
+/* Lista de mensagens */
 .chat-messages {
-     display: inline-block;
-  height: 176px;
-    background-color: none;
-    padding-left: 15px;
-    padding-right: 15px;
-  flex: 1 1 auto;
-  overflow-y: auto; /* <- rolagem funciona */
-  display: flex;
-  flex-direction: column;
- box-sizing: border-box;
- overflow-x: hidden;
-}
-
-.chat-input-area {
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  background-color: #f8f8f8;
-  border-top: 1px solid #ccc;
-  display: flex;
-  align-items: center;
-  padding: 10px;
-  box-sizing: border-box;
-  z-index: 100;
-  overflow: hidden;
+    flex: 1 1 auto;            /* ocupa o espaço restante dentro do container */
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;          /* rolagem apenas quando necessário */
+    padding: 0 15px;
+    box-sizing: border-box;
+   
 }
 
 
-
-
-
+/* Container geral da área de mensagens */
 .fundoMensagens2 {
-     height: 245px;            /* Altura fixa para ativar a rolagem */
-  overflow-y: auto;         /* Rolagem vertical */
-  padding: 0px;     
-  flex: 1 1 auto; /* <- ocupa todo o espaço entre header e input */
-  overflow: hidden; /* não precisa de rolagem aqui */
-  display: flex;
-  flex-direction: column;
+    flex: 1 1 auto;            /* ocupa o máximo espaço disponível */
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;          /* evita rolagem aqui */
+    padding: 0;
+    height: 280px;
+   margin-bottom: 69px;
 }
 
+/* Lista de mensagens */
 .chat-messages2 {
-     display: inline-block;
-     height: 235px;
-  flex: 1 1 auto;
-  overflow-y: auto; /* <- rolagem funciona */
-  display: flex;
-  flex-direction: column;
-  padding: 0px;
-  box-sizing: border-box;
-    padding-left: 15px;
-    padding-right: 15px;
-     overflow-x: hidden;
-
+    flex: 1 1 auto;            /* ocupa o espaço restante dentro do container */
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;          /* rolagem apenas quando necessário */
+    padding: 0 15px;
+    box-sizing: border-box;
+   
 }
 
 
@@ -640,40 +673,7 @@ margin-right: 6px;
     background: var(--chat-secondary);
 }
 
-/* Campo de entrada */
-.chat-input-area {
-    padding: 15px;
-    border-top: 1px solid var(--chat-border);
-    background: var(--chat-background);
-    overflow: hidden;
-}
 
-.chat-input-container {
-    display: flex;
-    gap: 10px;
-    align-items: flex-end;
-    overflow: hidden;
-}
-
-.chat-input {
-    flex: 1;
-    min-height: 40px;
-    max-height: 100px;
-    padding: 10px 15px;
-    border: 1px solid var(--chat-border);
-    border-radius: var(--chat-radius-small);
-    font-size: 14px;
-    font-family: inherit;
-    resize: none;
-    outline: none;
-    transition: var(--chat-transition);
-    overflow: hidden;
-}
-
-.chat-input:focus {
-    border-color: var(--chat-primary);
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-}
 
 .chat-send-btn {
     width: 40px;
@@ -705,7 +705,7 @@ margin-right: 6px;
     overflow-x: auto; /* scroll horizontal */
     overflow-y: hidden;
     white-space: nowrap;
-    height: 80px;
+    height: 120px;
     align-items: center;
     background-color: #eceaea   ;
 }
@@ -733,7 +733,7 @@ margin-right: 6px;
     transition: all 0.3s ease; 
 
     border: none; /* Remove a borda antiga para um visual mais limpo */
-    height: 100%; /* Ajustei a altura para um valor fixo, fica melhor com o padding */
+    height: 75px; /* Ajustei a altura para um valor fixo, fica melhor com o padding */
     margin-right: 2px;
     margin-left: 2px;
     width: 250px;
@@ -1095,6 +1095,45 @@ width: 200px;
 }
 
 
+
+
+.chat-input {
+    flex: 1;
+    min-height: 40px;
+    max-height: 100px;           /* altura máxima antes da rolagem */
+    padding: 10px 15px;
+    border: 1px solid var(--chat-border);
+    border-radius: var(--chat-radius-small);
+    font-size: 14px;
+    font-family: inherit;
+    resize: none;
+    outline: none;
+    transition: var(--chat-transition);
+
+    overflow-y: scroll;           /* permite rolagem vertical */
+    overflow-x: hidden;           /* sem rolagem horizontal */
+    white-space: pre-wrap;        /* quebra linhas automaticamente */
+    word-wrap: break-word;        /* quebra palavras longas */
+
+    scrollbar-width: none;        /* Firefox */
+}
+
+.chat-input::-webkit-scrollbar {
+    width: 0px;                   /* Chrome, Edge, Safari */
+    background: transparent;      /* opcional */
+}
+
+
+.chat-input:focus {
+    border-color: var(--chat-primary);
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+
+#userNOME {
+    width: 100%;
+    text-align: left;
+}
 /* Responsividade */
 @media (max-width: 1000px) {
     .chat-window {
@@ -1133,21 +1172,12 @@ width: 200px;
 }
 
 
-.fundoMensagens {
-  flex: 1 1 auto; /* <- ocupa todo o espaço entre header e input */
-  overflow: hidden; /* não precisa de rolagem aqui */
-  display: flex;
-  flex-direction: column;
-  margin: 0px;
-}
 
-.chat-messages {
-  flex: 1 1 auto;
-  overflow-y: auto; /* <- rolagem funciona */
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-}
+
+
+
+
+
 
 .chat-input-area {
   bottom: 0;
@@ -1164,23 +1194,6 @@ width: 200px;
 }
 
 
-
-.fundoMensagens2 {
-  flex: 1 1 auto; /* <- ocupa todo o espaço entre header e input */
-  overflow: hidden; /* não precisa de rolagem aqui */
-  padding: 0px;
-  display: flex;
-  flex-direction: column;
-}
-
-.chat-messages2 {
-  flex: 1 1 auto;
-  overflow-y: auto; /* <- rolagem funciona */
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-  
-}
 
 
 

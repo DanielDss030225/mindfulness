@@ -1001,19 +1001,19 @@ class SocialFeedManager {
             
             <div class="post-actions-bar">
                 <button class="action-btn like-btn ${isLiked ? 'liked' : ''}" data-post-id="${post.id}">
-                    <span class="icon">${isLiked ? '❤️' : '🤍'}</span>
+                    <span class="icon">${isLiked ? '<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#2a87f0ff"><path d="M720-120H280v-520l280-280 50 50q7 7 11.5 19t4.5 23v14l-44 174h258q32 0 56 24t24 56v80q0 7-2 15t-4 15L794-168q-9 20-30 34t-44 14Zm-360-80h360l120-280v-80H480l54-220-174 174v406Zm0-406v406-406Zm-80-34v80H160v360h120v80H80v-520h200Z"/></svg>' : '<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#434343"><path d="M720-120H280v-520l280-280 50 50q7 7 11.5 19t4.5 23v14l-44 174h258q32 0 56 24t24 56v80q0 7-2 15t-4 15L794-168q-9 20-30 34t-44 14Zm-360-80h360l120-280v-80H480l54-220-174 174v406Zm0-406v406-406Zm-80-34v80H160v360h120v80H80v-520h200Z"/></svg>'}</span>
                     <span class="like-text">${isLiked ? '':''}</span>
                     ${post.likesCount > 0 ? `<span class="like-count">(${post.likesCount})</span>` : ''}
                 </button>
                 
                 <button class="action-btn comment-btn" data-post-id="${post.id}" onclick="window.location.href = 'post.html?id=${post.id}'">
-                    <span class="icon">💬</span>
+                    <span class="icon"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#434343"><path d="M880-80 720-240H320q-33 0-56.5-23.5T240-320v-40h440q33 0 56.5-23.5T760-440v-280h40q33 0 56.5 23.5T880-640v560ZM160-473l47-47h393v-280H160v327ZM80-280v-520q0-33 23.5-56.5T160-880h440q33 0 56.5 23.5T680-800v280q0 33-23.5 56.5T600-440H240L80-280Zm80-240v-280 280Z"/></svg></span>
                     <span></span>
                     ${post.commentsCount > 0 ? `<span class="comment-count">(${post.commentsCount})</span>` : ''}
                 </button>
 
                 <button class="action-btn share-btn" data-post-id="${post.id}">
-                    <span class="icon">📤</span>
+                    <span class="icon"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#434343"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v80h-80v-80H200v560h560v-80h80v80q0 33-23.5 56.5T760-120H200Zm480-160-56-56 103-104H360v-80h367L624-624l56-56 200 200-200 200Z"/></svg></span>
                     <span></span>
                 </button>
             </div>

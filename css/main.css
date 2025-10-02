@@ -1296,7 +1296,7 @@ textarea:focus {
     padding: 8px 12px;
     border-radius: 6px;
     transition: background-color 0.2s;
-    width: 400px; 
+    width: 60%; 
     margin-right: 10px;
     text-align: center;
     justify-content: center;
@@ -1999,7 +1999,7 @@ border-bottom-color: #d3d3d3;
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000;
+    z-index: 10000;
     backdrop-filter: blur(5px);
 }
 
@@ -2079,7 +2079,8 @@ border-bottom-color: #d3d3d3;
 }
 
 .copy-url-btn {
-    background-color: #1877f2;
+    background: linear-gradient(135deg, #4CAF50, #45a049);
+
     color: white;
     border: none;
     padding: 8px 15px;
