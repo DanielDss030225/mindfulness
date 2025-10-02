@@ -166,9 +166,9 @@ class ChatUI {
 
                        </div>
                                           <div id="fundoUSER" class="fundoUser">              <img id="userIMG" src="https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/ICONE%20PERFIL.png?alt=media&token=d092ec7f-77b9-404d-82d0-b6ed3ce6810e" alt="Foto do usuário" class="user-avatar">
- <h4 id="userNOME">Olá, Selecione uma conversa para começar.</h4> 
+ <h4 id="userNOME">Olá, Selecione uma conversa.</h4> 
  
- <svg xmlns="http://www.w3.org/2000/svg"  height="35px" viewBox="0 -960 960 960" width="35px" fill="#208244ff"><path d="M160-760v-80h640v80H160Zm280 640v-408L336-424l-56-56 200-200 200 200-56 56-104-104v408h-80Z"/></svg>
+
  <div style=" width:10px;"> </div>
  </div>     
 
@@ -400,38 +400,36 @@ this.elements.globalMessages.addEventListener('click', (e) => {
 
 
 
-// Fechar o chat ao clicar fora (ignorando modais)
 document.addEventListener('click', (event) => {
-  
+  // Se tem seleção de texto ativa, não fechar
+  if (window.getSelection && window.getSelection().toString().length > 0) {
+    return;
+  }
+
   document.getElementById("userSearchInput").value = "";
 
+  const chatWindow = this.elements.chatWindow;
+  const toggleBtn = this.elements.toggleBtn;
+  const profileModal = this.elements.profileModal;
+  const deleteModal = this.elements.deleteModal;
 
-    const chatWindow = this.elements.chatWindow;
-    const toggleBtn = this.elements.toggleBtn;
-    const profileModal = this.elements.profileModal;
-    const deleteModal = this.elements.deleteModal;
+  const clickedOutsideChat =
+    this.isOpen &&
+    chatWindow &&
+    !chatWindow.contains(event.target) &&
+    !toggleBtn.contains(event.target) &&
+    !profileModal.contains(event.target) &&
+    !deleteModal.contains(event.target);
 
-    const clickedOutsideChat =
-        this.isOpen &&
-        chatWindow &&
-        !chatWindow.contains(event.target) &&
-        !toggleBtn.contains(event.target) &&
-        !profileModal.contains(event.target) &&
-        !deleteModal.contains(event.target);
+  if (clickedOutsideChat) {
+    setTimeout(() => {
+      document.getElementById("onlineUsersList").style.display = "none";
+    }, 50);
 
-    if (clickedOutsideChat) {
-     setTimeout(() => {
- 
-
-    document.getElementById("onlineUsersList").style.display = "none";
-}, 50);
-     setTimeout(() => {
- 
-
-this.closeChat();
-}, 55);
-        
-    }
+    setTimeout(() => {
+      this.closeChat();
+    }, 55);
+  }
 });
 
 
@@ -1280,37 +1278,7 @@ const area = document.getElementById("privateConversations");
 const fundoMensagens = document.querySelector(".fundoMensagens2");
 const chatMessages = document.querySelector(".chat-messages2");
 
-if (area) {
-    area.style.transition = "max-height 0.3s ease, opacity 0.3s ease"; 
-    area.style.maxHeight = "0px";   // Oculta
-    area.style.opacity = "0";       // Invisível
-}
 
-// Função para mostrar a área quando o botão for clicado
-function showPrivateConversations() {
-    if (area) {
-        area.style.maxHeight = "80px"; // Ajuste conforme desejar
-        area.style.opacity = "1";
-
-        // Rola para baixo as mensagens
-        [fundoMensagens, chatMessages].forEach(el => {
-            if (el) {
-                el.scrollTo({
-                    top: el.scrollHeight,
-                    behavior: "smooth"
-                });
-            }
-        });
-
-        // Opcional: foca no input
-        if (window.chatUI && window.chatUI.elements.privateMessageInput) {
-            window.chatUI.elements.privateMessageInput.focus();
-        }
-    }
-}
-
-// Exemplo: botão chama a função
-document.getElementById("fundoUSER").addEventListener("click", showPrivateConversations);
 
 
     // Verifica se o dispositivo atual é propenso a ter um teclado virtual.

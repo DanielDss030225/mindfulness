@@ -969,9 +969,6 @@ border-bottom-right-radius: 0px;
     background-color: #d5d5d5; /* Cinza um pouco mais escuro no hover */
 }
 
-.cancel-reply-btn:active {
-    
-}
 
 
 /* Adicione este estilo ao seu arquivo css/post-view.css */
@@ -1044,9 +1041,7 @@ border-bottom-right-radius: 0px;
 .like-text {
     display: none;
 }
-.action-btn.comment-btn-focus span {
 
-}
 .comment-input-container {
     width: 100%;
 }
