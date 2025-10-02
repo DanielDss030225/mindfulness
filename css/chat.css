@@ -1178,7 +1178,24 @@ width: 200px;
 
 
 
-
+/* Campo de entrada fixo no rodapé */
+.chat-input-area {
+    position: fixed;       /* fixa no viewport */
+    bottom: 0;             /* alinhada ao rodapé */
+    right: 0;               /* alinhada à esquerda */
+           /* ocupa toda a largura */
+    background-color: #f8f8f8;
+    border-top: 1px solid #ccc;
+    padding: 10px 15px;    /* espaço interno */
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    z-index: 100;          /* acima de outros elementos */
+    overflow: hidden;
+    width: 100%;
+    
+    
+}
 
 
 
