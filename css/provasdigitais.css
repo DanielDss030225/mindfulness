@@ -1262,6 +1262,11 @@ input[type="radio"] {
   margin: 5px;           /* opcional, ajusta espaçamento */
   cursor: pointer;
 }
+#backinicio {
+    right: 0;
+    background-color:none;
+    margin-left: 20px;
+}
 
 /* Responsividade para texto associado */
 @media (max-width: 1000px) {

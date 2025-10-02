@@ -2418,7 +2418,16 @@ height: 100%;
   object-fit: cover;
 }
 
-
+#backinicio {
+    right: 0;
+    background-color:none;
+    margin-left: 20px;
+}
+.backinicio {
+    right: 0;
+    background-color:none;
+    margin-left: 20px;
+}
 @media screen and (max-width: 1000px) {
     #music-player-launcher {
         width: 50px;
