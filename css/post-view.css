@@ -1010,7 +1010,9 @@ border-bottom-right-radius: 0px;
     gap: 3px;
 }
     
-    
+    .header-logo p {
+        display: none;
+    }
     .comment-form {
         
         gap: 1rem;
