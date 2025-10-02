@@ -64,10 +64,11 @@ async loadUserData() {
            // 'cat3': { name: 'Português' },
             'cat1': { name: 'Polícia Penal De Minas Gerais' },
             'cat2': { name: 'Polícia Militar De Minas Gerais' },
-         'cat3': { name: '🆎 Português: Língua Portuguesa' },
-                                
-'cat4': { name: '📜 Legislação Penal Especial – Lei Maria da Penha (Lei nº 11.340/2006)' }
-
+         'cat3': { name: '🆎 Português: Língua Portuguesa' },                            
+        'cat4': { name: '📜 Lei Maria da Penha (Lei nº 11.340/2006)' },
+        'cat5': { name: '📜 Estatuto do Desarmamento (Lei nº 10.826/2003)' },
+        'cat6': { name: '📜 Lei de Tortura (Lei nº 9.455/1997)' },
+'cat7': { name: '📜 Lei de Abuso de Autoridade (Lei nº 13.869/2019)' }
         };
 
         // Buscar exames do Firebase
