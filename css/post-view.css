@@ -25,10 +25,13 @@
     position: fixed;
     height: 70px;
     width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .header-content {
-   max-width: 1500px;
+   max-width: 3200px;
   margin: 0 auto;
   padding: 0 2rem;
   display: flex;
@@ -36,13 +39,12 @@
   justify-content: space-between;
   gap: 10px; /* espaço entre elementos */
   flex-wrap: nowrap; /* força ficar em linha */
+      width: 100%;
 }
    /* Força os filhos a não ocuparem 100% da largura */
 .header-content > * {
   flex: 0 0 auto; /* não encolhe nem quebra */
 } 
-
-
 
 
 .back-btn {

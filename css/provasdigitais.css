@@ -1118,7 +1118,7 @@ font-size: 14px;
         grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
     }
     .question-container {
-     width: 95%;
+     width: 100%;
 }
 .headerP {
     display: none;
@@ -1194,9 +1194,9 @@ font-size: 14px;
     color: #495057;
     position: relative;
 
-     word-wrap: break-word;       /* compatível com navegadores antigos */
-    overflow-wrap: break-word;   /* padrão moderno */
-        word-break: break-all;
+     word-wrap: normal;       /* compatível com navegadores antigos */
+    overflow-wrap: normal;   /* padrão moderno */
+        word-break: normal;
 
 }
 

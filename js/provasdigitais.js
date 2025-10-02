@@ -64,9 +64,9 @@ async loadUserData() {
            // 'cat3': { name: 'Português' },
             'cat1': { name: 'Polícia Penal De Minas Gerais' },
             'cat2': { name: 'Polícia Militar De Minas Gerais' },
-         'cat3': { name: '🆎 Português: Língua Portuguesa' }
+         'cat3': { name: '🆎 Português: Língua Portuguesa' },
                                 
-
+'cat4': { name: '📜 Legislação Penal Especial – Lei Maria da Penha (Lei nº 11.340/2006)' }
 
         };
 

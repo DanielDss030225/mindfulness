@@ -2141,6 +2141,7 @@ border-bottom-color: #d3d3d3;
 }
 .mini{
     font-size: 10px;
+    color: #1877f2 ;
 }
 @keyframes highlightPulse {
     0%, 100% { 
@@ -2688,8 +2689,11 @@ display: flex;
 strong {
     word-break: normal;
 }
-
-
+.pmenu {
+    background-color: none;
+    width: 100%;
+    text-align: left;
+}
 .question-associated-text::before {
     content: "📋 Texto Associado";
     position: absolute;
