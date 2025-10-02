@@ -27,7 +27,7 @@
     position: fixed;       /* fixa no viewport */
     bottom: 0;             /* alinhada ao rodapé */
     right: 0;               /* alinhada à esquerda */
-    width: 100%;           /* ocupa toda a largura */
+           /* ocupa toda a largura */
     background-color: #f8f8f8;
     border-top: 1px solid #ccc;
     padding: 10px 15px;    /* espaço interno */
@@ -1181,20 +1181,6 @@ width: 200px;
 
 
 
-
-.chat-input-area {
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  background-color: #f8f8f8;
-  border-top: 1px solid #ccc;
-  display: flex;
-  align-items: center;
-  padding: 10px;
-  box-sizing: border-box;
-  z-index: 100;
-  overflow: hidden;
-}
 
 
 

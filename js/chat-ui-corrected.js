@@ -137,10 +137,10 @@ class ChatUI {
                     </div>
 
 
-                    <div class="chat-input-area">                       
+                    <div class="chat-input-area"  style="display: none;">                       
                     <div class="chat-input-container">
                             <textarea class="chat-input" placeholder="Digite sua mensagem..." id="globalMessageInput" rows="1" 
-      
+     
           ></textarea>
 
                             <button class="chat-send-btn" id="globalSendBtn">
@@ -521,20 +521,24 @@ badgeInterno.style.display = "none";
 
 
 
-     async openChat() { // 1. Transforme a função em 'async'
-        this.isOpen = true;
-        this.elements.chatWindow.classList.add('active');
-        this.elements.toggleBtn.classList.add('active');
-        
-         // CORREÇÃO: Chame a função que busca os dados sob demanda.
+    async openChat() { 
+    this.isOpen = true;
+    this.elements.chatWindow.classList.add('active');
+    this.elements.toggleBtn.classList.add('active');
+    
+    // Busca os dados sob demanda
     if (window.chatManager) {
         await window.chatManager.fetchInitialConversations();
     }
 
-        this.focusCurrentInput();
-        this.markCurrentMessagesAsRead();
-        this.switchTab('global');
-    }
+    // Mostra suavemente a área de input
+    mostrarChatInputArea();
+
+    this.focusCurrentInput();
+    this.markCurrentMessagesAsRead();
+    this.switchTab('global');
+}
+
 
 // DENTRO DA CLASSE ChatUI
 
@@ -1491,6 +1495,24 @@ setupSwipeGestures() {
 }
 
 
+function mostrarChatInputArea() {
+    const area = document.querySelector(".chat-input-area");
+    
+    if (!area) return;
+
+    // Torna o elemento visível e inicializa estilos para a animação
+    area.style.display = "flex";       // exibe o elemento
+    area.style.opacity = "0";          // começa transparente
+    area.style.maxHeight = "0px";      // altura inicial para animação
+    area.style.overflow = "hidden";    // esconde conteúdo que extrapola
+    area.style.transition = "opacity 0.5s ease, max-height 0.5s ease";
+
+    // Pequeno delay para garantir que a transição seja aplicada
+    setTimeout(() => {
+        area.style.opacity = "1";      // torna visível
+        area.style.maxHeight = "200px"; // altura final (ajuste conforme necessário)
+    }, 200);
+}
 
 
 window.ChatUI = ChatUI;
