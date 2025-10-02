@@ -168,8 +168,8 @@ class ChatUI {
                                           <div id="fundoUSER" class="fundoUser">              <img id="userIMG" src="https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/ICONE%20PERFIL.png?alt=media&token=d092ec7f-77b9-404d-82d0-b6ed3ce6810e" alt="Foto do usuário" class="user-avatar">
  <h4 id="userNOME">Olá, Selecione uma conversa para começar.</h4> 
  
- <svg xmlns="http://www.w3.org/2000/svg" height="35px" viewBox="0 -960 960 960" width="35px" fill="#208244ff"><path d="M160-760v-80h640v80H160Zm280 640v-408L336-424l-56-56 200-200 200 200-56 56-104-104v408h-80Z"/></svg>
- 
+ <svg xmlns="http://www.w3.org/2000/svg"  height="35px" viewBox="0 -960 960 960" width="35px" fill="#208244ff"><path d="M160-760v-80h640v80H160Zm280 640v-408L336-424l-56-56 200-200 200 200-56 56-104-104v408h-80Z"/></svg>
+ <div style=" width:10px;"> </div>
  </div>     
 
                        <div class="fundoMensagens2">

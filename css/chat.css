@@ -778,6 +778,7 @@ width: 200px;
 .chat-conversation-info {
     flex: 1;
     min-width: 0;
+    text-align: left;
 }
 
 .chat-conversation-name {
@@ -788,6 +789,8 @@ width: 200px;
     overflow: hidden;
     text-overflow: ellipsis;
     color: #232323;
+   
+    
 }
 
 .chat-conversation-last-message {
