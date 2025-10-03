@@ -1160,3 +1160,8 @@ a {
   text-decoration: underline;
   color: #6c3bac; /* roxo de destaque */
 }
+
+
+#nextQuestionBtn {
+    background-color:  #6c3bac; /* roxo de destaque */
+}
