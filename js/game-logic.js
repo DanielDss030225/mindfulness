@@ -137,6 +137,7 @@ loadCommentsForQuestion(question.id);
    updateQuestionUI(question) {
     const questionText = document.getElementById("questionText");
     if (questionText) {
+      
         questionText.innerHTML = this.formatQuestionText(question.text);
     }
 
@@ -187,8 +188,11 @@ document.getElementById("fundoTextoAssociation").style.display = "block";
         
 
         const letter = String.fromCharCode(65 + index); // A, B, C, D, E
-        
-        div.innerHTML = `
+        let textQuestion = this.formatQuestionText(text)
+        if (textQuestion == "Ignorar questão.") {
+            return
+        } else {
+  div.innerHTML = `
             <div class="alternative-letter">${letter}</div>
             <div class="alternative-text">${this.formatQuestionText(text)}</div>
         `;
@@ -196,6 +200,9 @@ document.getElementById("fundoTextoAssociation").style.display = "block";
         div.addEventListener("click", () => this.selectAnswer(index));
         
         return div;
+        }
+ 
+      
     }
 
     selectAnswer(index) {
@@ -250,7 +257,7 @@ document.getElementById("fundoTextoAssociation").style.display = "block";
         // Show explanation and next question button
         let explicacao = this.formatQuestionText(question.comment);
          document.getElementById("questionExplanation").innerHTML = this.formatQuestionText(question.comment);
-         
+
        if (!explicacao){
 document.getElementById("explanationContainer").style.display = "none";
        } else {
