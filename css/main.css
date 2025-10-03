@@ -95,7 +95,7 @@ padding-bottom: 3px;
     background: linear-gradient(135deg, #4CAF50, #45a049);
     color: white;
     border: none;
-    padding: 12px 24px;
+    padding: 12px 15px;
     border-radius: 25px;
     cursor: pointer;
     font-size: 14px;
@@ -103,6 +103,7 @@ padding-bottom: 3px;
     transition: all 0.3s ease;
     box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
     width: 100%;
+    
 
 }
 
@@ -732,7 +733,7 @@ textarea:focus {
 .modal {
     display: none;
     position: fixed;
-    z-index: 1000;
+    z-index: 10000;
     left: 0;
     top: 0;
     width: 100%;
@@ -2834,4 +2835,191 @@ strong {
 
 .alternative-text img {
     max-width: 95%;
+}
+
+/* Container de comentários */
+#comments-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+/* Cada comentário */
+.comment {
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  padding: 10px 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  transition: background-color 0.2s ease;
+}
+
+.comment:hover {
+  background-color: #f1f1f1;
+}
+
+/* Cabeçalho do comentário */
+.comment-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+/* Foto de perfil */
+.comment-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid #ddd;
+}
+
+/* Nome do usuário */
+.comment-user {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+/* Hora do comentário */
+.comment-time {
+  margin-left: auto;
+  font-size: 0.8rem;
+  color: #888;
+}
+
+/* Texto do comentário */
+.comment-text {
+  font-size: 0.9rem;
+  color: #444;
+  margin: 4px 0;
+  line-height: 1.4;
+  word-break: break-word;
+}
+
+/* Botão de curtir */
+.like-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.85rem;
+  color: #555;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: 6px;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.like-btn:hover {
+  background-color: #e6f0ff;
+}
+
+/* Curtido */
+.like-btn.liked {
+  color: #1877f2;
+  font-weight: 600;
+}
+
+/* Input de novo comentário */
+#new-comment {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 0.9rem;
+  resize: vertical;
+  min-height: 60px;
+  margin-bottom: 8px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+#new-comment:focus {
+  border-color: #1877f2;
+}
+
+/* Botão enviar comentário */
+#submit-comment {
+  background-color: #ffffff;
+   color: #626161;
+  border: none;
+  padding: 8px 14px;
+  font-size: 0.9rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  width: 50%;
+border: 1px solid #6732ac;
+
+}
+
+#submit-comment:hover {
+  background-color: #6c3bac;
+  color: #ffffff;
+}
+
+
+
+
+#load-more-comments {
+  display: block; /* Já controlamos via JS */
+  margin: 10px auto; /* Centraliza horizontalmente */
+  padding: 8px 16px;
+ background-color: none;
+  
+  font-size: 14px;
+  font-weight: 500;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+   width: 50%;
+  color: #626161;
+border: 1px solid #6732ac;
+}
+
+#load-more-comments:hover {
+    background-color: #6c3bac;
+  color: #ffffff;
+}
+
+/* Botão enviar comentário */
+
+
+/* Botão enviar comentário */
+
+
+
+#load-more-comments:active {
+  transform: scale(0.97);
+}
+#comments-section {
+padding: 15px;
+margin-top: 10px;
+border-radius: 15px;
+background-color: #eeeeee;
+display: none;
+}
+.comment-submit-container {
+  display: flex;
+  justify-content: flex-end; /* alinha à direita */
+  width: 100%;
+  margin-top: 10px; /* opcional, para dar espaço acima */
+}
+
+.comment-submit-container button {
+  padding: 6px 12px;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  background-color: #2a87f0;
+  color: #fff;
+}
+
+.comment-submit-container button:hover {
+  background-color: #246fc1;
 }

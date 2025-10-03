@@ -62,16 +62,17 @@
 .question-container {
       background: rgba(255, 255, 255, 0.95);
     border-radius: 20px;
-    padding: 30px;
+    padding: 15px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.1);
     backdrop-filter: blur(10px);
     text-align: left;
-    margin-bottom: 100px;
+    margin-bottom: 150px;
     width: 600px;
     margin-right: 10px;
    
 margin-top: 20px;
 margin-left: 10px;
+
 
 }
 #gameScore {
@@ -236,8 +237,14 @@ margin-bottom: 10px;
 .question-actions {
     display: flex;
     justify-content: center;
-    padding-top: 20px;
+    position: fixed;   /* fixa na viewport */
+    bottom: 20px;      /* ajuste conforme necessário */
+    right: 0px;       /* ajuste conforme necessário */
+    gap: 10px;         /* espaçamento interno */
+    width: 40%;
+
 }
+
 
 .question-actions .btn-primary {
     padding: 10px 10px;
@@ -289,6 +296,7 @@ margin-bottom: 10px;
     align-items: center;
     justify-content: center;
     text-align: center;
+   
 }
 .setup-section h3 {
     color: #333;
@@ -420,13 +428,15 @@ margin-bottom: 10px;
 }
 
 /* Responsive Design */
-@media (max-width: 768px) {
+@media (max-width: 1000px) {
     .game-content {
         flex-direction: column;
         padding: 0px;
         gap: 20px;
     }
-    
+    .question-actions {
+        width: 90%;
+    }
     .professor-game {
         flex: none;
         padding-top: 20px;
@@ -984,4 +994,151 @@ padding-bottom: 100px;
 
 #fundoDoTexto #associatedText img {
     max-width: 100%;
+}
+
+.comment-editor-container {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 6px;
+  max-width: 600px;
+  background-color: white;
+}
+
+.comment-editor-toolbar {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 4px;
+}
+
+.comment-editor-toolbar button {
+  cursor: pointer;
+  border: 1px solid #ccc;
+  background: #f5f5f5;
+  border-radius: 3px;
+  padding: 2px 6px;
+  font-weight: bold;
+}
+
+.comment-editor {
+  min-height: 60px;
+  padding: 6px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  overflow-y: auto;
+  white-space: pre-wrap; /* mantém quebras de linha */
+}
+
+.comment-editor:empty:before {
+  content: attr(placeholder);
+  color: #999;
+}
+
+
+#comment-editor {
+  min-height: 100px;      /* altura mínima */
+  max-height: 200px;      /* altura máxima que não cresce automaticamente */
+  padding: 10px;
+  border: 1px solid #eeeeee;
+  border-radius: 4px;
+  outline: none;
+  overflow-y: auto;       /* permite rolagem interna */
+  resize: vertical;       /* usuário pode arrastar para aumentar */
+}
+
+
+#comment-editor:focus {
+  border-color: #764ba2; /* roxo */
+  box-shadow: 0 0 0 2px rgba(118, 75, 162, 0.3); /* sombra opcional */
+}
+
+
+#comment-editor {
+  font-size: 16px;       /* tamanho fixo que você deseja */
+  line-height: 1.5;
+  font-family: Arial, sans-serif; /* opcional */
+}
+
+/* Impede que tags internas sobrescrevam */
+#comment-editor * {
+  font-size: inherit !important;
+  font-family: inherit !important;
+}
+/* Modal overlay */
+
+/* Ações do modal */
+.modal-actions {
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+/* Botões */
+.btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.2s;
+  
+}
+
+.btn-danger {
+  background-color: #d9534f;
+  color: white;
+}
+
+.btn-danger:hover {
+  background-color: #c9302c;
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+  color: white;
+}
+
+.btn-secondary:hover {
+  background-color: #5a6268;
+}
+.headermodalcoment{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.delete-btn {
+    background-color: transparent; /* Fundo transparente */
+    border: none;                  /* Sem borda */
+    padding: 0;                    /* Sem padding */
+    margin: 0;                     /* Sem margem */
+    cursor: pointer;               /* Cursor de clique */
+    font-size: 16px;               /* Ajuste do tamanho do ícone se necessário */
+    line-height: 1;                /* Evita espaçamento extra */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+li {
+    padding-left: 20px;
+      list-style-type: none;  /* remove as bolinhas */
+      text-decoration: none;
+
+}
+
+ul {
+      list-style-type: none;  /* remove as bolinhas */
+      text-decoration: none;
+
 }

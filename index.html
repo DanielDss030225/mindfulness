@@ -534,7 +534,7 @@ Questões resolvidas só se repetem quando o banco de questões se esgota.
                 </div>
 
                 <div class="setup-section2">
-                    <button id="startGameBtn" class="btn-primary large">Começar a responder</button>
+                    <button id="startGameBtn" class="btn-primary large" style="padding: 10px; margin-top: 15px; width: 75%;">Começar a responder</button>
                 </div>
             </div>
         </div>
@@ -603,24 +603,56 @@ Questões resolvidas só se repetem quando o banco de questões se esgota.
                         <!-- Alternatives will be populated by JavaScript -->
                     </div>
 
-                    <div id="explanationContainer" class="explanation-container" style="display: none;">
+                    <div id="explanationContainer" class="question-text" style="display: none;">
                         <h3 style="margin-bottom: 10px;">Explicação:</h3>
                         <p id="questionExplanation"></p>
                     </div>
 
-                    <div class="question-actions">
-                        <button id="confirmAnswerBtn" class="btn-primary2" disabled>Confirmar Resposta</button>
-                        <button id="nextQuestionBtn" class="btn-primary2" style="display: none;">Próxima Questão</button>
-                        <button id="exitGameBtn" class="btn-secondary3">Sair</button>
+                 
+                      </div>
+
+<div id="comments-section">
+  <h3 style="margin-bottom: 10px;">Comentários</h3>
+  
+<div class="comment-editor-container">
+  <div class="comment-editor-toolbar">
+    <button type="button" data-command="bold"><b>B</b></button>
+    <button type="button" data-command="italic"><i>I</i></button>
+    <button type="button" data-command="insertLineBreak">↵</button>
+  </div>
+  <div id="comment-editor" contenteditable="true" class="comment-editor" placeholder="Escreva seu comentário..."></div>
+  <div class="comment-submit-container">
+    <button id="submit-comment">Enviar</button>
+  </div>
+</div>
+
+  <div id="comments-list"></div>
+<button id="load-more-comments" style="display:none;">Ver mais</button>
+
+</div>
+
 
                     </div>
-                      </div>
- 
-                    </div>
+
 
 
 
                      </div>
+                     <div class="question-actions" style="gap: 0; position: fixed; bottom: 5%; right: 0px;">
+    <button id="confirmAnswerBtn" class="btn-primary2" disabled 
+        style="margin-right: 0; border-bottom-right-radius: 0; border-top-right-radius: 0;">
+        Confirmar Resposta
+    </button>
+    <button id="nextQuestionBtn" class="btn-primary2" 
+        style="margin-right: 0; border-bottom-right-radius: 0; border-top-right-radius: 0; display: none;">
+        Próxima Questão
+    </button>
+    <button id="exitGameBtn" class="btn-secondary3" 
+        style="margin-left: 0; border-bottom-left-radius: 0; border-top-left-radius: 0; border-radius: 0;">
+        Sair
+    </button>
+</div>
+
             </div>
              </div>
 
@@ -1106,6 +1138,20 @@ Questões resolvidas só se repetem quando o banco de questões se esgota.
             </div>
         </div>
     </div>
+    <!-- Modal de confirmação de deleção -->
+<div id="delete-confirm-modal" class="modal">
+  <div class="modal-content"> 
+    <div class="headermodalcoment"> 
+<p>Tem certeza que deseja deletar este comentário?</p>
+    </div>
+    
+    <div class="modal-actions">
+      <button id="confirm-delete-btn" class="btn btn-danger">Confirmar</button>
+      <button id="cancel-delete-btn" class="btn">Cancelar</button>
+    </div>
+  </div>
+</div>
+
 </div>
     
 
@@ -1120,11 +1166,13 @@ Questões resolvidas só se repetem quando o banco de questões se esgota.
 
 
     <script src="js/profile-picture.js"></script>
-    <script src="js/game-logic.js"></script>
+   
     <script src="js/ui-manager.js"></script>
     <script src="js/admin.js"></script>
     <script src="js/profile.js"></script>
     <script src="js/comments.js"></script>
+        <script src="js/comment-manager.js"></script>
+ <script src="js/game-logic.js"></script>
     <script src="js/social-feed-fixed-v2.js"></script>
     <script src="js/rich-text-editor.js"></script>
     <script src="js/rich-text-editor-dropdown.js"></script>
@@ -1140,6 +1188,8 @@ Questões resolvidas só se repetem quando o banco de questões se esgota.
 <script src="js/chat-ui-corrected.js"></script>
 
     <script src="js/main.js"></script>
+
+
 
 
     

@@ -216,7 +216,7 @@ if (window.uiManager && typeof window.uiManager.showScreen === 'function') {
             'Olá! Pronto para aprender hoje?',
             'Vamos testar seus conhecimentos!',
             
-            'Aprender nunca foi tão legal!',
+            'Aprender nunca foi tão fácil!',
             'Cada questão é uma oportunidade de crescer!',
             'Vamos descobrir o que você já sabe!',
              "Vamos testar seus conhecimentos!",

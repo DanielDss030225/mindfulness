@@ -122,7 +122,8 @@ encontrado = "Foi encontrada ";
         this.updateQuestionUI(question);
         this.updateGameHeader();
         this.updateProfessorMessage2();
-        
+        // Chama direto, pois está no global
+loadCommentsForQuestion(question.id);
         // Reset confirm button
         const confirmBtn = document.getElementById("confirmAnswerBtn");
         if (confirmBtn) {
@@ -250,6 +251,7 @@ document.getElementById("fundoTextoAssociation").style.display = "block";
          document.getElementById("questionExplanation").innerHTML = this.formatQuestionText(question.comment);
 
         document.getElementById("explanationContainer").style.display = "block";
+        document.getElementById("comments-section").style.display = "block";
         document.getElementById("confirmAnswerBtn").style.display = "none";
         document.getElementById("nextQuestionBtn").style.display = "block";
 
@@ -261,7 +263,7 @@ updateProfessorMessage2() {
      const messages = [
             'Olá! Pronto para aprender hoje?',
             'Vamos testar seus conhecimentos!',
-            'Aprender nunca foi tão legal!',
+            'Aprender nunca foi tão fácil!',
             'Cada questão é uma oportunidade de crescer!',
             'Vamos descobrir o que você já sabe!',
              "Vamos testar seus conhecimentos!",
@@ -471,6 +473,7 @@ async endQuiz() {
 
     resetGame() {
 document.getElementById("explanationContainer").style.display = "none";
+ document.getElementById("comments-section").style.display = "none";
         this.currentQuiz = null;
         this.currentQuestionIndex = 0;
         this.score = 0;
@@ -513,6 +516,7 @@ verTexto.textContent = "Ver Texto";
          document.querySelector('.fundoQuestoes').scrollTop = 0;
         this.currentQuestionIndex++;
         document.getElementById("explanationContainer").style.display = "none";
+         document.getElementById("comments-section").style.display = "none";
         document.getElementById("nextQuestionBtn").style.display = "none";
         document.getElementById("confirmAnswerBtn").style.display = "block";
         this.loadCurrentQuestion();

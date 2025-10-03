@@ -1198,3 +1198,15 @@ border-bottom-right-radius: 0px;
 
 
 
+li {
+    padding-left: 20px;
+      list-style-type: none;  /* remove as bolinhas */
+      text-decoration: none;
+
+}
+
+ul {
+      list-style-type: none;  /* remove as bolinhas */
+      text-decoration: none;
+
+}
