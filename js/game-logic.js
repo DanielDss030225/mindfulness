@@ -513,6 +513,11 @@ document.getElementById("explanationContainer").style.display = "none";
 fundoDoTexto.style.display = "none";
 verTexto.textContent = "Ver Texto";
 
+
+  const editor = document.getElementById("comment-editor");
+  editor.innerHTML = ""; // limpa o conteúdo do editor
+
+
          document.querySelector('.fundoQuestoes').scrollTop = 0;
         this.currentQuestionIndex++;
         document.getElementById("explanationContainer").style.display = "none";

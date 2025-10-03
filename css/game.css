@@ -1142,3 +1142,21 @@ ul {
       text-decoration: none;
 
 }
+
+a {
+    text-decoration: none;
+}
+.comment-user-link,
+.comment-user {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.comment-user:hover {
+  text-decoration: underline;
+  color: #6c3bac; /* roxo de destaque */
+}

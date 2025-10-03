@@ -51,7 +51,14 @@ function renderNextComments(questionId) {
 
   if (!allComments.length && renderedCount === 0) {
     list.innerHTML = `<p class="no-comments">Nenhum comentário ainda. Seja o primeiro a comentar!</p>`;
+  } else {
+    const noComments = document.querySelector(".no-comments");
+if (noComments) {
+  noComments.style.display = "none";
+}
+
   }
+  
 }
 
 // 🔹 Adicionar comentário
@@ -69,6 +76,11 @@ function addComment(questionId, user, text) {
   newCommentRef.set(newComment, err => {
     if (err) return alert("Erro ao enviar comentário.");
     const list = document.getElementById("comments-list");
+
+  // 🔹 Remove a mensagem de "Nenhum comentário ainda"
+    const noCommentsMsg = list.querySelector(".no-comments");
+    if (noCommentsMsg) noCommentsMsg.remove();
+
     renderComment(newCommentRef.key, newComment, questionId, list, user.uid, true);
     allComments.unshift({ id: newCommentRef.key, data: newComment });
     renderedCount++;
@@ -114,8 +126,15 @@ function renderComment(commentId, data, questionId, list, currentUser, prepend =
 
   div.innerHTML = `
     <div class="comment-header">
-      <img src="${data.userPhoto || 'default-profile.png'}" class="comment-avatar">
-      <span class="comment-user">${data.userName || "Usuário"}</span>
+
+<a href="user-profile.html?userId=${data.userId}" class="comment-user-link" target="_blank">
+  <img src="${data.userPhoto || 'default-profile.png'}" class="comment-avatar">
+</a>
+<a href="user-profile.html?userId=${data.userId}" class="comment-user" target="_blank">
+  ${data.userName || "Usuário"}
+</a>
+
+
       <span class="comment-time">${formattedTime}</span>
       ${deleteButtonHTML}
     </div>
