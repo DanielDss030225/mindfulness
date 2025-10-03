@@ -445,13 +445,12 @@ header p {
 
 }
 .screen-header {
-    padding: 10px 10px;
+    padding: 20px;
     display: flex;
     align-items: center;
     gap: 10px;
     margin-top: 0px;
-    margin-bottom: 10px;
-    justify-content: space-between;
+    margin-bottom: 0px;
     max-width: 100%;
     
 }
