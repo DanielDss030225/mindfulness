@@ -248,9 +248,16 @@ document.getElementById("fundoTextoAssociation").style.display = "block";
         this.showAnswerFeedback(isCorrect, question);
 
         // Show explanation and next question button
+        let explicacao = this.formatQuestionText(question.comment);
          document.getElementById("questionExplanation").innerHTML = this.formatQuestionText(question.comment);
-
+         
+       if (!explicacao){
+document.getElementById("explanationContainer").style.display = "none";
+       } else {
         document.getElementById("explanationContainer").style.display = "block";
+
+       }
+
         document.getElementById("comments-section").style.display = "block";
         document.getElementById("confirmAnswerBtn").style.display = "none";
         document.getElementById("nextQuestionBtn").style.display = "block";

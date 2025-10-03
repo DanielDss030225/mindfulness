@@ -71,9 +71,11 @@ async loadUserData() {
 'cat7': { name: '📜 Lei de Abuso de Autoridade (Lei nº 13.869/2019)' },
 'cat8': { name: '📜 Estatuto da Criança e do Adolescente – ECA (Lei nº 8.069/1990)' },
 'cat9': { name: '📜 Lei de Execução Penal – LEP (Lei nº 7.210/1984)' },
+
 'cat10': { name: '📜 Lei das Contravenções Penais (Decreto-Lei nº 3.688/1941)' },
 'cat11': { name: '📜 Lei de Drogas (Lei nº 11.343/2006)' },
 'cat12': { name: '📜 Lei de Crimes Hediondos (Lei nº 8.072/1990)' },
+'cat13': { name: '⚖️ Direito Penal - CPB (DL nº 2.848/1940)' },
         };
 
         // Buscar exames do Firebase
