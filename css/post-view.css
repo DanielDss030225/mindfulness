@@ -593,8 +593,10 @@ border-bottom-right-radius: 0px;
     width: 100%;
     margin: 0px;
     border-radius: 10px;
-    background-color: #eeeeee;
-    padding: 10px;
+    background-color: #ffffff;
+   padding-left: 10px;
+   margin-bottom: 15px;
+   font-size: 16px;
 }
 
 
