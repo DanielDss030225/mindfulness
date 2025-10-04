@@ -657,7 +657,7 @@ clearQuestionForm() {
         }
        
 
-    this.showModal('Concurseiro, Boa Sorte!', 'Observe o tempo e tente completar a prova/simulado dentro do prazo do concurso real.');
+    this.showModal('Concurseiro, Boa Sorte!', 'Observe o tempo e, no caso de provas e simulados, procure concluir dentro do prazo estabelecido no concurso. 🙂');
     }
 
     startTimer() {
@@ -904,7 +904,7 @@ updateAnswerKeyForQuestion(questionIndex, userAnswer, correctAnswer) {
 
 
     exitExam() {
-        this.showModal('Sair da Prova', 'Tem certeza que deseja sair? Seu progresso será perdido.', () => {
+        this.showModal('Sair Agora', 'Tem certeza que deseja sair? Seu progresso será perdido.', () => {
             this.stopTimer();
             this.showScreen('main-menu-screen');
         }, true);

@@ -398,15 +398,30 @@ forceScrollToTop() {
 
 
         
-        // Handle clicks outside to close dropdown
-        document.addEventListener('click', (e) => {
-            if (!categorySearchInput.contains(e.target) && !categoryDropdown.contains(e.target)) {
-                categoryDropdown.classList.remove('show');
-                categorySearchInput.setAttribute('readonly', 'true');
-                categorySearchInput.classList.remove('active');
-            }
-        });
+     // Handle clicks outside to close dropdown
+document.addEventListener('click', (e) => {
+    // Se o clique foi fora do input e do dropdown...
+    if (!categorySearchInput.contains(e.target) && !categoryDropdown.contains(e.target)) {
+        
+        // Verifica se há seleção de texto dentro do input
+        const hasSelection = 
+            categorySearchInput.selectionStart !== categorySearchInput.selectionEnd ||
+            (window.getSelection && window.getSelection().toString().length > 0);
+
+        // Só fecha se não houver texto selecionado
+        if (!hasSelection) {
+            categoryDropdown.classList.remove('show');
+            categorySearchInput.setAttribute('readonly', 'true');
+            categorySearchInput.classList.remove('active');
+        }
     }
+});
+
+
+        
+    }
+
+
 
     filterCategoryDropdown(searchTerm) {
    let subcategorySection = document.getElementById("subcategorySection");
@@ -549,13 +564,25 @@ forceScrollToTop() {
         });
 
         // Handle clicks outside to close dropdown
-        document.addEventListener('click', (e) => {
-            if (!newSubcategorySearchInput.contains(e.target) && !newSubcategoryDropdown.contains(e.target)) {
-                newSubcategoryDropdown.classList.remove('show');
-                newSubcategorySearchInput.setAttribute('readonly', 'true');
-                newSubcategorySearchInput.classList.remove('active');
-            }
-        });
+   // Handle clicks outside to close subcategory dropdown
+document.addEventListener('click', (e) => {
+    // Se o clique foi fora do input e do dropdown...
+    if (!newSubcategorySearchInput.contains(e.target) && !newSubcategoryDropdown.contains(e.target)) {
+        
+        // Verifica se há seleção de texto dentro do input
+        const hasSelection = 
+            newSubcategorySearchInput.selectionStart !== newSubcategorySearchInput.selectionEnd ||
+            (window.getSelection && window.getSelection().toString().length > 0);
+
+        // Só fecha se não houver texto selecionado
+        if (!hasSelection) {
+            newSubcategoryDropdown.classList.remove('show');
+            newSubcategorySearchInput.setAttribute('readonly', 'true');
+            newSubcategorySearchInput.classList.remove('active');
+        }
+    }
+});
+
     }
 
     filterSubcategoryDropdown(searchTerm) {

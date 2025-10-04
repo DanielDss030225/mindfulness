@@ -2627,7 +2627,7 @@ display: flex;
     border: 2px solid #ddd;
     border-top: none;
     border-radius: 0 0 8px 8px;
-    max-height: 200px;
+    max-height: 270px;
     overflow-y: auto;
     z-index: 1000;
     display: none;
@@ -2784,9 +2784,7 @@ strong {
         font-size: 16px; /* Prevents zoom on iOS */
     }
     
-    .search-dropdown {
-        max-height: 150px;
-    }
+  
      .question-associated-text {
         padding: 15px;
         font-size: 0.95rem;

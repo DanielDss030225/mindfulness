@@ -9,6 +9,7 @@ class ChatUI {
         this.searchTimeout = null;
         this.elements = {};
         this.init();
+            
     }
 
     async init() {
@@ -401,6 +402,8 @@ this.elements.globalMessages.addEventListener('click', (e) => {
 
 
 document.addEventListener('click', (event) => {
+
+    
   // Se tem seleção de texto ativa, não fechar
   if (window.getSelection && window.getSelection().toString().length > 0) {
     return;
