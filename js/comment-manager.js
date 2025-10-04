@@ -67,7 +67,7 @@ function addComment(questionId, user, text) {
   const newComment = {
     userId: user.uid,
     userName: user.displayName || "Usuário",
-    userPhoto: user.photoURL || "default-profile.png",
+    userPhoto: user.photoURL || "./img/perfil.png",
     text,
     timestamp: Date.now(),
     likesByUser: {}
@@ -128,7 +128,7 @@ function renderComment(commentId, data, questionId, list, currentUser, prepend =
     <div class="comment-header">
 
 <a href="user-profile.html?userId=${data.userId}" class="comment-user-link" target="_blank">
-  <img src="${data.userPhoto || 'default-profile.png'}" class="comment-avatar">
+  <img src="${data.userPhoto || './img/perfil.png'}" class="comment-avatar">
 </a>
 <a href="user-profile.html?userId=${data.userId}" class="comment-user" target="_blank">
   ${data.userName || "Usuário"}
