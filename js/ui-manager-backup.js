@@ -327,12 +327,29 @@ if (profileBtn) {
         }
 
         try {
-            this.showLoading();
-            if (window.gameLogic) {
-                await window.gameLogic.startQuiz(selectedCategory, selectedType, selectedSubcategory);
-                this.showScreen('game-screen');
-            }
-            this.hideLoading();
+
+          this.showLoading();
+if (window.gameLogic) {
+    const result = await window.gameLogic.startQuiz(selectedCategory, selectedType, selectedSubcategory);
+
+    if (!result.success) {
+        this.hideLoading();
+        if (result.reason === 'noQuestions') {
+            this.showModal('Ops', 'Aqui ainda não tem questões cadastradas, selecione outro filtro!');
+        } else if (result.reason === 'unauthenticated') {
+            this.showModal('Ops', 'Usuário não autenticado!');
+        } else {
+            this.showModal('Ops', 'Ocorreu um erro ao iniciar o quiz, tente novamente.');
+        }
+        return;
+    }
+
+    this.showScreen('game-screen');
+}
+this.hideLoading();
+
+
+
         } catch (error) {
             this.hideLoading();
             console.error('Error starting quiz:', error);

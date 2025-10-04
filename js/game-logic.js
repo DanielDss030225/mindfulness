@@ -37,76 +37,47 @@
         }
     }
 
-    async startQuiz(category, type, subcategory = "") {
+async startQuiz(category, type, subcategory = "") {
+    try {
+        this.resetGame();
 
-
-
-
-        try {
-            // Reset game state
-            this.resetGame();
-            
-            // Get questions for the user
-            const user = window.authManager.getCurrentUser();
-            if (!user) {
-                throw new Error("Usuário não autenticado");
-            }
-
-            const filters = { category, type };
-            if (subcategory) {
-                filters.subcategory = subcategory;
-            }
-            
-            this.questions = await window.databaseManager.getQuestionsForUser(user.uid, filters);
-            
-            if (this.questions.length === 0) {
-                throw new Error("Nenhuma questão encontrada para os filtros selecionados");
-            }
-
-            // Initialize quiz
-            this.currentQuiz = {
-                category,
-                type,
-                subcategory,
-                startTime: Date.now(),
-                userId: user.uid
-            };
-            
-            this.quizStartTime = Date.now();
-            this.currentQuestionIndex = 0;
-            this.score = 0;
-            this.userAnswers = [];
-            
-            // Load first question
-            this.loadCurrentQuestion();
-            
-            console.log(`Quiz started with ${this.questions.length} questions`);
-            
-        } catch (error) {
-            console.error("Error starting quiz:", error);
-            throw error;
-        }
-         
-        let seSelectButton = document.getElementById("seSelectButton").textContent;
-        if (seSelectButton > this.questions.length) {
-
-   setTimeout(() => {
-   let texto = "Questões!";
-   let encontrado = "Foram encontradas ";
-
-   if (this.questions.length < 2) {
-
-texto =  "Questão!"
-encontrado = "Foi encontrada ";
-   }
-        window.uiManager.showModal( encontrado + `${this.questions.length} ` + texto, "Estamos preparando novas questões para esta área da disciplina. 😊");
-    }, 500);
-
+        const user = window.authManager.getCurrentUser();
+        if (!user) {
+            return { success: false, reason: 'unauthenticated' };
         }
 
-     iniciarCronometro();
+        const filters = { category, type };
+        if (subcategory) filters.subcategory = subcategory;
 
+        const questions = await window.databaseManager.getQuestionsForUser(user.uid, filters);
+
+        // Garantir que sempre seja um array
+        this.questions = Array.isArray(questions) ? questions : [];
+
+        if (this.questions.length < 1) {
+          
+            return { success: false, reason: 'noQuestions' };
+        }
+
+        // Inicializa o quiz
+        this.currentQuiz = { category, type, subcategory, startTime: Date.now(), userId: user.uid };
+        this.quizStartTime = Date.now();
+        this.currentQuestionIndex = 0;
+        this.score = 0;
+        this.userAnswers = [];
+
+        this.loadCurrentQuestion();
+
+        return { success: true };
+
+    } catch (error) {
+        console.error("Error in GameLogic.startQuiz:", error);
+        return { success: false, reason: 'unexpectedError' };
     }
+}
+
+
+
 
     loadCurrentQuestion() {
 
@@ -134,10 +105,9 @@ loadCommentsForQuestion(question.id);
 
     }
 
-   updateQuestionUI(question) {
+updateQuestionUI(question) {
     const questionText = document.getElementById("questionText");
     if (questionText) {
-      
         questionText.innerHTML = this.formatQuestionText(question.text);
     }
 
@@ -146,17 +116,20 @@ loadCommentsForQuestion(question.id);
         alternativesContainer.innerHTML = "";
         question.alternatives.forEach((alternative, index) => {
             const altElement = this.createAlternativeElement(alternative, index, question.associatedText);
-            alternativesContainer.appendChild(altElement);
+            if (altElement instanceof Node) { // só adiciona se for um Node válido
+                alternativesContainer.appendChild(altElement);
+            }
         });
     }
 
     // ===== ADICIONAR LISTENER NAS IMAGENS ASSOCIADAS =====
     const containerTexto = document.getElementById("associatedText");
-    const imagens = containerTexto.getElementsByTagName("img");
-
-    for (let img of imagens) {
-        img.style.cursor = "pointer";
-        img.onclick = () => abrirModalExclusivo(img);
+    if (containerTexto) {
+        const imagens = containerTexto.getElementsByTagName("img");
+        for (let img of imagens) {
+            img.style.cursor = "pointer";
+            img.onclick = () => abrirModalExclusivo(img);
+        }
     }
 }
 
@@ -189,9 +162,12 @@ document.getElementById("fundoTextoAssociation").style.display = "block";
 
         const letter = String.fromCharCode(65 + index); // A, B, C, D, E
         let textQuestion = this.formatQuestionText(text)
-        if (textQuestion == "Ignorar questão.") {
-            return
-        } else {
+    if (textQuestion === "Ignorar questão.") {
+    return null; // retorna explicitamente null
+}
+
+        
+        else {
   div.innerHTML = `
             <div class="alternative-letter">${letter}</div>
             <div class="alternative-text">${this.formatQuestionText(text)}</div>

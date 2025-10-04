@@ -616,9 +616,7 @@ document.addEventListener('click', (e) => {
 
     async startQuiz() {
       
-         const seSelectButton = document.getElementById('seSelectButton');
-
-        
+         const seSelectButton = document.getElementById('seSelectButton'); 
         const categorySelect = document.getElementById('categorySelect');
         const subcategorySelect = document.getElementById('subcategorySelect');
         const questionTypeRadios = document.querySelectorAll('input[name="questionType"]');
@@ -645,12 +643,29 @@ document.addEventListener('click', (e) => {
         }
 
         try {
-            this.showLoading();
-            if (window.gameLogic) {
-                await window.gameLogic.startQuiz(selectedCategory, selectedType, selectedSubcategory);
-                this.showScreen('game-screen');
-            }
-            this.hideLoading();
+        
+          this.showLoading();
+if (window.gameLogic) {
+    const result = await window.gameLogic.startQuiz(selectedCategory, selectedType, selectedSubcategory);
+
+    if (!result.success) {
+        this.hideLoading();
+        if (result.reason === 'noQuestions') {
+            this.showModal('Ops', 'Aqui ainda não tem questões cadastradas, selecione outro filtro!');
+        } else if (result.reason === 'unauthenticated') {
+            this.showModal('Ops', 'Usuário não autenticado!');
+        } else {
+           this.showScreen('game-screen');
+           console.log('erro', result.reason)
+        }
+        return;
+    }
+
+    this.showScreen('game-screen');
+}
+this.hideLoading();
+
+          
 
         } catch (error) {
             this.hideLoading();
