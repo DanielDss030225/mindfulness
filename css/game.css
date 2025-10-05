@@ -72,6 +72,7 @@
    
 margin-top: 20px;
 margin-left: 10px;
+padding-bottom: 30px;
 
 
 }
@@ -445,8 +446,9 @@ margin-bottom: 10px;
     .question-container {
         padding: 20px;
         gap: 20px;
-        width: 90%;
-        margin-bottom: 100px;
+        width: 98%;
+        margin-bottom: 140px;
+        padding-bottom: 30px;
     }
     .question-text {
         font-size: 16px;

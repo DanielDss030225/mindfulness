@@ -38,6 +38,7 @@
     }
 
 async startQuiz(category, type, subcategory = "") {
+
     try {
         this.resetGame();
 
@@ -67,13 +68,35 @@ async startQuiz(category, type, subcategory = "") {
         this.userAnswers = [];
 
         this.loadCurrentQuestion();
+    let seSelectButton = document.getElementById("seSelectButton").textContent;
+        if (seSelectButton > this.questions.length) {
 
+   setTimeout(() => {
+   let texto = "Questões!";
+   let encontrado = "Foram encontradas ";
+
+   if (this.questions.length < 2) {
+
+texto =  "Questão!"
+encontrado = "Foi encontrada ";
+   }
+        window.uiManager.showModal( encontrado + `${this.questions.length} ` + texto, "Estamos preparando novas questões para esta área da disciplina. 😊");
+    }, 500);
+
+        }
+
+     iniciarCronometro();
         return { success: true };
+
+
+        
 
     } catch (error) {
         console.error("Error in GameLogic.startQuiz:", error);
         return { success: false, reason: 'unexpectedError' };
     }
+
+    
 }
 
 

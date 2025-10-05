@@ -615,13 +615,14 @@ document.addEventListener('click', (e) => {
     }
 
     async startQuiz() {
-      
+        
+
          const seSelectButton = document.getElementById('seSelectButton'); 
         const categorySelect = document.getElementById('categorySelect');
         const subcategorySelect = document.getElementById('subcategorySelect');
         const questionTypeRadios = document.querySelectorAll('input[name="questionType"]');
         
- if ( seSelectButton.textContent == 0) {
+ if ( seSelectButton.textContent < 1) {
                      this.showModal('Atenção','Seleciona a quantidade de questões para este simulado.');
 
           return
