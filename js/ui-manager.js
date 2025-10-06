@@ -971,6 +971,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (backToHomeButton) {
         backToHomeButton.addEventListener('click', function(event) {
+            
             event.preventDefault(); 
 
             // Verifica se o game-screen está ativo

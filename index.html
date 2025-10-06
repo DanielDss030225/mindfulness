@@ -1306,8 +1306,14 @@ function abrirMenu() {
     if (direito.style.display == "block") {
         menuGeral.style.display = "none";
   direito.style.display = "none";
+      if (window.uiManager) {
+                    window.uiManager.showScreen('main-menu-screen');
+                } else {
+                    console.error('UIManager não encontrado. Não foi possível voltar para a tela inicial.');
+                }
   return;
     }
+
   const menuBtn = document.querySelector(".menuBotton");
   const menu = menuGeral;
 
@@ -1352,6 +1358,16 @@ function abrirMenu() {
       return;
     }
 
+        const profilescreen = document.getElementById("profile-screen");
+    if (profilescreen && profilescreen.classList.contains("active")) {
+    if (window.uiManager) {
+                    window.uiManager.showScreen('main-menu-screen');
+                } else {
+                    console.error('UIManager não encontrado. Não foi possível voltar para a tela inicial.');
+                }
+      return;
+    }
+
     // Troca ícone para o "X"
     menuBtn.innerHTML = `
       <svg xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#FFFFFF">
@@ -1383,7 +1399,7 @@ function abrirMenu() {
 
     setTimeout(() => {
       menu.style.display = "none";
-    }, 300);
+    }, 100);
 
     document.removeEventListener("click", clickForaOuDentro);
   }
