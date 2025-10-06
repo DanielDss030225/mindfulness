@@ -21,11 +21,16 @@ class UIManager {
     setupEventListeners() {
         // Main menu navigation
         const startQuizBtn = document.getElementById('startQuizBtn');
+         const startQuizBtn2 = document.getElementById('startQuizBtn2');
         const profileBtn = document.getElementById('profileBtn');
         const adminBtn = document.getElementById('adminBtn');
 
         if (startQuizBtn) {
             startQuizBtn.addEventListener('click', () => this.showScreen('quiz-setup-screen'));
+        }
+
+           if (startQuizBtn2) {
+            startQuizBtn2.addEventListener('click', () => this.showScreen('quiz-setup-screen'));
         }
 
        

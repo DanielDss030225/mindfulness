@@ -22,12 +22,15 @@ class UIManager {
         });
     }
 
-    setupEventListeners() {
+    setupEventListeners() { 
         const startQuizBtn = document.getElementById('startQuizBtn');
+          const startQuizBtn2 = document.getElementById('startQuizBtn2');
         const profileBtn = document.getElementById('profileBtn');
         const adminBtn = document.getElementById('adminBtn');
 
         if (startQuizBtn) startQuizBtn.addEventListener('click', () => this.showScreen('quiz-setup-screen'));
+        
+        if (startQuizBtn2) startQuizBtn2.addEventListener('click', () => this.showScreen('quiz-setup-screen'));
         if (profileBtn) profileBtn.addEventListener('click', () => this.showScreen('profile-screen'));
         if (adminBtn) adminBtn.addEventListener('click', () => this.showScreen('admin-screen'));
 
@@ -682,7 +685,7 @@ this.hideLoading();
 
         this.showModal(
             'Atenção',
-            'Tem certeza que deseja sair? Seu progresso será perdido.',
+            'Tem certeza que deseja sair?',
             'Problema',
             true,
             () => {

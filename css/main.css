@@ -684,12 +684,6 @@ width: auto;
 
 }
 
-.menu-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 25px rgba(0,0,0,0.15);
-    background: white;
-}
-
 
 
 
@@ -2429,162 +2423,7 @@ height: 100%;
     background-color:none;
     margin-left: 20px;
 }
-@media screen and (max-width: 1000px) {
-    #music-player-launcher {
-        width: 50px;
-        display: none;
-     
-    }
 
-   
-
-.logoCabecalho {
-    display: none;
-}
-       
-
-    .game-header h1 {
-        font-size: 1.5rem;
-        margin-left: 0;
-    }
- 
-    
-    .modal-content {
-        width: 95%;
-        margin: 10px;
-    }
-    
-    .professor-body {
-        transform: scale(0.8);
-    }
-    
-  
- 
-#feedBtn {
-display: flex;
-}
-  /* exemplo: user-info se adapta */
-  .user-info {
-    flex: 1 1 auto;
-    min-width: 0;   /* evita quebrar */
-  }
-  .game-header p { display: none; }
-
-
-
-.menu-content {
-  position: fixed;
- 
-
-
-  width: 100%;
-  height: 100vh;
-
-
-  overflow: auto;              
-
-  max-width:  100%;
-  padding-bottom: 40px;
-
-}
-
-.direito {
-    display: none;
-  
-  position: absolute;
-
-  height: 100vh;
-  width: 100%;
-max-width: 100%;
-padding: 20px;
-
-padding-bottom: 180px;
-
-}
-.bannerMentorias {
-    margin: 0px;
-    width: 100%;
-   
-}
-.card {
-
-     margin: 0px;
-    width: 100%;
-    margin-top: 10px;
-}
-.text {
-    width: 100%;
-}
-.card2 {
-display: flex;
-     margin: 0px;
-    width: 95%;
-    margin-top: 10px;
-}
-.logoProvas {
-    display: none;
-}
-
-
-
-.menu-btn {
-    width: 95%;
-}
-
-
-
-#mentoriaBtn {
-    display: flex;
-}
-
-
-
-.menuBotton {
-    display: block;
-    margin-left: 10px;
-}
-
- .tocarbtn{
-        display: flex;
-    }
-
-#backinicio {
-    display: none;
-}
-
-
-  
-.social-feed-container {
-    gap: 20px;
-    padding: 20px;
-    background-color: #f0f2f5;
-
-    overflow-x: hidden;
-    overflow-y: auto;
-    position: absolute;
-    height: 100vh;
-   width: 100%;
-
-    /* Oculta a barra de rolagem visual */
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none;  /* IE e Edge antigos */
-
-
-
-    margin: 0px;
-}
-
-.menu-options  {
-    width: 95%;
-    display: flex;
-    justify-content: center;
-    padding: 0px;
-    align-items: center;
-    text-align: center;
-}
-
-
-}
 
 
 /* Custom Search Select Styles */
@@ -2794,6 +2633,9 @@ strong {
         font-size: 11px;
         padding: 3px 10px;
     }
+
+
+    
 }
 
 
@@ -3019,4 +2861,339 @@ display: none;
 
 .comment-submit-container button:hover {
   background-color: #246fc1;
+}
+
+.divMainMenu2 {
+    display: none;
+ 
+}
+
+
+
+@media screen and (max-width: 1000px) {
+    
+#startQuizBtn2 {
+        background: rgba(255, 255, 255, 0.95);
+    border: none;
+    padding: 10px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: 600;
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    backdrop-filter: blur(10px);
+    font-size: 14px;
+       
+  border-left:  solid 4px rgb(38, 39, 38);
+height: 100%;
+ border-left: 4px solid; /* espessura e estilo */
+  border-image: linear-gradient(to bottom, purple, blue, black, green) 1;
+  border-bottom-left-radius: 0px;
+  border-top-left-radius: 0px;
+  margin-left: 0px;
+   border-bottom-right-radius: 5px;
+ width: 50%;
+  
+
+}
+#menuprovasfeed {
+     border-left: 4px solid; /* espessura e estilo */
+  border-image: linear-gradient(to bottom, purple, blue, black, green) 1;
+  border-bottom-left-radius: 0px;
+  border-top-left-radius: 0px;
+  border-bottom-right-radius: 5px;
+  width: 50%;
+}
+.divMainMenu2 {
+    display: flex;
+       margin: none;
+    padding: none;
+    
+    gap: 15px;
+    justify-content: space-between;
+    height: 120px;
+    margin-bottom: 23px;
+}
+    #music-player-launcher {
+        width: 50px;
+        display: none;
+     
+    }
+
+   
+
+.logoCabecalho {
+    display: none;
+}
+       
+
+    .game-header h1 {
+        font-size: 1.5rem;
+        margin-left: 0;
+    }
+ 
+    
+    .modal-content {
+        width: 95%;
+        margin: 10px;
+    }
+    
+    .professor-body {
+        transform: scale(0.8);
+    }
+    
+  
+ 
+#feedBtn {
+display: flex;
+}
+  /* exemplo: user-info se adapta */
+  .user-info {
+    flex: 1 1 auto;
+    min-width: 0;   /* evita quebrar */
+  }
+  .game-header p { display: none; }
+
+
+
+.menu-content {
+  position: fixed;
+ 
+
+
+  width: 100%;
+  height: 100vh;
+
+
+  overflow: auto;              
+
+  max-width:  100%;
+  padding-bottom: 40px;
+
+}
+
+.direito {
+    display: none;
+  
+  position: absolute;
+
+  height: 100vh;
+  width: 100%;
+max-width: 100%;
+padding: 20px;
+
+padding-bottom: 180px;
+
+}
+.bannerMentorias {
+    margin: 0px;
+    width: 100%;
+   
+}
+.card {
+
+     margin: 0px;
+    width: 100%;
+    margin-top: 10px;
+}
+.text {
+    width: 100%;
+}
+.card2 {
+display: flex;
+     margin: 0px;
+    width: 95%;
+    margin-top: 10px;
+}
+.logoProvas {
+    display: none;
+}
+
+
+
+
+#mentoriaBtn {
+    display: flex;
+}
+
+
+
+.menuBotton {
+    height: 80%;
+    width: auto;
+    display: block;
+    margin-left: 5px;
+   padding-left: 5px;
+   padding-right: 5px;
+   border-radius: 20px;
+   border-bottom-left-radius: 0px;
+}
+
+ .tocarbtn{
+        display: flex;
+    }
+
+#backinicio {
+    display: none;
+}
+
+
+  
+.social-feed-container {
+    gap: 20px;
+    padding: 20px;
+    background-color: #f0f2f5;
+
+    overflow-x: hidden;
+    overflow-y: auto;
+    position: absolute;
+    height: 100vh;
+   width: 100%;
+
+    /* Oculta a barra de rolagem visual */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;  /* IE e Edge antigos */
+
+
+
+    margin: 0px;
+}
+
+.menu-options  {
+    width: 95%;
+    display: flex;
+    justify-content: center;
+    padding: 0px;
+    align-items: center;
+    text-align: center;
+}
+
+
+.menu-btn {
+ 
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+border-radius: 20px;
+}
+.pmenu {
+    text-align: center;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+  
+}
+#mentoriaBtn {
+    display: block;
+}
+#feedBtn {
+    display: block;
+}
+
+
+.menu-options {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px; /* Espaçamento entre colunas e linhas */
+
+  width: 95%;
+  box-sizing: border-box;
+  margin-bottom: 20px;
+  height: 100%;
+}
+
+.buttonLoggout {
+    height: auto;
+}
+
+
+/* Responsivo: em telas menores vira 1 ou 2 colunas */
+
+  .menu-options {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+
+.professor-character {
+    display: none;
+}
+#menuGeral {
+   display: none;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+   text-align: center;
+}
+
+
+/* Side menu - inicial escondido à direita */
+#menuGeral {
+z-index: 9000;
+  width: 85%;
+  height: 100%;
+
+  box-shadow: 2px 0 8px rgba(0,0,0,0.2);
+  transition: left 0.3s ease;
+
+}
+
+/* Quando ativo */
+.slide-in-right {
+  left: 0 !important;
+}
+
+.slide-out-left {
+  left: -300px !important;
+}
+/* Menu lateral */
+.side-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 300px;
+    height: 100%;
+    background: #f0f0f0;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    z-index: 1000;
+}
+
+/* Quando o menu está aberto */
+.side-menu.open {
+    transform: translateX(0);
+}
+
+/* Botão de menu */
+.menu-btn-toggle {
+    position: fixed;
+    top: 20px;
+    left: 0;
+    width: 50px;
+    height: 50px;
+    background: #434343;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: left 0.3s ease;
+    z-index: 1100;
+    border-radius: 5px;
+}
+
+/* Botão movido para a direita quando menu aberto */
+.menu-btn-toggle.menu-open {
+    left: 300px; /* mesma largura do menu */
+}
+
+
+
+
+
+
 }
