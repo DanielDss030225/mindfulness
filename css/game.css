@@ -427,9 +427,40 @@ margin-bottom: 10px;
     color: #333;
     font-size: 16px;
 }
+#questionCounter {
+    min-width: 20%;
+  
+}
+#gameScore {
+ min-width: 20%;
+   
+}
+.game-info {
+    display: flex;
+    align-items: start;
+   
+    text-align: start;
 
+}
+ .organizaSmart {
+     gap: 15px; 
+     width: 100%;  
+    
+     display: flex;
+     justify-content: space-between;
+     min-width: 50%;
+     max-width: 300px;
+    }
 /* Responsive Design */
 @media (max-width: 1000px) {
+   
+    .game-info {
+    display: flex;
+    align-items: center;
+   
+    text-align: center;
+
+}
     .game-content {
         flex-direction: column;
         padding: 0px;
@@ -447,8 +478,27 @@ margin-bottom: 10px;
         padding: 20px;
         gap: 20px;
         width: 98%;
-        margin-bottom: 140px;
-        padding-bottom: 30px;
+        margin:0px;
+        padding-bottom: 140px;
+        border-radius: 0px;
+
+          
+  
+    box-shadow: none;
+    backdrop-filter: none;
+    text-align: left;
+ 
+ 
+  
+   
+
+
+      
+    }
+
+    .fundoQuestoes {
+        background-color: white;
+        padding: 0px;
     }
     .question-text {
         font-size: 16px;
@@ -869,7 +919,7 @@ margin-bottom: 10px;
 }
 
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1000px) {
   
 
   /* Força os filhos a não ocuparem 100% */

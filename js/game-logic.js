@@ -66,6 +66,16 @@ async startQuiz(category, type, subcategory = "") {
         this.currentQuestionIndex = 0;
         this.score = 0;
         this.userAnswers = [];
+        let categoriaInfoInput = document.getElementById("categorySearchInput").value;
+        let subcategoriaInfoInput =  document.getElementById("subcategorySearchInput").value;
+        if (!subcategoriaInfoInput) {
+            
+        } else {
+            subcategoriaInfoInput = " - " + subcategoriaInfoInput;
+        }
+         
+       document.getElementById("categoriaInfo").textContent = categoriaInfoInput +  subcategoriaInfoInput;
+   
 
         this.loadCurrentQuestion();
     let seSelectButton = document.getElementById("seSelectButton").textContent;
