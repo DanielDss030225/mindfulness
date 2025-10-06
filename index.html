@@ -1292,17 +1292,25 @@ function cronograma() {
 
 
     }
+
   function mentoriaBtn() {
 document.getElementById("menuGeral").scrollTop = 0;
-
   
+
+
   menuGeral.style.display = "none";
   direito.style.display = "block";
+ 
 
 
     }
     
 function abrirMenu() {
+    const direito = document.getElementById("direito");
+direito.scrollTo({
+  top: 0,          // vai para o topo
+  behavior: "smooth" // rolagem suave
+});
     if (direito.style.display == "block") {
         menuGeral.style.display = "none";
   direito.style.display = "none";
