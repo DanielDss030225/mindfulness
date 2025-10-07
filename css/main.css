@@ -242,9 +242,9 @@ padding-bottom: 3px;
     width: 100%;
     align-items: center;
     justify-content: center;
-    height: 100%;
+    height: auto;
     border-radius: 10px;
-
+ margin-bottom: 20px;
 }
 
 .btn-secondary3 {
@@ -658,7 +658,7 @@ width: auto;
     max-width: 400px;
     margin: 0 auto;
     padding: 0 20px;
-    margin-bottom: 100px;
+    margin-bottom: 30px;
 }
 
 
@@ -1781,7 +1781,7 @@ border-bottom-color: #d3d3d3;
     width: 100%;
     align-items: center;
     justify-content: center;
-    height: 100%;
+    
     border-radius: 20px;
 
 }
