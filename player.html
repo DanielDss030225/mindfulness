@@ -657,9 +657,9 @@ margin-bottom: 20px;
                     <i class="fas fa-spa"></i>
                     <span>Calma</span>
                 </button>
-                <button class="category-btn" data-category="Focado">
+                <button class="category-btn" data-category="Popular">
                     <i class="fas fa-brain"></i>
-                    <span>Focado</span>
+                    <span>Popular</span>
                 </button>
             </div>
 
@@ -685,9 +685,7 @@ margin-bottom: 20px;
 
 
 
-            <div class="voltarSite">
-              <a class="voltarAnavegar" href="https://www.plataformabizurada.com.br" target="_blank"> Voltar a Navegar </a>
-            </div>
+            
 
             
           
@@ -762,7 +760,7 @@ const playlists = {
         { id: 'jfKfPfyJRdk', title: 'Live Infinita - lofi hip hop radio 📚 beats to relax/study to', description: 'lofi hip hop radio 📚 beats to relax/study to', duration: '1:20:00' }
     ],
 
-    Focado: [
+    Popular: [
         { id: 'kbHoOffcSuk', title: '10 músicas - 1 Hour Chill Country Music', description: '1 Hour Chill Country Music Playlist – Relaxing Country Songs to Brighten Your Day', duration: '00:23:52' },
 
          { id: 'nE0uNEmVnIQ', title: '12 Músicas - Ed Sheeran - Romanct', description: 'Ed Sheeran Full Hits Songs Collection Album 2025 - Ed Sheeran Best Songs Playlist 2025', duration: '01:24:28' },
@@ -778,10 +776,10 @@ const playlists = {
 
          { id: 'JIMnT2hI4_M', title: '20 Músicas - para começar a semana bem', description: '', duration: '01:39:32' },
 
-         { id: 'PDW7Zw1WsNM', title: '26 Músicas - Shawn Mendes, The Weeknd, Bruno Mars, Rihanna, Ed Sheeran, Justin Bieber, Selena Gomez Top Hits 2024', description: '', duration: '02:43:22' },
        
          { id: 'f3JROX9glZM', title: '15 Músicas - Lukas Graham 2021', description: '', duration: '01:02:11' },
-
+ { id: 'lrlzFautGJI', title: '5 Músicas - Charlie Brown JR', description: '', duration: '00:15:00' },
+  { id: 'nkGOwagAGlw', title: '5 Músicas - Capital Inicial', description: '', duration: '00:21:15' },
     ]
 };
 
@@ -1149,7 +1147,7 @@ function showLoadingSpinner() {
             const categoryNames = {
                 'Natureza': 'Natureza',
                 'Calma': 'Música Calma',
-                'Focado': 'Música para Foco'
+                'Popular': 'Música para Foco'
             };
             const categoryName = categoryNames[currentCategory] || 'playlist';
             spinnerText.textContent = `Carregando ${categoryName}...`;

@@ -22,24 +22,24 @@
 
 
 
-/* Campo de entrada fixo no rodapé */
 .chat-input-area {
-    position: fixed;       /* fixa no viewport */
-    bottom: 0;             /* alinhada ao rodapé */
-    right: 0;               /* alinhada à esquerda */
-           /* ocupa toda a largura */
-    background-color: #f8f8f8;
-    border-top: 1px solid #ccc;
-    padding: 10px 15px;    /* espaço interno */
-    display: flex;
-    align-items: center;
-    box-sizing: border-box;
-    z-index: 100;          /* acima de outros elementos */
-    overflow: hidden;
-    width: 40%;
-    
-    
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  background-color: #f8f8f8;
+  border-top: 1px solid #ccc;
+  
+  display: flex;
+  align-items: flex-start; /* <-- CORRETO */
+  justify-content: flex-start; /* <-- CORRETO */
+  box-sizing: border-box;
+  z-index: 100;
+  overflow: hidden;
+  width: 40%;
+  height: 62px;
+  padding: 10px;
 }
+
 
 /* Ajuste do textarea dentro da área fixa */
 .chat-input-area textarea.chat-input {
@@ -49,7 +49,7 @@
     border-radius: 5px;
     padding: 8px;
     font-size: 14px;
-    max-height: 150px;     /* limita altura máxima */
+    max-height: 20%;     /* limita altura máxima */
     overflow-y: auto;      /* rolagem interna do textarea */
     
 }
@@ -59,12 +59,23 @@
     gap: 10px;
     align-items: flex-end;
     overflow: hidden;
-    min-height: 50px;
+    min-height: 100%;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: flex-start;
+    align-items: start;
     height: auto;
-   
+    width: 100%;
+    margin-right: 10px;
+    max-height: 90%;
+    overflow: auto;
+    overflow-x: none;
+   border-radius: 15px;
+       border: 1px solid #ccc;
+background-color: rgb(255, 255, 255);
+padding: 0px;
+margin-top: 0px;
+
+
 }
 .chat-toggle-btn {
     position: fixed;
@@ -142,7 +153,7 @@
     right: 0;
     bottom: 0;
     width: 40%;
-    height: 100vh;
+    height: 100%;
     border-radius: 0;
     z-index: 9900; /* garante que fica acima de tudo */
 }
@@ -174,7 +185,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 10vh;
+    height: 100%;
     z-index: 9905;
 }
 
@@ -218,6 +229,7 @@
     border-bottom: 1px solid var(--chat-border);
     margin-right: 20px;
     margin-bottom: 0px;
+    height: auto;
 }
 
 .chat-tab {
@@ -227,10 +239,10 @@
     background: none;
     border: none;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 16px;
     color: var(--chat-text-secondary);
     transition: var(--chat-transition);
-    position: relative;
+    height: auto;
 }
 
 .chat-tab:hover {
@@ -432,17 +444,24 @@ margin-right: 6px;
 
 
 
-
-/* Container geral da área de mensagens */
 .fundoMensagens {
-    flex: 1 1 auto;            /* ocupa o máximo espaço disponível */
+    position: fixed;
     display: flex;
     flex-direction: column;
-    overflow: hidden;          /* evita rolagem aqui */
+    justify-content: flex-start;
+    align-items: stretch;
+    overflow-y: auto;
     padding: 0;
-    height: 280px;
-   margin-bottom: 69px;
+
+    top: 100px;                       /* altura do header ou elemento superior */
+    bottom: 60px;                     /* altura do input ou elemento inferior */
+    right: 0;
+    width: 40%;                       
+
+    height: calc(100vh - 100px - 60px); /* calcula altura automaticamente */
+    z-index: 10;
 }
+
 
 /* Lista de mensagens */
 .chat-messages {
@@ -452,30 +471,43 @@ margin-right: 6px;
     overflow-y: auto;          /* rolagem apenas quando necessário */
     padding: 0 15px;
     box-sizing: border-box;
+    padding-bottom: 0px;
+    margin-bottom: 0px;
+   margin: 0px;
    
 }
 
 
 /* Container geral da área de mensagens */
+
 .fundoMensagens2 {
-    flex: 1 1 auto;            /* ocupa o máximo espaço disponível */
+    position: fixed;
     display: flex;
     flex-direction: column;
-    overflow: hidden;          /* evita rolagem aqui */
+    justify-content: flex-start;
+    align-items: stretch;
+    overflow-y: auto;
     padding: 0;
-    height: 267px;
-   margin-bottom: 69px;
+
+    top: 160px;                       /* altura do header ou elemento superior */
+    bottom: 60px;                     /* altura do input ou elemento inferior */
+    right: 0;
+    width: 40%;                       
+
+    height: calc(100vh - 160px - 60px); /* calcula altura automaticamente */
+    z-index: 10;
 }
 
 /* Lista de mensagens */
 .chat-messages2 {
+    
     flex: 1 1 auto;            /* ocupa o espaço restante dentro do container */
     display: flex;
     flex-direction: column;
     overflow-y: auto;          /* rolagem apenas quando necessário */
     padding: 0 15px;
     box-sizing: border-box;
-   
+   padding-top: 100px;
 }
 
 
@@ -1097,41 +1129,45 @@ width: 200px;
     line-height: 1.4;
 }
 
-
-
-
 .chat-input {
-    flex: 1;
-    min-height: 40px;
-    max-height: 100px;           /* altura máxima antes da rolagem */
-    padding: 10px 15px;
-    border: 1px solid var(--chat-border);
-    border-radius: var(--chat-radius-small);
-    font-size: 14px;
-    font-family: inherit;
-    resize: none;
-    outline: none;
-    transition: var(--chat-transition);
+    flex: 1 !important;
+    min-height: 38px!important;
+    
+    font-size: 14px !important;
+    font-family: inherit !important;
+    resize: none !important;
+    
+    background-color: #ffffff !important; /* fundo branco */
+    border: 1px solid #fff !important; /* borda branca */
+    border-radius: 0 !important;
+    outline: none !important;
+    box-shadow: none !important;
+    -webkit-box-shadow: none !important;
 
-    overflow-y: scroll;           /* permite rolagem vertical */
-    overflow-x: hidden;           /* sem rolagem horizontal */
-    white-space: pre-wrap;        /* quebra linhas automaticamente */
-    word-wrap: break-word;        /* quebra palavras longas */
+    overflow-y: hidden !important;
+    overflow-x: hidden !important;
+    white-space: pre-wrap !important;
+    word-wrap: break-word !important;
 
-    scrollbar-width: none;        /* Firefox */
+    scrollbar-width: none !important;
+    height: auto;
+    
 }
 
+/* Remove a scrollbar no Chrome/Safari/Edge */
 .chat-input::-webkit-scrollbar {
-    width: 0px;                   /* Chrome, Edge, Safari */
-    background: transparent;      /* opcional */
+    width: 0px !important;
+    background: transparent !important;
 }
 
-
+/* Mantém contorno e foco invisível */
 .chat-input:focus {
-    border-color: var(--chat-primary);
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+   
+    border: 1px solid #fff !important; 
+    outline: none !important;
+    box-shadow: none !important;
+    -webkit-box-shadow: none !important;
 }
-
 
 #userNOME {
     width: 50%;
@@ -1141,6 +1177,28 @@ width: 200px;
 #userIMG {
     height: 60px;
     width: 60px;
+}
+
+.containerTopChat {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    height: 60px;
+    width: 40%;
+    z-index: 50;
+}
+
+#fundoHeaderGeralPrivate{
+   display: flex;
+    flex-direction: column;
+    position: fixed;
+    height: 180px;
+    width: 40%;
+   
+    margin-top: 100px;
+}
+#globalMessageInput {
+    height: 30px;
 }
 /* Responsividade */
 @media (max-width: 1000px) {
@@ -1155,7 +1213,18 @@ width: 200px;
     z-index: 9900; /* garante que fica acima de tudo */
 
     }
+.fundoMensagens {
+    width: 100%;
 
+}
+.fundoMensagens2 {
+    width: 100%;
+
+}
+.chat-toggle-btn {
+    height: 80px;
+    width: 80px;
+}
     .chat-profile-content {
         width: 95%;
         padding: 20px;
@@ -1178,29 +1247,12 @@ width: 200px;
     overflow: hidden;
     width: 100%;
 }
-
-
-
-
-
-/* Campo de entrada fixo no rodapé */
-.chat-input-area {
-    position: fixed;       /* fixa no viewport */
-    bottom: 0;             /* alinhada ao rodapé */
-    right: 0;               /* alinhada à esquerda */
-           /* ocupa toda a largura */
-    background-color: #f8f8f8;
-    border-top: 1px solid #ccc;
-    padding: 10px 15px;    /* espaço interno */
-    display: flex;
-    align-items: center;
-    box-sizing: border-box;
-    z-index: 100;          /* acima de outros elementos */
-    overflow: hidden;
-    width: 100%;
-    
-    
+#fundoHeaderGeralPrivate{
+ width: 100%;
 }
+
+
+
 
 
 
@@ -1243,7 +1295,12 @@ text-align: center;
 }
 
 
-
+.containerTopChat {
+    width: 100%;
+}
+.chat-input-area {
+    width: 100%;
+}
 }
 
 /* Animações adicionais */

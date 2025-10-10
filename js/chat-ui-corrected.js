@@ -91,7 +91,11 @@ class ChatUI {
 
     getChatWindowHTML() {
         return `
-            <div class="chat-header">
+           
+ 
+ 
+ <div  class="containerTopChat"> 
+ <div class="chat-header">
                 <h3>Bate-papo</h3>
                  <div class="chat-search">
                         <input type="text" class="chat-search-input" placeholder="Pesquisar usuários..." id="userSearchInput">
@@ -122,7 +126,7 @@ class ChatUI {
                 </button>
                 
             </div>
-            
+               </div>
             <div class="chat-content">
 
                 <!-- Painel Global -->
@@ -138,16 +142,16 @@ class ChatUI {
                     </div>
 
 
-                    <div class="chat-input-area"  style="display: none;">                       
+                    <div class="chat-input-area" id="globalInputArea" style="display: none;">                       
                     <div class="chat-input-container">
                             <textarea class="chat-input" placeholder="Digite sua mensagem..." id="globalMessageInput" rows="1" 
      
           ></textarea>
 
-                            <button class="chat-send-btn" id="globalSendBtn">
+                           
+                        </div> <button class="chat-send-btn" id="globalSendBtn">
                                 ➤
                             </button>
-                        </div>
                     </div>
 
                     
@@ -156,7 +160,8 @@ class ChatUI {
                 <!-- Painel Privadas -->
                 <div class="chat-panel" data-panel="private">
 
-                    <div class="chat-conversations" id="privateConversations">
+                 <div id="fundoHeaderGeralPrivate">
+              <div class="chat-conversations" id="privateConversations">
 
                         <div class="chat-empty-state">
 
@@ -171,8 +176,7 @@ class ChatUI {
  
 
  <div style=" width:10px;"> </div>
- </div>     
-
+ </div>     </div>   
                        <div class="fundoMensagens2">
 
                        <div class="chat-messages2" id="privateMessages" style="display: none;">
@@ -185,12 +189,14 @@ class ChatUI {
                         <div class="chat-input-container">
                             <textarea class="chat-input" placeholder="Digite sua mensagem..." id="privateMessageInput" rows="1" ></textarea>
 
-                            
-                            <button class="chat-send-btn" id="privateSendBtn">
+                        
+                        </div>
+                           <button class="chat-send-btn" id="privateSendBtn">
                                 ➤
                             </button>
-                        </div>
                        </div>
+                           
+                         
                       </div>
                 
                        <!-- Painel Grupos -->
@@ -215,6 +221,7 @@ class ChatUI {
                     </div>
                 </div>
             </div>
+     
         `;
     }
 
@@ -1078,7 +1085,10 @@ async openConversation(type, conversationId) {
 
 
     async sendGlobalMessage() {
-     
+        
+
+  
+
 
         const messageInput = this.elements.globalMessageInput;
         const messageText = messageInput.value.trim();
@@ -1120,6 +1130,20 @@ chatmessages2.scrollTop = chatmessages2.scrollHeight;
 
 //document.getElementById("globalMessageInput").focus();
     // Adicione esta linha no final da função
+const area = document.getElementById("globalInputArea");
+  // Agora seleciona o input real
+
+
+
+const fundo = document.querySelector('.fundoMensagens');
+
+   area.style.height = '62px';
+       fundo.style.bottom = '60px'; // mantém o fundo acima do input
+        fundo.style.top = '100px'; // mantém o fundo acima do input
+        fundo.style.height = `calc(100vh - ${fundo.style.top || '100px'} - 60px)`;
+   
+
+    
     }
 
 async sendPrivateMessage() {
@@ -1174,6 +1198,27 @@ async sendPrivateMessage() {
         console.error('Error sending private message:', error);
         alert('Erro ao enviar mensagem privada: ' + error.message);
     }
+
+    
+
+
+ const area2 = document.getElementById("privateInputArea");
+
+  // Agora seleciona o input real
+
+
+
+const fundo2 = document.querySelector('.fundoMensagens2');
+
+        // Altura pequena
+        area2.style.height = '62px';
+       fundo2.style.bottom = '60px'; // mantém o fundo acima do input
+        fundo2.style.top = '100px'; // mantém o fundo acima do input
+                        fundo2.style.height = `calc(100vh - ${fundo2.style.top || '100px'} - 60px)`;
+
+
+
+
 }
 
     /*async sendGroupMessage() {
@@ -1467,23 +1512,97 @@ setupSwipeGestures() {
 
 
 function mostrarChatInputArea() {
-    const area = document.querySelector(".chat-input-area");
+  const area = document.getElementById("globalInputArea");
+
+  if (!area) return;
+
+  // Exibe e anima a área do input
+  area.style.display = "flex";
+  area.style.opacity = "0";
+  area.style.maxHeight = "0px";
+  area.style.overflow = "hidden";
+  area.style.transition = "opacity 0.5s ease, max-height 0.5s ease";
+
+  setTimeout(() => {
+    area.style.opacity = "1";
+    area.style.maxHeight = "200px";
+  }, 200);
+
+
+  // Agora seleciona o input real
+  const input = document.getElementById("globalMessageInput");
+
+
+  const input2 = document.getElementById("privateMessageInput");
+
+
+
+
+const fundo = document.querySelector('.fundoMensagens');
+const fundo2 = document.querySelector('.fundoMensagens2');
+
+
+  if (input) {
+   input.addEventListener("input", (e) => {
+    const valor = e.target.value.trim();
+    console.log("Digitando:", valor);
+
+    if (valor === "") {
+        // Altura pequena
+        area.style.height = '62px';
+       fundo.style.bottom = '60px'; // mantém o fundo acima do input
+        fundo.style.top = '100px'; // mantém o fundo acima do input
+                        fundo.style.height = `calc(100vh - ${fundo.style.top || '100px'} - 60px)`;
+
+    } else if (valor.length > 40) {
+        // Altura grande
+        area.style.height = '200px';
+        fundo.style.height = `calc(100vh - ${fundo.style.top || '100px'} - 200px)`;
+    } else {
+        // Altura intermediária
+      area.style.height = '62px';
+       fundo.style.bottom = '60px'; // mantém o fundo acima do input
+        fundo.style.top = '100px'; // mantém o fundo acima do input
+                fundo.style.height = `calc(100vh - ${fundo.style.top || '100px'} - 60px)`;
+
+    }
+});
+  } 
+ const area2 = document.getElementById("privateInputArea");
+input2.addEventListener("input", (e) => {
+    const valor2 = e.target.value.trim();
+    console.log("Digitando:", valor2);
+
+
     
-    if (!area) return;
+    if (valor2 === "") {
+        // Altura pequena
+        area2.style.height = '62px';
+       fundo2.style.bottom = '60px'; // mantém o fundo acima do input
+        fundo2.style.top = '100px'; // mantém o fundo acima do input
+                        fundo2.style.height = `calc(100vh - ${fundo2.style.top || '100px'} - 60px)`;
 
-    // Torna o elemento visível e inicializa estilos para a animação
-    area.style.display = "flex";       // exibe o elemento
-    area.style.opacity = "0";          // começa transparente
-    area.style.maxHeight = "0px";      // altura inicial para animação
-    area.style.overflow = "hidden";    // esconde conteúdo que extrapola
-    area.style.transition = "opacity 0.5s ease, max-height 0.5s ease";
+    } else if (valor2.length > 40) {
+        // Altura grande
+        area2.style.height = '200px';
+        fundo2.style.height = `calc(100vh - ${fundo2.style.top || '100px'} - 200px)`;
+    } else {
+        // Altura intermediária
+      area2.style.height = '62px';
+       fundo2.style.bottom = '60px'; // mantém o fundo acima do input
+        fundo2.style.top = '100px'; // mantém o fundo acima do input
+                fundo2.style.height = `calc(100vh - ${fundo2.style.top || '100px'} - 60px)`;
 
-    // Pequeno delay para garantir que a transição seja aplicada
-    setTimeout(() => {
-        area.style.opacity = "1";      // torna visível
-        area.style.maxHeight = "200px"; // altura final (ajuste conforme necessário)
-    }, 200);
-}
+    }
+   
+});
+
+
+  }
+
+
+
+
 
 
 window.ChatUI = ChatUI;
