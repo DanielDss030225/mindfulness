@@ -1194,7 +1194,7 @@ width: 200px;
     position: fixed;
     height: 180px;
     width: 40%;
-   
+    z-index: 20;
     margin-top: 100px;
 }
 #globalMessageInput {
