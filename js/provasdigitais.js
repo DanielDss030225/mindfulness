@@ -76,6 +76,7 @@ async loadUserData() {
 'cat11': { name: '📜 Lei de Drogas (Lei nº 11.343/2006)' },
 'cat12': { name: '📜 Lei de Crimes Hediondos (Lei nº 8.072/1990)' },
 'cat13': { name: '⚖️ Direito Penal - CPB (DL nº 2.848/1940)' },
+'cat14': { name: '⚖️ Direito Processual Penal - CPPB (DL nº 3.689/1941)' },
         };
 
         // Buscar exames do Firebase
@@ -740,28 +741,37 @@ associatedTextDisplay.querySelectorAll('img').forEach(img => {
             .replace(/\n/g, "<br>");
     }
 
-    createAlternativeElement(text, index, questionId) {
-        const div = document.createElement('div');
-        div.className = 'alternative';
-        div.dataset.index = index;
-        div.dataset.questionId = questionId;
-        
-        const letter = String.fromCharCode(65 + index);
-        
-        div.innerHTML = `
-            <div class="alternative-letter">${letter}</div>
-            <div class="alternative-text">${this.formatQuestionText(text)}</div>
-        `;
-        
-        // Check if this alternative is already selected
-        if (this.userAnswers[questionId] === index) {
-            div.classList.add('selected');
-        }
-        
-        div.addEventListener('click', () => this.selectAnswer(questionId, index));
-        
-        return div;
+ createAlternativeElement(text, index, questionId) {
+    // Ignora alternativas com o texto "Ignorar questão."
+ if (text.trim().replace(/\.$/, '').toLowerCase() === "ignorar questão") {
+    console.log("Ignorando alternativa inválida:", text);
+    return document.createDocumentFragment();
+}
+
+
+    const div = document.createElement('div');
+    div.className = 'alternative';
+    div.dataset.index = index;
+    div.dataset.questionId = questionId;
+    
+    const letter = String.fromCharCode(65 + index);
+    console.log(text);
+   
+    div.innerHTML = `
+        <div class="alternative-letter">${letter}</div>
+        <div class="alternative-text">${this.formatQuestionText(text)}</div>
+    `;
+    
+    // Verifica se já foi selecionada
+    if (this.userAnswers[questionId] === index) {
+        div.classList.add('selected');
     }
+    
+    // Evento de clique
+    div.addEventListener('click', () => this.selectAnswer(questionId, index));
+    
+    return div;
+}
 
    selectAnswer(questionId, answerIndex) {
     // Remove previous selection for this question
