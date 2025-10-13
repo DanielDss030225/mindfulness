@@ -266,7 +266,7 @@ margin-bottom: 10px;
         overflow-y: auto;
                 position: fixed;
                 height: 100vh;
-
+padding-top: 80px !important;
 
 }
 
@@ -346,12 +346,12 @@ margin-bottom: 10px;
 /* Result Screen */
 #result-screen {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    height: 100vh;
+   height: 120vh;
     display: flex;
     justify-content: top;   /* centraliza na horizontal */
     overflow-y: auto;          /* ativa rolagem vertical */
     align-items: center;   /* 🔥 começa de cima e deixa rolar */
-    
+    overflow: auto;
 }
 
 .result-container {
@@ -363,8 +363,11 @@ margin-bottom: 10px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.1);
     backdrop-filter: blur(10px);
     min-height: 200px;         /* altura mínima, mas pode crescer */
-    margin-top: 80px;
+    margin-top: 120px;
     width: 90%;
+ height: auto;
+ margin-bottom: 100px;
+    
 }
 
 .result-header h2 {
@@ -451,6 +454,32 @@ margin-bottom: 10px;
      min-width: 50%;
      max-width: 300px;
     }
+
+    
+.fundoQuestoes {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background-color: #f0f2f5;
+  overflow-y: auto;
+  height: 100vh;
+  width: 70%;
+  max-width: 1200px;
+
+  /* posiciona ao lado direito */
+  position: absolute;
+  top: 0;
+  right: 0;
+
+  align-items: center;
+  padding-bottom: 20px;
+  margin: 0;
+  box-sizing: border-box;
+  padding-top: 80px !important;
+}
+
+
 /* Responsive Design */
 @media (max-width: 1000px) {
    
@@ -496,10 +525,7 @@ margin-bottom: 10px;
       
     }
 
-    .fundoQuestoes {
-        background-color: white;
-        padding: 0px;
-    }
+ 
     .question-text {
         font-size: 16px;
         padding: 20px;
@@ -918,6 +944,16 @@ margin-bottom: 10px;
     display: block;
 }
 
+.fundoProfessora {
+    width: 30%;
+    height: 100vh;
+    position: fixed;
+    margin-left: 0px;
+        background: linear-gradient(135deg, #051e23 0%, #8d61b9 100%);
+
+    max-width: 500px;
+    padding-top: 80px !important;
+}
 
 @media screen and (max-width: 1000px) {
   
@@ -937,15 +973,19 @@ margin-bottom: 10px;
 }
 #quiz-setup-screen {
 padding: 0px;}
+
 .fundoProfessora {
     display: none;
 }
 .fundoQuestoes {
-margin-left: 0px;    width: 100%;
+margin-left: 0px;  
+  width: 100%;
 padding-bottom: 100px;
+   background-color: white;
+        padding: 0px;
 }
 
-
+   
 }
 
 .question-text {

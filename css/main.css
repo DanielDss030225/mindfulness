@@ -399,9 +399,9 @@ header p {
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     backdrop-filter: blur(10px);
  height: 70px;
-    position: sticky;
+    position: fixed;
     top: 0;
-    z-index: 8000;
+    z-index: 9900;
         max-width: 3840px;
         width: 100%;
 
@@ -608,45 +608,14 @@ width: auto;
 
 /* esse */
 
-.fundoProfessora {
-    width: 30%;
-    height: 100vh;
-    position: fixed;
-    margin-left: 0px;
-        background: linear-gradient(135deg, #051e23 0%, #8d61b9 100%);
-
-    max-width: 500px;
-}
 
 
 
 .game-container {
   position: relative; /* referência para .fundoQuestoes */
   display: flex;      /* garante que os filhos se alinhem lado a lado */
+  
 }
-
-.fundoQuestoes {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  background-color: #f0f2f5;
-  overflow-y: auto;
-  height: 100vh;
-  width: 70%;
-  max-width: 1200px;
-
-  /* posiciona ao lado direito */
-  position: absolute;
-  top: 0;
-  right: 0;
-
-  align-items: center;
-  padding-bottom: 20px;
-  margin: 0;
-  box-sizing: border-box;
-}
-
 
 
 
@@ -1205,6 +1174,7 @@ textarea:focus {
 .social-feed-container {
     gap: 20px;
     padding: 20px;
+    padding-top: 80px;
     background-color: #f0f2f5;
 
     overflow-x: hidden;
@@ -1223,6 +1193,17 @@ textarea:focus {
     margin-left: min(30%, 300px);
     margin-right: min(30%, 300px);
     z-index: 0;
+
+
+    display: inline-block;
+   
+  
+ 
+
+
+
+
+
 }
 
 
@@ -1240,6 +1221,7 @@ textarea:focus {
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
     margin-top: 0px;
     margin-bottom: 20px;
+
 }
 
 .create-post-section .post-header {
@@ -1632,6 +1614,7 @@ border-bottom-color: #d3d3d3;
   -ms-overflow-style: none;  /* Internet Explorer e Edge antigos */
   
   margin: 0px;
+padding-top: 80px !important;
 }
 
 .menu-content::-webkit-scrollbar {
@@ -2226,9 +2209,10 @@ border-bottom-color: #d3d3d3;
 }
 
 .main-menu {
+  
     display: flex;
-    margin: 0 auto;     /* centraliza no meio */
-
+    margin: 0px ;     /* centraliza no meio */
+padding: 0px;
 }
 
 
@@ -2262,7 +2246,7 @@ border-bottom-color: #d3d3d3;
   align-self: center;
   align-items: center;
  
-
+padding-top: 80px !important;
 }
 
 
@@ -2868,7 +2852,53 @@ display: none;
  
 }
 
+.custom-select-container {
+    display: flex;
+    flex-direction: column;
+    width: auto; /* permite que o container se ajuste ao conteúdo */
+    max-width: 300px; /* largura máxima do select */
+    margin: 20px;
+    font-family: 'Arial', sans-serif;
+}
 
+.custom-select-container label {
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #333;
+}
+.custom-select {
+    padding: 10px 14px;
+    border-radius: 10px;
+    border: 2px solid #bbb; /* borda padrão */
+    background-color: #f9f9f9;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 15px;
+}
+
+.custom-select:hover {
+    border-color: #888;
+}
+
+.custom-select:focus {
+    outline: none;
+
+    /* Mantendo o border-radius visual */
+    border-radius: 10px;
+
+    /* Opção 1: gradiente usando border-image */
+    border: 2px solid; 
+    border-image: linear-gradient(to bottom, blue, black, green) 1;
+    
+    /* Garantir que o conteúdo não ultrapasse os cantos arredondados */
+    overflow: hidden;
+
+    /* Sombra opcional */
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+}
 
 @media screen and (max-width: 1000px) {
     
@@ -2992,7 +3022,7 @@ padding-bottom: 180px;
 .bannerMentorias {
     margin: 0px;
     width: 100%;
-   
+   margin-bottom: 10px;
 }
 .card {
 

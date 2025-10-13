@@ -22,7 +22,7 @@
     <link rel="stylesheet" href="css/game.css">
     <link rel="stylesheet" href="css/admin.css">
     <link rel="stylesheet" href="css/profile.css">
-    <link rel="stylesheet" href="css/social-feed-styles.css">
+    
     <link rel="stylesheet" href="css/rich-text-editor.css">
     <link rel="stylesheet" href="css/chat.css">
 
@@ -329,7 +329,7 @@ Editais         </p>  <p class="mini">Acompanhe o Feed</p> </button>
             </div>    
             <!-- Social Feed Section -->
          
-            <div class="social-feed-container">
+            <div class="social-feed-container" style="padding-top: 80px;">
                 <div class="create-post-section">
                     <div class="post-header">
                         <img id="currentUserProfilePicPost" src="img/perfil.png" alt="User Avatar" class="post-avatar">
@@ -397,6 +397,38 @@ Provas, Simulados e Exercícios                </p> <p class="mini">novo</p> </b
             </div>
            
         <div class="direito" id="direito"> 
+                <div class="bannerMentorias"> <h1>Concursos</h1>
+                          <p>Selecione o seu concurso para te direcionarmos melhor!</p>
+
+                 <select id="customSelect" class="custom-select">
+    <option value="">Seu concurso...</option>
+
+    <!-- Segurança Pública Federal -->
+    <optgroup label="Federal">
+        <option value="prf">Polícia Rodoviária Federal (PRF)</option>
+        <option value="pf">Polícia Federal (PF)</option>
+        <option value="pcr">Polícia Penal Federal</option>
+        <option value="dpaf">Departamento Penitenciário Nacional (DEPEN)</option>
+    </optgroup>
+
+    <!-- Segurança Pública Estadual -->
+    <optgroup label="Estadual">
+        <option value="pm">Polícia Militar (PM)</option>
+        <option value="pc">Polícia Civil (PC)</option>
+        <option value="pp">Polícia Penal Estadual (PP)</option>
+        <option value="bpm">Bombeiros Militar</option>
+        <option value="detran">DETRAN (Fiscalização de Trânsito)</option>
+    </optgroup>
+
+    <!-- Segurança Pública Municipal -->
+    <optgroup label="Municipal">
+        <option value="gm">Guarda Municipal (GM)</option>
+        <option value="pmm">Defesa Civil Municipal</option>
+        <option value="trânsito-municipal">Trânsito Municipal</option>
+    </optgroup>
+</select></div>
+       
+
          <div class="bannerMentorias"> <h1> Mentorias </h1>
             <p> Mentorias são oferecidas de forma independente pelos mentores parceiros e, por isso, não integram diretamente os serviços disponibilizados pela plataforma.</p></div>
                <div class="card">
@@ -848,13 +880,13 @@ Questões resolvidas só se repetem quando o banco de questões se esgota.
     <!-- Admin Screen -->
     <div id="admin-screen" class="screen">
         <div class="admin-container">
-            <header class="screen-header">
+           
+
+            <div class="admin-content">
+ <header class="screen-header">
                 <button id="backToMenuFromAdminBtn" class="btn-back">Voltar</button>
                 <h2>Painel Administrativo</h2>
             </header>
-
-            <div class="admin-content">
-
                 <div class="admin-tabs">
                     <button class="tab-btn active" data-tab="questions">Questões</button>
                     <button class="tab-btn" data-tab="manage-questions">Gerenciar Questões</button>
@@ -1273,6 +1305,16 @@ function cronograma() {
   "_blank"
 );
   }
+const customSelect = document.getElementById('customSelect');
+
+// Salva no localStorage e remove o foco após selecionar
+customSelect.addEventListener('change', () => {
+    // Salvar no localStorage (opcional)
+    localStorage.setItem('customSelectValue', customSelect.value);
+
+    // Remove o foco do select
+    customSelect.blur();
+});
 
   
 }
@@ -1451,6 +1493,22 @@ document.addEventListener("DOMContentLoaded", () => {
     // Sempre que tentar voltar, envia para index.html
     window.location.href = "index.html";
   });
+});
+document.addEventListener('DOMContentLoaded', () => {
+    const select = document.getElementById('customSelect');
+    const storageKey = 'customSelectValue';
+
+    // 1️⃣ Carrega valor salvo ao iniciar
+    const savedValue = localStorage.getItem(storageKey);
+    if (savedValue) {
+        select.value = savedValue;
+    }
+
+    // 2️⃣ Salva valor no localStorage e remove o foco ao selecionar
+    select.addEventListener('change', () => {
+        localStorage.setItem(storageKey, select.value);
+        select.blur(); // perde o foco após selecionar
+    });
 });
 
 
