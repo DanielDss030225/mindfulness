@@ -33,7 +33,7 @@
   align-items: flex-start; /* <-- CORRETO */
   justify-content: flex-start; /* <-- CORRETO */
   box-sizing: border-box;
-  z-index: 100;
+  z-index: 50;
   overflow: hidden;
   width: 40%;
   height: 62px;
@@ -349,12 +349,14 @@ background-image: url("../img/fundo.png");
     transition: var(--chat-transition);
        position: fixed;
     right: 0;
-    bottom: 0;
+    top: 0;
     width: 40%;
-    height: 90vh;
+    height: 100%;
     border-radius: 0;
-    z-index: 9901; 
+    z-index: 100; 
     overflow-y:auto;
+    margin-top: 60px;
+    margin-bottom: 60px;
 }
 
 .chat-user-item {
@@ -496,6 +498,7 @@ margin-right: 6px;
 
     height: calc(100vh - 160px - 60px); /* calcula altura automaticamente */
     z-index: 10;
+   
 }
 
 /* Lista de mensagens */
@@ -507,7 +510,8 @@ margin-right: 6px;
     overflow-y: auto;          /* rolagem apenas quando necessário */
     padding: 0 15px;
     box-sizing: border-box;
-   padding-top: 100px;
+    padding-top: 170px;
+   
 }
 
 
@@ -708,7 +712,7 @@ margin-right: 6px;
 
 
 .chat-send-btn {
-    width: 40px;
+    width: 45px;
     height: 40px;
     background: linear-gradient(135deg, var(--chat-primary) 0%, var(--chat-secondary) 100%);
     border: none;

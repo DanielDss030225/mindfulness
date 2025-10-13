@@ -93,7 +93,7 @@ class ChatUI {
         return `
            
  
- 
+  
  <div  class="containerTopChat"> 
  <div class="chat-header">
                 <h3>Bate-papo</h3>
@@ -109,12 +109,7 @@ class ChatUI {
                     </button>
                 </div>
             </div>
-             <div class="chat-users-list" id="onlineUsersList">
-                    
-                        <div class="chat-loading">
-                            <div class="chat-loading-spinner"></div>
-                        </div>
-                    </div>
+          
             <div class="chat-tabs">
                 <button class="chat-tab active" data-tab="global">
                     Global
@@ -127,6 +122,12 @@ class ChatUI {
                 
             </div>
                </div>
+                  <div class="chat-users-list" id="onlineUsersList">
+                    
+                        <div class="chat-loading">
+                            <div class="chat-loading-spinner"></div>
+                        </div>
+                    </div>
             <div class="chat-content">
 
                 <!-- Painel Global -->
@@ -141,7 +142,7 @@ class ChatUI {
 </div>
                     </div>
 
-
+<!--send message -->
                     <div class="chat-input-area" id="globalInputArea" style="display: none;">                       
                     <div class="chat-input-container">
                             <textarea class="chat-input" placeholder="Digite sua mensagem..." id="globalMessageInput" rows="1" 
@@ -177,7 +178,7 @@ class ChatUI {
 
  <div style=" width:10px;"> </div>
  </div>     </div>   
-                       <div class="fundoMensagens2">
+                       <div class="fundoMensagens2" style="bottom: 60px; top: 100px; height: calc(-160px + 100vh);">
 
                        <div class="chat-messages2" id="privateMessages" style="display: none;">
                         <!-- Mensagens da conversa privada selecionada -->
@@ -221,6 +222,7 @@ class ChatUI {
                     </div>
                 </div>
             </div>
+            
      
         `;
     }
