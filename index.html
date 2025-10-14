@@ -399,6 +399,7 @@ Provas, Simulados e Exercícios                </p> <p class="mini">novo</p> </b
         <div class="direito" id="direito"> 
                 <div class="bannerMentorias"> <h1>Concursos</h1>
                           <p>Selecione o seu concurso para te direcionarmos melhor!</p>
+                          
 
                  <select id="customSelect" class="custom-select">
     <option value="">Seu concurso...</option>
@@ -426,7 +427,7 @@ Provas, Simulados e Exercícios                </p> <p class="mini">novo</p> </b
         <option value="pmm">Defesa Civil Municipal</option>
         <option value="trânsito-municipal">Trânsito Municipal</option>
     </optgroup>
-</select></div>
+</select> <p id="messageConcurso" style="color:green; font-size: 12px; display: none;" >Concurso seleciondo com sucesso!</p></div>
        
 
          <div class="bannerMentorias"> <h1> Mentorias </h1>
@@ -1494,6 +1495,8 @@ document.addEventListener("DOMContentLoaded", () => {
     window.location.href = "index.html";
   });
 });
+
+
 document.addEventListener('DOMContentLoaded', () => {
     const select = document.getElementById('customSelect');
     const storageKey = 'customSelectValue';
@@ -1506,8 +1509,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 2️⃣ Salva valor no localStorage e remove o foco ao selecionar
     select.addEventListener('change', () => {
+        let messageConcurso = document.getElementById("messageConcurso");
+        messageConcurso.style.display = "block";
         localStorage.setItem(storageKey, select.value);
         select.blur(); // perde o foco após selecionar
+        setTimeout(() => {
+            messageConcurso.style.display = 'none';
+        }, 3000);
     });
 });
 
