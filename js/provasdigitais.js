@@ -77,6 +77,8 @@ async loadUserData() {
 'cat12': { name: '📜 Lei de Crimes Hediondos (Lei nº 8.072/1990)' },
 'cat13': { name: '⚖️ Direito Penal - CPB (DL nº 2.848/1940)' },
 'cat14': { name: '⚖️ Direito Processual Penal - CPPB (DL nº 3.689/1941)' },
+'cat15': { name: '⚖️ Direito Constitucional - Constituição Federal de 1988' },
+
         };
 
         // Buscar exames do Firebase

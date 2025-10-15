@@ -266,7 +266,7 @@ margin-bottom: 10px;
         overflow-y: auto;
                 position: fixed;
                 height: 100vh;
-padding-top: 80px !important;
+margin-top: 70px !important;
 
 }
 
@@ -476,8 +476,7 @@ padding-top: 80px !important;
   padding-bottom: 20px;
   margin: 0;
   box-sizing: border-box;
-  padding-top: 80px !important;
-}
+margin-top: 70px !important;}
 
 
 /* Responsive Design */
@@ -952,8 +951,7 @@ padding-top: 80px !important;
         background: linear-gradient(135deg, #051e23 0%, #8d61b9 100%);
 
     max-width: 500px;
-    padding-top: 80px !important;
-}
+margin-top: 70px !important;}
 
 @media screen and (max-width: 1000px) {
   

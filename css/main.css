@@ -1614,8 +1614,7 @@ border-bottom-color: #d3d3d3;
   -ms-overflow-style: none;  /* Internet Explorer e Edge antigos */
   
   margin: 0px;
-padding-top: 80px !important;
-}
+margin-top: 70px !important;}
 
 .menu-content::-webkit-scrollbar {
   display: none; /* Chrome, Safari, Opera */
@@ -2246,8 +2245,7 @@ padding: 0px;
   align-self: center;
   align-items: center;
  
-padding-top: 80px !important;
-}
+margin-top: 70px !important;}
 
 
 .direito::-webkit-scrollbar {
