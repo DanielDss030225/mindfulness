@@ -79,6 +79,16 @@ async loadUserData() {
 'cat14': { name: '⚖️ Direito Processual Penal - CPPB (DL nº 3.689/1941)' },
 'cat15': { name: '⚖️ Direito Constitucional - Constituição Federal de 1988' },
 
+'cat16': { name: '⚖️ Direito Administrativo' },
+'cat17': { name: '🕊️  Normas e Direitos Humanos' },
+'cat18': { name: '👮 Legislação Institucional' },
+'cat19': { name: '📚 Literatura para Concursos' },
+'cat20': { name: '🌐 Inglês – Noções de Língua Inglesa' },
+'cat21': { name: '🔢 Raciocínio Lógico-Matemático' },
+'cat22': { name: '💻 Informática Básica' },
+
+
+
         };
 
         // Buscar exames do Firebase
