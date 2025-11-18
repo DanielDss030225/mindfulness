@@ -111,6 +111,7 @@ class ChatUI {
             </div>
           
             <div class="chat-tabs">
+            <div class="divListaGl"> <p> Lista (Para selecionar outra conversa use a pesquisa.) </p></div>
                 <button class="chat-tab active" data-tab="global">
                     Global
                     <span class="chat-tab-badge2"></span>
@@ -119,7 +120,9 @@ class ChatUI {
                     Privadas
                     <span class="chat-tab-badge"></span>
                 </button>
-                
+                  <button class="chat-tab" id="btnConversas" data-tab="conversas">
+                    Conversas
+                </button>
             </div>
                </div>
                   <div class="chat-users-list" id="onlineUsersList">
@@ -129,12 +132,23 @@ class ChatUI {
                         </div>
                     </div>
             <div class="chat-content">
+                 <div id="fundoHeaderGeralPrivate">
+              <div class="chat-conversations" id="privateConversations">
 
+                        <div class="chat-empty-state">
+
+                            <div class="chat-empty-title">Nenhuma conversa</div>
+                            <div class="chat-empty-description">Clique em um usuário online para iniciar uma conversa</div>
+                            
+                        </div>
+
+                       </div>
+                                        </div>   
                 <!-- Painel Global -->
                 <div class="chat-panel active" data-panel="global">
                    
                    
-<div class="fundoMensagens">
+<div class="fundoMensagens" >
                     <div class="chat-messages" id="globalMessages">
                         <div class="chat-loading">
                             <div class="chat-loading-spinner"></div>
@@ -161,25 +175,14 @@ class ChatUI {
                 <!-- Painel Privadas -->
                 <div class="chat-panel" data-panel="private">
 
-                 <div id="fundoHeaderGeralPrivate">
-              <div class="chat-conversations" id="privateConversations">
 
-                        <div class="chat-empty-state">
-
-                            <div class="chat-empty-title">Nenhuma conversa</div>
-                            <div class="chat-empty-description">Clique em um usuário online para iniciar uma conversa</div>
-                            
-                        </div>
-
-                       </div>
-                                          <div id="fundoUSER" class="fundoUser">              <img id="userIMG" src="https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/ICONE%20PERFIL.png?alt=media&token=d092ec7f-77b9-404d-82d0-b6ed3ce6810e" alt="Foto do usuário" class="user-avatar">
+                       <div class="fundoMensagens2" style="bottom: 60px; top: 100px; height: calc(-160px + 100vh);">
+    <div id="fundoUSER" class="fundoUser">              <img id="userIMG" src="https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/ICONE%20PERFIL.png?alt=media&token=d092ec7f-77b9-404d-82d0-b6ed3ce6810e" alt="Foto do usuário" class="user-avatar">
  <h4 id="userNOME">Olá, Selecione uma conversa.</h4> 
  
 
  <div style=" width:10px;"> </div>
- </div>     </div>   
-                       <div class="fundoMensagens2" style="bottom: 60px; top: 100px; height: calc(-160px + 100vh);">
-
+ </div>   
                        <div class="chat-messages2" id="privateMessages" style="display: none;">
                         <!-- Mensagens da conversa privada selecionada -->
 
@@ -321,6 +324,10 @@ this.elements.globalSendBtn.addEventListener('mousedown', (event) => {
 this.elements.privateSendBtn.addEventListener('mousedown', (event) => {
     event.preventDefault();
     this.sendPrivateMessage();
+});
+document.querySelector('button[data-tab="conversas"]').addEventListener('click', function () {
+   let conversas = document.getElementById("fundoHeaderGeralPrivate");
+   conversas.style.display = "flex";
 });
 
 // Para o chat em Grupo (se estiver usando)
@@ -766,7 +773,7 @@ createMessageElement(message) {
     // O restante da sua lógica para construir o innerHTML permanece exatamente o mesmo.
     if (!isMyMessage) {
         messageElement.innerHTML = `
-        <div class="fundoMensagem">
+        <div class="fundoMensagem" style="min-width:300px;">
             <a class="chat-message-avatar-link" data-user-id="${message.senderId}" title="Ver perfil de ${senderName}">
                 <img class="chat-message-avatar" src="${senderProfilePicture}" alt="${senderName}">
             </a>

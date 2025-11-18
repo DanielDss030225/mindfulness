@@ -35,7 +35,7 @@
   box-sizing: border-box;
   z-index: 50;
   overflow: hidden;
-  width: 40%;
+  width: 60%;
   height: 62px;
   padding: 10px;
 }
@@ -152,7 +152,7 @@ margin-top: 0px;
     top: 0;
     right: 0;
     bottom: 0;
-    width: 40%;
+    width: 100%;
     height: 100%;
     border-radius: 0;
     z-index: 9900; /* garante que fica acima de tudo */
@@ -230,23 +230,45 @@ margin-top: 0px;
     margin-right: 20px;
     margin-bottom: 0px;
     height: auto;
+    width: 100% !important;
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+  
 }
 
 .chat-tab {
     flex: 1;
     padding: 12px 8px;
     text-align: center;
-    background: none;
+      background: rgba(64, 79, 146, 0.229);
+
     border: none;
     cursor: pointer;
     font-size: 16px;
     color: var(--chat-text-secondary);
     transition: var(--chat-transition);
     height: auto;
+    max-width: 30%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
-
+.divListaGl {
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.divListaGl p {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-size: 14px ;
+}
 .chat-tab:hover {
-    background: rgba(102, 126, 234, 0.1);
+    background: rgba(64, 79, 146, 0.561);
 }
 
 .chat-tab.active {
@@ -350,7 +372,7 @@ background-image: url("../img/fundo.png");
        position: fixed;
     right: 0;
     top: 0;
-    width: 40%;
+    width: 60%;
     height: 100%;
     border-radius: 0;
     z-index: 100; 
@@ -458,7 +480,7 @@ margin-right: 6px;
     top: 100px;                       /* altura do header ou elemento superior */
     bottom: 60px;                     /* altura do input ou elemento inferior */
     right: 0;
-    width: 40%;                       
+    width: 60%;                       
 
     height: calc(100vh - 100px - 60px); /* calcula altura automaticamente */
     z-index: 10;
@@ -476,6 +498,7 @@ margin-right: 6px;
     padding-bottom: 0px;
     margin-bottom: 0px;
    margin: 0px;
+   width: auto !important;
    
 }
 
@@ -494,7 +517,7 @@ margin-right: 6px;
     top: 160px;                       /* altura do header ou elemento superior */
     bottom: 60px;                     /* altura do input ou elemento inferior */
     right: 0;
-    width: 40%;                       
+    width: 60%;                       
 
     height: calc(100vh - 160px - 60px); /* calcula altura automaticamente */
     z-index: 10;
@@ -510,7 +533,7 @@ margin-right: 6px;
     overflow-y: auto;          /* rolagem apenas quando necessário */
     padding: 0 15px;
     box-sizing: border-box;
-    padding-top: 170px;
+    padding-top: 0px;
    
 }
 
@@ -545,7 +568,7 @@ margin-right: 6px;
 
 .chat-message-content {
     flex: 1;
-    max-width: 100%;
+    max-width: 100% !important;
     margin-left: 10px;
 }
 
@@ -738,12 +761,14 @@ margin-right: 6px;
 /* Lista de conversas */
 .chat-conversations {
     display: flex;
-    overflow-x: auto; /* scroll horizontal */
-    overflow-y: hidden;
+    overflow-x: hidden; /* scroll horizontal */
+    overflow-y: auto;
     white-space: nowrap;
-    height: 80px;
+    height: 100%;
+    min-height: 100vh;
     align-items: center;
-    background-color: #eceaea   ;
+    background-color: #ffffff   ;
+    flex-direction: column;
 }
 .fundoUser {
     flex: 0 0 auto; /* Mantém o item com largura fixa no flex container */
@@ -755,7 +780,7 @@ margin-right: 6px;
     width: 100%;
     background-color: white;
     border-bottom-right-radius:100px ;
-    margin-bottom: 5px;
+    margin-bottom: 0px;
 }
 
 .chat-conversation-item {
@@ -772,10 +797,11 @@ margin-right: 6px;
     height: 75px; /* Ajustei a altura para um valor fixo, fica melhor com o padding */
     margin-right: 2px;
     margin-left: 2px;
-    width: 250px;
+    width: 100%;
     background-color: #ffffff; /* Um fundo mais neutro, como o do Facebook */
     align-items: center;
     justify-content: center;
+    border-bottom: solid 1px rgba(225, 225, 225, 0.459);
 
 }
 
@@ -1188,7 +1214,7 @@ width: 200px;
     flex-direction: column;
     position: fixed;
     height: 60px;
-    width: 40%;
+    width: 100%;
     z-index: 50;
 }
 
@@ -1196,16 +1222,38 @@ width: 200px;
    display: flex;
     flex-direction: column;
     position: fixed;
-    height: 180px;
+    min-height: 100vh;
+    height: 100%;
     width: 40%;
     z-index: 20;
     margin-top: 100px;
+    background-color: white;
 }
 #globalMessageInput {
     height: 30px;
 }
+    #btnConversas {
+        display: none;
+    }
 /* Responsividade */
 @media (max-width: 1000px) {
+    .divListaGl {
+        display: none;
+    }
+    #btnConversas {
+        display: flex;
+    }
+#fundoHeaderGeralPrivate {
+    display: none;
+}
+     .chat-tabs {
+        max-width: 100% !important;
+    }
+        .chat-tab {
+                    width: 50% !important;
+
+        max-width: 100% !important;
+    }
     .chat-window {
         top: 0;
         left: 0;

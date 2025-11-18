@@ -891,6 +891,12 @@ border-bottom-right-radius: 0px;
     text-align: center;
     padding: 20px;
     color: #65676b;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
 }
 
 .loading-spinner {

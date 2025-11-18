@@ -769,7 +769,7 @@ class SocialFeedManager {
             postsContainer.innerHTML = `
                 <div class="loading-posts">
                     <div class="loading-spinner"></div>
-                    <p>Carregando publicações...</p>
+                    <p style="width:100%; text-align:center;" >Carregando publicações...</p>
                 </div>
             `;
         }
