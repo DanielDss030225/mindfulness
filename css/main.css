@@ -16,9 +16,11 @@ main {
     align-items: start;
     text-align: start;
     justify-content: start;
+    max-width: 1400px;
 }
 
 body {
+    position: absolute;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: #333;
     overflow-x: hidden;
@@ -26,14 +28,14 @@ body {
     min-height: 100vh;
     margin: 0;
     border-bottom: 0;
-    background: linear-gradient(90deg, #f0f2f5 50%, #f0f2f5 50%);
-    max-width: 3840px;
-    display: block; /* mantém como block */
-    background-color: #000000;
+    max-width: 100vw;
+    display: flex; /* mantém como block */
+    background-color: #ffffff;
      align-items: center;
     text-align: center;
     justify-content: center;
     width: 100%;
+    flex-direction: column;
 }
 /* Firefox */
 * {
@@ -402,7 +404,7 @@ header p {
     position: fixed;
     top: 0;
     z-index: 9900;
-        max-width: 3840px;
+        max-width: 100vw;
         width: 100%;
 
 }
@@ -626,7 +628,7 @@ width: auto;
     gap: 10px;
     margin: 0 auto;
     padding: 0 10px;
-    margin-bottom: 30px;
+    margin-bottom: 10px;
     width: 95% !important;
 }
 
@@ -880,7 +882,7 @@ textarea:focus {
     height: 100vh;
     justify-content: start;
         align-items: center; /* centraliza horizontalmente os itens */
-    background: linear-gradient(135deg, #000000 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 
     
 }
@@ -1622,7 +1624,7 @@ border-bottom-color: #d3d3d3;
 .menu-content {
     display: inline-block;
     left: 0;
-  position: fixed;
+  position: absolute;
   background: linear-gradient(90deg, #000000 00%, #8d61b9 100%);
   height: 100vh;
   max-width: 500px;
@@ -2253,7 +2255,7 @@ padding: 0px;
   height: 100vh !important;
   max-width: 500px;
   width: 30%;
-  background: linear-gradient(90deg, #ffffff 0%, #8d61b9 100%);
+  background: linear-gradient(90deg, #8d61b9 0%, #000000 100%);
   overflow-y: scroll !important;
   /* Oculta a barra de rolagem visual */
   scrollbar-width: none; /* Firefox */
@@ -2928,30 +2930,12 @@ display: none;
 @media screen and (max-width: 1000px) {
     
 #startQuizBtn2 {
-        background: rgba(255, 255, 255, 0.95);
-    border: none;
-    padding: 10px;
-    border-radius: 20px;
-    cursor: pointer;
-    font-weight: 600;
-    color: #333;
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    backdrop-filter: blur(10px);
-    font-size: 14px;
-       
-  border-left:  solid 4px rgb(38, 39, 38);
-height: 100%;
- border-left: 4px solid; /* espessura e estilo */
+      border-left: 4px solid; /* espessura e estilo */
   border-image: linear-gradient(to bottom, purple, blue, black, green) 1;
   border-bottom-left-radius: 0px;
   border-top-left-radius: 0px;
-  margin-left: 0px;
-   border-bottom-right-radius: 5px;
- width: 50%;
+  border-bottom-right-radius: 5px;
+  width: 50%;
   
 
 }

@@ -77,15 +77,16 @@ margin-top: 0px;
 
 
 }
+
 .chat-toggle-btn {
     position: fixed;
-    bottom: 20px;
+    bottom: 50px;
     right: 20px;
     width: 60px;
     height: 60px;
   background: linear-gradient(135deg, #4CAF50, #45a049);
     border: none;
-    border-radius: 50%;
+    border-radius: 50%; 
     color: white;
     font-size: 20px;
     cursor: pointer;
@@ -333,6 +334,8 @@ background-image: url("../img/fundo.png");
 .chat-search {
   padding: 15px;
   background: transparent; /* mantém integração com fundo escuro */
+  width: 100%;
+  display: flex;
 }
 
 /* Campo de input */
@@ -346,6 +349,7 @@ background-image: url("../img/fundo.png");
   color: #f1f1f1; /* texto claro */
   outline: none;
   transition: all 0.25s ease;
+  
 }
 
 /* Placeholder mais suave */
@@ -769,7 +773,16 @@ margin-right: 6px;
     align-items: center;
     background-color: #ffffff   ;
     flex-direction: column;
+    padding-bottom: 100px;
+    /* ===== esconder scroll ===== */
+    scrollbar-width: none;      /* Firefox */
+    -ms-overflow-style: none;   /* IE/Edge Legacy */
 }
+
+.chat-conversations::-webkit-scrollbar {
+    display: none;              /* Chrome, Safari, Edge */
+}
+
 .fundoUser {
     flex: 0 0 auto; /* Mantém o item com largura fixa no flex container */
     display: flex;
@@ -779,7 +792,7 @@ margin-right: 6px;
     gap: 10px;
     width: 100%;
     background-color: white;
-    border-bottom-right-radius:100px ;
+    border-bottom-right-radius:0px ;
     margin-bottom: 0px;
 }
 
@@ -1219,6 +1232,14 @@ width: 200px;
 }
 
 #fundoHeaderGeralPrivate{
+    background: var(--chat-background);
+    box-shadow: var(--chat-shadow-hover);
+    
+    transition: var(--chat-transition);
+   
+    
+   
+
    display: flex;
     flex-direction: column;
     position: fixed;
@@ -1228,6 +1249,8 @@ width: 200px;
     z-index: 20;
     margin-top: 100px;
     background-color: white;
+
+
 }
 #globalMessageInput {
     height: 30px;
@@ -1546,8 +1569,9 @@ text-align: center;
   text-align: right; /* joga o texto pra direita */
   border-radius: 15px;
   padding: 8px 15px;
-  margin: 5px 0;
+  margin: 10px 0;
   width: 85%;
+   width: auto;
 
 }
 
@@ -1560,11 +1584,32 @@ text-align: center;
   margin-bottom: 5px;
   border-radius: 0px;
  justify-content: end;
+ position: relative;
+ 
 
 }
 
 .chat-message.mine .fundoMensagem {
-    background-color: #f1deff;
+    background-color: #e7cafb;
+     min-width: 250px;
+    width: auto;
+    margin-left: 50px;
+
+}
+
+.chat-message.mine::before {     
+    content: '';     
+    position: absolute; 
+    top: 50%;                 /* altura do triângulo */
+    right: -10px;             /* joga o triângulo para a direita */
+    transform: translateY(-50%);
+    
+    width: 0;     
+    height: 0;     
+
+    border-top: 10px solid transparent;     
+    border-bottom: 10px solid transparent;     
+    border-left: 10px solid #e7cafb; /* triângulo apontando para a direita */
 }
 
 .chat-message.mine .fundoMensagem .chat-message-avatar {
@@ -1584,7 +1629,25 @@ justify-content: space-between;
   margin-top: 5px;
   margin-bottom: 5px;
   border-radius: 0px;
+ position: relative;
 
+}
+.chat-message.other .fundoMensagem { 
+  margin-right: 50px;
 }
 
 
+.chat-message.other::before {     
+ content: '';     
+    position: absolute; 
+    top: 50%;                 
+    left: -10px;               /* triângulo fica à esquerda */
+    transform: translateY(-50%);
+
+    width: 0;     
+    height: 0;     
+
+    border-top: 10px solid transparent;     
+    border-bottom: 10px solid transparent;     
+    border-right: 10px solid #ffffff; /* triângulo agora aponta para a esquerda */
+}

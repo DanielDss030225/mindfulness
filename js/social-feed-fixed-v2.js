@@ -972,7 +972,12 @@ class SocialFeedManager {
         const postDiv = document.createElement('div');
         postDiv.className = 'post-item';
         postDiv.setAttribute('data-post-id', post.id);
+        const legendaPost = post.content;
+        let legendaFormatada = legendaPost;
 
+if (legendaPost.length > 500) {
+    legendaFormatada = legendaPost.substring(0, 500).trim() + "...";
+}
         const timeAgo = this.getTimeAgo(post.timestamp);
         const isLiked = post.likes && this.currentUser && post.likes[this.currentUser.uid];
 
@@ -995,7 +1000,9 @@ class SocialFeedManager {
 
                 </div>
             ` : ''}
-            ${post.content ? `<div class="post-content">${post.content}</div>` : ''}
+
+            
+            ${legendaFormatada ? `<div class="post-content">${legendaFormatada} <button class="card-btn" onclick="window.location.href = 'post.html?id=${post.id}'" > Ver Mais</buton></div>` : ''}
             
          
             

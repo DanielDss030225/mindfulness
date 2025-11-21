@@ -94,6 +94,17 @@ class ChatManager {
     }
 
     setupMessageListeners() {
+        
+setTimeout(() => {
+    
+    this.dispatchEvent(
+        "conversationsUpdated",
+        Array.from(this.conversations.entries())
+        
+    );
+}, 2000); // 3000 ms = 3 segundos
+
+   
         this.setupGlobalMessageListener();
         this.setupPrivateMessageListener();
        // this.setupGroupMessageListener();
@@ -113,6 +124,7 @@ class ChatManager {
  // DENTRO DA CLASSE ChatManager
 
 setupPrivateMessageListener() {
+    
     const userId = this.currentUser.uid;
     const privateRef = this.database.ref("privateMessages");
 
@@ -189,6 +201,7 @@ if (!otherUserId) return; // ignora se outro usuário não existir
     }
 
 async markOpenConversationAsRead(otherUserId) {
+
     const userId = this.currentUser.uid;
     const fullConversationId = this.getConversationId(userId, otherUserId);
     const messagesRef = this.database.ref(`privateMessages/${fullConversationId}`);
@@ -208,12 +221,14 @@ async markOpenConversationAsRead(otherUserId) {
         this.dispatchEvent("unreadCountUpdated");
         this.dispatchEvent("conversationsUpdated", Array.from(this.conversations.entries()));
     }
+           
 }
 
 
    // MODIFICADO: Garante que os dados do usuário sejam incluídos na mensagem
 // DENTRO DA CLASSE ChatManager class="chat-tab-badge"
 async handleNewMessage(type, message, conversationId = null) {
+
 
 
 
@@ -261,6 +276,7 @@ if (shouldCount) {
 
     // Atualiza lista de conversas só se não for sua própria mensagem
     if (!isOwnMessage) {
+      
         this.updateConversationsList(type, message, conversationId);
     }
 
@@ -270,6 +286,7 @@ if (shouldCount) {
 
 // DENTRO DA CLASSE ChatManager
 async updateConversationsList(type, message, conversationId) {
+ 
     const userId = this.currentUser.uid;
 
     if (type === "private" && conversationId) {
@@ -314,7 +331,10 @@ async updateConversationsList(type, message, conversationId) {
 
 
     async sendMessage(type, content, targetId = null) {
-        if (type === "private" && window.currentOpenConversationId === targetId) {
+   
+
+    if (type === "private" && window.currentOpenConversationId === targetId) {
+           
         await this.markOpenConversationAsRead(targetId);
     }
         if (!this.canSendMessage()) {
@@ -352,6 +372,7 @@ async updateConversationsList(type, message, conversationId) {
                     messageRef = this.database.ref(`privateMessages/${conversationId}`).push();
                     messageData.receiverId = targetId;
                     messageData.read = false;
+                     
                     break;
                     
                 case "group":
@@ -419,6 +440,7 @@ async updateConversationsList(type, message, conversationId) {
     }
 
     async loadOnlineUsers() {
+    
         const usersRef = this.database.ref("users").orderByChild("isOnline").equalTo(true);
         
         usersRef.on("value", (snapshot) => {
@@ -445,9 +467,9 @@ async updateConversationsList(type, message, conversationId) {
      * Garante que o carregamento inicial seja feito com dados frescos e completos.
      */
     async fetchInitialConversations() {
+        
         const userId = this.currentUser.uid;
         const conversationsRef = this.database.ref(`userConversations/${userId}`);
-        
         // Usamos .once() para garantir que pegamos os dados do servidor, não do cache.
         const snapshot = await conversationsRef.once("value");
         
@@ -463,7 +485,7 @@ async updateConversationsList(type, message, conversationId) {
                 });
             });
         }
-        
+       
         if (conversations.groups) {
             Object.entries(conversations.groups).forEach(([groupId, data]) => {
                 this.conversations.set(`group_${groupId}`, {
@@ -482,6 +504,7 @@ async updateConversationsList(type, message, conversationId) {
      * Anexa um listener para receber atualizações em tempo real APÓS o carregamento inicial.
      */
     listenForConversationUpdates() {
+
         const userId = this.currentUser.uid;
         const conversationsRef = this.database.ref(`userConversations/${userId}`);
         
@@ -513,10 +536,12 @@ async updateConversationsList(type, message, conversationId) {
             // Notifica a UI sobre qualquer mudança que ocorra DEPOIS da inicialização.
             this.dispatchEvent("conversationsUpdated", Array.from(this.conversations.entries()));
         });
+        
     }
 
 
     async searchUsers(query) {
+
         if (!query || query.trim().length < 2) return [];
         
         const usersRef = this.database.ref("users");
@@ -544,6 +569,8 @@ async updateConversationsList(type, message, conversationId) {
 
   // MODIFICADO: getUserData agora usa o cache
     async getUserData(userId) {
+                
+
         // Se o usuário já está no cache, retorna imediatamente
         if (this.userCache.has(userId)) {
             return this.userCache.get(userId);
@@ -568,6 +595,7 @@ async updateConversationsList(type, message, conversationId) {
    // DENTRO DA CLASSE ChatManager
 
 async markMessagesAsRead(type, conversationId) {
+   
     const userId = this.currentUser.uid;
     
     if (type === "private") {
@@ -677,6 +705,7 @@ async markPrivateConversationAsRead(conversationId) {
 
 
     getUnreadCount(type, conversationId = null) {
+ 
         const key = conversationId ? `${type}_${conversationId}` : type;
         return this.unreadCounts.get(key) || 0;
     }
@@ -694,6 +723,7 @@ async markPrivateConversationAsRead(conversationId) {
     }
 
     getConversations() {
+      
         return Array.from(this.conversations.entries());
     }
 

@@ -178,13 +178,16 @@ class ChatUI {
 
                        <div class="fundoMensagens2" style="bottom: 60px; top: 100px; height: calc(-160px + 100vh);">
     <div id="fundoUSER" class="fundoUser">              <img id="userIMG" src="https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/ICONE%20PERFIL.png?alt=media&token=d092ec7f-77b9-404d-82d0-b6ed3ce6810e" alt="Foto do usuário" class="user-avatar">
- <h4 id="userNOME">Olá, Selecione uma conversa.</h4> 
+ <h4 id="userNOME">Olá, selecione uma conversa à esquerda ou pesquise um usuário para começar.</h4> 
  
 
- <div style=" width:10px;"> </div>
+ <div style=" width:10px;">  </div>
+ 
  </div>   
                        <div class="chat-messages2" id="privateMessages" style="display: none;">
-                        <!-- Mensagens da conversa privada selecionada -->
+                     
+                       
+                       <!-- Mensagens da conversa privada selecionada -->
 
                       </div>
                       </div>
@@ -478,6 +481,7 @@ toggleChat() {
         this.closeChat();
         botao.style.display = 'block';
     } else {
+       
         this.openChat();
         botao.style.display = 'none';
 
@@ -593,7 +597,7 @@ closeChat() {
                 this.elements.privateMessages.innerHTML = '';
                 this.elements.privateMessages.style.display = 'flex';
                 this.elements.privateInputArea.style.display = 'flex';
-                document.getElementById("userNOME").textContent = "Olá, Selecione uma conversa para começar."; // Reseta o header
+                document.getElementById("userNOME").textContent = "Olá, selecione uma conversa à esquerda ou pesquise um usuário para começar."; // Reseta o header
                 document.getElementById("fundoUSER").style.display = "flex";
                            
 
@@ -637,12 +641,15 @@ setTimeout(() => {
 
         try {
             if (window.chatManager && window.chatManager.isReady()) {
+
+                
                 // Agora podemos confiar no cache, pois 'chatReady' só é disparado após o fetch inicial.
                 const conversations = window.chatManager.getConversations();
                 this.updateConversations(conversations); // <<-- A ordenação será aplicada nos dados corretos
-
+         
                 const onlineUsers = window.chatManager.getOnlineUsers();
                 this.updateOnlineUsers(onlineUsers);
+             
             }
             await this.loadGlobalMessages();
         } catch (error) {
@@ -653,14 +660,32 @@ setTimeout(() => {
 
 
   // DENTRO DA CLASSE ChatUI
-
 async loadTabData(tabName) {
+    let listaUser = "null"
+ if (window.innerWidth < 1000) {
+    // Sua ação aqui
+       listaUser = document.getElementById("fundoHeaderGeralPrivate");
+
+}
+
     switch (tabName) {
         case 'global':
+            if (listaUser == "null") {
+
+            } else {
+                              listaUser.style.display = "none";
+
+            }
             // A aba global é a única que busca ativamente um histórico de mensagens ao ser aberta.
             await this.loadGlobalMessages();
             break;
         case 'private':
+                if (listaUser == "null") {
+
+            } else {
+                              listaUser.style.display = "none";
+
+            }
             // Não é necessário fazer nada aqui.
             // A lista de conversas privadas já é mantida em tempo real pelo listener 'conversationsUpdated'.
             // Apenas garantimos que a lista de conversas seja exibida.
@@ -697,6 +722,7 @@ async loadTabData(tabName) {
 
 
     async loadPrivateMessages(conversationId) {
+        
         this.elements.privateMessages.innerHTML = '<div class="chat-loading"><div class="chat-loading-spinner"></div></div>';
         try {
             const messages = await window.chatManager.getPrivateMessages(conversationId);
@@ -721,7 +747,7 @@ async loadTabData(tabName) {
     renderMessages(container, messages) {
         container.innerHTML = '';
         if (messages.length === 0) {
-            container.innerHTML = '<div class="chat-empty-state" style="display:none;">Nenhuma mensagem ainda.</div>';
+            container.innerHTML = '<div class="chat-empty-state" style="display:flex;">Envie uma mensagem para começar.</div>';
             return;
         }
         messages.sort((a, b) => a.timestamp - b.timestamp);
@@ -1155,39 +1181,48 @@ const fundo = document.querySelector('.fundoMensagens');
     }
 
 async sendPrivateMessage() {
-  
+
+    // Pegando o texto da mensagem
     const messageInput = this.elements.privateMessageInput;
     const messageText = messageInput.value.trim();
+
     if (messageText === '' || !this.currentConversation) return;
 
     try {
-        const messageId = await window.chatManager.sendMessage('private', messageText, this.currentConversation);
+        // Envia a mensagem para o Firebase
+        const messageId = await window.chatManager.sendMessage(
+            'private',
+            messageText,
+            this.currentConversation
+        );
 
-        // Exibir a própria mensagem imediatamente
+        // Dados da mensagem enviada
         const currentUser = window.chatManager.currentUser;
         const messageData = {
             id: messageId,
             senderId: currentUser.uid,
             senderName: currentUser.displayName || 'Você',
-            senderProfilePicture: currentUser.photoURL || 'https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/ICONE%20PERFIL.png?alt=media&token=d092ec7f-77b9-404d-82d0-b6ed3ce6810e',
+            senderProfilePicture: currentUser.photoURL ||
+                'https://firebasestorage.googleapis.com/v0/b/orange-fast.appspot.com/o/ICONE%20PERFIL.png?alt=media&token=d092ec7f-77b9-404d-82d0-b6ed3ce6810e',
             message: messageText,
             timestamp: Date.now(),
             type: window.chatManager.detectMessageType(messageText)
         };
 
+        // Se for link, gera preview
         if (messageData.type === 'link') {
             messageData.linkPreview = await window.chatManager.generateLinkPreview(messageText);
         }
 
-        // Adiciona a mensagem ao DOM
+        // Renderiza a mensagem imediatamente
         const messageElement = this.createMessageElement(messageData);
         this.elements.privateMessages.appendChild(messageElement);
 
-        // Limpa o input e ajusta altura do textarea
+        // Limpa input
         messageInput.value = '';
         this.autoResizeTextarea(messageInput);
 
-        // Rolagem automática para baixo
+        // Rolagem automática
         const fundoMensagens2 = document.querySelector(".fundoMensagens2");
         const chatMessages2 = document.querySelector(".chat-messages2");
 
@@ -1200,34 +1235,26 @@ async sendPrivateMessage() {
                     });
                 }
             });
-        }, 100); // pequeno atraso para garantir que o elemento já esteja renderizado
+        }, 100);
 
     } catch (error) {
         console.error('Error sending private message:', error);
         alert('Erro ao enviar mensagem privada: ' + error.message);
     }
 
-    
+    // Ajustes de UI
+    const area2 = document.getElementById("privateInputArea");
+    const fundo2 = document.querySelector('.fundoMensagens2');
 
+    area2.style.height = '62px';
+    fundo2.style.bottom = '60px';
+    fundo2.style.top = '100px';
+    fundo2.style.height = `calc(100vh - ${fundo2.style.top || '100px'} - 60px)`;
 
- const area2 = document.getElementById("privateInputArea");
-
-  // Agora seleciona o input real
-
-
-
-const fundo2 = document.querySelector('.fundoMensagens2');
-
-        // Altura pequena
-        area2.style.height = '62px';
-       fundo2.style.bottom = '60px'; // mantém o fundo acima do input
-        fundo2.style.top = '100px'; // mantém o fundo acima do input
-                        fundo2.style.height = `calc(100vh - ${fundo2.style.top || '100px'} - 60px)`;
-
-
-
-
+    // 🔥 Recarrega todas as mensagens (corrigido)
+    this.loadPrivateMessages(this.currentConversation);
 }
+
 
     /*async sendGroupMessage() {
         const messageInput = this.elements.groupMessageInput;
@@ -1553,7 +1580,6 @@ const fundo2 = document.querySelector('.fundoMensagens2');
   if (input) {
    input.addEventListener("input", (e) => {
     const valor = e.target.value.trim();
-    console.log("Digitando:", valor);
 
     if (valor === "") {
         // Altura pequena
@@ -1579,7 +1605,6 @@ const fundo2 = document.querySelector('.fundoMensagens2');
  const area2 = document.getElementById("privateInputArea");
 input2.addEventListener("input", (e) => {
     const valor2 = e.target.value.trim();
-    console.log("Digitando:", valor2);
 
 
     

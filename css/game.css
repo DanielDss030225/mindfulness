@@ -238,11 +238,10 @@ margin-bottom: 10px;
 .question-actions {
     display: flex;
     justify-content: center;
-    position: fixed;   /* fixa na viewport */
     bottom: 20px;      /* ajuste conforme necessário */
-    right: 0px;       /* ajuste conforme necessário */
     gap: 10px;         /* espaçamento interno */
-    width: 40%;
+    width: 100%;
+    margin-top: 20px;
 
 }
 
@@ -264,9 +263,9 @@ margin-bottom: 10px;
     align-items: center;
     text-align: center;
         overflow-y: auto;
-                position: fixed;
+               margin-top: 70px;
                 height: 100vh;
-margin-top: 70px !important;
+
 
 }
 
@@ -495,7 +494,7 @@ margin-top: 70px !important;}
         gap: 20px;
     }
     .question-actions {
-        width: 90%;
+        width: 100%;
     }
     .professor-game {
         flex: none;
