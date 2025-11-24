@@ -2292,7 +2292,7 @@ margin-top: 70px !important;
  
   min-height: 160px !important;
    height: auto ;
-  background-color: #f0f2f5;
+  background-color: #ffffff;
   border-radius: 12px;
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
   overflow: hidden;
@@ -2364,7 +2364,7 @@ height: 100%;
      width: 90% !important;
      min-height: 280px;
   height: auto;
-  background-color: #f0f2f5;
+  background-color: #ffffff;
   border-radius: 12px;
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
   overflow: hidden;
@@ -3335,4 +3335,8 @@ z-index: 9000;
         padding: 10px;
         font-size: 1em;
     }
+}
+.mascBizu {
+    width: 100%;
+    height: auto;
 }
