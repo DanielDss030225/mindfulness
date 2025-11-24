@@ -27,13 +27,16 @@ class UIManager {
           const startQuizBtn2 = document.getElementById('startQuizBtn2');
         const profileBtn = document.getElementById('profileBtn');
         const adminBtn = document.getElementById('adminBtn');
+        const resolverQuestoes = document.getElementById('img1');
 
         if (startQuizBtn) startQuizBtn.addEventListener('click', () => this.showScreen('quiz-setup-screen'));
         
         if (startQuizBtn2) startQuizBtn2.addEventListener('click', () => this.showScreen('quiz-setup-screen'));
         if (profileBtn) profileBtn.addEventListener('click', () => this.showScreen('profile-screen'));
         if (adminBtn) adminBtn.addEventListener('click', () => this.showScreen('admin-screen'));
-
+ if (resolverQuestoes) {
+            resolverQuestoes.addEventListener('click', () => this.showScreen('quiz-setup-screen'));
+        }
         const backButtons = [
             ['backToMenuBtn', 'main-menu-screen'],
             ['backToMenuFromProfileBtn', 'main-menu-screen'],

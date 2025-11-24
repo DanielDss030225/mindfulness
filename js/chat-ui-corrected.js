@@ -1588,10 +1588,10 @@ const fundo2 = document.querySelector('.fundoMensagens2');
         fundo.style.top = '100px'; // mantém o fundo acima do input
                         fundo.style.height = `calc(100vh - ${fundo.style.top || '100px'} - 60px)`;
 
-    } else if (valor.length > 40) {
+    } else if (valor.length > 100) {
         // Altura grande
-        area.style.height = '200px';
-        fundo.style.height = `calc(100vh - ${fundo.style.top || '100px'} - 200px)`;
+        area.style.height = '100px';
+        fundo.style.height = `calc(100vh - ${fundo.style.top || '100px'} - 100px)`;
     } else {
         // Altura intermediária
       area.style.height = '62px';
@@ -1615,10 +1615,10 @@ input2.addEventListener("input", (e) => {
         fundo2.style.top = '100px'; // mantém o fundo acima do input
                         fundo2.style.height = `calc(100vh - ${fundo2.style.top || '100px'} - 60px)`;
 
-    } else if (valor2.length > 40) {
+    } else if (valor2.length > 100) {
         // Altura grande
-        area2.style.height = '200px';
-        fundo2.style.height = `calc(100vh - ${fundo2.style.top || '100px'} - 200px)`;
+        area2.style.height = '100px';
+        fundo2.style.height = `calc(100vh - ${fundo2.style.top || '100px'} - 100px)`;
     } else {
         // Altura intermediária
       area2.style.height = '62px';

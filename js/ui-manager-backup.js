@@ -24,6 +24,7 @@ class UIManager {
          const startQuizBtn2 = document.getElementById('startQuizBtn2');
         const profileBtn = document.getElementById('profileBtn');
         const adminBtn = document.getElementById('adminBtn');
+        const resolverQuestoes = document.getElementById('img1');
 
         if (startQuizBtn) {
             startQuizBtn.addEventListener('click', () => this.showScreen('quiz-setup-screen'));
@@ -33,6 +34,9 @@ class UIManager {
             startQuizBtn2.addEventListener('click', () => this.showScreen('quiz-setup-screen'));
         }
 
+    if (resolverQuestoes) {
+            resolverQuestoes.addEventListener('click', () => this.showScreen('quiz-setup-screen'));
+        }
        
        // Em main.js (ou ui-manager.js), dentro da classe UIManager no método setupEventListeners
 

@@ -324,8 +324,9 @@
     justify-content:center;
     align-items: center;
     background: linear-gradient(135deg, #000000 0%, #764ba2 100%);
-    padding: 20px;
+    padding: 20px ;
+    
     overflow-y: auto;   /* ativa a rolagem */
-    height: 100vh;      /* trava no tamanho da tela */
+    height: 100vh !important;      /* trava no tamanho da tela */
 }
 

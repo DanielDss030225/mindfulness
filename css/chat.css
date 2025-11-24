@@ -53,30 +53,29 @@
     overflow-y: auto;      /* rolagem interna do textarea */
     
 }
-
 .chat-input-container {
     display: flex;
     gap: 10px;
-    align-items: flex-end;
-    overflow: hidden;
-    min-height: 100%;
-    display: flex;
-    justify-content: flex-start;
-    align-items: start;
-    height: auto;
+    align-items: flex-start;
     width: 100%;
-    margin-right: 10px;
     max-height: 90%;
-    overflow: auto;
-    overflow-x: none;
-   border-radius: 15px;
-       border: 1px solid #ccc;
-background-color: rgb(255, 255, 255);
-padding: 0px;
-margin-top: 0px;
+    padding: 0;
+    margin-top: 0;
+    margin-right: 10px;
+    border-radius: 15px;
+    border: 1px solid #ccc;
+    background-color: #fff;
 
-
+    /* ROLAGEM ATIVADA, MAS BARRA INVISÍVEL */
+    overflow-y: scroll;
+    scrollbar-width: none; /* Firefox */
 }
+
+/* CHROME & EDGE */
+.chat-input-container::-webkit-scrollbar {
+    display: none;
+}
+
 
 .chat-toggle-btn {
     position: fixed;

@@ -1195,11 +1195,12 @@ textarea:focus {
 }
 
 .social-feed-container {
+background: linear-gradient(180deg, #f0f2f5 25%, #f0f2f5 50%);
+
     gap: 20px;
     padding: 20px;
-    padding-top: 80px;
-    background-color: #f0f2f5;
-
+    padding-top: 80px;  
+   
     overflow-x: hidden;
     overflow-y: auto;
     position: relative;
@@ -3235,4 +3236,103 @@ z-index: 9000;
 
 
 
+}
+
+
+
+/* Estilos para o carrossel de topo de feed social */
+
+.feed-slider-container {
+    position: relative;
+    width: 100%; /* Ocupa a largura total do container do feed */
+    max-width: 800px; /* Limite de largura para desktop, ajuste conforme o layout do seu feed */
+    margin: 20px auto; /* Centraliza e adiciona margem */
+    overflow: hidden;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    background-color: #1a1a2e; /* Fundo escuro */
+    height: auto;
+    min-height: 300px;
+}
+
+.feed-carousel {
+    display: flex;
+    transition: transform 1.5s ease-in-out;
+    /* Remove a perspectiva 3D */
+}
+
+.feed-carousel img {
+    width: 100%;
+    height: auto;
+    flex-shrink: 0; /* Impede que as imagens encolham */
+    object-fit: cover;
+    display: block;
+    border-radius: 0px;
+    cursor: pointer ;
+}
+
+/* Controles de navegação */
+.feed-controls {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    transform: translateY(-50%);
+    padding: 0 10px;
+    box-sizing: border-box;
+        cursor: pointer ;
+
+}
+
+.feed-controls button {
+    background: rgba(94, 94, 94, 0.193);
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 50%;
+    font-size: 1.5em;
+    line-height: 1;
+    transition: background 0.3s;
+        cursor: pointer ;
+        height: 50px;
+        width: 50px;
+
+}
+
+.feed-controls button:hover {
+    background: rgba(44, 209, 32, 0.855);
+}
+
+/* Overlay de descrição */
+.feed-description-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 15px;
+    background: rgba(74, 20, 140, 0.8); /* Roxo escuro semi-transparente */
+    color: white;
+    text-align: center;
+    font-size: 1.1em;
+    font-weight: bold;
+        cursor: pointer ;
+
+}
+
+.feed-description-overlay p {
+    margin: 0;
+}
+
+/* Responsividade */
+@media (max-width: 600px) {
+    .feed-controls button {
+        padding: 5px;
+        font-size: 1.2em;
+    }
+    .feed-description-overlay {
+        padding: 10px;
+        font-size: 1em;
+    }
 }

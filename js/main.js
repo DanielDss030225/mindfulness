@@ -655,4 +655,122 @@ nomeElement2.textContent ="Olá, sou um(a) " + nomes[hour] +  ". Estarei aqui du
     });
 
 
-    
+document.addEventListener('DOMContentLoaded', () => {
+    const carousel = document.querySelector('.feed-carousel');
+    const images = document.querySelectorAll('.feed-carousel img');
+    const prevBtn = document.querySelector('.prev-btn');
+    const nextBtn = document.querySelector('.next-btn');
+    const descriptionBox = document.getElementById('feed-image-description');
+
+    const numImages = images.length;
+    let currentIndex = 0;
+    const intervalTime = 3000; // tempo ajustado (evita pulo)
+    let isAnimating = false;
+
+    /** Atualiza descrição **/
+    const updateDescription = () => {
+        const currentImage = images[currentIndex];
+        descriptionBox.textContent = currentImage.getAttribute('data-description');
+    };
+
+    /** Move carrossel **/
+    const moveCarousel = () => {
+        const imageWidth = images[0].clientWidth;
+        const offset = -currentIndex * imageWidth;
+        carousel.style.transform = `translateX(${offset}px)`;
+        updateDescription();
+    };
+
+    /** Avançar/voltar com travamento anti-pulo **/
+    const navigate = (direction) => {
+        if (isAnimating) return;   // BLOQUEIA clique durante animação
+        isAnimating = true;
+
+        if (direction === 'next') {
+            currentIndex = (currentIndex + 1) % numImages;
+        } else {
+            currentIndex = (currentIndex - 1 + numImages) % numImages;
+        }
+
+        moveCarousel();
+    };
+
+    /** Quando a transição termina → libera para próxima troca **/
+    carousel.addEventListener("transitionend", () => {
+        isAnimating = false;
+    });
+
+    /** Auto slide **/
+    const autoSlide = () => {
+        navigate('next');
+    };
+
+    let slideInterval = setInterval(autoSlide, intervalTime);
+
+    /** Pausar autoSlide **/
+    const pauseAutoSlide = () => clearInterval(slideInterval);
+
+    /** Retomar autoSlide **/
+    const resumeAutoSlide = () => {
+        slideInterval = setInterval(autoSlide, intervalTime);
+    };
+
+    /** Botões **/
+    nextBtn.addEventListener('click', () => {
+        pauseAutoSlide();
+        navigate('next');
+        resumeAutoSlide();
+    });
+
+    prevBtn.addEventListener('click', () => {
+        pauseAutoSlide();
+        navigate('prev');
+        resumeAutoSlide();
+    });
+
+    /** Pausar ao passar mouse **/
+    const sliderContainer = document.querySelector('.feed-slider-container');
+    sliderContainer.addEventListener('mouseenter', pauseAutoSlide);
+    sliderContainer.addEventListener('mouseleave', resumeAutoSlide);
+
+    /** Ajustar ao redimensionar **/
+    window.addEventListener('resize', moveCarousel);
+
+    /** Inicialização **/
+    updateDescription();
+    moveCarousel();
+});
+
+/*
+document.getElementById("img1").addEventListener("click", () => {
+    console.log("Clicou na imagem 1");
+        window.location.href = "./provas.html";
+    // ação específica da imagem 1
+});*/
+
+document.getElementById("img2").addEventListener("click", () => {
+    console.log("Clicou na imagem 2");
+    // ação específica da imagem 2
+     window.location.href = "./provasdigitais.html";
+});
+
+document.getElementById("img3").addEventListener("click", () => {
+    console.log("Clicou na imagem 3");
+    // ação específica da imagem 3
+         window.location.href = "./provasdigitais.html";
+
+});
+
+document.getElementById("img4").addEventListener("click", () => {
+    console.log("Clicou na imagem 4");
+    // ação específica da imagem 4
+     window.location.href = "./estudoProgramado.html";
+
+});
+
+document.getElementById("img5").addEventListener("click", () => {
+    console.log("Clicou na imagem 5");
+    // ação específica da imagem 5
+         window.location.href = "./cronograma.html";
+
+});

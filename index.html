@@ -330,6 +330,24 @@ Editais         </p>  <p class="mini">Acompanhe o Feed</p> </button>
             <!-- Social Feed Section -->
          
             <div class="social-feed-container" style="padding-top: 80px;">
+
+ <div class="feed-slider-container">
+        <div class="feed-carousel">
+            <img src="img1.jpg" id="img1" data-description="Venha Resolver Questões">
+            <img src="img2.jpg"  id="img2"  data-description="Resolva Provas Anteriores">
+            <img src="img3.jpg"   id="img3" data-description="Provas da PMMG">
+            <img src="img4.jpg"  id="img4" data-description="Estudo Programado">
+            <img src="img5.jpg"  id="img5" data-description="Cronograma de Estudos">
+        </div>
+        <div class="feed-controls">
+            <button class="prev-btn">❮</button>
+            <button class="next-btn">❯</button>
+        </div>
+        <div class="feed-description-overlay">
+            <p id="feed-image-description"></p>
+        </div>
+    </div>
+
                 <div class="create-post-section">
                     <div class="post-header">
                         <img id="currentUserProfilePicPost" src="img/perfil.png" alt="User Avatar" class="post-avatar">
@@ -585,7 +603,7 @@ Questões resolvidas só se repetem quando o banco de questões se esgota.
                             <input type="radio" name="questionType" value="previous" checked>
                             <span>Bancas Anteriores</span> <p style="font-size: 13px; margin-left: 10px;"> (Recomendado)</p>
                         </label>
-                        <label class="radio-option">
+                        <label class="radio-option" style="display: none;">
                             <input type="radio" name="questionType" value="new" >
                             <span>Questões Inéditas</span>
                         </label>
