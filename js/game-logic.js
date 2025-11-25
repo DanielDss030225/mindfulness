@@ -284,7 +284,7 @@ document.getElementById("explanationContainer").style.display = "none";
 
 updateProfessorMessage2() {
      const messages = [
-            'Olá! Pronto para aprender hoje?',
+            'Pronto para aprender hoje?',
             'Vamos testar seus conhecimentos!',
             'Aprender nunca foi tão fácil!',
             'Cada questão é uma oportunidade de crescer!',

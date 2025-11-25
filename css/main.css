@@ -3386,6 +3386,7 @@ z-index: 9000;
     }
 }
 .mascBizu {
-    width: 100%;
-    height: auto;
+    width: auto;
+    height: 100%;
+    max-height: 200px;
 }

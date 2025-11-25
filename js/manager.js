@@ -762,7 +762,7 @@ renderExamQuestions(examId, questions) {
         const modalFooter = modal.querySelector('.modal-footer');
         
         modalTitle.textContent = title;
-        modalMessage.textContent = message;
+        modalMessage.innerHTML = message;
         modalFooter.innerHTML = '';
         
         const confirmBtn = document.createElement('button');

@@ -213,7 +213,7 @@ if (window.uiManager && typeof window.uiManager.showScreen === 'function') {
 
     updateProfessorMessage() {
         const messages = [
-            'Olá! Pronto para aprender hoje?',
+            'Pronto para aprender hoje?',
             'Vamos testar seus conhecimentos!',
             
             'Aprender nunca foi tão fácil!',

@@ -28,8 +28,38 @@ class UIManager {
         const profileBtn = document.getElementById('profileBtn');
         const adminBtn = document.getElementById('adminBtn');
         const resolverQuestoes = document.getElementById('img1');
+   const mascotePq5 = document.getElementById('mascotePq');
 
         if (startQuizBtn) startQuizBtn.addEventListener('click', () => this.showScreen('quiz-setup-screen'));
+if (mascotePq5) {
+    mascotePq5.addEventListener('click', () => {
+     window.uiManager.showModal(
+    "Bizu, o Mascote Bizurado.",
+    `
+        O gato funciona muito bem como mascote porque transmite várias características que combinam com o processo de aprendizado:
+        <br><br>
+
+        <strong>• Esperteza e curiosidade</strong><br>
+        Representa o aluno que gosta de descobrir coisas novas.<br><br>
+
+        <strong>• Simbologia de inteligência</strong><br>
+        É associado à sabedoria em várias culturas.<br><br>
+
+        <strong>• Personalidade independente</strong><br>
+        Combina com estudo autônomo, no ritmo do aluno.<br><br>
+
+        <strong>• Carisma e identificação</strong><br>
+        Gatos são populares e geram engajamento natural na plataforma.<br><br>
+
+        <strong>• Fácil de estilizar</strong><br>
+        Pode ser transformado em mascotes temáticos (com óculos, livros, etc.).
+    `
+);
+
+    });
+}
+
+
         
         if (startQuizBtn2) startQuizBtn2.addEventListener('click', () => this.showScreen('quiz-setup-screen'));
         if (profileBtn) profileBtn.addEventListener('click', () => this.showScreen('profile-screen'));
@@ -207,7 +237,7 @@ forceScrollToTop() {
 
         if (modal && modalTitle && modalMessage && modalFooter) {
             modalTitle.textContent = title;
-            modalMessage.textContent = message;
+            modalMessage.innerHTML = message;
             modalFooter.innerHTML = '';
 
             if (showConfirmButton) {

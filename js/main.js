@@ -258,6 +258,9 @@ class MindfulnessApp {
         window.uiManager.showModal('Atalhos do Teclado', shortcuts);
     }
 
+
+
+    
     focusSearch() {
         // Focus search input if available
         const searchInput = document.querySelector('input[type="search"], input[placeholder*="buscar"]');
