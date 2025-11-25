@@ -427,7 +427,7 @@ header p {
     justify-content: flex-end; /* joga os filhos para a direita */
     align-items: center;       /* centraliza verticalmente */
     gap: 10px;
-    width: auto;
+   
 }
 
 
@@ -3301,7 +3301,7 @@ z-index: 9000;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     background-color: #1a1a2e; /* Fundo escuro */
     height: auto;
-    min-height: 300px;
+    min-height: 200px;
 }
 
 .feed-carousel {
