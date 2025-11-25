@@ -62,9 +62,16 @@ class UIManager {
         const newQuizFromProfileBtn = document.getElementById('newQuizFromProfileBtn');
         const reviewQuestionsBtn = document.getElementById('reviewQuestionsBtn');
         const startIncorrectReviewQuizBtn = document.getElementById('startIncorrectReviewQuizBtn');
+ const startWrongReviewQuizBtn = document.getElementById('startWrongReviewQuizBtn');
+const startCorrectReviewQuizBtn = document.getElementById('startCorrectReviewQuizBtn');
 
         if (newQuizBtn) newQuizBtn.addEventListener('click', () => this.showScreen('quiz-setup-screen'));
+        if (startWrongReviewQuizBtn) startWrongReviewQuizBtn.addEventListener('click', () => this.showScreen('quiz-setup-screen'));
+if (startCorrectReviewQuizBtn) startCorrectReviewQuizBtn.addEventListener('click', () => this.showScreen('quiz-setup-screen'));
+
+
         if (newQuizFromProfileBtn) newQuizFromProfileBtn.addEventListener('click', () => this.showScreen('quiz-setup-screen'));
+
         if (reviewQuestionsBtn) reviewQuestionsBtn.addEventListener('click', () => this.reviewQuestions());
         if (startIncorrectReviewQuizBtn) startIncorrectReviewQuizBtn.addEventListener('click', () => this.startIncorrectReviewQuiz());
    

@@ -658,7 +658,7 @@ Questões resolvidas só se repetem quando o banco de questões se esgota.
                   <div class="question-container">
                     <div class="container02">
                     <div class="game-info">
-                        <span id="categoriaInfo">Disciplina...</span>
+                        <span id="categoriaInfo"></span>
                     
  <div class="organizaSmart">    <span id="questionCounter">Questão 1 de 10</span>
                     <span id="gameScore">Pontos: 0</span>
@@ -1101,18 +1101,21 @@ Questões resolvidas só se repetem quando o banco de questões se esgota.
                     <p id="correctSummaryText">Carregando questões acertadas...</p>
                 </div>
                 
+                
                 <div class="review-questions-list" id="correctQuestionsList">
                     <!-- Questions will be populated by JavaScript -->
                 </div>
-                
+                  <button id="loadMoreBtn_correct" class="load-more-btn" style="display: none;">Carregar mais 5 questões</button>
               
             </div>
              
                
         </div>
+      
          <div class="review-actions">
                 
-                    <button id="startCorrectReviewQuizBtn" class="btn-floating-right">Fazer Simulado com Essas Questões</button> 
+                    <button id="startCorrectReviewQuizBtn" class="btn-floating-right">Resolver Questões
+</button> 
                 </div>
     </div>
 
@@ -1135,6 +1138,7 @@ Questões resolvidas só se repetem quando o banco de questões se esgota.
                 <div class="review-questions-list" id="wrongQuestionsList">
                     <!-- Questions will be populated by JavaScript -->
                 </div>
+                <button id="loadMoreBtn_wrong" class="load-more-btn" style="display: none;">Carregar mais 5 questões</button>
                 
               
             </div>
@@ -1144,8 +1148,7 @@ Questões resolvidas só se repetem quando o banco de questões se esgota.
 
         </div>
           <div class="review-actions">
-  <button id="startWrongReviewQuizBtn" class="btn-floating-right">
-    Fazer Simulado com Essas Questões
+  <button id="startWrongReviewQuizBtn" class="btn-floating-right">Resolver Questões
   </button>
 </div>
 

@@ -28,10 +28,10 @@ class ProfileManager {
         }
 
         // Review quiz buttons for the new screens
-        const startCorrectReviewQuizBtn = document.getElementById("startCorrectReviewQuizBtn");
-        const startWrongReviewQuizBtn = document.getElementById("startWrongReviewQuizBtn");
+       // const startCorrectReviewQuizBtn = document.getElementById("startCorrectReviewQuizBtn");
+     //   const startWrongReviewQuizBtn = document.getElementById("startWrongReviewQuizBtn");
 
-        if (startCorrectReviewQuizBtn) {
+      /*  if (startCorrectReviewQuizBtn) {
             startCorrectReviewQuizBtn.addEventListener("click", () => {
                 this.startReviewQuizFromScreen('correct');
             });
@@ -41,7 +41,7 @@ class ProfileManager {
             startWrongReviewQuizBtn.addEventListener("click", () => {
                 this.startReviewQuizFromScreen('wrong');
             });
-        }
+        } */
 
         // Ensure the reset stats button listener is always active
         const resetStatsBtn = document.getElementById("resetarEstatisticas");
@@ -52,6 +52,22 @@ class ProfileManager {
             }
             this.boundResetUserStats = this.resetUserStats.bind(this);
             resetStatsBtn.addEventListener("click", this.boundResetUserStats);
+        }
+
+        // Load More buttons
+        const loadMoreCorrectBtn = document.getElementById("loadMoreBtn_correct");
+        const loadMoreWrongBtn = document.getElementById("loadMoreBtn_wrong");
+
+        if (loadMoreCorrectBtn) {
+            loadMoreCorrectBtn.addEventListener("click", () => {
+                this.loadMoreReviewQuestions('correct');
+            });
+        }
+
+        if (loadMoreWrongBtn) {
+            loadMoreWrongBtn.addEventListener("click", () => {
+                this.loadMoreReviewQuestions('wrong');
+            });
         }
     }
 
@@ -201,6 +217,7 @@ class ProfileManager {
     }
 
     showEmptyChartState(ctx) {
+       
         // Clear canvas
         ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
         
@@ -226,6 +243,7 @@ class ProfileManager {
     }
 
     async reviewQuestions(type) {
+      
         const user = window.authManager.getCurrentUser();
         if (!user) return;
 
@@ -386,7 +404,7 @@ class ProfileManager {
             // Start custom quiz with these questions
             if (window.gameLogic) {
                 window.gameLogic.resetGame();
-                window.gameLogic.questions = shuffledQuestions.slice(0, 20); // Limit to 20 questions
+                window.gameLogic.questions = shuffledQuestions.slice(0, 10); // Limit to 20 questions
                 window.gameLogic.currentQuiz = {
                     category: "review",
                     type: type,
@@ -463,39 +481,78 @@ class ProfileManager {
     }
 
     // New function to load review screens
-    async loadReviewScreen(type) {
-        const user = window.authManager.getCurrentUser();
-        if (!user) return;
+async loadReviewScreen(type) {
+    const user = window.authManager.getCurrentUser();
+    if (!user) return;
 
-        try {
-            // Show loading state
-            this.showReviewLoading(type);
-            
-            // Get user answers
-            const userAnswers = await window.databaseManager.getUserAnswers(user.uid);
-            
-            // Filter answers based on type
-            const filteredAnswers = Object.entries(userAnswers).filter(([questionId, answer]) => {
-                return type === "correct" ? answer.isCorrect : !answer.isCorrect;
-            });
+    try {
+        // Mostrar carregamento
+        this.showReviewLoading(type);
 
-            if (filteredAnswers.length === 0) {
-                this.showReviewEmpty(type);
-                return;
+        // Buscar respostas do usuário
+        const userAnswers = await window.databaseManager.getUserAnswers(user.uid);
+
+        if (!userAnswers || Object.keys(userAnswers).length === 0) {
+            this.showReviewEmpty(type);
+            return;
+        }
+
+        // Filtrar corretas ou incorretas
+        let filteredAnswers = Object.entries(userAnswers).filter(([id, ans]) => {
+            return type === "correct" ? ans.isCorrect : !ans.isCorrect;
+        });
+
+        // Se não houver questões desse tipo
+        if (filteredAnswers.length === 0) {
+            this.showReviewEmpty(type);
+            return;
+        }
+
+        // 1️⃣ Armazenar todas as questões filtradas
+        this.allReviewQuestions = this.allReviewQuestions || {};
+        this.allReviewQuestions[type] = filteredAnswers;
+
+        const PAGE_SIZE = 5;
+        let loadedPairs = [];
+        let index = 0;
+
+        // 2️⃣ Buscar as primeiras 5 questões válidas
+        while (loadedPairs.length < PAGE_SIZE && index < filteredAnswers.length) {
+            const [qId, answer] = filteredAnswers[index];
+            const q = await this.getQuestionsByIds([qId]); // busca unitária
+
+            if (q[qId]) {
+                loadedPairs.push([qId, answer]);
             }
 
-            // Get question details
-            const questionIds = filteredAnswers.map(([questionId]) => questionId);
-            const questions = await this.getQuestionsByIds(questionIds);
-            
-            // Display questions in the screen
-            this.displayReviewQuestions(questions, filteredAnswers, type);
-            
-        } catch (error) {
-            console.error("Error loading review screen:", error);
-            this.showReviewError(type);
+            index++;
         }
+
+        // Se não achou nada válido, mostra tela vazia
+        if (loadedPairs.length === 0) {
+            this.showReviewEmpty(type);
+            return;
+        }
+
+        // 3️⃣ Renderizar as primeiras 5 reais
+        const questionIds = loadedPairs.map(([id]) => id);
+        const questions = await this.getQuestionsByIds(questionIds);
+        this.displayReviewQuestions(questions, loadedPairs, type, true); // true para limpar o container
+
+        // 4️⃣ Guardar o restante para carregamento posterior
+        this.remainingQuestions = this.remainingQuestions || {};
+        this.remainingQuestions[type] = filteredAnswers.slice(index);
+
+        // 5️⃣ Mostrar/Esconder botão "Carregar mais"
+        this.toggleLoadMoreButton(type);
+
+    } catch (error) {
+        console.error("Error loading review screen:", error);
+        this.showReviewError(type);
     }
+}
+
+
 
     showReviewLoading(type) {
         const summaryElement = document.getElementById(type === 'correct' ? 'correctSummaryText' : 'wrongSummaryText');
@@ -552,9 +609,15 @@ class ProfileManager {
         const actionButton = document.getElementById(type === 'correct' ? 'startCorrectReviewQuizBtn' : 'startWrongReviewQuizBtn');
         
         // Update summary
-        if (summaryElement) {
-            summaryElement.textContent = `${type === 'correct' ? 'Questões que você acertou' : 'Questões que você errou'} (${Object.keys(questions).length} questões)`;
-        }
+if (summaryElement) {
+    const quantidade = Object.keys(questions).length;
+
+    summaryElement.textContent =
+        `Mostrando ${quantidade === 1 ? 'a última' : 'as últimas'} ${quantidade} ` +
+        `${quantidade === 1 ? 'questão' : 'questões'} que você ` +
+        `${type === 'correct' ? 'acertou' : 'errou'}`;
+}
+
         
         // Display questions
         if (listElement) {
@@ -598,9 +661,184 @@ class ProfileManager {
         this.currentReviewType = type;
     }
 
+    // Função auxiliar para formatar o texto da questão (se existir)
+    formatQuestionText(text) {
+        // Implementação da função formatQuestionText (assumindo que ela existe ou é necessária)
+        // Se não existir, pode ser uma função simples de retorno ou uma que faça a formatação HTML
+        return text; 
+    }
+
+    // Função auxiliar para adicionar questões ao DOM
+    appendReviewQuestions(questionsObj, pairs, type) {
+        const listId = type === "correct" ? "correctQuestionsList" : "wrongQuestionsList";
+        const list = document.getElementById(listId);
+        if (!list) return;
+
+        const html = pairs.map(([questionId, answer]) => {
+            const q = questionsObj[questionId];
+            if (!q) return "";
+
+            const userLetter = String.fromCharCode(65 + answer.selectedAnswer);
+            const correctLetter = String.fromCharCode(65 + q.correctAnswer);
+
+            return `
+                <div class="review-question">
+                    <div class="review-question-text">
+                        ${this.formatQuestionText(q.text)}
+                    </div>
+                    <div class="review-answer-info">
+                        <span class="user-answer ${type}">Sua resposta: ${userLetter}</span>
+                        <span class="correct-answer">Resposta correta: ${correctLetter}</span>
+                    </div>
+                    ${q.comment ? `
+                        <div class="review-comment">
+                            <strong>Explicação:</strong> ${q.comment}</div>` : ""
+                    }
+                </div>
+            `;
+        }).join("");
+
+        list.insertAdjacentHTML("beforeend", html);
+    }
+
+    // Função auxiliar para mostrar/esconder o botão "Carregar mais"
+    toggleLoadMoreButton(type) {
+           
+        const btn = document.getElementById(`loadMoreBtn_${type}`);
+        if (!btn) return;
+
+        const remaining = this.remainingQuestions[type] ? this.remainingQuestions[type].length : 0;
+
+        if (remaining > 0) {
+            btn.style.display = "block";
+            btn.textContent = `Carregar mais 5 questões (${remaining} restantes)`;
+        } else {
+            btn.style.display = "none";
+        }
+    }
+
+    // Função para carregar mais questões loadMoreBtn_wrong
+    async loadMoreReviewQuestions(type) {
+        let butaoWrong = document.getElementById("loadMoreBtn_wrong");
+        let butaoCorrect = document.getElementById("loadMoreBtn_correct");
+        butaoCorrect.textContent = "Carregando..."
+  butaoWrong.textContent = "Carregando..."
+        if (!this.remainingQuestions || !this.remainingQuestions[type] || this.remainingQuestions[type].length === 0) return;
+
+        const PAGE_SIZE = 5;
+        let loadedPairs = [];
+        let index = 0;
+        const remaining = this.remainingQuestions[type];
+
+        try {
+            // 🔄 Enquanto não tiver 5 questões válidas,
+            // e ainda existirem questões restantes...
+            while (loadedPairs.length < PAGE_SIZE && index < remaining.length) {
+
+                const [qId, answer] = remaining[index];
+                const q = await this.getQuestionsByIds([qId]); // busca unitária
+
+                if (q[qId]) {
+                    loadedPairs.push([qId, answer]);
+                }
+
+                index++;
+            }
+
+            // Remover do vetor principal as já processadas
+            this.remainingQuestions[type] = remaining.slice(index);
+
+            // Se não achou nada válido, não faz nada
+            if (loadedPairs.length === 0) {
+                this.toggleLoadMoreButton(type); // Esconde se não houver mais
+                return;
+            }
+
+            // ➕ Inserir no DOM (append - SEM substituir)
+            const questionIds = loadedPairs.map(([id]) => id);
+            const questions = await this.getQuestionsByIds(questionIds);
+            this.appendReviewQuestions(questions, loadedPairs, type);
+
+            // Atualizar estado do botão
+            this.toggleLoadMoreButton(type);
+
+        } catch (err) {
+            console.error("Error loading more questions:", err);
+        }
+    }
+
+    // Função para renderizar as questões (ajustada para receber o parâmetro clear)
+    displayReviewQuestions(questions, userAnswers, type, clear = false) {
+        const summaryElement = document.getElementById(type === 'correct' ? 'correctSummaryText' : 'wrongSummaryText');
+        const listElement = document.getElementById(type === 'correct' ? 'correctQuestionsList' : 'wrongQuestionsList');
+        const actionButton = document.getElementById(type === 'correct' ? 'startCorrectReviewQuizBtn' : 'startWrongReviewQuizBtn');
+        
+        // Update summary
+        if (summaryElement) {
+            const totalQuestions = this.allReviewQuestions[type].length;
+            const currentLoaded = Object.keys(questions).length;
+
+            summaryElement.textContent =
+                `Mostrando ${currentLoaded} de ${totalQuestions} questões que você ` +
+                `${type === 'correct' ? 'acertou' : 'errou'}`;
+        }
+
+        // Display questions
+        if (listElement) {
+            const questionsList = userAnswers.map(([questionId, userAnswer]) => {
+                const question = questions[questionId];
+                if (!question) return "";
+
+                const userSelectedLetter = userAnswer ? String.fromCharCode(65 + userAnswer.selectedAnswer) : "?";
+                const correctLetter = String.fromCharCode(65 + question.correctAnswer);
+                
+                return `
+                    <div class="review-question">
+                        <div class="review-question-text">
+                            ${this.formatQuestionText(question.text)}
+                        </div>
+                        <div class="review-answer-info">
+                            <span class="user-answer ${type}">
+                                Sua resposta: ${userSelectedLetter}
+                            </span>
+                            <span class="correct-answer">
+                                Resposta correta: ${correctLetter}
+                            </span>
+                        </div>
+                        ${question.comment ? `
+                            <div class="review-comment">
+                                <strong>Explicação:</strong> ${question.comment}
+                            </div>
+                        ` : ""}
+                    </div>
+                `;
+            }).join("");
+            
+            if (clear) {
+                listElement.innerHTML = questionsList;
+            } else {
+                listElement.insertAdjacentHTML("beforeend", questionsList);
+            }
+        }
+        
+        // Show action button
+        if (actionButton) {
+            actionButton.style.display = 'block';
+        }
+        
+        // Store questions for quiz
+        // Para o quiz, vamos usar todas as questões armazenadas em this.allReviewQuestions[type]
+        // O quiz deve ser iniciado com todas as questões, não apenas as 5 carregadas.
+        const allQuestionsIds = this.allReviewQuestions[type].map(([id]) => id);
+        this.getQuestionsByIds(allQuestionsIds).then(allQuestions => {
+            this.currentReviewQuestions = allQuestions;
+            this.currentReviewType = type;
+        });
+    }
+
     async startReviewQuizFromScreen(type) {
         if (!this.currentReviewQuestions) {
-            window.uiManager.showModal("Erro", "Nenhuma questão disponível para o quiz.");
+            window.uiManager.showModal("Erro", "Necessário carregar pelo menos 10 questões.");
             return;
         }
 
@@ -616,7 +854,7 @@ class ProfileManager {
             // Start custom quiz with these questions
             if (window.gameLogic) {
                 window.gameLogic.resetGame();
-                window.gameLogic.questions = shuffledQuestions.slice(0, 20); // Limit to 20 questions
+                window.gameLogic.questions = shuffledQuestions.slice(0,10); // Limit to 20 questions
                 window.gameLogic.currentQuiz = {
                     category: "review",
                     type: type,

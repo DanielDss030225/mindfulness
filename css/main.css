@@ -883,22 +883,50 @@ textarea:focus {
     justify-content: start;
         align-items: center; /* centraliza horizontalmente os itens */
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+margin-top: 70px;
 
     
 }
-
+#loadMoreBtn_wrong {
+    max-width: 300px !important;
+}
+#loadMoreBtn_correct {
+    max-width: 300px !important;
+}
 .review-content {
     margin-top: 20px;
-    height: auto;         
+         height: auto;
 
+     /* Impede rolagem interna */
+     max-width: 800px;
+      width: 100%;
+      margin-bottom: 400px !important;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
 }
-
+.load-more-btn {
+    
+  
+    background: linear-gradient(135deg, #4CAF50, #45a049); 
+    color: white; 
+    border: none; 
+    padding: 12px 15px; 
+    border-radius: 25px; 
+    cursor: pointer; 
+    font-size: 14px; 
+    font-weight: 600; 
+    transition: all 0.3s ease; 
+    box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3); 
+    width: 100%;
+}
 .review-summary {
     background: #f8f9fa;
     padding: 20px;
     border-radius: 10px;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     border-left: 4px solid #4CAF50;
+    margin-top: 20px;
 }
 
 .review-summary p {
@@ -908,7 +936,11 @@ textarea:focus {
 }
 
 .review-questions-list {
-    margin-bottom: 20px;
+   
+    background-color: none;  
+    padding: 15px;
+    border-radius: 15px;
+    padding-bottom: 10px;
 }
 
 .review-question {
@@ -2929,7 +2961,9 @@ display: none;
 }
 
 @media screen and (max-width: 1000px) {
-    
+    .feed-slider-container {
+        display: none;
+    }
 #startQuizBtn2 {
       border-left: 4px solid; /* espessura e estilo */
   border-image: linear-gradient(to bottom, purple, blue, black, green) 1;
@@ -3123,6 +3157,21 @@ display: flex;
     align-items: center;
 border-radius: 20px;
 }
+.menu-btn:hover {
+    background: rgba(225, 225, 225, 0.95);
+        height: 120px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+border-radius: 20px;
+
+
+}
+
+
+
 .pmenu {
     text-align: center;
     width: 100%;

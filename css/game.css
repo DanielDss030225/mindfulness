@@ -842,10 +842,6 @@ margin-top: 70px !important;}
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
 }
-.review-content {
-    margin-bottom: 400px;
-}
-
 
 /* Responsive design for review screen */
 @media (max-width: 768px) {

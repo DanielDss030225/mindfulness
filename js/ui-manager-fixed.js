@@ -82,9 +82,13 @@ class UIManager {
         const newQuizBtn = document.getElementById('newQuizBtn');
         const newQuizFromProfileBtn = document.getElementById('newQuizFromProfileBtn');
         const reviewQuestionsBtn = document.getElementById('reviewQuestionsBtn');
+        const startWrongReviewQuizBtn = document.getElementById('startWrongReviewQuizBtn');
 
         if (newQuizBtn) {
             newQuizBtn.addEventListener('click', () => this.showScreen('quiz-setup-screen'));
+        }
+   if (startWrongReviewQuizBtn) {
+            startWrongReviewQuizBtn.addEventListener('click', () => this.showScreen('quiz-setup-screen'));
         }
 
         if (newQuizFromProfileBtn) {

@@ -149,14 +149,7 @@ font-size: 18px;
 
 }
 
-/* Review Modal Styles */
-.review-content {
-    min-height: 70vh;
-    height: auto; 
-     /* Impede rolagem interna */
-     width: 800px;
 
-}
 
 .review-summary {
     background: #f8f9fa;
@@ -553,15 +546,7 @@ font-size: 18px;
     .achievement-icon {
         font-size: 1.5rem;
     }
-    .descricao {
-        display: none;
-    }
-    #reviewCorrectBtn {
-        display: none;
-    }
-    #reviewWrongBtn {
-        display: none;
-    }
+ 
 
     #userName {
         width: auto;
