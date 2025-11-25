@@ -3295,7 +3295,7 @@ z-index: 9000;
     position: relative;
     width: 100%; /* Ocupa a largura total do container do feed */
     max-width: 800px; /* Limite de largura para desktop, ajuste conforme o layout do seu feed */
-    margin: 20px auto; /* Centraliza e adiciona margem */
+    margin: 10px auto; /* Centraliza e adiciona margem */
     overflow: hidden;
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
