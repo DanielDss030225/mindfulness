@@ -667,7 +667,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const numImages = images.length;
     let currentIndex = 0;
-    const intervalTime = 3000; // tempo ajustado (evita pulo)
+    const intervalTime = 5000; // tempo ajustado (evita pulo)
     let isAnimating = false;
 
     /** Atualiza descrição **/

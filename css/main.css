@@ -3332,13 +3332,13 @@ z-index: 9000;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     background-color: #1a1a2e; /* Fundo escuro */
     height: auto;
-    min-height: 200px;
+    min-height: 180px;
  
 }
 
 .feed-carousel {
     display: flex;
-    transition: transform 1.5s ease-in-out;
+    transition: transform 2.0s ease-in-out;
     /* Remove a perspectiva 3D */
 }
 
