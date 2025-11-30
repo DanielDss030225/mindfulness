@@ -16,7 +16,8 @@ main {
     align-items: start;
     text-align: start;
     justify-content: start;
-    max-width: 1400px;
+    max-width: 3400px;
+    padding: 0px !important;
 }
 
 body {
@@ -66,20 +67,20 @@ padding-bottom: 3px;
 /* Screen Management */
 .screen {
     display: none;
-    min-height: 80vh;
+    
     width: 100%;
     position: relative;
-        min-height: 100vh;
+        height: 100vh !important;
         max-width: 3840px;
 
 }
 
 .screen.active {
-    display: block;
+    display: flex;
     flex-direction: column;
         width: 100%;
                 max-width: 3840px;
-
+ height: 100vh !important;
 }
 
 
@@ -2958,6 +2959,36 @@ display: none;
 
     /* Sombra opcional */
     box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+}
+.buttonLoggout2 {
+    all: unset;              /* remove TODA formatação padrão */
+    cursor: pointer;
+    position: relative;      /* necessário para o tooltip */
+    padding: 10px;           /* opcional: área clicável */
+}
+
+/* Tooltip */
+.buttonLoggout2::after {
+    content: "Sair da Plataforma";
+    position: absolute;
+    bottom: -20px;           /* posição abaixo do botão */
+    left: 50%;
+    transform: translateX(-50%);
+    
+    background: #fa6b6b;
+    color: #fff;
+    padding: 5px 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+}
+
+/* Exibe ao passar o mouse */
+.buttonLoggout2:hover::after {
+    opacity: 1;
 }
 
 @media screen and (max-width: 1000px) {

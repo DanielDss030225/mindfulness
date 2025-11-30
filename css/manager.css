@@ -75,6 +75,7 @@ body{
     margin-bottom: 30px;
     padding-bottom: 15px;
     border-bottom: 2px solid #e0e0e0;
+    margin-top: 50px;
 }
 
 .screen-header h2 {
@@ -95,6 +96,7 @@ body{
 /* Exam list section */
 .exam-list-section {
     margin-top: 40px;
+    height: auto !important;
 }
 
 .exam-list-section h3 {
@@ -526,7 +528,7 @@ h2 {
     padding: 30px;
     margin-top: 30px;
     margin-bottom: 150px;
-   
+   height: auto !important;
    
 }
 

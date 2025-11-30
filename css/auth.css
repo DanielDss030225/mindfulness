@@ -4,12 +4,19 @@
     background: rgba(255, 255, 255, 0.95);
     border-radius: 20px;
     padding: 40px;
-    max-width: 400px;
-    width: 100%;
+    
+    width: auto;
     box-shadow: 0 20px 40px rgba(0,0,0,0.1);
     backdrop-filter: blur(10px);
     animation: slideUp 0.6s ease;
+    display: flex;
+    flex-direction: column;
+    height: auto;
 
+align-items: center !important;
+text-align: center !important;
+
+overflow-y: auto;
 
 
 }
@@ -40,11 +47,14 @@
 
 .auth-forms {
     position: relative;
+     max-width: 400px;
 }
 
 .auth-form {
+    
     display: none;
     animation: fadeIn 0.4s ease;
+   
 }
 
 .auth-form.active {
@@ -54,7 +64,7 @@
 .auth-form h2 {
     color: #333;
     font-size: 1.8rem;
-    margin-bottom: 30px;
+    margin-bottom: 10px;
     text-align: center;
     font-weight: 600;
 }
@@ -180,16 +190,27 @@
 }
 
 /* Responsive Design */
-@media (max-width: 768px) {
-    .auth-container {
-        padding: 30px 20px;
-        margin: 10px;
-        border-radius: 15px;
-        text-align: center;
-        justify-content: center;
-        width: 95%;
-        margin-bottom: 20%;
-    }
+@media (max-width: 1000px) {
+ 
+
+.auth-container {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 0px;
+    padding: 40px;
+   
+    width: auto;
+   
+    backdrop-filter: blur(10px);
+    animation: slideUp 0.6s ease;
+    display: flex;
+    flex-direction: column;
+
+
+width: 100vw;
+margin: 0px;
+height: 100vh;
+position: fixed;
+}
 
     .auth-header {
    
@@ -324,9 +345,8 @@
     justify-content:center;
     align-items: center;
     background: linear-gradient(135deg, #000000 0%, #764ba2 100%);
-    padding: 20px ;
-    
-    overflow-y: auto;   /* ativa a rolagem */
-    height: 100vh !important;      /* trava no tamanho da tela */
+   overflow-y: auto;
+   padding: 0px !important;
+ 
 }
 
