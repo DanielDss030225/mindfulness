@@ -3322,9 +3322,9 @@ z-index: 9000;
 
 /* Estilos para o carrossel de topo de feed social */
 
-.feed-slider-container {
+.feed-slider-container {    
     position: relative;
-    width: 100%; /* Ocupa a largura total do container do feed */
+    width: 90%; /* Ocupa a largura total do container do feed */
     max-width: 800px; /* Limite de largura para desktop, ajuste conforme o layout do seu feed */
     margin: 10px auto; /* Centraliza e adiciona margem */
     overflow: hidden;
@@ -3333,6 +3333,7 @@ z-index: 9000;
     background-color: #1a1a2e; /* Fundo escuro */
     height: auto;
     min-height: 200px;
+ 
 }
 
 .feed-carousel {
