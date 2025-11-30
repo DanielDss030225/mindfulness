@@ -3355,7 +3355,7 @@ z-index: 9000;
 /* Controles de navegação */
 .feed-controls {
     position: absolute;
-    top: 50%;
+    bottom: 0;
     width: 100%;
     display: flex;
     justify-content: space-between;
@@ -3363,7 +3363,8 @@ z-index: 9000;
     padding: 0 10px;
     box-sizing: border-box;
         cursor: pointer ;
-
+background-color: transparent;
+margin: 0px;
 }
 
 .feed-controls button {
@@ -3373,13 +3374,13 @@ z-index: 9000;
     padding: 10px;
     cursor: pointer;
     border-radius: 50%;
-    font-size: 1.5em;
+    font-size: 1.0em;
     line-height: 1;
     transition: background 0.3s;
         cursor: pointer ;
-        height: 50px;
-        width: 50px;
-
+        height: 40px;
+        width: 40px;
+z-index: 9999;
 }
 
 .feed-controls button:hover {
