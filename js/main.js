@@ -446,7 +446,7 @@ document.addEventListener("DOMContentLoaded", function() {
                         // Adiciona classe visual para indicar que o player está ativo
                         openPlayerBtn.classList.add("player-active");
                         openPlayerBtn.querySelector(".tocarbtn").textContent = "🎵 Tocando";
-                        openPlayerBtn.querySelector(".ouvirMusica").textContent = "Player aberto em segundo plano";
+                        openPlayerBtn.querySelector(".ouvirMusica").textContent = "Player Aberto...";
                     }, 200); 
                 }
 

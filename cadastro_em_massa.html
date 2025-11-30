@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro em Massa - PlataformaBizurada</title>
+    <link rel="icon" src="img/ico.png" type="image/png">
+
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+
+    <link rel="stylesheet" href="./css/main.css">
+    <link rel="stylesheet" href="./css/cadastro_em_massa.css">
+
+    <meta property="og:title" content="PlataformaBizurada">
+    <meta property="og:description" content="A plataforma do concurseiro!">
+    <meta property="og:type" content="website">
+</head>
+<body>
+    <header class="game-header">
+        <a href="index.html">
+            <img src="./img/ico.png" class="logo"> 
+        </a>
+        <h1>PlataformaBizurada</h1>
+        <p class="headerP" style="margin-left: 20px; font-size: 18px; justify-content: start;">Cadastro em Massa de Questões</p>
+        <a onclick="goToProfile()" class="perfilButtom">
+            <div class="user-info" style="display: none;">
+                <div class="user-profile">
+                    <img id="userProfilePic" src="./img/perfil.png" alt="Foto do usuário" class="user-avatar">
+                    <span id="userName">Usuário</span>
+                </div>
+            </div>
+        </a>
+    </header>
+
+    <div id="loading-screen" class="screen">
+        <div class="loading-content">
+            <h1>PlataformaBizurada</h1> 
+            <div class="loading-spinner"></div>
+            <p>Carregando Cadastro em Massa...</p>
+        </div>
+    </div>
+
+    <div class="">
+        <!-- Upload Screen -->
+        <div id="upload-screen" class="screen active">
+            <div class="container">
+                <div class="screen-header">
+                    <h2>Cadastro em Massa de Questões</h2>
+                    <button id="back-to-main-menu-btn" class="btn-secondary" style="width:200px">Voltar ao Menu Principal</button>
+                </div>
+
+                <div class="upload-section">
+                    <div class="upload-box">
+                        <h3>📤 Enviar Arquivo CSV</h3>
+                        <p>Selecione um arquivo CSV com as questões a serem cadastradas.</p>
+                        <input type="file" id="csv-file-input" accept=".csv" class="file-input">
+                        <button id="upload-btn" class="btn-primary" style="margin-top: 15px;">Enviar e Processar</button>
+                    </div>
+
+                    <div class="info-box">
+                        <h4>📋 Formato Esperado do CSV:</h4>
+                        <p>O arquivo CSV deve conter as seguintes colunas (nesta ordem):</p>
+                        <ul>
+                            <li><strong>ID</strong> - Identificador único da questão</li>
+                            <li><strong>Enunciado</strong> - Texto da questão</li>
+                            <li><strong>Alternativa A</strong> - Opção A</li>
+                            <li><strong>Alternativa B</strong> - Opção B</li>
+                            <li><strong>Alternativa C</strong> - Opção C</li>
+                            <li><strong>Alternativa D</strong> - Opção D</li>
+                            <li><strong>Alternativa E</strong> - Opção E</li>
+                            <li><strong>Ano</strong> - Ano da prova</li>
+                            <li><strong>Banca</strong> - Banca examinadora</li>
+                            <li><strong>Órgão</strong> - Órgão responsável</li>
+                            <li><strong>Prova</strong> - Nome completo da prova</li>
+                            <li><strong>Alt_Correta</strong> - Letra da alternativa correta (a, b, c, d, e)</li>
+                            <li><strong>TextAssociado</strong> - Texto adicional (opcional)</li>
+                            <li><strong>Comentario</strong> - Comentário sobre a questão (opcional)</li>
+                            <li><strong>Categoria</strong> - Código/ID da Categoria (Obrigatório)</li>
+                            <li><strong>SubCategoria</strong> - Código/ID da Subcategoria (Obrigatório)</li>
+                            <li><strong>Inedita/BancaAnterior</strong> - Status da questão (Ex: inédita ou banca) (Obrigatório)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Preview Screen -->
+        <div id="preview-screen" class="screen">
+            <div class="container">
+                <div class="screen-header">
+                    <h2>Conferência de Questões</h2>
+                    <button id="back-to-upload-btn" class="btn-secondary">Voltar</button>
+                </div>
+
+                <div class="preview-info">
+                    <p><strong>Total de questões a serem cadastradas:</strong> <span id="total-questions">0</span></p>
+                    <div class="preview-controls">
+                        <button id="select-all-btn" class="btn-secondary">Selecionar Tudo</button>
+                        <button id="deselect-all-btn" class="btn-secondary">Desselecionar Tudo</button>
+                    </div>
+                </div>
+
+                <div id="questions-preview-container" class="questions-preview-container">
+                    <!-- Questões serão carregadas aqui -->
+                </div>
+
+                <div class="form-actions" style="margin-top: 30px;">
+                    <button id="save-all-btn" class="btn-primary" style="width: 200px;">Salvar Questões Selecionadas</button>
+                    <button id="cancel-preview-btn" class="btn-secondary" style="width: 200px;">Cancelar</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Success Screen -->
+        <div id="success-screen" class="screen">
+            <div class="container">
+                <div class="screen-header">
+                    <h2>Cadastro Concluído com Sucesso!</h2>
+                </div>
+
+                <div class="success-message">
+                    <div class="success-icon">✅</div>
+                    <h3>Questões Cadastradas com Sucesso</h3>
+                    <p id="success-count">0 questões foram cadastradas no banco de dados.</p>
+                    <p id="success-details"></p>
+                </div>
+
+                <div class="form-actions">
+                    <button id="back-to-upload-after-success-btn" class="btn-primary" style="width: 200px;">Cadastrar Mais Questões</button>
+                    <button id="back-to-main-menu-after-success-btn" class="btn-secondary" style="width: 200px;">Voltar ao Menu Principal</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="./js/firebase-config.js"></script>
+    <script src="./js/database.js"></script>
+    <script src="./js/auth.js"></script>
+    <script src="./js/cadastro_em_massa.js"></script>
+</body>
+</html>

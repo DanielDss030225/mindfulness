@@ -495,17 +495,14 @@ header p {
     width: 180px;
     height: 150px;
 
-    border-radius: 50%;
+    border-radius: 0%;
     position: relative;
     box-shadow: 0 0px 0px rgba(0,0,0,0.2);
     align-content: center;
 
     /* NOVO BACKGROUND */
-    background-color: #e5e5e5; /* cinza claro */
-    background-image:
-        linear-gradient(to right, rgba(255,255,255,0.5) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(255,255,255,0.5) 1px, transparent 1px);
-    background-size: 25px 25px;
+    background-color: none; /* cinza claro */
+  
 
 }
  
@@ -539,7 +536,7 @@ header p {
     background: white;
     padding: 5px 5px;
     border-radius: 20px;
-    margin-top: 5px;
+    margin-top: 0px;
     position: relative;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     width: 80%;
