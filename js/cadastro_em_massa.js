@@ -139,7 +139,7 @@ class CadastroEmMassa {
                         // Novas colunas adicionadas
                         categoria: values[14]?.trim() || "",
                         subcategoria: values[15]?.trim() || "",
-                        tipo: values[16]?.trim() || "inedita" // Inedita/BancaAnterior
+                        tipo: values[16]?.trim() || "previous" // Inedita/BancaAnterior
                     };
 
                 // Validações básicas
@@ -447,6 +447,7 @@ class CadastroEmMassa {
      * Salva as questões selecionadas no Firebase
      */
     async saveQuestoes() {
+         alert("Por favor, selecione pelo menos uma questão para salvar.");
         if (this.questoesSelecionadas.length === 0) {
             alert("Por favor, selecione pelo menos uma questão para salvar.");
             return;
@@ -483,27 +484,31 @@ class CadastroEmMassa {
      */
     async saveQuestaoToFirebase(questao) {
         const questaoData = {
-            id: questao.id,
-            enunciado: questao.enunciado,
-            alternativas: [
+            alternatives: [
                 questao.alternativaA,
                 questao.alternativaB,
                 questao.alternativaC,
                 questao.alternativaD,
                 questao.alternativaE
             ],
-            respostaCorreta: this.convertLetraToIndex(questao.altCorreta),
+            category: questao.categoria, 
+            comment: questao.comentario || "",
+            correctAnswer: this.convertLetraToIndex(questao.altCorreta),
+            createdAt: firebase.database.ServerValue.TIMESTAMP,
+            createdBy: questao.id,
+            subcategory: questao.subcategoria ||  "",
+            associatedText: questao.textAssociado ||  "",
+            text: questao.enunciado,
+            type: questao.tipo, // Deve ser "inedita" ou "banca"
+           
+
+         
             ano: questao.ano,
             banca: questao.banca,
             orgao: questao.orgao,
             prova: questao.prova,
-            textAssociado: questao.textAssociado || null,
-            comentario: questao.comentario || null,
-            // Campos de Categoria, Subcategoria e Tipo (Inedita/BancaAnterior)
-            category: questao.categoria,
-            subcategory: questao.subcategoria || null,
-            type: questao.tipo, // Deve ser "inedita" ou "banca"
-            criadaEm: firebase.database.ServerValue.TIMESTAMP
+          
+      
         };
 
         const ref = this.db.ref("questions").push();
